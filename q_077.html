@@ -72,16 +72,39 @@
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
 <br/>
 </span>
+<p><strong>Wyjaśnienie:</strong></p>
+<p>Poprawna odpowiedź to <strong>A</strong>. Proces zarządzania cyklem życia API (API Lifecycle Management) wymaga, aby nowa wersja była dostępna przed wycofaniem starej, aby umożliwić deweloperom migrację. Standardowa ścieżka to:</p>
+<ol>
+    <li>Wprowadzenie nowej wersji API.</li>
+    <li>Ogłoszenie wycofania (deprecacji) starej wersji.</li>
+    <li>Formalne oznaczenie starej wersji jako przestarzałej (Deprecated status).</li>
+    <li>Aktywny kontakt z użytkownikami, którzy nadal korzystają ze starej wersji.</li>
+    <li>Zapewnienie wsparcia "best effort" podczas okresu przejściowego.</li>
+    <li>Ostateczne wyłączenie (shutdown) starej wersji.</li>
+</ol>
+<p>Inne opcje (B, C, D) są błędne, ponieważ sugerują zbyt wczesne ogłoszenie deprecacji lub kontakt z użytkownikami przed wprowadzeniem nowego API, co tworzyłoby niepotrzebny niepokój bez podania gotowego rozwiązania (nowej wersji).</p>
+<p><strong>Przydatne linki:</strong></p>
+<ul>
+    <li><a href="https://cloud.google.com/blog/products/api-management/api-lifecycle-management-best-practices" target="_blank">Google Cloud: API Lifecycle Management Best Practices</a></li>
+    <li><a href="https://cloud.google.com/endpoints/docs/openapi/about-api-management" target="_blank">Google Cloud Endpoints Documentation</a></li>
+</ul>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>
+Odpowiedź: A
 
-Wyjaśnienie:
-Pytanie 77: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Techniczna analiza:
+Zarządzanie cyklem życia API (API Lifecycle Management) jest krytycznym elementem utrzymania usług w chmurze. 
+Kolejność w opcji A jest najbardziej logiczna z punktu widzenia Customer Experience i SRE:
+1. Udostępnienie nowości (Wartość).
+2. Komunikacja (Deprecacja).
+3. Wsparcie (Migracja).
+4. Zamknięcie (Wyłączenie).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Wszystkie inne opcje (B, C, D) wprowadzają zamieszanie, ogłaszając wycofanie czegoś, zanim użytkownicy otrzymają narzędzie do migracji (nowe API).
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
