@@ -79,9 +79,19 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Pytanie 50: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest D:
+- Binary Authorization to usługa bezpieczeństwa, która wymusza, aby obrazy były podpisane (attestation) przez zaufany proces (np. potok CI/CD po pomyślnych testach). Bez podpisu GKE odmówi wdrożenia.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- A: Branże w git można obejść.
+- B: Admission Controller to ogólny mechanizm, ale "Binary Authorization" to dedykowana, wbudowana usługa GCP do tego specyficznego celu (weryfikacja pochodzenia/testów).
+- C: RBAC ogranicza kto może wdrożyć, ale nie kontroluje *co* jest wdrażane (czy przeszło testy).
+
+Wskazówki (Hints & Tricks):
+- Binary Authorization = "Zaufane wdrożenia w K8s".
+
+Przydatne linki:
+- https://cloud.google.com/binary-authorization/docs/concepts</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

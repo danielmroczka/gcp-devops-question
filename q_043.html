@@ -79,9 +79,19 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Pytanie 43: Poprawna odpowiedź B wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest B:
+- Binary Authorization to usługa bezpieczeństwa wdrażania, która wymusza, aby obrazy kontenerów były podpisane przez zaufanych wystawców (attestors) i spełniały określone polityki przed wdrożeniem do GKE. Pozwala to na zablokowanie wdrażania obrazów z nieautoryzowanych rejestrów.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- A: Cloud Build tworzy obrazy, ale nie zarządza tym, co jest wdrażane w GKE.
+- C: Ręczna logika w potoku (pipeline) jest podatna na błędy i obejście. Binary Authorization jest rozwiązaniem natywnym dla Kubernetes, bardziej niezawodnym i skalowalnym.
+- D: Tagowanie obrazów nie gwarantuje, że obraz pochodzi z konkretnego zaufanego rejestru, a jedynie oznacza jego wersję.
+
+Wskazówki (Hints & Tricks):
+- Binary Authorization to kluczowy mechanizm "supply chain security" w GCP. Jeśli pytanie dotyczy zabezpieczenia przed wdrażaniem nieautoryzowanego kodu w GKE – Binary Authorization jest niemal zawsze poprawną odpowiedzią.
+
+Przydatne linki:
+- https://cloud.google.com/binary-authorization/docs</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

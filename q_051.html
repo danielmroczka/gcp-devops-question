@@ -79,9 +79,19 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 51: Poprawna odpowiedź C wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest C:
+- Skalowanie poziome i geograficzne (wiele instancji w wielu strefach za load balancerem) to standardowa odpowiedź na problemy z wysokim ruchem i dostępnością (High Availability).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- A: Zmiana SLO to oszustwo, nie rozwiązanie problemu.
+- B: Zwiększenie zasobów (Scale up) jest ograniczone (limit maszyny) i nie zapewnia HA.
+- D: "Failover" oznacza, że druga instancja czeka, a nie obsługuje ruchu. Użycie wielu instancji (load balancing) jest lepsze dla wydajności i dostępności.
+
+Wskazówki (Hints & Tricks):
+- Zawsze wybieraj skalowanie horyzontalne (więcej maszyn) przed pionowym (większa maszyna).
+
+Przydatne linki:
+- https://cloud.google.com/compute/docs/load-balancing-and-autoscaling</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

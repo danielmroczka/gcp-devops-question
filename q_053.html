@@ -79,17 +79,22 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 53: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to A. Zarządzanie infrastrukturą za pomocą Terraform (Infrastructure as Code - IaC) wymaga takich samych praktyk, jak tworzenie oprogramowania. System kontroli wersji (VCS, np. Git) jest niezbędny do:
+- Wersjonowania konfiguracji (sprawdzanie kto, co i kiedy zmienił).
+- Współpracy zespołowej (mechanizmy Branching/Merging).
+- Bezpiecznego przeglądu kodu (Pull/Merge Requests) przed wdrożeniem zmian na produkcję.
+- Zapewnienia "Single Source of Truth" dla infrastruktury zespołu.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego inne odpowiedzi są błędne:
+- B, C i D: Folder sieciowy, Google Drive czy Bucket w Cloud Storage nie zapewniają mechanizmów współbieżnej edycji (locking), historii zmian (diff/history), zarządzania konfliktami czy przeglądu kodu (Code Review). Korzystanie z nich prowadzi do błędów, nadpisywania zmian i braku przejrzystości, co jest niedopuszczalne w profesjonalnym zespole DevOps.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>IaC traktuj jak kod aplikacji: Git, Pull Requesty i testy to fundament bezpiecznego DevOps.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>W GCP DevOps: IaC zawsze w systemie kontroli wersji (Git). Nigdy w udostępnionych plikach.</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/architecture/devops/devops-tech-version-control" target="_blank">DevOps Tech: Version Control</a></li>
 </ul>
 </div>
 <script>

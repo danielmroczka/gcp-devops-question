@@ -79,9 +79,20 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 42: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest A:
+- Rola `roles/logging.configWriter` (Logging Config Writer) pozwala na tworzenie, aktualizowanie i usuwanie tzw. "sinks" (ujść logów), co jest niezbędne do eksportowania logów do innych usług GCP, takich jak Pub/Sub, BigQuery czy Cloud Storage.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- B: Access Context Manager służy do definiowania reguł dostępu opartych na atrybutach (np. IP, lokalizacja), a nie do nadawania uprawnień do zarządzania konfiguracją logów.
+- C: Uprawnienia `logging.sinks.list` i `logging.sink.get` dają dostęp jedynie do przeglądania (odczytu) konfiguracji, ale nie pozwalają na ich modyfikację (tworzenie).
+- D: Organizational Policy służy do ograniczania możliwości całej organizacji (np. "nie wolno tworzyć zasobów w tym regionie"), a nie do przyznawania uprawnień konkretnym użytkownikom.
+
+Wskazówki (Hints & Tricks):
+- Pamiętaj o zasadzie najmniejszych uprawnień. Jeśli potrzebujesz zarządzać konfiguracją logów (sinks), `logging.configWriter` jest odpowiednią rolą.
+- Zawsze weryfikuj, czy wymagane działanie to "odczyt" (viewer/reader), "zarządzanie konfiguracją" (config writer), czy "zapis logów" (log writer).
+
+Przydatne linki:
+- https://cloud.google.com/logging/docs/access-control</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

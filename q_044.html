@@ -79,9 +79,19 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 44: Poprawna odpowiedź C wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest C:
+- Aby skalować aplikację w oparciu o ruch (GCLB), należy wykorzystać natywne metryki GCP. Adapter metryk Stackdriver (teraz Google Cloud Metrics Adapter dla GKE) pozwala GKE na używanie metryk z Cloud Monitoring (Stackdriver) do decyzji HPA (Horizontal Pod Autoscaler).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- A: Liveness/Readiness probes służą do sprawdzania zdrowia poda, a nie do wyzwalania skalowania opartego na obciążeniu.
+- B: Vertical Pod Autoscaler zmienia zasoby (CPU/RAM) poda, a nie liczbę replik (skalowanie horyzontalne).
+- D: Statystyki NGINX wymagają dodatkowej konfiguracji (np. Prometheus/exporter), co jest mniej optymalne niż użycie metryk natywnych z GCLB, jeśli ten już obsługuje ruch.
+
+Wskazówki (Hints & Tricks):
+- Jeśli pytanie dotyczy skalowania opartego o HTTP GCLB w GKE – szukaj "custom metrics adapter" dla "requests per second" (RPS).
+
+Przydatne linki:
+- https://cloud.google.com/kubernetes-engine/docs/how-to/scaling-apps/hpa#custom_metrics</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

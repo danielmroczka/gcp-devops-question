@@ -79,17 +79,21 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Pytanie 52: Poprawna odpowiedź B wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to B. W przypadku podejrzenia aktywności złośliwego oprogramowania (malicious process) w środowisku produkcyjnym, kluczowe jest przechwycenie pełnego obrazu ruchu sieciowego. VPC Flow Logs rejestrują metadane połączeń sieciowych. 
+- Volume scale 1.0 oznacza, że logowane jest 100% ruchu. Jest to niezbędne do analizy bezpieczeństwa, aby nie pominąć żadnego pakietu, który mógłby świadczyć o ataku.
+- Włączamy logi tylko dla środowiska produkcyjnego (frontend i backend subnets), ponieważ to tam występuje podejrzenie zagrożenia.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego inne odpowiedzi są błędne:
+- A: Volume scale 0.5 oznacza logowanie tylko 50% ruchu. W analizie bezpieczeństwa "próbkowanie" (sampling) może spowodować pominięcie krytycznych śladów ataku, co jest niedopuszczalne przy incydentach bezpieczeństwa.
+- C i D: Włączanie logowania (i generowanie dodatkowych kosztów oraz danych) w środowisku testowym jest zbędne, jeśli zagrożenie zidentyfikowano w produkcji. Dodatkowo, "Apply changes in testing before production" jest dobrą praktyką dla zmian w kodzie/konfiguracji, ale nie jest konieczne dla włączenia funkcji diagnostycznej w sytuacji awaryjnej w produkcji.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W GCP, przy diagnozowaniu incydentów bezpieczeństwa sieciowego: wybieraj pełne logowanie (sampling 1.0) i skup się na dotkniętym środowisku (produkcja).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Flow Logs: do analizy wydajności = próbkowanie (0.5); do analizy bezpieczeństwa = pełne logowanie (1.0).</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/vpc/docs/flow-logs" target="_blank">VPC Flow Logs Documentation</a></li>
 </ul>
 </div>
 <script>

@@ -79,9 +79,17 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 47: Poprawna odpowiedź C wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest C:
+- Aby monitorować rozkład latencji (histogramy), wymagany jest typ danych DISTRIBUTION. Heatmapa jest najlepszym wizualnym narzędziem do analizy takich danych, ponieważ pozwala zobaczyć, jak rozkład latencji zmienia się w czasie (poziomy percentyli).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- A, B, D: Inne typy metryk (Gauge, Delta, Cumulative) nie są optymalne dla histogramów latencji i nie pozwalają na użycie heatmapy w Cloud Monitoring.
+
+Wskazówki (Hints & Tricks):
+- Pamiętaj: Jeśli pytanie dotyczy rozkładu wartości (latencji), szukaj DISTRIBUTION i Heatmap.
+
+Przydatne linki:
+- https://cloud.google.com/monitoring/api/v3/metrics-details#metric-kinds</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

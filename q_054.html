@@ -79,17 +79,20 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 54: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to A. Stackdriver Agent (obecnie Google Cloud Ops Agent) musi być zainstalowany na maszynie wirtualnej (Compute Engine), aby zbierać logi z systemu operacyjnego oraz aplikacji, które nie są automatycznie logowane przez platformę (np. logi aplikacji zapisywane w plikach na dysku VM). Bez tego agenta, Stackdriver (Cloud Logging) nie otrzyma danych z wewnątrz instancji VM.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego inne odpowiedzi są błędne:
+- B: Błędne uprawnienia do dashboardu nie powodują braku pojawiania się logów w systemie; spowodowałyby jedynie błąd wyświetlania dla użytkownika, a logi wciąż byłyby dostępne w systemie Cloud Logging (Log Explorer).
+- C: Port 25 (SMTP) nie ma żadnego związku z przesyłaniem logów do Google Cloud. Logi są wysyłane przez API GCP, które komunikuje się przez HTTPS (port 443).
+- D: Nowoczesne podejście GCP opiera się na użyciu konta serwisowego przypisanego do instancji (Service Account) z odpowiednimi rolami IAM (np. `roles/logging.logWriter`), a nie na "ręcznym" przekazywaniu kluczy (service account keys), co jest uważane za złą praktykę bezpieczeństwa.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do zbierania logów z maszyn wirtualnych jest agent (Ops Agent) oraz właściwa konfiguracja roli IAM przypisanej do instancji VM.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Nie widzisz logów z VM? 1. Czy działa agent? 2. Czy VM ma dostęp (IAM)?</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/agent/ops-agent" target="_blank">Ops Agent Documentation</a></li>
 </ul>
 </div>
 <script>

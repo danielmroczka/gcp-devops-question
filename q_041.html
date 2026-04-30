@@ -80,9 +80,22 @@
 <pre>Odpowiedź: DE.
 
 Wyjaśnienie:
-Pytanie 41: Poprawna odpowiedź DE wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawnymi odpowiedziami są D i E:
+- D (Create new synthetic clients to simulate a user journey): Syntetyczne testy pozwalają na monitorowanie dostępności i wydajności aplikacji z perspektywy użytkownika (tzw. "Black-box monitoring") bez konieczności wprowadzania zmian w kodzie źródłowym samej aplikacji.
+- E (Use current and historic Request Logs to trace customer interaction): Request Logs (dostępne w Google Cloud Logging) pozwalają na analizę zachowania użytkowników, czasów odpowiedzi i błędów (HTTP status codes) na poziomie infrastruktury (np. poprzez HTTP Load Balancer), co również nie wymaga zmian w aplikacji.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- A: "Review current application metrics and add new ones as needed" sugeruje konieczność dodawania metryk, co zazwyczaj wiąże się z instrumentacją kodu (zmiany w aplikacji), czego pytanie zabrania ("without making any engineering changes").
+- B: "Modify the code to capture additional information" bezpośrednio narusza wymaganie braku zmian w kodzie aplikacji.
+- C: "Analyze the web proxy logs only..." jest zbyt wąskie. Samo analizowanie logów proxy może nie dawać pełnego obrazu "user journey" w porównaniu do syntetyków, a skupienie się *tylko* na jednym źródle jest ograniczeniem.
+
+Wskazówki (Hints & Tricks):
+- SRE (Site Reliability Engineering) często korzysta z tzw. "Black-box monitoring", aby mierzyć SLI (Service Level Indicators) z perspektywy klienta końcowego.
+- Jeśli pytanie zabrania zmian w kodzie, zawsze szukaj metod opartych na logach infrastrukturalnych (Cloud Logging), monitorowaniu sieciowym lub syntetycznych testach (Uptime Checks / Synthetic Monitoring w Cloud Monitoring).
+
+Przydatne linki:
+- https://cloud.google.com/monitoring/uptime-checks
+- https://cloud.google.com/logging/docs/load-balancing</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

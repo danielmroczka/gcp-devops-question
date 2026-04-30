@@ -79,9 +79,19 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 48: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest A:
+- Cloud Profiler (część Cloud Observability) to usługa, która zbiera dane o wydajności (CPU, pamięć, czas wykonania funkcji) w sposób ciągły i minimalizuje narzut (overhead). Działa zarówno wewnątrz, jak i poza GCP (jeśli zainstalujesz agenta).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- B: Debugger służy do inspekcji stanu aplikacji w czasie rzeczywistym, nie do zbierania metryk wydajności.
+- C: Ręczna instrumentacja jest pracochłonna (Toil) i narusza zasadę korzystania z usług zarządzanych (Managed Services).
+- D: APM innych firm jest dopuszczalne, ale pytanie wymagało "centralnych usług GCP".
+
+Wskazówki (Hints & Tricks):
+- Cloud Profiler jest idealny do zrozumienia, która część kodu (funkcja) zużywa najwięcej CPU lub pamięci.
+
+Przydatne linki:
+- https://cloud.google.com/profiler/docs</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

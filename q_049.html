@@ -79,9 +79,17 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Pytanie 49: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawną odpowiedzią jest D:
+- Instancje preemptible (teraz Spot VMs) są znacznie tańsze, ale mogą zostać wyłączone przez GCP w dowolnym momencie. Dlatego nadają się tylko do zadań wsadowych (batch), które można wstrzymać i wznowić lub uruchomić ponownie (np. renderowanie wideo).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza niepoprawnych odpowiedzi:
+- A, B, C: Usługi publiczne, bazy danych lub cache wymagają wysokiej dostępności (HA). Nagłe wyłączenie tych usług spowodowałoby awarię (outage).
+
+Wskazówki (Hints & Tricks):
+- Jeśli słyszysz "preemptible" lub "Spot VM", szukaj odpowiedzi związanej z "batch processing", "fault-tolerant" lub "stateless".
+
+Przydatne linki:
+- https://cloud.google.com/compute/docs/instances/spot</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
