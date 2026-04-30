@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/animate.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/owl.carousel.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/slick.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/rsmenu-main.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/rsmenu-transitions.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/magnific-popup.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/fonts/flaticon.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/fonts/fonts2/flaticon.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/style.css?ver=1" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/color/default.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/responsive.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/forum.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre {
+      white-space: pre-wrap;
+      background: #0b1020;
+      color: #e6edf3;
+      padding: 14px;
+      border-radius: 10px;
+      line-height: 1.45;
+      font-size: 0.98rem;
+    }
+    .question-body { font-size: 1.05rem; }
+    .q-page { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+    .q-card { width: 100% !important; max-width: 100% !important; box-sizing: border-box; }
+    .q-answer { width: 100% !important; max-width: 100% !important; }
+    .q-answer pre { white-space: pre-wrap; word-wrap: break-word; max-width: 100%; overflow-x: auto; }
+    .ai-analysis-container { width: 100% !important; max-width: 100% !important; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; font-size: 0.85rem; }
+</style>
+<title>DevOps Engineer - Question 13</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary " href="q_012.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary " href="q_014.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 13 / 201</h2>
+<div class="product-badges mb-3">
+    <span class="badge badge-devops"><i class="fas fa-dharmachakra"></i> GKE</span><span class="badge badge-devops"><i class="fas fa-dharmachakra"></i> Kubernetes</span>
+</div>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+         You are performing a semi-annual capacity planning exercise for your flagship service. You expect a service user growth rate of 10% month-over-month over the next six months. Your service is fully containerized and runs on Google Cloud Platform (GCP), using a Google Kubernetes Engine (GKE) Standard regional cluster on three zones with cluster autoscaler enabled. You currently consume about 30% of your total deployed CPU capacity, and you require resilience against the failure of a zone. You want to ensure that your users experience minimal negative impact as a result of this growth or as a result of zone failure, while avoiding unnecessary costs. How should you prepare to handle the predicted growth?
+</p>
+<div class="question-choices-container">
+<ul>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Verify the maximum node pool size, enable a horizontal pod autoscaler, and then perform a load test to verify your expected resource needs.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Because you are deployed on GKE and are using a cluster autoscaler, your GKE cluster will scale automatically, regardless of growth rate.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Because you are at only 30% utilization, you have significant headroom and you won't need to add any additional capacity for this rate of growth.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Proactively add 60% more node capacity to account for six months of 10% growth rate, and then perform a load test to make sure you have enough capacity.</li>
+
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<span class="correct-answer-box">
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
+<br/>
+</span>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>Odpowiedź: A.
+
+Wyjaśnienie:
+Planowanie pojemności (Capacity Planning) to kluczowy element SRE. Nawet jeśli masz włączony Cluster Autoscaler, musisz mieć pewność, że "sufit" (maksymalny rozmiar node poola) jest ustawiony wystarczająco wysoko, aby obsłużyć prognozowany wzrost ruchu. HPA (Horizontal Pod Autoscaler) automatycznie skaluje liczbę podów, a Cluster Autoscaler dokupuje węzły, jeśli podom zabraknie miejsca. Jednak najważniejszym krokiem weryfikacyjnym jest **load test** (testy obciążeniowe), który potwierdza, czy Twoje założenia dotyczące wydajności są zgodne z rzeczywistością w zmienionym środowisku.
+
+B. Cluster Autoscaler ma swoje limity – jeśli osiągniesz max node pool size, nie doda więcej węzłów.
+C. Mimo 30% zajętości, musisz wziąć pod uwagę awarię strefy (zgodnie z wymaganiem "resilience against the failure of a zone"). Jeśli padnie jedna z trzech stref, tracisz 33% mocy obliczeniowej, co przy obecnym obciążeniu może doprowadzić do przeciążenia pozostałych stref.
+D. Proaktywne dodawanie 60% mocy to zgadywanie, które nie zastępuje testów i nie gwarantuje, że aplikacja poradzi sobie przy awarii strefy.</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>W SRE: <b>Zaufanie do automatyki (Auto-scaling) jest dobre, ale weryfikacja poprzez testy (Load Testing) jest lepsza</b>. Pamiętaj o uwzględnieniu <b>awarii strefy</b> (n+1) w obliczeniach pojemności.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Pytanie o skalowanie/pojemność? Szukaj <b>load test</b> i <b>max node pool size</b>.</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/architecture/framework/operational-excellence/capacity-planning" target="_blank">Capacity Planning Guide</a></li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    let isVisible = false;
+
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        const answerBox = document.querySelector('.question-answer');
+        const answerSection = document.querySelector('.q-answer');
+        const aiSection = document.querySelector('.ai-analysis-container');
+
+        if (isVisible) {
+            answerBox.style.display = 'none';
+            answerSection.style.display = 'none';
+            aiSection.style.display = 'none';
+            this.textContent = 'Show Suggested Answer';
+        } else {
+            answerBox.style.display = 'block';
+            answerSection.style.display = 'block';
+            aiSection.style.display = 'block';
+            this.textContent = 'Hide Suggested Answer';
+        }
+        isVisible = !isVisible;
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/animate.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/owl.carousel.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/slick.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/rsmenu-main.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/rsmenu-transitions.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/magnific-popup.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/fonts/flaticon.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/fonts/fonts2/flaticon.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/style.css?ver=1" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/color/default.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/responsive.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.examtopics.com/assets/css/forum.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre {
+      white-space: pre-wrap;
+      background: #0b1020;
+      color: #e6edf3;
+      padding: 14px;
+      border-radius: 10px;
+      line-height: 1.45;
+      font-size: 0.98rem;
+    }
+    .question-body { font-size: 1.05rem; }
+    .q-page { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+    .q-card { width: 100% !important; max-width: 100% !important; box-sizing: border-box; }
+    .q-answer { width: 100% !important; max-width: 100% !important; }
+    .q-answer pre { white-space: pre-wrap; word-wrap: break-word; max-width: 100%; overflow-x: auto; }
+    .ai-analysis-container { width: 100% !important; max-width: 100% !important; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; font-size: 0.85rem; }
+</style>
+<title>DevOps Engineer - Question 10</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary " href="q_009.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary " href="q_011.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 10 / 201</h2>
+<div class="product-badges mb-3">
+    
+</div>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+         You have a pool of application servers running on Compute Engine. You need to provide a secure solution that requires the least amount of configuration and allows developers to easily access application logs for troubleshooting. How would you implement the solution on GCP?
+</p>
+<div class="question-choices-container">
+<ul>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Deploy the Stackdriver logging agent to the application servers. Give the developers the IAM Logs Viewer role to access Stackdriver and view logs.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Deploy the Stackdriver logging agent to the application servers. Give the developers the IAM Logs Private Logs Viewer role to access Stackdriver and view logs.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Deploy the Stackdriver monitoring agent to the application servers. Give the developers the IAM Monitoring Viewer role to access Stackdriver and view metrics.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Install the gsutil command line tool on your application servers. Write a script using gsutil to upload your application log to a Cloud Storage bucket, and then schedule it to run via cron every 5 minutes. Give the developers the IAM Object Viewer access to view the logs in the specified bucket.</li>
+
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<span class="correct-answer-box">
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
+<br/>
+</span>
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>Odpowiedź: A.
+
+Wyjaśnienie:
+Stackdriver Logging agent (obecnie Cloud Logging agent) jest natywnym rozwiązaniem GCP do zbierania logów z maszyn wirtualnych. Instalacja agenta na maszynach w połączeniu z rolą IAM "Logs Viewer" zapewnia deweloperom bezpieczny, scentralizowany i łatwy dostęp do logów w konsoli GCP, przy minimalnym nakładzie pracy konfiguracyjnej (least effort).
+
+B. Rola "Private Logs Viewer" służy do przeglądania logów zawierających dane wrażliwe (PII) lub logów audytowych o podwyższonym rygorze dostępu. Zgodnie z zasadą Least Privilege, nie należy jej nadawać, jeśli wystarczy zwykły "Logs Viewer".
+C. Monitoring agent służy do zbierania metryk (CPU, RAM), a nie logów aplikacji.
+D. Ręczne pisanie skryptów do uploadu logów do GCS (cron + gsutil) to tzw. "antywzorzec" (antipattern) w GCP – wymaga ogromnego nakładu pracy w utrzymaniu, tworzy problemy z wydajnością, opóźnieniami w dostępności logów i jest bardzo trudne w debugowaniu. Zawsze wybieraj managed services (Logging agent).</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Kluczem jest <b>"least amount of configuration"</b> (najmniej pracy) i <b>"secure solution"</b>. Zarządzane usługi (Managed Services) jak Cloud Logging zawsze wygrywają z pisaniem własnych skryptów (np. cron+gsutil).</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Widzisz pytanie o logi na VM? Szukaj <b>Logging Agent</b>.</li>
+    <li>Widzisz pytanie o własny skrypt (cron)? Zazwyczaj jest to zła odpowiedź (chyba że nie ma innych opcji).</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/agent/installation" target="_blank">Cloud Logging Agent Installation</a></li>
+</ul>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    let isVisible = false;
+
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        const answerBox = document.querySelector('.question-answer');
+        const answerSection = document.querySelector('.q-answer');
+        const aiSection = document.querySelector('.ai-analysis-container');
+
+        if (isVisible) {
+            answerBox.style.display = 'none';
+            answerSection.style.display = 'none';
+            aiSection.style.display = 'none';
+            this.textContent = 'Show Suggested Answer';
+        } else {
+            answerBox.style.display = 'block';
+            answerSection.style.display = 'block';
+            aiSection.style.display = 'block';
+            this.textContent = 'Hide Suggested Answer';
+        }
+        isVisible = !isVisible;
+    });
+});
+</script>
+</body>
+</html>
