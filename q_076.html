@@ -76,12 +76,20 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
 Wyjaśnienie:
-Pytanie 76: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Odpowiedzialność (Accountability) jest ważna w SRE, ale musi być jasna i zdefiniowana.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego A jest poprawne:
+- Każde zadanie naprawcze (Action Item) musi mieć jednego właściciela (RACI model: "R" - Responsible), aby zapewnić, że zostanie ono wykonane. Współpraca (Collaborators) jest dopuszczalna, ale musi być jeden decydent.
+
+Dlaczego inne są błędne:
+- B, C: Brak jasnego właściciela ("too many cooks in the kitchen" lub brak odpowiedzialności) powoduje, że zadania są odkładane w czasie ("bystander effect").
+- D: Zrzucanie wszystkiego na team leada jest nieefektywne i powoduje wąskie gardła (bottlenecks).
+
+Wskazówki (Tricks):
+- Action items in SRE: "One owner per item" to kluczowa zasada egzekucji postmortem.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

@@ -76,12 +76,21 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
 Wyjaśnienie:
-Pytanie 68: Poprawna odpowiedź C wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Google Container Registry (GCR) obsługuje regionalne hosty, aby zminimalizować opóźnienia i koszty transferu danych (egress) poprzez przetrzymywanie obrazów bliżej klastrów.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego C jest poprawne:
+- Skoro klaster GKE znajduje się w eu-west-1, wypchnięcie obrazu do eu.gcr.io spowoduje, że klaster będzie pobierał obrazy z regionu europejskiego, co zmniejsza opóźnienia sieciowe i koszty transferu międzyregionalnego.
+
+Dlaczego inne są błędne:
+- A: gcr.io jest hostem domyślnym (zazwyczaj us), więc pobieranie obrazów w UE spowodowałoby narzut kosztowy i większe opóźnienia.
+- B: us.gcr.io jest dedykowany dla regionów USA, co pogarsza wydajność w UE.
+- D: Utrzymywanie prywatnego rejestru na Compute Engine to tzw. "undifferentiated heavy lifting". W DevOps/SRE należy preferować usługi zarządzane (GCR/Artifact Registry) zamiast samodzielnego zarządzania infrastrukturą rejestru.
+
+Wskazówki (Tricks):
+- Zawsze wybieraj regionalny host najbliżej klastra, aby oszczędzać na kosztach transferu (egress) i poprawić szybkość wdrażania (deployment time).</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

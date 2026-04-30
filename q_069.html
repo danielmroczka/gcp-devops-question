@@ -76,12 +76,21 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
 Wyjaśnienie:
-Pytanie 69: Poprawna odpowiedź B wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Etykiety (labels) w GCP to kluczowy mechanizm metadanych pozwalający na grupowanie zasobów i raportowanie kosztów.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego B jest poprawne:
+- Etykiety są propagowane do danych rozliczeniowych (Billing Export to BigQuery). Umożliwiają precyzyjne odfiltrowanie kosztów dla poszczególnych systemów/aplikacji w ramach jednego projektu.
+
+Dlaczego inne są błędne:
+- A: "Cost Breakdown" w konsoli pokazuje ogólny podział, ale nie pozwala na zaawansowaną, niestandardową analitykę kosztów per system bez wcześniejszego otagowania zasobów.
+- C: Stackdriver (Cloud Logging) nie służy do analizy kosztów. Etykiety zasobów (labels) są natywnie wspierane przez system rozliczeniowy GCP, a nie metadata logów.
+- D: Poleganie na nazwach VM (naming convention) jest kruche i podatne na błędy (np. zmiana nazwy, niekonsekwencja). Etykiety są formalnym sposobem zarządzania metadanymi zasobów.
+
+Wskazówki (Tricks):
+- Jeśli pytanie dotyczy kosztów, szukaj "Labels" lub "Billing Export to BigQuery". Nigdy nie używaj logów ani nazw zasobów jako głównego mechanizmu raportowania kosztów.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

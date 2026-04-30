@@ -76,12 +76,22 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
 Wyjaśnienie:
-Pytanie 67: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+W GKE, najlepszym sposobem na odizolowanie obciążeń (np. różnych zespołów) przy zachowaniu optymalizacji kosztów jest współdzielenie klastra (w ramach tego samego projektu) przy użyciu przestrzeni nazw (Kubernetes Namespaces).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego D jest poprawne:
+- Klaster GKE pozwala na współdzielenie zasobów obliczeniowych, co minimalizuje koszty w porównaniu do utrzymywania osobnych klastrów dla każdego zespołu.
+- Kubernetes RBAC (Role-Based Access Control) to natywny i bezpieczny sposób na ograniczenie dostępu zespołów wyłącznie do ich przestrzeni nazw wewnątrz klastra.
+
+Dlaczego inne są błędne:
+- A: Tworzenie wielu projektów i klastrów dla każdego zespołu/środowiska jest bardzo kosztowne i generuje wysoki narzut administracyjny ("overhead").
+- B: Choć Namespace jest używany, to przy dużej skali zarządzanie dostępem na poziomie całych projektów dla GKE może być mniej precyzyjne niż użycie dedykowanego RBAC w ramach współdzielonego klastra (zależnie od skali, ale D jest wzorcową odpowiedzią SRE).
+- C: Identity Aware Proxy (IAP) służy do ochrony aplikacji HTTP, a nie do izolacji przestrzeni nazw wewnątrz klastra Kubernetes. Do tego służy RBAC.
+
+Wskazówki (Tricks):
+- Szukaj słów kluczowych: "minimizing costs" -> współdzielenie klastra (GKE Namespace); "isolation" -> RBAC/NetworkPolicies.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

@@ -74,14 +74,21 @@
 </span>
 </div>
 </div>
-</div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
 Wyjaśnienie:
-Pytanie 70: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Zarządzanie sekretami w pipeline'ach CI/CD musi być bezpieczne (szyfrowane) i łatwe w utrzymaniu (minimalizacja wysiłku/Toil).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego D jest poprawne:
+- Cloud KMS (Key Management Service) to standard w GCP do zarządzania szyfrowaniem danych. Pozwala na bezpieczne przechowywanie zaszyfrowanych sekretów w repozytorium (np. w plikach konfiguracyjnych) i odszyfrowywanie ich w trakcie budowania (np. przez Cloud Build przy użyciu odpowiednich uprawnień IAM do KeyRing/CryptoKey).
+
+Dlaczego inne są błędne:
+- A, C: Cloud Storage (GCS) nie jest przeznaczony do bezpiecznego przechowywania sekretów w sposób jawny, nawet z szyfrowaniem. Wymagałoby to zarządzania kluczami poza systemem KMS.
+- B: Przechowywanie kluczy w innym repozytorium to utrudnienie (złożoność) i zwiększone ryzyko wycieku.
+
+Wskazówki (Tricks):
+- W pytaniach o sekrety w GCP, szukaj "Cloud KMS" lub "Secret Manager". Nigdy nie przechowuj sekretów w repozytorium w postaci jawnej ("plain text").</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

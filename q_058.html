@@ -79,17 +79,25 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 58: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to A (Store the encryption keys in Cloud Key Management Service (KMS) and rotate the keys frequently).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Użycie Google Cloud KMS jest standardem bezpieczeństwa dla zarządzania kluczami szyfrującymi. Pozwala na scentralizowane zarządzanie, audytowalność oraz rotację kluczy, co znacznie ogranicza skutki potencjalnego wycieku (jeśli klucz jest często rotowany, okno czasowe jego użyteczności jest ograniczone). 
+
+Analiza błędnych odpowiedzi:
+- B: Inject the secret at instance creation - Podatne na wycieki w logach i pamięci podręcznej konfiguracji.
+- C: Integrate the application with SSO - SSO służy do autentykacji użytkowników, nie do szyfrowania danych przechowywanych.
+- D: Leverage a continuous build pipeline - Skomplikowane, podatne na błędy, brak centralnego zarządzania.
+
+Przydatne linki:
+- https://cloud.google.com/kms/docs/overview</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<h2>Analiza i Podsumowanie</h2>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>KMS to standard dla zarządzania kluczami w GCP.</li>
+    <li>Zawsze preferuj usługi zarządzane dla bezpieczeństwa (KMS, Secret Manager).</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/security/products" target="_blank">Bezpieczeństwo w GCP</a></li>
 </ul>
 </div>
 <script>

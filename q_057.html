@@ -79,17 +79,26 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 57: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to A (Roll back the recent release). 
+SRE (Site Reliability Engineering) promuje podejście "MTTR (Mean Time to Recovery) ponad wszystko". Jeśli nowa funkcjonalność powoduje problemy w produkcji, najszybszym sposobem na przywrócenie poprawnej pracy serwisu dla użytkowników jest powrót do poprzedniego stabilnego stanu (rollback). Analiza przyczyn (B) jest ważna, ale nie jest działaniem pierwszego wyboru, gdy użytkownicy doświadczają awarii. Zwiększanie mocy maszyn (C) jest nieefektywne, jeśli problemem jest błąd w kodzie. Wdrażanie nowego wydania (D) bez zrozumienia przyczyny awarii zwiększa ryzyko pogorszenia sytuacji.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Pamiętaj: Najpierw mityguj (rollback), potem analizuj (post-mortem).
+
+Analiza błędnych odpowiedzi:
+- B: Review the Stackdriver monitoring - Analiza jest niezbędna, ale po mitygacji. MTTR wymaga najpierw działania.
+- C: Upsize the virtual machines - Nie rozwiąże problemu logicznego w nowym kodzie, zwiększy koszty.
+- D: Deploy a new release - Zwiększa ryzyko w czasie incydentu.
+
+Przydatne linki:
+- https://sre.google/sre-book/table-of-contents/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<h2>Analiza i Podsumowanie</h2>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>W przypadku awarii priorytetem jest MTTR.</li>
+    <li>Rollback jest zawsze najszybszą metodą mitygacji w przypadku wdrożeń.</li>
+    <li>Dokumentacja: <a href="https://sre.google/" target="_blank">Google SRE Books</a></li>
 </ul>
 </div>
 <script>

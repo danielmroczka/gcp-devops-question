@@ -79,17 +79,25 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Pytanie 61: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to D (Modify the App Engine configuration to have additional idle instances).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Problem polega na "zimnym starcie" (cold start) instancji App Engine. Jeśli liczba instancji drastycznie spadnie po przejściu ruchu, nowe zapytania muszą zainicjować nowe instancje, co powoduje opóźnienia. Utrzymywanie instancji w stanie "idle" (bezczynności) zapewnia, że aplikacja jest gotowa na nagły wzrost ruchu bez czekania na załadowanie środowiska uruchomieniowego.
+
+Analiza błędnych odpowiedzi:
+- A: Upgrade GCS buckets to Multi-Regional - GCS nie jest przyczyną latencji dla aplikacji webowej (to statyczne zasoby).
+- B: Enable high availability on CloudSQL - CloudSQL HA pomaga w razie awarii bazy, a nie z latencją wywołaną skalowaniem aplikacji.
+- C: Move to Compute Engine - Zwiększa nakład pracy operacyjnej (Toil) i nie naprawia problemu skalowania, który leży w konfiguracji aplikacji.
+
+Przydatne linki:
+- https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<h2>Analiza i Podsumowanie</h2>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>App Engine "Cold Starts" to częsty powód latencji po okresach niskiego ruchu.</li>
+    <li>"Idle instances" pozwalają szybko obsłużyć nagły wzrost zapotrzebowania na aplikację.</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/appengine/docs" target="_blank">Dokumentacja App Engine</a></li>
 </ul>
 </div>
 <script>

@@ -77,12 +77,22 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: AC.
+<pre>Odpowiedź: AC
 
 Wyjaśnienie:
-Pytanie 72: Poprawna odpowiedź AC wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Postmortem (analiza powypadkowa) w kulturze SRE ma być "blameless" (nieobwiniająca) i nastawiona na naukę oraz poprawę systemu.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego AC jest poprawne:
+- A: Analiza przyczyny źródłowej (Root Cause Analysis) jest niezbędna, aby zrozumieć, dlaczego wystąpił błąd, i zapobiec jego powtórzeniu.
+- C: Action Items (zadania naprawcze) przekształcają wiedzę z postmortem w realne zmiany poprawiające niezawodność systemu.
+
+Dlaczego inne są błędne:
+- B: Obwinianie jednostek jest niezgodne z kulturą "blameless postmortem". Skupiamy się na procesach, a nie na ludziach.
+- D: Subiektywne opinie o powadze incydentu nie wnoszą wartości technicznej.
+- E: Postmortem powinno zawierać podsumowanie, a nie kopię dokumentacji całego systemu, co prowadzi do przeładowania informacjami.
+
+Wskazówki (Tricks):
+- W SRE postmortem: Blameless, Root Cause, Action Items. Nigdy nie obwiniaj osób.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

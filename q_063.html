@@ -79,9 +79,15 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Pytanie 63: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to D. Stackdriver Logging (obecnie Cloud Logging) pozwala na łatwe tworzenie "Sinks" (ujść), które przekierowują wybrane logi do docelowych usług GCP, takich jak Cloud Storage. Zastosowanie GCS jako miejsca docelowego pozwala na zastosowanie cyklu życia obiektu (Object Lifecycle Management), co jest bardzo tanim sposobem na przechowywanie danych przez długi okres (np. 7 lat) w klasach przechowywania "Archive" lub "Coldline".
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza błędnych odpowiedzi:
+- A: Wymuszenie na aplikacji bezpośredniego wysyłania logów do GCS jest nieefektywne i utrudnia zarządzanie logami z całego systemu.
+- B: BigQuery jest świetnym narzędziem do analizy danych, ale nie jest optymalnym rozwiązaniem (pod względem kosztów) do długoterminowej archiwizacji logów (przez 7 lat).
+- C: Pub/Sub służy do strumieniowania danych w czasie rzeczywistym, nie jest to rozwiązanie do długoterminowej archiwizacji logów.
+
+Przydatne linki:
+- https://cloud.google.com/logging/docs/export/configure_export_v2</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

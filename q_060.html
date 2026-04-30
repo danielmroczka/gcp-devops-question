@@ -79,17 +79,25 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 60: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to A (Load test the application to profile its performance for scaling).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Zanim przygotujesz aplikację na większy ruch, musisz znać jej ograniczenia wydajnościowe (profilowanie). Testy obciążeniowe pozwalają sprawdzić, gdzie pojawiają się "wąskie gardła" (bottlenecks) i jak aplikacja zachowuje się podczas skalowania.
+
+Analiza błędnych odpowiedzi:
+- B: Enable AutoScaling - Automatyczne skalowanie jest ważne, ale jeśli kod nie jest zoptymalizowany, skalowanie może być bezużyteczne lub zbyt wolne.
+- C: Pre-provision double the compute power - Nadmiarowe przydzielanie zasobów ("overprovisioning") jest nieefektywne kosztowo i nie gwarantuje sukcesu.
+- D: Create a runbook on inflating the DR environment - DR to plan awaryjny, nie służy przygotowaniu na planowany wzrost ruchu.
+
+Przydatne linki:
+- https://cloud.google.com/solutions/load-testing-on-gcp</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<h2>Analiza i Podsumowanie</h2>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zawsze testuj, zanim zaczniesz skalować (Load Testing).</li>
+    <li>W GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed.</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Dokumentacja GCP</a></li>
 </ul>
 </div>
 <script>

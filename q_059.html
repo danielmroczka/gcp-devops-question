@@ -79,17 +79,25 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 59: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to A (Eliminate unactionable alerts).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+W SRE "alert fatigue" (zmęczenie alertami) jest kluczowym problemem prowadzącym do wypalenia zawodowego. Alerty, które nie wymagają działania inżyniera (np. bo system sam się naprawia), są nazywane "unactionable" i powinny być usunięte lub zautomatyzowane. 
+
+Analiza błędnych odpowiedzi:
+- B: Create an incident report for each of the alerts - Tworzenie raportu dla każdego "przejściowego" problemu generuje tylko więcej pracy (toil), zamiast usuwać przyczynę.
+- C: Distribute the alerts to engineers in different time zones - Przesunięcie odpowiedzialności na inne strefy czasowe ("follow the sun") tylko maskuje problem, nie naprawia go.
+- D: Redefine the related SLO - Redefinicja SLO nie rozwiązuje problemu technicznego; wskaźniki powinny odzwierciedlać rzeczywisty stan usług.
+
+Przydatne linki:
+- https://sre.google/sre-book/alerting-on-slos/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<h2>Analiza i Podsumowanie</h2>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>SRE dąży do redukcji "Toil" (manualnej, powtarzalnej pracy).</li>
+    <li>Alert musi być wykonalny ("actionable"). Jeśli nie wymaga akcji - usuń go.</li>
+    <li>Dokumentacja: <a href="https://sre.google/" target="_blank">Google SRE Books</a></li>
 </ul>
 </div>
 <script>

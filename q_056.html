@@ -79,17 +79,20 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Pytanie 56: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to A. Caching pośrednich artefaktów (takich jak zależności npm/maven czy warstwy obrazów Docker) w Cloud Storage jest najskuteczniejszą metodą redukcji czasu budowania (build time). Dzięki temu Cloud Build nie musi pobierać lub budować od zera niezmiennych komponentów przy każdym uruchomieniu pipeline'u, co drastycznie skraca czas trwania builda i obniża koszty.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego inne odpowiedzi są błędne:
+- B: Jenkins to zewnętrzny serwer CI/CD, a pytanie dotyczy optymalizacji wewnątrz usługi Cloud Build (GCP managed service). Wprowadzanie Jenkinsa zwiększyłoby złożoność operacyjną ("toil") i koszty utrzymania.
+- C: Podział na wiele małych kroków nie przyspiesza procesu kompilacji/budowania; wręcz przeciwnie, może wprowadzić narzut czasowy związany z uruchamianiem każdego kroku w osobnym kontenerze.
+- D: Użycie większych maszyn (machine-type) zwiększa koszt budowania. Choć może przyspieszyć kompilację, nie jest tak optymalne jak caching, ponieważ nie usuwa problemu powtarzalnego budowania tych samych artefaktów.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W Cloud Build, caching artefaktów to podstawa optymalizacji kosztów i wydajności CI/CD.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Najszybszy sposób na przyspieszenie budowania? Cache'owanie zależności.</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/build/docs/optimize-builds/speeding-up-builds" target="_blank">Speeding up Cloud Builds</a></li>
 </ul>
 </div>
 <script>

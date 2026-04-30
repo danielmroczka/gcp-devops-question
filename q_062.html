@@ -79,9 +79,15 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Pytanie 62: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to D. Jenkins na Google Compute Engine (GCE) pozwala na pełną kontrolę nad środowiskiem, umożliwiając bezpieczną konfigurację (np. za pomocą IAM roles/service accounts, co gwarantuje zasadę "least privilege"), automatyzację wdrożeń do GCP oraz łatwą skalowalność poprzez zarządzanie instancjami.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza błędnych odpowiedzi:
+- A: Jenkins na stacjach lokalnych jest podatny na awarie sprzętowe, błędy konfiguracji i brak zabezpieczeń, co czyni go nieodpowiednim dla procesów CI/CD w przedsiębiorstwie.
+- B: Jenkins w Kubernetes on-premises wprowadza zbędny narzut operacyjny i utrzymuje "toil" związany z zarządzaniem infrastrukturą, której chcemy unikać w chmurze.
+- C: Google Cloud Functions nie jest przeznaczone do uruchamiania serwisów typu Jenkins master, ze względu na ograniczenia czasu wykonania (timeout) i brak trwałości stanu dla ciągłych procesów CI.
+
+Przydatne linki:
+- https://cloud.google.com/solutions/jenkins-on-compute-engine</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

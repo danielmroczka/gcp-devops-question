@@ -76,12 +76,20 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
 Wyjaśnienie:
-Pytanie 73: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+GKE (Kubernetes) domyślnie używa strategii `RollingUpdate` do aktualizacji Deploymentów.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego A jest poprawne:
+- W Kubernetes, mechanizm `RollingUpdate` pozwala na kontrolowanie tempa wdrażania za pomocą pól `maxUnavailable` i `maxSurge`. Pozwalają one na zdefiniowanie "fazy" (particji), czyli ilu podów nie może być niedostępnych w danym momencie.
+
+Dlaczego inne są błędne:
+- B, D: Taints (dla węzłów) i StatefulSets (dla stanowych obciążeń) nie są głównymi mechanizmami dla fazowego wdrażania (rolloutu) aplikacji bezstanowych.
+- C: ReplicaSet sam w sobie nie zarządza strategią aktualizacji w czasie, robi to Deployment.
+
+Wskazówki (Tricks):
+- Jeśli słyszysz "phased rollout" w GKE/K8s, szukaj "RollingUpdate" i parametrów `maxUnavailable`/`maxSurge`.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

@@ -76,12 +76,20 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
 Wyjaśnienie:
-Pytanie 71: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+W SRE (Site Reliability Engineering), w przypadku wystąpienia incydentu o krytycznym znaczeniu, priorytetem jest "Mitigacja" (ograniczenie wpływu na użytkownika), a nie od razu "Diagnoza".
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego A jest poprawne:
+- Najszybszą metodą przywrócenia dostępności dla użytkowników w systemach wieloregionalnych jest skierowanie ruchu do zdrowych regionów (load balancer/global routing). To minimalizuje MTTR (Mean Time To Recovery).
+
+Dlaczego inne są błędne:
+- B, D: Diagnoza (logi/monitoring) jest ważna, ale w pierwszej kolejności należy ograniczyć wpływ awarii na klientów. Jeśli wykonasz to przed mitigacją, użytkownicy będą odczuwać brak dostępu przez cały czas trwania diagnozy.
+- C: Skalowanie klastra nie naprawi awarii całego regionu, jeśli przyczyna leży w warstwie sieciowej, konfiguracji lub usługach zewnętrznych.
+
+Wskazówki (Tricks):
+- SRE Motto: "Mitigate first, diagnose later". Zawsze wybieraj opcję, która najszybciej przywraca obsługę użytkowników (np. rerouting, rollback, failover).</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

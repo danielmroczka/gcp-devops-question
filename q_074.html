@@ -76,12 +76,19 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
 Wyjaśnienie:
-Pytanie 74: Poprawna odpowiedź B wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+SLI (Service Level Indicator) to miara określająca jakość usługi, na którą umówiliśmy się z użytkownikiem (w ramach SLO).
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Dlaczego B jest poprawne:
+- Dostępność (Availability) dla użytkownika jest mierzona z punktu widzenia sukcesu żądania. "Proporcja udanych odpowiedzi do wszystkich żądań" to standardowa definicja SLI dostępności.
+
+Dlaczego inne są błędne:
+- A, C, D: To są metryki "wewnętrzne" (tzw. SLIs pomocnicze/systemowe). Mogą one wyjaśniać przyczynę awarii (I/O wait, kolejka), ale nie są SLI dostępności z perspektywy klienta końcowego. Klienta nie obchodzi I/O wait, obchodzi go czy raport się wygenerował.
+
+Wskazówki (Tricks):
+- SLI = (Successful Requests) / (Total Requests). Zawsze szukaj miary sukcesu/porażki z perspektywy użytkownika końcowego.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
