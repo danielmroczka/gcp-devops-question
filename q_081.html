@@ -77,12 +77,17 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: BC.
+<pre>Odpowiedź: B, C.
 
 Wyjaśnienie:
-Pytanie 81: Poprawna odpowiedź BC wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to B oraz C. Jeśli serwis konsekwentnie osiąga swoje SLO, a poziom automatyzacji jest wysoki, oznacza to, że serwis osiągnął stan wysokiej stabilności ("high reliability"). W SRE wykorzystujemy tę sytuację do:
+- B: Zwiększenia "prędkości wdrażania" (deployment velocity). Jeśli mamy nadmiar budżetu błędów, możemy podejmować większe ryzyko przy wydaniach, dostarczając funkcje szybciej dla użytkowników.
+- C: Przekierowania zasobów inżynieryjnych na inne usługi, które potrzebują poprawy stabilności. Jest to optymalizacja pracy całego działu DevOps (inżynierowie nie zajmują się stabilnym serwisem, który "działa sam").
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza błędnych opcji:
+- A: Zaostrzanie SLO nie rozwiązuje problemu balansu między velocity a reliability, a jedynie tworzy sztuczny wymóg ("toil") utrzymania wyższej niezawodności, niż jest to potrzebne biznesowi.
+- D: Priorytetyzacja niezawodności nad nowymi funkcjami jest błędna w momencie, gdy serwis jest już bardzo niezawodny (to by było marnowanie zasobów, które mogłyby być przeznaczone na rozwój).
+- E: Zmiana implementacji SLI sama w sobie nie optymalizuje relacji między velocity a reliability, chyba że obecne SLI są błędne.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

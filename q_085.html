@@ -76,12 +76,14 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
 Wyjaśnienie:
-Pytanie 85: Poprawna odpowiedź C wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
-
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+W modelu SRE, "burn rate" (tempo zużycia) błędu pozwala na szybkie wykrycie, czy system jest na drodze do wyczerpania całego budżetu dostępności.
+- Alertowanie na podstawie `select_slo_burn_rate` w Cloud Monitoring jest standardowym mechanizmem wdrożenia SLO/Error Budget w GCP.
+- Opcja A (proste alerty na metryki) nie bierze pod uwagę kontekstu budżetu błędu.
+- Opcja B (Anthos Service Mesh) jest przydatna, ale sama w sobie nie zarządza budżetem błędu.
+- Opcja D (uptime checks) to tylko prosty monitoring dostępności (zewnętrzny ping), który nie wystarcza do zaawansowanego zarządzania Error Budget.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

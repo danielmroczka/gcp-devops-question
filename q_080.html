@@ -77,20 +77,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: DE.
+<pre>Odpowiedź: D, E.
 
 Wyjaśnienie:
-Pytanie 80: Poprawna odpowiedź DE wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to D oraz E. Jeśli aplikacja zużywa stale tylko 5% budżetu błędów (error budget), oznacza to, że poziom niezawodności jest zbyt wysoki (tzw. "over-reliability"). Z perspektywy SRE, oznacza to, że zbyt wiele zasobów inżynieryjnych poświęca się na niezawodność, a zbyt mało na innowacje i dostarczanie nowych funkcji (velocity).
+- D: Dodanie nowych SLI (Service Level Indicators) pozwala na głębsze zrozumienie aspektów usługi, które faktycznie dotykają użytkownika, co pozwala na bardziej precyzyjne ustawienie SLO.
+- E: Świadome "konsumowanie" budżetu błędów (np. przez częstsze/ryzykowniejsze wdrożenia) jest akceptowalną praktyką SRE, by wykorzystać dostępne zasoby niezawodności do zwiększenia szybkości dostarczania funkcji.
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Analiza błędnych opcji:
+- A: Zwiększanie pojemności (capacity) poprawia wydajność/skalowalność, ale nie adresuje problemu niewykorzystanego budżetu błędów (nie zwiększa velocity).
+- B: Częstsze lub bardziej ryzykowne wdrożenia to technicznie poprawne działanie, ale Announce planned downtime (z opcji E) jest lepszym SRE-podejściem, gdyż nie wprowadza niekontrolowanego ryzyka w produkcji.
+- C: Zacieśnienie (tightening) SLO jest możliwe, ale przed jego wprowadzeniem należy upewnić się, że mierzymy odpowiednie parametry (stąd opcja D), a nie tylko zmieniać liczby na papierze.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>Kluczem w SRE jest mierzalność. Zanim zmienisz SLO, upewnij się, że mierzysz odpowiednie aspekty usługi (SLI).</p>
+<h3>💡 Wskazówki i Triki</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Wybieraj mierzalność (SLI) przed celami (SLO).</li>
+    <li>Zwiększenie niezawodności nie zawsze jest celem; celem jest znalezienie optymalnego balansu między niezawodnością a szybkością wdrażania (velocity).</li>
+    <li>Dokumentacja: <a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Google SRE Book - SLOs</a></li>
 </ul>
 </div>
 <script>

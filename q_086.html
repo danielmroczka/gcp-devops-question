@@ -76,12 +76,14 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
 Wyjaśnienie:
-Pytanie 86: Poprawna odpowiedź C wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
-
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Zarządzanie agentami na dużą skalę (fleet management) w GCP wymaga podejścia deklaratywnego i zautomatyzowanego.
+- Agent Policy w GCP pozwala zdefiniować politykę (np. "zainstaluj/utrzymuj Ops Agent"), która jest automatycznie stosowana do wszystkich istniejących i przyszłych instancji Compute Engine pasujących do filtrów (np. etykiety).
+- Opcja A (gcloud CLI w pętli) jest nieefektywna i nie obsługuje przyszłych instancji.
+- Opcja B (Cloud Ops dashboard) jest ręcznym procesem, który nie gwarantuje automatycznej aktualizacji w przyszłości.
+- Opcja D (startup script) to "stara szkoła" – trudna w utrzymaniu, gdy trzeba aktualizować agenta na tysiącach maszyn.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

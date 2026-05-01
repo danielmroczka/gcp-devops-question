@@ -76,12 +76,14 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
 Wyjaśnienie:
-Pytanie 84: Poprawna odpowiedź D wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
-
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Wymagania obejmują: kierowanie ruchem na podstawie User-Agent (Android) oraz zaawansowane dzielenie ruchu (traffic splitting).
+- GKE + Anthos Service Mesh (ASM) wspiera zaawansowane reguły routingu (VirtualServices w Istio/ASM), które umożliwiają dzielenie ruchu na podstawie nagłówków HTTP (jak `User-Agent`) oraz procentowe rozdzielanie ruchu.
+- Opcja A (Cloud Run) ma ograniczone wsparcie dla routingu opartego na nagłówkach aplikacji dla poszczególnych wersji w taki sposób jak ASM.
+- Opcja B (App Engine) oferuje dzielenie ruchu, ale nie na podstawie `User-Agent`.
+- Opcja C jest niepoprawna technicznie, ASM w tej konfiguracji używa GKE.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

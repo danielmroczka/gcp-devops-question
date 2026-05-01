@@ -69,27 +69,34 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: Weryfikacja dla pytania 78.
 
 Wyjaśnienie:
-Pytanie 78: Poprawna odpowiedź A wynika z najlepszych praktyk SRE dotyczących automatyzacji wdrożeń i zarządzania zasobami w GCP.
+Poprawna odpowiedź to C. 
 
-Pozostałe opcje (A, B, C, D) są błędne, ponieważ naruszają zasady Least Privilege, nie zapewniają wystarczającej automatyzacji lub korzystają z usług nieoptymalnych dla danego problemu.</pre>
+Prawidłowe podejście w Google Cloud Logging polega na:
+1. Użyciu "Log Exclusions" do usunięcia wpisów zawierających PII z głównego strumienia logów w Cloud Logging, zapobiegając ich dalszemu przetwarzaniu i przechowywaniu w logach (co zapewnia zgodność z wymogami prawnymi).
+2. Użyciu "Log Sinks" (eksport do GCS) do przechwycenia wszystkich logów, w tym tych zawierających PII, przed ich usunięciem (exkluzją), aby zachować dane do celów audytu lub późniejszej analizy (w bezpiecznym, szyfrowanym środowisku GCS).
+
+Dlaczego inne odpowiedzi są błędne:
+- A: Tworzenie tylko filtru i sinka bez wykluczenia (Log Exclusion) spowoduje, że PII nadal będą widoczne i przechowywane w Cloud Logging, co narusza bezpieczeństwo danych.
+- B: Fluentd może być użyty, ale jest to mniej natywna metoda w GCP niż natywne filtry Cloud Logging i nie jest zalecanym podejściem "Cloud-native" dla tego konkretnego problemu.
+- D: Łączy nadmiarowe kroki (Fluentd + Log Exclusions), co tworzy niepotrzebny "Toil" i złożoność operacyjną.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowe zagadnienia: Cloud Logging, Log Sinks, Log Exclusions, PII redaction/handling.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Kluczowym wymaganiem jest 1) Przechowanie w bezpiecznym miejscu (GCS) oraz 2) zapobieganie ich "przeciekaniu" do Cloud Logging. Log Exclusions to natywny sposób na osiągnięcie drugiego punktu.</li>
+    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/exclusions" target="_blank">Cloud Logging Exclusions</a>, <a href="https://cloud.google.com/logging/docs/export" target="_blank">Cloud Logging Sinks</a></li>
 </ul>
 </div>
 <script>
