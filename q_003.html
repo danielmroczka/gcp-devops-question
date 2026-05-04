@@ -76,21 +76,32 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Poprawna odpowiedź: B.
 
 Wyjaśnienie:
-Podstawową zasadą SRE w kontekście incydentów jest tzw. "blameless postmortem" (bezkarna analiza poawaryjna). Dokumentacja postmortem powinna skupiać się na faktach (co się stało), analizie przyczyn (dlaczego system zawiódł) i konkretnych działaniach naprawczych (action items), które zapobiegną powtórce awarii. Kluczowe jest, aby postmortem NIE wskazywał winnych (osób odpowiedzialnych), lecz skupiał się na ulepszaniu procesu i technologii. Ponadto, transparentność w organizacji (udostępnienie na portalu inżynierskim) pozwala innym zespołom uczyć się na błędach, co jest kluczowe dla budowania kultury inżynierskiej.
+W kulturze Site Reliability Engineering (SRE), analiza poawaryjna (postmortem) jest kluczowym narzędziem służącym do nauki i doskonalenia systemów. Głównym założeniem jest tzw. "blameless postmortem" (bezkarna analiza). Dokument ten musi skupiać się na przyczynach technicznych i procesowych, a nie na błędach poszczególnych osób. Udostępnienie postmortem na portalu dokumentacji całej organizacji inżynierskiej (B) pozwala wszystkim zespołom uczyć się na cudzych błędach, co zapobiega powielaniu tych samych problemów w innych serwisach.
 
-A. Udostępnienie tylko managerowi ogranicza możliwość uczenia się innych inżynierów.
-C i D. Wskazywanie osób odpowiedzialnych (blame) jest sprzeczne z kulturą "blameless postmortem" i zniechęca do transparentnego raportowania błędów.</pre>
+Dlaczego pozostałe odpowiedzi są błędne:
+A. Choć treść analizy jest poprawna, ograniczenie jej widoczności tylko do jednego managera marnuje potencjał edukacyjny incydentu. SRE promuje transparentność i dzielenie się wiedzą jako fundament budowania niezawodności.
+C i D. Wymienianie osób odpowiedzialnych za błędy ("list of people responsible") jest absolutnie sprzeczne z kulturą SRE. Takie podejście prowadzi do "kultury strachu", w której inżynierowie ukrywają błędy, by uniknąć kary. SRE zakłada, że błąd ludzki jest wynikiem niedoskonałości systemu (np. braku odpowiednich zabezpieczeń w kodzie lub procesie), a nie złej woli pracownika.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>SRE to kultura, w której błędy traktujemy jako okazję do nauki (learning opportunity), a nie do ukarania. <b>Blameless postmortem</b> + pełna transparentność wewnątrz firmy = szybszy rozwój niezawodności.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<p>To pytanie dotyczy aspektów kulturowych DevOps i SRE, które są równie ważne na egzaminie, co wiedza techniczna o GCP. Kluczowym konceptem jest <b>psychological safety</b> (bezpieczeństwo psychologiczne) osiągane poprzez eliminację szukania winnych.</p>
+
+<h3>💡 Hity i triki (Exam Tips)</h3>
 <ul>
-    <li>Kluczowe słowo: <b>Blameless</b>. Nigdy nie wybieraj opcji, która wskazuje ludzi jako winnych.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/postmortem-culture/" target="_blank">Google SRE Book - Postmortem Culture</a></li>
+    <li>Słowo klucz: <b>Blameless</b>. Jeśli odpowiedź sugeruje wskazywanie winnych, jest błędna.</li>
+    <li>Postmortem powinien zawierać: <b>Timeline</b> (oś czasu), <b>Root Causes</b> (przyczyny źródłowe), <b>Action Items</b> (priorytetyzowane zadania naprawcze).</li>
+    <li><b>Transparency</b>: Wiedza o awarii powinna być dostępna dla wszystkich zainteresowanych wewnątrz firmy.</li>
+    <li>W SRE nie pytamy "Kto?", pytamy "Dlaczego system na to pozwolił?".</li>
+</ul>
+
+<h3>🔗 Linki do dokumentacji</h3>
+<ul>
+    <li><a href="https://sre.google/sre-book/postmortem-culture/" target="_blank">Google SRE Book - Postmortem Culture</a></li>
+    <li><a href="https://cloud.google.com/architecture/devops/devops-culture-blameless-postmortems" target="_blank">Capabilities: Blameless postmortems</a></li>
+    <li><a href="https://sre.google/sre-book/table-of-contents/" target="_blank">The SRE Book (Full)</a></li>
 </ul>
 </div>
 </div>

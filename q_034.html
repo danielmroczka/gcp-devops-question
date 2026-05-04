@@ -79,18 +79,30 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Pytanie 34: Poprawna odpowiedź B. W SRE kluczowe jest zapewnienie komunikacji. Klient musi wiedzieć, kiedy otrzyma następną aktualizację. Nawet jeśli nie mamy rozwiązania, należy podać czas kolejnego komunikatu (np. "Kolejny update o 14:00"), co buduje zaufanie.
-- A: Zbyt wąskie skupienie tylko na wewnętrznych interesariuszach.
-- C: Niezgodne z rolą "Communications Lead", która powinna być ujednolicona dla wszystkich stron.
-- D: Niepotrzebna delegacja zadania komunikacji do Incident Commandera (który powinien skupiać się na technicznej naprawie).</pre>
+Poprawna odpowiedź to B. W zarządzaniu incydentami według praktyk SRE, rola osoby odpowiedzialnej za komunikację (Communications Lead) jest kluczowa dla odciążenia zespołu technicznego. Najlepszą strategią jest proaktywne dostarczanie regularnych aktualizacji do wszystkich zainteresowanych stron (wewnętrznych i zewnętrznych). Najważniejszym elementem każdego komunikatu jest podanie dokładnego czasu kolejnej aktualizacji (tzw. "Commit to a next update time"). Działa to uspokajająco na interesariuszy i klientów – wiedzą oni, że sytuacja jest monitorowana i kiedy mogą spodziewać się nowych wieści, co drastycznie zmniejsza liczbę przychodzących zapytań.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Skupienie się wyłącznie na interesariuszach wewnętrznych pomija klientów, co jest błędem w przypadku usług publicznych. Komunikacja zewnętrzna jest równie ważna dla zachowania zaufania do marki.
+C. Delegowanie komunikacji wewnętrznej do innego członka zespołu może prowadzić do niespójności w przekazywanych informacjach. Communications Lead powinien być "jedynym źródłem prawdy" (Single Source of Truth).
+D. Incident Commander (IC) musi być w 100% skupiony na koordynowaniu działań technicznych i usuwaniu awarii. Obarczanie go zarządzaniem komunikacją wewnętrzną odciąga go od priorytetowego zadania i wydłuża czas trwania incydentu (MTTR).
+
+Hity i triki (Exam Tips):
+- **Role w incydencie:** Incident Commander (Dowódca), Operations Lead (Technik), Communications Lead (Komunikacja). Nigdy nie łącz tych ról w jedną osobę, jeśli incydent jest duży.
+- **Złota zasada komunikacji:** Zawsze podawaj czas następnego update'u, nawet jeśli nie masz nowych informacji. "Wciąż badamy przyczynę, kolejna wiadomość za 30 minut" jest lepsze niż cisza.
+- **Status Page:** W rzeczywistych warunkach automatyzacja komunikacji przez stronę statusową (np. status.cloud.google.com) jest najlepszym sposobem na realizację tej strategii.
+
+Dokumentacja:
+- https://sre.google/sre-book/managing-incidents/
+- https://sre.google/workbook/incident-response/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W komunikacji kryzysowej SRE: Utrzymuj zaufanie poprzez ustalanie kolejnych terminów aktualizacji, nawet jeśli sytuacja się nie zmieniła.</p>
+<p>Komunikacja w czasie kryzysu to sztuka zarządzania emocjami i oczekiwaniami. Transparentność i przewidywalność komunikatów budują zaufanie bardziej niż samo szybkie rozwiązanie problemu technicznego bez słowa wyjaśnienia.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Komunikacja: Zawsze podawaj czas kolejnej aktualizacji.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/managing-incidents/" target="_blank">SRE Book: Incident Management</a></li>
+    <li><strong>Frequency:</strong> Częstotliwość aktualizacji zależy od dotkliwości awarii (Severity). Im wyższy priorytet, tym częstsze komunikaty.</li>
+    <li><strong>Templates:</strong> SRE przygotowuje wcześniej szablony komunikatów, aby w czasie stresu nie tracić czasu na formatowanie treści.</li>
+    <li><strong>Post-mortem:</strong> Pamiętaj, że komunikacja nie kończy się na rozwiązaniu incydentu. Ostatnim krokiem jest opublikowanie raportu poawaryjnego (Post-mortem).</li>
 </ul>
 </div>
 <script>

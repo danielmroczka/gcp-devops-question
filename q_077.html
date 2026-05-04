@@ -73,20 +73,18 @@
 <br/>
 </span>
 <p><strong>Wyjaśnienie:</strong></p>
-<p>Poprawna odpowiedź to <strong>A</strong>. Proces zarządzania cyklem życia API (API Lifecycle Management) wymaga, aby nowa wersja była dostępna przed wycofaniem starej, aby umożliwić deweloperom migrację. Standardowa ścieżka to:</p>
+<p>Poprawna odpowiedź to <strong>A</strong>. W zarządzaniu cyklem życia API (API Lifecycle Management), kluczowe jest zapewnienie ciągłości usług przy jednoczesnym wprowadzaniu zmian.</p>
 <ol>
-    <li>Wprowadzenie nowej wersji API.</li>
-    <li>Ogłoszenie wycofania (deprecacji) starej wersji.</li>
-    <li>Formalne oznaczenie starej wersji jako przestarzałej (Deprecated status).</li>
-    <li>Aktywny kontakt z użytkownikami, którzy nadal korzystają ze starej wersji.</li>
-    <li>Zapewnienie wsparcia "best effort" podczas okresu przejściowego.</li>
-    <li>Ostateczne wyłączenie (shutdown) starej wersji.</li>
+    <li><strong>Wprowadzenie nowej wersji:</strong> Deweloperzy muszą mieć najpierw dostęp do nowego API, aby móc zaplanować migrację.</li>
+    <li><strong>Ogłoszenie deprecacji:</strong> Dopiero gdy nowa wersja istnieje, informujemy użytkowników o planowanym wycofaniu starej.</li>
+    <li><strong>Deprecacja:</strong> Formalne oznaczenie jako "przestarzałe".</li>
+    <li><strong>Kontakt i wsparcie:</strong> Aktywne pomaganie użytkownikom w przejściu na nową wersję.</li>
+    <li><strong>Wyłączenie:</strong> Ostateczne zakończenie wsparcia dla starej wersji.</li>
 </ol>
-<p>Inne opcje (B, C, D) są błędne, ponieważ sugerują zbyt wczesne ogłoszenie deprecacji lub kontakt z użytkownikami przed wprowadzeniem nowego API, co tworzyłoby niepotrzebny niepokój bez podania gotowego rozwiązania (nowej wersji).</p>
+<p><strong>Dlaczego inne są błędne:</strong> Pozostałe opcje (B, C, D) naruszają zasadę "najpierw daj narzędzie, potem zabierz stare". Ogłaszanie wycofania API bez udostępnienia nowej wersji powoduje niepotrzebny stres, frustrację klientów i błędy w ich aplikacjach.</p>
 <p><strong>Przydatne linki:</strong></p>
 <ul>
     <li><a href="https://cloud.google.com/blog/products/api-management/api-lifecycle-management-best-practices" target="_blank">Google Cloud: API Lifecycle Management Best Practices</a></li>
-    <li><a href="https://cloud.google.com/endpoints/docs/openapi/about-api-management" target="_blank">Google Cloud Endpoints Documentation</a></li>
 </ul>
 </div>
 </div>
@@ -96,23 +94,22 @@
 Odpowiedź: A
 
 Techniczna analiza:
-Zarządzanie cyklem życia API (API Lifecycle Management) jest krytycznym elementem utrzymania usług w chmurze. 
-Kolejność w opcji A jest najbardziej logiczna z punktu widzenia Customer Experience i SRE:
-1. Udostępnienie nowości (Wartość).
-2. Komunikacja (Deprecacja).
-3. Wsparcie (Migracja).
-4. Zamknięcie (Wyłączenie).
-
-Wszystkie inne opcje (B, C, D) wprowadzają zamieszanie, ogłaszając wycofanie czegoś, zanim użytkownicy otrzymają narzędzie do migracji (nowe API).
+Kluczem do egzaminu jest kolejność: Wdrożenie Nowości -> Komunikacja o zmianie -> Migracja -> Wycofanie starego. 
+Wybierając odpowiedź, zawsze szukaj opcji, w której deweloper ma najpierw dostęp do nowego kodu, zanim zmusisz go do porzucenia starego.
 </pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zasady zarządzania zmianą w API (API Versioning & Lifecycle):</p>
+<ul>
+    <li><strong>Wsteczna kompatybilność:</strong> Zawsze pożądana, ale jeśli niemożliwa, wymagany jest proces deprecacji.</li>
+    <li><strong>Deprecacja:</strong> Musi być ogłoszona z odpowiednim wyprzedzeniem (zależnie od SLA).</li>
+    <li><strong>Komunikacja:</strong> Proaktywny kontakt z użytkownikami kluczowych klientów.</li>
+</ul>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Kolejność w procesie API Lifecycle Management: Introduce -> Deprecate -> Support -> Shutdown.</li>
+    <li>Zawsze minimalizuj "disruption" dla użytkowników końcowych.</li>
 </ul>
 </div>
 <script>

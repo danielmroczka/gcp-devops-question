@@ -76,23 +76,33 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Poprawna odpowiedź: B.
 
 Wyjaśnienie:
-Stackdriver Trace (obecnie Cloud Trace) jest natywnym narzędziem GCP przeznaczonym do profilowania latencji w systemach rozproszonych. Pozwala on na śledzenie drogi żądania (request) przez cały łańcuch mikroserwisów (distributed tracing). Dzięki temu możesz zidentyfikować, która konkretna zależność powoduje opóźnienia, co jest kluczowe przy analizie "wąskich gardeł" w środowisku mikroserwisów.
+Stackdriver Trace (obecnie Cloud Trace) jest wyspecjalizowanym narzędziem GCP do śledzenia rozproszonego (distributed tracing). Umożliwia ono zbieranie danych o latencji z aplikacji i ich wizualizację w postaci wykresów oraz szczegółowych raportów. W architekturze mikroserwisowej, gdzie jedno żądanie przechodzi przez wiele aplikacji, Trace pozwala dokładnie określić, który serwis zależny (dependent application) wprowadza opóźnienie.
 
-A. Stackdriver Profiler (Cloud Profiler) bada wykorzystanie zasobów wewnątrz JEDNEJ aplikacji (np. zużycie CPU/RAM przez funkcje wewnątrz Node.js), a nie interakcje między usługami.
-C. Stackdriver Debugger służy do inspekcji stanu aplikacji w czasie rzeczywistym, nie do analizy wydajności zależności (latencji).
-D. Logowanie własne (custom logging) jest pracochłonne ("toil") i nie daje wizualizacji ścieżki żądania (distributed tracing), co sprawia, że jest bardzo nieefektywne w systemach z wieloma serwisami.</pre>
+Dlaczego pozostałe odpowiedzi są błędne:
+A. Cloud Profiler (Stackdriver Profiler) koncentruje się na analizie wydajności wewnątrz samej aplikacji (np. które funkcje zużywają najwięcej procesora lub pamięci). Nie jest przeznaczony do śledzenia komunikacji sieciowej między różnymi usługami.
+C. Cloud Debugger służy do inspekcji stanu działającej aplikacji (podgląd zmiennych, stosu wywołań) w czasie rzeczywistym bez wpływu na jej działanie. Nie służy do monitorowania wydajności ani latencji połączeń między serwisami.
+D. Chociaż logowanie czasów odpowiedzi do logów (Cloud Logging) jest możliwe, wymaga ono ręcznej implementacji (tzw. "toil") i nie oferuje natywnej wizualizacji rozproszonych śladów (trace), co utrudnia korelację żądań przechodzących przez wiele systemów. Cloud Trace jest znacznie bardziej efektywnym i dedykowanym do tego celu narzędziem.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczem do pytania jest słowo "distributed" lub "dependent applications". W architekturze mikroserwisowej zawsze wybieraj <b>Distributed Tracing</b> (Cloud Trace) do monitorowania latencji między serwisami.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<p>Głównym celem tego pytania jest sprawdzenie znajomości narzędzi Google Cloud Operations (dawniej Stackdriver) do monitorowania wydajności systemów rozproszonych. Kluczowym terminem jest "dependent applications", co sugeruje potrzebę obserwacji interakcji między serwisami.</p>
+
+<h3>💡 Hity i triki (Exam Tips)</h3>
 <ul>
-    <li>W GCP DevOps: <b>Cloud Trace</b> = latencja między serwisami; <b>Cloud Profiler</b> = CPU/RAM wewnątrz serwisu.</li>
-    <li>Jeśli widzisz pytanie o śledzenie żądań między aplikacjami: Trace zawsze wygrywa.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/trace/docs" target="_blank">Cloud Trace Documentation</a></li>
+    <li><b>Cloud Trace</b> = Latencja (opóźnienia) między serwisami. Szukasz "wąskich gardeł" w sieci/komunikacji? Wybierz Trace.</li>
+    <li><b>Cloud Profiler</b> = Optymalizacja kodu. Aplikacja zużywa za dużo CPU? Wybierz Profiler.</li>
+    <li><b>Cloud Logging</b> = Rejestrowanie zdarzeń. Dobre do audytu i błędów, ale nieefektywne do analizy wydajności systemów rozproszonych bez dodatkowych narzędzi.</li>
+    <li>W środowisku GKE, Cloud Trace integruje się z usługami takimi jak Istio/Anthos Service Mesh, co ułatwia bezagentowe śledzenie ruchu.</li>
+</ul>
+
+<h3>🔗 Linki do dokumentacji</h3>
+<ul>
+    <li><a href="https://cloud.google.com/trace/docs" target="_blank">Cloud Trace Documentation</a></li>
+    <li><a href="https://cloud.google.com/profiler/docs" target="_blank">Cloud Profiler Documentation</a></li>
+    <li><a href="https://cloud.google.com/architecture/microservices-demo" target="_blank">Tracing in Microservices Architecture</a></li>
 </ul>
 </div>
 </div>

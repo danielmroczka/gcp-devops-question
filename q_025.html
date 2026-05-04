@@ -82,17 +82,27 @@ Wyjaśnienie:
 Poprawna odpowiedź to A. Committed Use Discounts (CUDs) to mechanizm, w którym użytkownik zobowiązuje się do zakupu określonej ilości zasobów obliczeniowych (vCPU, RAM) przez określony czas (rok lub trzy lata). W zamian otrzymuje znaczące obniżki kosztów (nawet do 57-70%). Jest to rozwiązanie dedykowane dla obciążeń typu "steady-state" (stałych, przewidywalnych), ponieważ pozwala na znaczną optymalizację budżetu bez konieczności zmiany architektury aplikacji czy ryzyka przerwania działania instancji.
 
 Dlaczego inne odpowiedzi są błędne:
-B. Przejście na Managed Instance Groups (MIGs) zwiększa łatwość zarządzania (np. dzięki auto-healing i auto-scaling), ale samo w sobie nie zmniejsza jednostkowego kosztu instancji. Aby realnie obniżyć koszty przy użyciu MIGs, należałoby również zastosować Committed Use Discounts (CUDs) dla instancji w grupie.
-C. Preemptible VMs (obecnie Spot VMs) są bardzo tanie, ale GCP może je w każdej chwili wyłączyć z 30-sekundowym wyprzedzeniem. Użycie ich w "business-critical workload" jest skrajnie nieodpowiedzialne, gdyż może doprowadzić do nieplanowanych przestojów aplikacji.
-D. Unmanaged Instance Groups wymagają ręcznego zarządzania każdą instancją z osobna, co jest nieefektywne (wysoki poziom "Toil"). Nie oferują one żadnych mechanizmów optymalizacji kosztowej, a wręcz przeciwnie – generują dodatkowe koszty operacyjne poprzez konieczność poświęcenia czasu inżynierów na ich obsługę.</pre>
+B. Managed Instance Groups (MIGs) zwiększają łatwość zarządzania (np. dzięki auto-healing i auto-scaling), ale samo w sobie nie zmniejsza jednostkowego kosztu instancji. MIG jest świetny do wysokiej dostępności, ale to CUD dostarcza oszczędności przy stałym obciążeniu.
+C. Preemptible VMs (obecnie Spot VMs) są bardzo tanie, ale GCP może je w każdej chwili wyłączyć z 30-sekundowym wyprzedzeniem. Użycie ich w "business-critical workload" jest niedopuszczalne, gdyż narusza wymagania dotyczące stabilności i braku wpływu na wydajność (performance implications).
+D. Unmanaged Instance Groups wymagają ręcznego zarządzania każdą instancją z osobna, co zwiększa "Toil". Nie oferują one żadnych mechanizmów optymalizacji kosztowej.
+
+Hity i triki (Exam Tips):
+- Słowa klucze dla CUDs: "predictable", "stable", "long-term", "fixed resources", "lower costs without performance impact".
+- Słowa klucze dla Spot/Preemptible: "fault-tolerant", "batch job", "stateless", "flexible timing", "minimal cost".
+- Pamiętaj, że CUDs są przypisane do projektu lub (jeśli włączone jest udostępnianie zniżek) do całego konta Billingowego.
+
+Dokumentacja:
+- https://cloud.google.com/compute/docs/instances/signing-up-committed-use-discounts
+- https://cloud.google.com/docs/cuds</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kwestia optymalizacji kosztów w GCP często sprowadza się do wyboru między elastycznością (On-demand/Autoscaling) a oszczędnością wynikającą z przewidywalności (CUDs/Spot). W przypadku systemów krytycznych (business-critical) i stabilnych, CUD jest jedynym bezpiecznym sposobem na znaczną redukcję kosztów.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>CUD vs Spot:</strong> Zawsze sprawdzaj, czy obciążenie toleruje przerwy. Jeśli NIE (business-critical) -> wybierz CUD. Jeśli TAK -> wybierz Spot.</li>
+    <li><strong>Sustained Use Discounts (SUD):</strong> Pamiętaj, że SUD są naliczane automatycznie, ale dają mniejsze oszczędności niż CUD.</li>
+    <li><strong>MIG i Autoscaling:</strong> Są super dla zmiennych obciążeń, ale dla "fixed set of instances" CUD jest bardziej efektywny kosztowo.</li>
 </ul>
 </div>
 <script>

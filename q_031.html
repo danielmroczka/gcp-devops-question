@@ -69,7 +69,7 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 <br/>
 </span>
 </div>
@@ -79,18 +79,30 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 31: Poprawna odpowiedź C. OpenTelemetry jest obecnie standardem branżowym dla metryk i śledzenia (tracingu) w środowiskach chmurowych i kontenerowych. Umożliwia zbieranie metryk wewnątrz aplikacji i ich eksport do różnych systemów, w tym Google Cloud Monitoring (dawniej Stackdriver).
-- A: Jest możliwe, ale wymaga pisania własnego kodu komunikującego się z API, co zwiększa złożoność kodu (Toil).
-- B: Pub/Sub służy do przesyłania komunikatów (asynchronicznie), nie jest natywnym rozwiązaniem dla zbierania metryk aplikacji.
-- D: Logi nie są odpowiednim miejscem dla metryk numerycznych (są trudne do agregacji w czasie rzeczywistym i kosztowne w przechowywaniu/przetwarzaniu).</pre>
+Poprawna odpowiedź to C. OpenTelemetry (OTel) jest obecnie standardem branżowym dla metryk, logów i śledzenia (observability) w środowiskach chmurowych i kontenerowych. Jest to rozwiązanie rekomendowane przez Google Cloud, które minimalizuje nakład pracy (Toil) dzięki gotowym bibliotekom klienckim i eksporterom do Google Cloud Monitoring (dawniej Stackdriver). Deweloperzy mogą skupić się na definiowaniu metryk, a nie na implementowaniu logiki komunikacji z API.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Bezpośrednie korzystanie z API Cloud Monitoring jest możliwe, ale wymaga pisania i utrzymywania własnego kodu do obsługi połączeń, uwierzytelniania i formatowania danych. Jest to podejście typu "manual plumbing", które generuje zbędny nakład pracy.
+B. Cloud Pub/Sub jest systemem kolejkowym do asynchronicznej komunikacji między serwisami. Używanie go jako pośrednika dla metryk jest nadmiarowe, skomplikowane i nie oferuje natywnej agregacji metryk w systemie monitoringu.
+D. Przesyłanie metryk w formie logów (log-based metrics) jest nieefektywne i kosztowne. Logi są znacznie droższe w przechowywaniu i przetwarzaniu niż metryki typu time-series, a ich agregacja wymaga dodatkowej konfiguracji (sinki, parsery).
+
+Hity i triki (Exam Tips):
+- Jeśli pytanie dotyczy zbierania metryk w nowoczesnej aplikacji (GKE, Microservices) i minimalizacji pracy -> szukaj **OpenTelemetry** lub **Managed Service for Prometheus**.
+- OpenTelemetry zapewnia brak "vendor lock-in" – możesz łatwo wysłać te same metryki do GCP, Datadog czy własnego Prometheusa.
+- Pamiętaj o różnicy kosztów: Metryki są tańsze niż Logi. Zawsze preferuj metryki dla danych numerycznych.
+
+Dokumentacja:
+- https://cloud.google.com/stackdriver/docs/managed-prometheus
+- https://opentelemetry.io/docs/concepts/observability-primer/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Wybieraj standardy open-source (OpenTelemetry) zamiast pisania własnych integracji z API (Toil), aby zmniejszyć nakład pracy operacyjnej.</p>
+<p>Kierunek rozwoju monitoringu w Google Cloud wyraźnie zmierza w stronę otwartych standardów. OpenTelemetry zastąpiło starsze biblioteki (jak OpenCensus), stając się fundamentem dla "Observability" w nowoczesnych systemach.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Preferuj OpenTelemetry jako standard observability.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/stackdriver/docs/managed-prometheus" target="_blank">Cloud Monitoring i OpenTelemetry</a></li>
+    <li><strong>Managed Service for Prometheus:</strong> To kolejna ważna usługa w GKE. Jeśli Twoja aplikacja już używa formatu Prometheus, to jest to najprostsza metoda bez zmiany kodu.</li>
+    <li><strong>Custom Metrics:</strong> Pamiętaj, że metryki wysyłane przez OTel trafiają do Cloud Monitoring jako "Custom Metrics", co może wiązać się z kosztami przy dużej liczbie etykiet (high cardinality).</li>
+    <li><strong>Toil:</strong> SRE zawsze dąży do redukcji pracy manualnej. Standardowe biblioteki (OTel) to mniej kodu do utrzymania przez Twój zespół.</li>
 </ul>
 </div>
 <script>

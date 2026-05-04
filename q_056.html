@@ -76,23 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Poprawna odpowiedź: A. Use Cloud Storage to cache intermediate artifacts.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. Caching pośrednich artefaktów (takich jak zależności npm/maven czy warstwy obrazów Docker) w Cloud Storage jest najskuteczniejszą metodą redukcji czasu budowania (build time). Dzięki temu Cloud Build nie musi pobierać lub budować od zera niezmiennych komponentów przy każdym uruchomieniu pipeline'u, co drastycznie skraca czas trwania builda i obniża koszty.
+Największym "złodziejem" czasu w procesach CI/CD jest wielokrotne pobieranie tych samych zależności (np. `node_modules`, biblioteki Maven/Gradle) oraz ponowne kompilowanie niezmienionego kodu. Cloud Build nie posiada wbudowanego, automatycznego cache'u stanowego między uruchomieniami, dlatego najlepszą praktyką jest wykorzystanie Cloud Storage do przechowywania skompresowanych paczek z zależnościami. Na początku buildu pobieramy cache z GCS, a na końcu (jeśli zaszły zmiany) wysyłamy nową wersję z powrotem. Pozwala to na drastyczne skrócenie czasu buildu przy minimalnym koszcie za storage.
 
 Dlaczego inne odpowiedzi są błędne:
-- B: Jenkins to zewnętrzny serwer CI/CD, a pytanie dotyczy optymalizacji wewnątrz usługi Cloud Build (GCP managed service). Wprowadzanie Jenkinsa zwiększyłoby złożoność operacyjną ("toil") i koszty utrzymania.
-- C: Podział na wiele małych kroków nie przyspiesza procesu kompilacji/budowania; wręcz przeciwnie, może wprowadzić narzut czasowy związany z uruchamianiem każdego kroku w osobnym kontenerze.
-- D: Użycie większych maszyn (machine-type) zwiększa koszt budowania. Choć może przyspieszyć kompilację, nie jest tak optymalne jak caching, ponieważ nie usuwa problemu powtarzalnego budowania tych samych artefaktów.</pre>
+- B: Jenkins agents: Jenkins to zupełnie inne narzędzie. Pytanie dotyczy optymalizacji Cloud Build. Przeniesienie całego workflow do Jenkinsa wymagałoby ogromnego wysiłku deweloperskiego i zwiększyłoby koszty utrzymania infrastruktury.
+- C: Multiple smaller build steps: Zbyt duża liczba małych kroków może wręcz spowolnić build ze względu na narzut (overhead) związany z uruchamianiem każdego kontenera dla danego kroku. Optymalizacja powinna polegać na łączeniu logicznych operacji.
+- D: Larger Cloud Build VMs: Zwiększenie typu maszyny (np. na `n1-highcpu-32`) przyspieszy kompilację, ale znacznie zwiększy koszt za każdą minutę działania buildu. Pytanie prosi o minimalizację kosztów, a caching (opcja A) jest zazwyczaj tańszy i daje lepsze rezultaty przy powtarzalnych buildach.
+
+Hity i triki (GCP DevOps Exam):
+- Kaniko: Jeśli Twoim głównym problemem jest czas budowania obrazów Docker, Cloud Build wspiera "Kaniko cache". Pozwala on na przechowywanie warstw obrazu w rejestrze (Artifact Registry), co przyspiesza instrukcje RUN w Dockerfile.
+- Wybór regionu: Uruchamiaj buildy w tym samym regionie, w którym masz Artifact Registry i Cloud Storage, aby uniknąć opłat za transfer danych i zmniejszyć opóźnienia.
+- Parallel steps: Możesz uruchamiać kroki równolegle w Cloud Build, używając pola `waitFor`. Jeśli Twoje testy jednostkowe i linting nie zależą od siebie, uruchom je w tym samym czasie!
+
+Pomocne linki:
+- https://cloud.google.com/build/docs/optimize-builds/speeding-up-builds
+- https://cloud.google.com/build/docs/optimize-builds/kaniko-cache
+- https://cloud.google.com/build/docs/configuring-builds/run-steps-parallel</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W Cloud Build, caching artefaktów to podstawa optymalizacji kosztów i wydajności CI/CD.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>Optymalizacja Cloud Build to balansowanie między szybkością (Build Minutes) a kosztami. Caching jest najbardziej efektywną techniką, ponieważ pozwala uniknąć wykonywania tej samej pracy wielokrotnie.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>Najszybszy sposób na przyspieszenie budowania? Cache'owanie zależności.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/build/docs/optimize-builds/speeding-up-builds" target="_blank">Speeding up Cloud Builds</a></li>
+    <li><b>GCS for Cache:</b> Standardowy wzorzec: 1. Pobierz archiwum z GCS. 2. Rozpakuj. 3. Build. 4. Spakuj i wyślij do GCS.</li>
+    <li><b>Machine Type:</b> Używaj większych maszyn tylko wtedy, gdy Twój kod faktycznie potrafi wykorzystać wiele rdzeni (np. kompilacja C++/Java z flagami parallel).</li>
+    <li><b>Artifact Registry:</b> Zawsze używaj Artifact Registry zamiast starego Container Registry dla lepszej wydajności i integracji.</li>
 </ul>
 </div>
 <script>

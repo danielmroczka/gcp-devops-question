@@ -69,29 +69,42 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B [D]</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">D</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Poprawna odpowiedź: D.
 
 Wyjaśnienie:
-Najlepszą i najbardziej rekomendowaną praktyką w Kubernetes, gdy aplikacja nie może zostać zmodyfikowana (np. nie może pisać na stdout), jest użycie kontenera typu "sidecar". W tym scenariuszu, sidecar (np. prosty kontener z `fluentd` lub skryptem `tail`) jest wdrażany w tym samym podzie co aplikacja. Poprzez wspólny wolumen (`emptyDir`), kontener-sidecar uzyskuje dostęp do pliku logu aplikacji (`/var/log/app_messages.log`), czyta go i przesyła do standardowego wyjścia (stdout). Dzięki temu standardowy agent logujący (Fluentd działający w GKE) automatycznie przechwytuje logi i wysyła je do Cloud Logging.
+W środowisku Google Kubernetes Engine (GKE), natywny agent logujący (Cloud Logging agent) automatycznie zbiera logi tylko ze standardowych strumieni wyjściowych: stdout (standard output) oraz stderr (standard error) kontenerów. Jeśli aplikacja trzeciej strony zapisuje logi do pliku wewnątrz kontenera (/var/log/app_messages.log) i nie można jej przekonfigurować, musimy zastosować wzorzec projektowy "Sidecar".
 
-A. Domyślny agent zbiera logi tylko z `stdout` i `stderr`. Nie wie o istnieniu pliku wewnątrz kontenera trzeciej strony.
-B. Fluentd DaemonSet na poziomie klastra nie ma dostępu do wnętrza kontenerów aplikacji (izolacja).
-C. Instalowanie Kubernetes na GCE to krok w tył – tracisz wszystkie korzyści GKE (managed klastra), a problem z logami pozostaje taki sam.</pre>
+Rozwiązanie polega na dodaniu drugiego kontenera (sidecar) do tego samego Poda. Oba kontenery współdzielą wolumen typu emptyDir, zmapowany na katalog logów. Kontener sidecar uruchamia prosty proces (np. tail -f), który czyta plik logu aplikacji i wypisuje go na własne wyjście standardowe. Dzięki temu agent GKE może przechwycić te dane i przesłać je do Cloud Logging.
+
+Dlaczego pozostałe odpowiedzi są błędne:
+A. Domyślny agent zbiera dane tylko z konsoli (stdout/stderr). Nie ma uprawnień ani mechanizmów, by automatycznie przeszukiwać systemy plików wszystkich kontenerów w poszukiwaniu niestandardowych plików logów.
+B. Chociaż Fluentd jest potężnym narzędziem, wdrażanie własnego DaemonSetu i konfigurowanie go do śledzenia logów wewnątrz innych Podów jest bardzo skomplikowane i wymaga mapowania ścieżek z hosta (node), co jest niebezpieczne i trudne w utrzymaniu. Sidecar jest rozwiązaniem bardziej izolowanym i zgodnym z duchem Kubernetesa.
+C. Przenoszenie obciążeń z GKE (usługa zarządzana) na samodzielnie zarządzany Kubernetes na GCE tylko po to, by obsłużyć logi, jest błędem strategicznym. Zwiększa to tzw. "toil" (żmudną pracę operacyjną) i nie rozwiązuje problemu w sposób elegancki.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>To klasyczne pytanie z architektury GKE. Zapamiętaj: <b>Standardowe wyjście (stdout/stderr)</b> to jedyny język logów w Kubernetesie. Jeśli aplikacja nie pisze na stdout, potrzebujesz <b>sidecara</b> do "konwersji" plików na strumień.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<p>To zadanie sprawdza znajomość architektury logowania w systemach rozproszonych oraz umiejętność radzenia sobie z ograniczeniami oprogramowania "legacy" lub zamkniętego (third-party).</p>
+
+<h3>💡 Hity i triki (Exam Tips)</h3>
 <ul>
-    <li>Logi w GKE? Szukaj <b>stdout/stderr</b>. Jeśli plik: szukaj <b>sidecar</b>.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/logging" target="_blank">GKE Logging Architecture</a></li>
+    <li>W Kubernetes logowanie zawsze powinno dążyć do <b>stdout/stderr</b>.</li>
+    <li>Jeśli aplikacja pisze do pliku i nie możesz tego zmienić -> odpowiedź to prawie zawsze <b>Sidecar container</b>.</li>
+    <li><b>Sidecar</b> i <b>emptyDir</b>: To nierozłączna para w scenariuszach dzielenia danych między kontenerami w jednym Podzie.</li>
+    <li>Pamiętaj: Kontenery w jednym Podzie dzielą ten sam Network Namespace (localhost) oraz mogą dzielić wybrane wolumeny.</li>
+</ul>
+
+<h3>🔗 Linki do dokumentacji</h3>
+<ul>
+    <li><a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/#sidecar-container-with-a-logging-agent" target="_blank">Kubernetes Logging Architecture - Sidecar Pattern</a></li>
+    <li><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/logging" target="_blank">Logging and Monitoring for GKE</a></li>
+    <li><a href="https://cloud.google.com/architecture/microservices-architecture-logging" target="_blank">Microservices Logging Best Practices</a></li>
 </ul>
 </div>
 </div>

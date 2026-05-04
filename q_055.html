@@ -76,23 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Poprawna odpowiedź: A. Set up Container Analysis to scan and report Common Vulnerabilities and Exposures.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. Container Analysis jest natywną usługą GCP, która automatycznie skanuje obrazy kontenerów (przechowywane w Artifact Registry lub Container Registry) pod kątem znanych luk bezpieczeństwa (CVE - Common Vulnerabilities and Exposures). W środowisku kontenerowym, gdzie procesy CI/CD są zautomatyzowane, włączenie Container Analysis jest kluczowym elementem "shift-left security" i zapewnia, że obrazy z krytycznymi podatnościami nie trafią do produkcji.
+W środowisku kontenerowym tradycyjne narzędzia do skanowania maszyn wirtualnych (VM) nie są skuteczne, ponieważ nie mają wglądu w warstwy obrazów kontenerów. Container Analysis (część usługi Artifact Analysis) to natywne rozwiązanie GCP, które automatycznie skanuje obrazy przechowywane w Artifact Registry lub Container Registry pod kątem znanych luk bezpieczeństwa (CVE). Jest to kluczowy element bezpiecznego łańcucha dostaw oprogramowania (Software Supply Chain Security).
 
 Dlaczego inne odpowiedzi są błędne:
-- B: "Samouaktualnianie" kontenerów w trakcie działania (runtime) jest anty-wzorcem. Kontenery powinny być niezmienne (immutable). Aktualizacje powinny być wprowadzane poprzez budowę nowego obrazu, skanowanie go i ponowne wdrożenie.
-- C: Narzędzia do skanowania OS (typu agent na maszynie) nie mają wglądu w warstwy obrazu kontenera ani w biblioteki aplikacji zamknięte wewnątrz kontenera.
-- D: Statyczna analiza plików Dockerfile (np. pod kątem best practices) nie sprawdza samych bibliotek i binariów zainstalowanych wewnątrz obrazu (tzw. "base image vulnerabilities"). Tylko Container Analysis skanuje rzeczywistą zawartość binarnego obrazu.</pre>
+- B: Configure containers to always update themselves: Kontenery powinny być niezmienne (immutable). Wykonywanie "apt-get upgrade" wewnątrz kontenera podczas jego uruchamiania (runtime) jest poważnym błędem. Powoduje to, że środowiska są niepowtarzalne, wydłuża czas startu i utrudnia debugowanie. Aktualizacje powinny dziać się na etapie budowania obrazu.
+- C: Operating system vulnerability software inside the container: Instalowanie ciężkich agentów skanujących wewnątrz każdego kontenera zaprzecza idei lekkości kontenerów ("bloatware") i znacznie zwiększa powierzchnię ataku. Skanowanie powinno odbywać się z zewnątrz obrazu (na poziomie rejestru).
+- D: Static code analysis against Dockerfiles: Analiza Dockerfile (np. za pomocą narzędzi typu hadolint) jest dobrą praktyką (sprawdza czy nie używamy konta root, czy nie zostawiamy zbędnych warstw), ale nie wykryje podatności w bibliotekach zainstalowanych wewnątrz obrazu (np. podatna wersja OpenSSL czy log4j).
+
+Hity i triki (GCP DevOps Exam):
+- Container Analysis + Binary Authorization: To potężna para. Container Analysis skanuje, a Binary Authorization (BinAuthz) pozwala na wdrożenie do GKE TYLKO tych obrazów, które zostały pomyślnie przeskanowane i nie zawierają krytycznych luk.
+- Shift-Left Security: Idea polegająca na skanowaniu jak najwcześniej w cyklu życia aplikacji (podczas budowania/przechowywania w rejestrze), a nie po wdrożeniu na produkcję.
+- On-Demand Scanning API: Pozwala na skanowanie obrazów lokalnie przed ich wypchnięciem do rejestru, co przyspiesza pętlę informacji zwrotnej dla dewelopera.
+
+Pomocne linki:
+- https://cloud.google.com/container-analysis/docs/overview
+- https://cloud.google.com/binary-authorization/docs/overview
+- https://cloud.google.com/artifact-registry/docs/analysis/vulnerability-scanning</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W GCP, bezpieczeństwo kontenerów opiera się na <b>Container Analysis</b>, która zapewnia skanowanie obrazów w czasie rzeczywistym i w pipeline CI/CD.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>Zapewnienie bezpieczeństwa w nowoczesnych potokach CI/CD wymaga przejścia od skanowania infrastruktury (VM) do skanowania artefaktów (obrazów kontenerów). Google Cloud oferuje w pełni zarządzane narzędzia, które integrują się z rejestrami obrazów.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>Bezpieczeństwo kontenerów = Container Analysis (skanowanie CVE).</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/container-analysis/docs" target="_blank">Container Analysis Documentation</a></li>
+    <li><b>Immutable Infrastructure:</b> Nigdy nie aktualizuj kontenerów w trakcie ich działania. Zbuduj nowy obraz i zastąp stary.</li>
+    <li><b>CVE Scanning:</b> Automatyczne skanowanie w Artifact Registry pozwala na ciągły monitoring podatności, nawet jeśli obraz został zbudowany dawno temu (ciągłe skanowanie).</li>
+    <li><b>Binary Authorization:</b> Użyj tej usługi, aby narzucić politykę "no scan, no deploy".</li>
 </ul>
 </div>
 <script>

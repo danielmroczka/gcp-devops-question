@@ -79,20 +79,33 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Zgodnie z praktykami SRE, po każdej większej awarii (outage) należy przygotować tzw. "Post-mortem". Jest to formalny dokument, który szczegółowo opisuje incydent: co się stało, jak szybko wykryto problem, jak go naprawiono, jakie były przyczyny pierwotne (root causes) i co zrobimy, aby to się nie powtórzyło. Jest to kluczowe narzędzie komunikacji z interesariuszami, zapewniające transparentność i pokazujące, że organizacja wyciąga wnioski z błędów.
+Zgodnie z filozofią Site Reliability Engineering (SRE) promowaną przez Google, po zakończeniu każdego poważnego incydentu kluczowym krokiem jest przeprowadzenie analizy poawaryjnej i stworzenie dokumentu zwanego "Post-mortem".
 
-A. Dzwonienie do interesariuszy jest nieefektywne, nie zapewnia pełnego kontekstu i nie tworzy trwałej dokumentacji.
-C. Incident State Document służy do komunikacji w trakcie trwania awarii, a nie jako podsumowanie dla interesariuszy po jej zakończeniu.
-D. SRE promuje kulturę bezkarną ("blameless"). Wymuszanie przeprosin od inżyniera jest przeciwskuteczne i buduje kulturę strachu, a nie ulepszeń systemu.</pre>
+Dlaczego odpowiedź B jest poprawna:
+Post-mortem to pisemny zapis incydentu, który zawiera opis jego przebiegu, wpływ na użytkowników, podjęte działania naprawcze, przyczynę pierwotną (root cause) oraz, co najważniejsze, listę działań zapobiegawczych na przyszłość. Jest to zalecany przez SRE sposób komunikowania podsumowania incydentu interesariuszom (stakeholders), ponieważ zapewnia transparentność, buduje zaufanie i służy jako cenne źródło wiedzy dla całego zespołu.
+
+Dlaczego pozostałe opcje są błędne:
+A. Indywidualne dzwonienie do interesariuszy jest czasochłonne, nieefektywne i nie pozwala na zebranie spójnych wniosków w jednym miejscu. Brakuje tu elementu wspólnej nauki i trwałej dokumentacji.
+C. Dokument stanu incydentu (Incident State Document) jest żywym dokumentem używanym *w trakcie* trwania awarii do koordynacji działań zespołu ratunkowego i informowania o bieżącym statusie. Po rozwiązaniu problemu i przywróceniu usług, jego rolę przejmuje właśnie Post-mortem.
+D. SRE opiera się na kulturze bezkarnej (blameless culture). Obwinianie pojedynczych osób lub wymaganie od nich przeprosin jest szkodliwe dla morale zespołu i zniechęca do raportowania błędów. Problemy w SRE traktuje się jako wady systemu lub procesu, a nie błędy konkretnych ludzi.
+
+Hity i triki:
+- Post-mortem musi być "Blameless" (bezkarny). Skupiamy się na "co" i "jak", a nie na "kto".
+- Główne cele Post-mortem: zrozumienie przyczyn, uniemożliwienie powtórki tego samego błędu, edukacja zespołu.
+- Jeśli w pytaniu widzisz "SRE" i "after incident", post-mortem jest prawie zawsze kluczowym elementem poprawnej odpowiedzi.
+
+Przydatne linki:
+- https://sre.google/sre-book/postmortem-culture/
+- https://cloud.google.com/blog/products/devops-sre/incident-response-at-google-how-sre-manages-incidents</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W SRE: <b>Post-mortem</b> to standardowy sposób raportowania incydentów po ich zakończeniu. Jeśli nie udokumentowałeś wniosków po awarii – awaria była zmarnowaną okazją do nauki.</p>
+<p>Skuteczne zarządzanie incydentami nie kończy się na przywróceniu działania usługi. Etap <b>post-incident</b> jest najważniejszym momentem dla długoterminowej stabilności systemu.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Po incydencie w SRE -> Post-mortem.</li>
-    <li>Nigdy nie wybieraj "winienia" (blame) lub "przeprosin" jako rozwiązania systemowego.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/postmortem-culture/" target="_blank">Google SRE Book - Postmortem Culture</a></li>
+    <li><b>Blameless Culture:</b> To fundament SRE. Każda odpowiedź sugerująca karanie lub obwinianie ludzi jest błędna.</li>
+    <li><b>Learning from Failure:</b> Awaria to kosztowna lekcja, z której należy wyciągnąć jak najwięcej wniosków. Dokument Post-mortem jest tego fizycznym dowodem.</li>
+    <li><b>Post-mortem vs Incident Document:</b> Pamiętaj o różnicy w czasie: jeden jest do akcji (w trakcie), drugi do refleksji (po).</li>
 </ul>
 </div>
 <script>

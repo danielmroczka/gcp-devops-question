@@ -79,20 +79,34 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-W procesie zarządzania incydentami zgodnie z SRE, po zadeklarowaniu ról (IC, OL, CL), kluczowym krokiem jest zapewnienie sprawnej komunikacji. Ustanowienie dedykowanego kanału komunikacyjnego (np. Slack, Google Meet, czy chat) pozwala wszystkim osobom zaangażowanym w incydent na szybką wymianę informacji, co jest niezbędne do koordynacji działań w obliczu kryzysu.
+Poprawną odpowiedzią jest **C (Establish a communication channel where incident responders and leads can communicate with each other)**.
 
-A. Mitigacja i deployment to działania operacyjne, które następują dopiero po zdiagnozowaniu problemu przez zespół komunikujący się na dedykowanym kanale.
-B. Kontakt z właścicielami usług jest ważny, ale zazwyczaj za to odpowiada Communications Lead (CL) w ramach już ustalonej struktury komunikacji.
-D. Postmortem jest dokumentem tworzonym PO zakończeniu incydentu, aby wyciągnąć wnioski na przyszłość, a nie w trakcie trwania krytycznej awarii.</pre>
+**Dlaczego C jest poprawne?**
+Zgodnie z protokołem SRE Incident Management (opartym na Incident Command System - ICS), po wyznaczeniu kluczowych ról takich jak Incident Commander (IC), Operations Lead (OL) i Communications Lead (CL), najważniejszym krokiem jest ustanowienie "centrum dowodzenia". Może to być dedykowany kanał na Slacku, pokój na Google Meet lub mostek telefoniczny. Bez centralnego kanału komunikacji działania zespołu będą nieskoordynowane, informacje będą się rozmywać, a poszczególni członkowie zespołu mogą nieświadomie dublować swoją pracę lub działać sprzecznie ze sobą. Kanał ten służy jako "jedno źródło prawdy" dla wszystkich osób rozwiązujących incydent.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **A. Look for ways to mitigate user impact and deploy the mitigations to production:** To zadanie dla Operations Lead (OL). Choć mitigacja jest kluczowa, musi ona odbywać się w ramach struktury dowodzenia. Bez ustalonego kanału komunikacji (opcja C), IC nie będzie wiedział, co robi OL, a CL nie będzie miał rzetelnych informacji do przekazania dalej.
+*   **B. Contact the affected service owners and update them on the status of the incident:** To zadanie dla Communications Lead (CL). CL zacznie to robić niezwłocznie, ale potrzebuje najpierw miejsca (kanału), z którego będzie czerpał informacje od IC i OL o postępach prac.
+*   **D. Start a postmortem, add incident information, circulate the draft internally, and ask internal stakeholders for input:** Postmortem (analiza poawaryjna) to krytyczny dokument w kulturze SRE, ale tworzy się go dopiero **po** rozwiązaniu incydentu. Pisanie postmortem w trakcie trwania krytycznej awarii odciąga cenne zasoby od ratowania systemu.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Hierarchia działań w incydencie SRE: **1. Wyznacz role -> 2. Ustal kanał komunikacji -> 3. Mitiguj (ratuj użytkowników) -> 4. Napraw root cause -> 5. Napisz Postmortem**.
+- Zapamiętaj role: **Incident Commander** (podejmuje decyzje, odciąża zespół od polityki), **Operations Lead** (technik, naprawia), **Communications Lead** (pisze statusy, rozmawia z klientami/biznesem).
+- Na egzaminie szukaj odpowiedzi, które promują **koordynację** i **jasną strukturę** nad chaotycznym "naprawianiem wszystkiego naraz".
+
+### 🔗 Dokumentacja i linki
+- [SRE Book: Incident Management](https://sre.google/sre-book/incident-management/)
+- [SRE Workbook: Incident Response](https://sre.google/sre-workbook/incident-response/)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W SRE, gdy wybucha "pożar" (incydent), priorytetem jest koordynacja. Bez wspólnego kanału komunikacji (Communication Channel) zespół traci czas na nieustanne synchronizowanie statusów, co prowadzi do chaosu.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>Zarządzanie incydentami to nie tylko umiejętności techniczne, to przede wszystkim proces i komunikacja. Pytanie to sprawdza, czy rozumiesz, jak Google radzi sobie z sytuacjami kryzysowymi na dużą skalę.</p>
+<h3>Kluczowe punkty:</h3>
 <ul>
-    <li>Kolejność w SRE Incident: Role -> Komunikacja -> Diagnoza -> Mitigacja -> Postmortem.</li>
-    <li>Jeśli widzisz pytanie o "co zrobić jako następne" w incydencie: Szukaj odpowiedzi związanej z komunikacją lub ustaleniem "Source of Truth" dla statusu incydentu.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/managing-incidents/" target="_blank">Google SRE Book - Managing Incidents</a></li>
+    <li><b>Incident Command System (ICS):</b> Struktura ról zapobiegająca chaosowi.</li>
+    <li><b>Communication Overload:</b> CL (Communications Lead) jest po to, by IC i OL mogli skupić się na rozwiązaniu problemu, a nie na odpowiadaniu na pytania interesariuszy.</li>
+    <li><b>Coordination First:</b> Najpierw budujemy "centrum sterowania" (kanał komunikacji), potem działamy.</li>
 </ul>
 </div>
 <script>

@@ -80,20 +80,35 @@
 <pre>Odpowiedź: B, E.
 
 Wyjaśnienie:
-Pytanie dotyczy redukcji MTTR (Mean Time To Recovery), czyli czasu od awarii do przywrócenia poprawnej usługi.
-B. Blue/Green deployment to strategia, w której utrzymujesz dwie identyczne środowiska. W razie awarii nowej wersji (Green), przełączenie ruchu z powrotem na poprzednią wersję (Blue) odbywa się niemal natychmiast (np. zmianą w konfiguracji Load Balancera). To radykalnie skraca MTTR.
-E. CI server z testami jednostkowymi na commit pozwala wyłapać regresje na bardzo wczesnym etapie, zanim w ogóle trafią do pipeline'u deploymentu. To mechanizm prewencyjny i szybki feedback.
+Głównym celem zadania jest skrócenie średniego czasu przywracania sprawności (MTTR - Mean Time To Recovery). Oznacza to, że musimy skupić się na rozwiązaniach, które pozwalają szybciej wykryć błąd lub błyskawicznie cofnąć zmiany (rollback), gdy coś pójdzie nie tak.
 
-A i C. Code review i linting to bardzo dobre praktyki (tzw. "shift-left"), ale one poprawiają jakość kodu (zmniejszają liczbę błędów), a nie MTTR (czas przywracania po awarii).
-D. Testy lokalne u dewelopera są ważne, ale nie zastępują automatyzacji CI/CD i nie chronią przed awariami w środowisku produkcyjnym (np. problemami z konfiguracją w chmurze).</pre>
+Dlaczego odpowiedzi B i E są poprawne:
+B. Strategia Blue/Green deployment polega na utrzymywaniu dwóch identycznych środowisk produkcyjnych. W danym momencie tylko jedno (np. Blue) obsługuje ruch. Nowa wersja jest wdrażana na środowisko Green. Jeśli po przełączeniu ruchu okaże się, że wersja Green ma błędy, powrót do wersji Blue (rollback) polega jedynie na zmianie konfiguracji Load Balancera, co dzieje się niemal natychmiastowo. To drastycznie skraca MTTR.
+E. Serwer CI (Continuous Integration) z zestawem testów jednostkowych (unit tests) uruchamianych przy każdym commicie pozwala na natychmiastowe wykrycie regresji w kodzie. Choć testy jednostkowe kojarzą się głównie z zapobieganiem błędom (Change Failure Rate), w kontekście MTTR posiadanie zautomatyzowanego pipeline'u pozwala na szybsze i bezpieczniejsze przygotowanie oraz wdrożenie poprawki (fix), jeśli błąd jednak trafi na produkcję.
+
+Dlaczego pozostałe opcje są błędne:
+A. Wymaganie dwóch osób do code review (peer review) to doskonała praktyka poprawiająca jakość kodu, ale jest to proces czysto manualny i prewencyjny. Nie przyspiesza on procesu odzyskiwania sprawności po wystąpieniu awarii na produkcji.
+C. Linting (sprawdzanie standardów kodowania) pomaga utrzymać czystość kodu, ale nie ma żadnego wpływu na szybkość przywracania usług po awarii spowodowanej błędem logicznym w nowej funkcjonalności.
+D. Uruchamianie testów lokalnie przez deweloperów jest mało wiarygodne (problem "u mnie działa") i nie daje gwarancji, że te same testy przejdą w środowisku produkcyjnym. Brakuje tu centralizacji i powtarzalności, którą daje serwer CI.
+
+Hity i triki:
+- Zapamiętaj 4 metryki DORA: Deployment Frequency, Lead Time for Changes, Change Failure Rate, Time to Restore Service (MTTR).
+- Jeśli widzisz "MTTR", szukaj odpowiedzi związanych z: Rollback, Blue/Green, Canary, Monitoring/Alerting.
+- Jeśli widzisz "Change Failure Rate", szukaj: CI, Testing, Code Review, Linting.
+- Szybki rollback jest zawsze lepszy dla MTTR niż "fix forward" (naprawianie na żywo).
+
+Przydatne linki:
+- https://cloud.google.com/architecture/devops/devops-tech-test-automation
+- https://cloud.google.com/architecture/blue-green-deployments</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczem do pytania jest rozróżnienie: co poprawia <b>jakość</b> (linting, peer review), a co poprawia <b>szybkość reakcji na awarię</b> (blue/green, rollback, testy automatyczne). Redukcja MTTR wymaga szybkich metod przywracania usług.</p>
+<p>Zarządzanie czasem odzyskiwania (MTTR) wymaga inwestycji w automatyzację procesów zarówno <b>prewencyjnych</b> (testy w CI), jak i <b>operacyjnych</b> (strategie wdrożeń jak Blue/Green).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>MTTR jest kluczowym metrykiem w SRE. Rollback i Blue/Green to Twoi najlepsi przyjaciele w walce z MTTR.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/embracing-risk/" target="_blank">Google SRE Book - Embracing Risk (Rollbacks)</a></li>
+    <li><b>MTTR to szybkość powrotu do normy:</b> Szukaj mechanizmów, które skracają czas przestoju.</li>
+    <li><b>Błędy na produkcji:</b> Nawet przy najlepszych testach błędy się zdarzają. System musi być zaprojektowany tak, aby porażka była tania i szybka do odwrócenia.</li>
+    <li><b>Automatyzacja vs Proces:</b> Automatyczne przełączanie ruchu (B) i automatyczne budowanie (E) zawsze wygrywają z manualnym sprawdzaniem kodu (A) w pytaniach o szybkość operacyjną.</li>
 </ul>
 </div>
 </div>

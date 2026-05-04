@@ -79,18 +79,33 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-SLI (Service Level Indicator) to mierzalny wskaźnik jakości usługi. W przypadku latencji, najprostszym i najbardziej rekomendowanym sposobem obliczenia SLI dla konkretnego celu (np. "poniżej 100 ms") jest tzw. "ratio metric" (wskaźnik proporcjonalny). Liczysz "dobre zdarzenia" (wszystkie requesty, które spełniły kryterium, czyli < 100 ms) i dzielisz je przez "wszystkie zdarzenia" (wszystkie requesty na stronę główną). Wynik to procentowa dostępność w zadanym czasie.
+Zgodnie z praktykami Site Reliability Engineering (SRE) promowanymi przez Google, wskaźniki SLI (Service Level Indicators) powinny być wyrażone jako stosunek liczby zdarzeń spełniających określone kryterium ("dobrych") do całkowitej liczby istotnych zdarzeń.
 
-A i B. Percentyle (np. P95, P99) są świetne do analizy ogólnej wydajności systemu (rozkładu), ale nie definiują bezpośrednio "zgodności z celem" w kontekście SLA/SLO (nie mówią czy "zdałeś/nie zdałeś"). Ratio jest znacznie łatwiejsze w obsłudze przy budżetach błędów.
-D. Dzielenie po liczbie wszystkich zapytań do całej aplikacji (nie tylko strony głównej) jest błędem – SLI musi być powiązane bezpośrednio z tym, co chcemy mierzyć (home page latency). Inne endpointy mają zupełnie inną charakterystykę ruchu.</pre>
+Dlaczego odpowiedź C jest poprawna:
+Dla latencji (opóźnienia) celem jest zazwyczaj utrzymanie czasu ładowania poniżej pewnego progu (w tym przypadku 100 ms). Najbardziej miarodajnym sposobem obliczenia SLI jest zliczenie wszystkich żądań do strony głównej, których czas odpowiedzi był krótszy niż 100 ms, a następnie podzielenie tej liczby przez całkowitą liczbę żądań skierowanych do tej konkretnej strony głównej. Wynik (zazwyczaj w procentach) bezpośrednio informuje, jak często udaje się spełnić oczekiwania użytkownika.
+
+Dlaczego pozostałe opcje są błędne:
+A. Kubułkowanie (bucketization) latencji i obliczanie percentyli jest przydatne do wizualizacji rozkładu i zrozumienia zachowania "ogona" latencji (np. P99), ale same w sobie nie stanowią SLI w formacie rekomendowanym do budowania budżetów błędów (Error Budgets). SLI musi być formatem "zdał/nie zdał".
+B. Mediana (P50) i 90-ty percentyl dają dobry obraz ogólnej wydajności, ale podobnie jak opcja A, nie pozwalają na łatwe obliczenie budżetu błędów dla konkretnego progu 100 ms.
+D. Dzielenie liczby szybkich żądań do strony głównej przez liczbę *wszystkich* żądań do całej aplikacji jest błędem metodologicznym. Każdy endpoint (strona główna, koszyk, API wyszukiwania) może mieć inne cele latencji (np. API może być szybsze niż renderowanie HTML). Mieszanie tych danych sprawiłoby, że wskaźnik stałby się nieczytelny i bezużyteczny do monitorowania konkretnej strony głównej.
+
+Hity i triki:
+- Formuła na SLI: (Dobre zdarzenia / Wszystkie ważne zdarzenia) * 100%.
+- Zapamiętaj: SLI to wskaźnik (liczba), SLO to cel (np. 99.9% sukcesów), SLA to umowa prawna.
+- Wybierając mianownik (denominator), zawsze upewnij się, że zawiera on tylko te zdarzenia, które są istotne dla danego wskaźnika.
+
+Przydatne linki:
+- https://sre.google/sre-book/service-level-objectives/
+- https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>SLI to matematyczna definicja sukcesu. Zawsze szukaj ułamka: <b>(Zdarzenia spełniające cel) / (Wszystkie istotne zdarzenia)</b>.</p>
+<p>Wskaźniki oparte na proporcjach (ratio-based SLIs) są fundamentem SRE, ponieważ bezpośrednio przekładają się na <b>Error Budgets</b> – kluczowe narzędzie do zarządzania ryzykiem i prędkością wdrażania zmian.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>W SRE: SLO dotyczące latencji najlepiej mierzyć jako procent żądań, które spełniły "latency budget".</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Google SRE Book - SLOs</a></li>
+    <li><b>SLI = Ratio:</b> Jeśli pytanie dotyczy rekomendowanego sposobu obliczania SLI, szukaj opcji, która dzieli "dobre" przez "wszystkie".</li>
+    <li><b>Scope (Zakres):</b> Upewnij się, że licznik i mianownik dotyczą tego samego zestawu danych (np. ta sama strona, ten sam typ żądań).</li>
+    <li><b>Latency Threshold:</b> SLI latencji to nie jest "średnia latencja", ale "% żądań poniżej X ms".</li>
 </ul>
 </div>
 </div>

@@ -70,32 +70,40 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">DE</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">BC</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D, E.
+<pre>Odpowiedź: BC
 
 Wyjaśnienie:
-Poprawna odpowiedź to D oraz E. Jeśli aplikacja zużywa stale tylko 5% budżetu błędów (error budget), oznacza to, że poziom niezawodności jest zbyt wysoki (tzw. "over-reliability"). Z perspektywy SRE, oznacza to, że zbyt wiele zasobów inżynieryjnych poświęca się na niezawodność, a zbyt mało na innowacje i dostarczanie nowych funkcji (velocity).
-- D: Dodanie nowych SLI (Service Level Indicators) pozwala na głębsze zrozumienie aspektów usługi, które faktycznie dotykają użytkownika, co pozwala na bardziej precyzyjne ustawienie SLO.
-- E: Świadome "konsumowanie" budżetu błędów (np. przez częstsze/ryzykowniejsze wdrożenia) jest akceptowalną praktyką SRE, by wykorzystać dostępne zasoby niezawodności do zwiększenia szybkości dostarczania funkcji.
+Poprawna odpowiedź to B oraz C. Jeśli aplikacja stale zużywa tylko 5% budżetu błędów, oznacza to, że poziom niezawodności jest zbyt wysoki (tzw. "over-reliability"). Z perspektywy SRE, oznacza to, że zespół inżynieryjny poświęca zbyt wiele zasobów na niezawodność, a zbyt mało na innowacje i dostarczanie nowych funkcji (tzw. velocity).
 
-Analiza błędnych opcji:
-- A: Zwiększanie pojemności (capacity) poprawia wydajność/skalowalność, ale nie adresuje problemu niewykorzystanego budżetu błędów (nie zwiększa velocity).
-- B: Częstsze lub bardziej ryzykowne wdrożenia to technicznie poprawne działanie, ale Announce planned downtime (z opcji E) jest lepszym SRE-podejściem, gdyż nie wprowadza niekontrolowanego ryzyka w produkcji.
-- C: Zacieśnienie (tightening) SLO jest możliwe, ale przed jego wprowadzeniem należy upewnić się, że mierzymy odpowiednie parametry (stąd opcja D), a nie tylko zmieniać liczby na papierze.</pre>
+- B: Zwiększenie częstotliwości lub ryzykowności wdrożeń to sposób na "skonsumowanie" nadmiarowego budżetu błędów. Dzięki temu zespół zwiększa szybkość dostarczania wartości dla biznesu, akceptując wyższe ryzyko w zamian za szybszy feedback.
+- C: Zacieśnienie SLO jest bezpośrednim sposobem, aby poziom niezawodności "odzwierciedlał jej obserwowaną niezawodność". Jeśli obecna niezawodność jest bardzo wysoka, to naturalnym krokiem (po skonsultowaniu z interesariuszami) jest podniesienie poprzeczki (SLO).
+
+Dlaczego inne opcje są błędne:
+- A: Zwiększenie capacity nie zwiększa velocity, a jedynie wydajność systemu (co może być kosztowne i niepotrzebne).
+- D: Mierzenie dodatkowych SLI jest ogólnie dobrą praktyką, ale nie jest bezpośrednim sposobem na "skonsumowanie" nadmiarowego budżetu błędów i zwiększenie velocity.
+- E: Świadome wywoływanie przestojów (planned downtime) w celu zużycia budżetu jest kontrowersyjne i zazwyczaj nie jest zalecaną praktyką w środowiskach produkcyjnych. 
+
+Hity i triki:
+- Pamiętaj, że budżet błędów nie jest celem samym w sobie, lecz narzędziem do balansowania szybkości wdrożeń i stabilności. Jeśli budżet nie jest używany, to znak, że zbyt rzadko wypuszczasz nowe funkcje.
+- Zawsze konsultuj zmiany SLO z biznesem (stakeholders), aby upewnić się, że wymagania użytkowników są spełnione.
+
+Linki:
+- https://sre.google/sre-book/embracing-risk/
+- https://cloud.google.com/blog/products/devops-sre/sre-fundamentals-getting-started-with-slos</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie (AI)</h2>
-<p>Kluczem w SRE jest mierzalność. Zanim zmienisz SLO, upewnij się, że mierzysz odpowiednie aspekty usługi (SLI).</p>
+<p>Kluczem w SRE jest mierzalność i balansowanie ryzyka. Jeśli budżet nie jest wykorzystywany, system jest zbyt konserwatywny.</p>
 <h3>💡 Wskazówki i Triki</h3>
 <ul>
-    <li>Wybieraj mierzalność (SLI) przed celami (SLO).</li>
-    <li>Zwiększenie niezawodności nie zawsze jest celem; celem jest znalezienie optymalnego balansu między niezawodnością a szybkością wdrażania (velocity).</li>
+    <li>SRE to nie tylko stabilność, to balansowanie między stabilnością a tempem zmian (velocity).</li>
     <li>Dokumentacja: <a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Google SRE Book - SLOs</a></li>
 </ul>
 </div>

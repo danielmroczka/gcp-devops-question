@@ -79,19 +79,33 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Podstawą skutecznego testowania typu "Canary" jest eliminacja czynników zewnętrznych, które mogą zaburzyć wyniki. Jeśli aplikacja posiada in-memory cache, porównanie "Canary" (nowej wersji) z "istniejącą produkcją" (istniejącą od dłuższego czasu) jest błędne. Istniejąca produkcja ma "rozgrzany" cache z danymi od użytkowników, podczas gdy Canary startuje z pustym cachem. To spowoduje fałszywe alarmy (np. wzrost latencji w Canary, mimo że kod jest poprawny). Aby uczciwie porównać obie wersje, należy wdrożyć nową wersję "baseline" (opartą na tym samym kodzie co produkcja), która również wystartuje z czystym cachem. Tylko wtedy porównanie "Canary vs Baseline" jest miarodajne.
+Podstawą skutecznej analizy typu "Canary" jest zapewnienie, że jedyną różnicą między porównywanymi grupami jest nowa wersja kodu. W scenariuszu z aplikacją posiadającą pamięć podręczną (in-memory cache) ładowaną przy starcie, porównanie z działającą produkcją byłoby niesprawiedliwe.
 
-B. Porównanie z "poprzednią wersją" (np. N-1) jest bezcelowe, jeśli szukamy różnic w nowej wersji.
-C. Porównanie z "istniejącą produkcją" prowadzi do wspomnianego wyżej błędu "cache pollution" / "cold cache bias".
-D. Średnia z "okna czasowego" poprzednich wersji nie eliminuje problemu różnic w stanie cache'u, które występują w momencie startu nowej instancji.</pre>
+Dlaczego odpowiedź A jest poprawna:
+Jeśli porównasz nową wersję "Canary" (która właśnie wystartowała i ma pusty lub częściowo zapełniony cache) z istniejącą wersją produkcyjną (która działa od dawna i ma w pełni rozgrzany cache), wyniki wydajnościowe będą przekłamane. Produkcja będzie szybsza tylko dlatego, że dane są już w pamięci. Aby wyeliminować ten błąd (tzw. "cold cache bias"), należy wdrożyć nową instancję obecnej wersji produkcyjnej (tzw. "Baseline") w tym samym czasie co "Canary". Dzięki temu obie wersje startują w identycznych warunkach z pustym cachem, a różnica w ich wydajności będzie wynikać wyłącznie ze zmian w kodzie.
+
+Dlaczego pozostałe opcje są błędne:
+B. Porównanie z poprzednią wersją produkcyjną (N-1) nie ma sensu, jeśli chcemy zweryfikować, czy obecna zmiana (N) nie pogarsza sytuacji względem aktualnie działającej stabilnej wersji (N).
+C. Porównanie z istniejącym wdrożeniem produkcji (Existing Production) prowadzi do wspomnianego błędu "rozgrzanego cache'u". Jest to najczęstszy błąd w analizie Canary.
+D. Średnia z okna czasowego (Sliding window) nie rozwiązuje problemu różnic w stanie cache'u w momencie startu nowej instancji. Metryki historyczne mogą nie odzwierciedlać bieżących warunków sieciowych lub obciążenia, które są identyczne dla Canary i Baseline uruchomionych jednocześnie.
+
+Hity i triki:
+- Zasada złotej trójki Canary: Canary (nowy kod), Baseline (stary kod, nowy start), Production (stary kod, stary start). Porównuj Canary z Baseline.
+- Pamiętaj o "Warm-up period": Niektóre aplikacje potrzebują kilku minut na ustabilizowanie się przed rozpoczęciem zbierania metryk do analizy.
+- Kayenta to usługa w Spinnakerze, która odpowiada za automatyczną analizę Canary (Automated Canary Analysis - ACA).
+
+Przydatne linki:
+- https://spinnaker.io/docs/guides/user/canary/
+- https://cloud.google.com/blog/products/gcp/using-kayenta-to-automate-canary-analysis-on-gke-with-spinnaker</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W Canary deploymentach: <b>Zawsze eliminuj błąd "Cold Start"</b>. Zrównaj stan (cache, warmup) obu instancji, aby wyniki były porównywalne.</p>
+<p>W zaawansowanych procesach CI/CD, eliminacja szumu z metryk jest kluczowa. Problem "zimnego cache'u" jest klasycznym przykładem zmiennej zakłócającej (confounding variable).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Canary z cachem? Zawsze porównuj <b>Canary z nowym Baseline</b> (nie z żywą produkcją).</li>
-    <li>Dokumentacja: <a href="https://spinnaker.io/docs/guides/user/canary/" target="_blank">Spinnaker Canary Analysis</a></li>
+    <li><b>Baseline vs Canary:</b> Zawsze szukaj opcji, która tworzy nową instancję "Baseline" dla sprawiedliwego porównania.</li>
+    <li><b>Spinnaker & Kayenta:</b> Zapamiętaj te nazwy w kontekście Canary na GCP.</li>
+    <li><b>Statystyczna istotność:</b> Automatyczna analiza Canary używa testów statystycznych (jak Mann-Whitney U), aby sprawdzić, czy różnice między Baseline a Canary są istotne.</li>
 </ul>
 </div>
 </div>

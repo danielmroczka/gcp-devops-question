@@ -79,28 +79,31 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest A:
-- Rola `roles/logging.configWriter` (Logging Config Writer) pozwala na tworzenie, aktualizowanie i usuwanie tzw. "sinks" (ujść logów), co jest niezbędne do eksportowania logów do innych usług GCP, takich jak Pub/Sub, BigQuery czy Cloud Storage.
+Poprawną odpowiedzią jest A, ponieważ rola `logging.configWriter` (Logging Config Writer) zawiera niezbędne uprawnienia do tworzenia i zarządzania tzw. "sinks" (ujściami), które są mechanizmem eksportu logów w Google Cloud.
+
+1. **A (Grant the team members the IAM role of logging.configWriter):** W modelu uprawnień IAM Google Cloud, aby użytkownik mógł konfigurować eksport logów (np. do BigQuery, Cloud Storage czy Pub/Sub), musi posiadać uprawnienie `logging.sinks.create`. Rola `roles/logging.configWriter` jest predefiniowaną rolą, która nadaje to uprawnienie oraz inne niezbędne do zarządzania konfiguracją logowania.
 
 Analiza niepoprawnych odpowiedzi:
-- B: Access Context Manager służy do definiowania reguł dostępu opartych na atrybutach (np. IP, lokalizacja), a nie do nadawania uprawnień do zarządzania konfiguracją logów.
-- C: Uprawnienia `logging.sinks.list` i `logging.sink.get` dają dostęp jedynie do przeglądania (odczytu) konfiguracji, ale nie pozwalają na ich modyfikację (tworzenie).
-- D: Organizational Policy służy do ograniczania możliwości całej organizacji (np. "nie wolno tworzyć zasobów w tym regionie"), a nie do przyznawania uprawnień konkretnym użytkownikom.
+- **B: Configure Access Context Manager:** To narzędzie służy do definiowania obwodów bezpieczeństwa (VPC Service Controls) i dostępu kontekstowego (np. na podstawie IP czy stanu urządzenia), a nie do zarządzania konkretnymi rolami IAM dla usług takich jak Logging.
+- **C: Create and grant a custom IAM role with permissions logging.sinks.list and logging.sink.get:** Te uprawnienia są niewystarczające. Pozwalają one jedynie na listowanie i przeglądanie istniejących konfiguracji eksportu (sinks), ale nie dają możliwości tworzenia nowych. Do eksportu potrzebne jest uprawnienie `create` lub `update`.
+- **D: Create an Organizational Policy in Cloud IAM:** Zasady organizacji (Org Policies) służą do narzucania ograniczeń w całej strukturze zasobów (np. blokowanie publicznych adresów IP), a nie do przyznawania indywidualnych uprawnień użytkownikom do wykonywania operacji.
 
-Wskazówki (Hints & Tricks):
-- Pamiętaj o zasadzie najmniejszych uprawnień. Jeśli potrzebujesz zarządzać konfiguracją logów (sinks), `logging.configWriter` jest odpowiednią rolą.
-- Zawsze weryfikuj, czy wymagane działanie to "odczyt" (viewer/reader), "zarządzanie konfiguracją" (config writer), czy "zapis logów" (log writer).
+Hity i triki (Hints & Tricks):
+- Pamiętaj o hierarchii ról w Logging: `logging.viewer` (widzi logi), `logging.accessor` (widzi logi prywatne), `logging.admin` (pełny dostęp), `logging.configWriter` (zarządza konfiguracją eksportu).
+- Eksport logów (Sinks) pozwala na przesyłanie logów w czasie rzeczywistym. Jeśli chcesz analizować logi historyczne w SQL, sink do BigQuery jest najlepszym wyborem.
 
 Przydatne linki:
-- https://cloud.google.com/logging/docs/access-control</pre>
+- [Predefined Logging Roles](https://cloud.google.com/logging/docs/access-control#predefined_roles)
+- [Exporting logs with sinks](https://cloud.google.com/logging/docs/export)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zadanie testuje wiedzę na temat ról IAM specyficznych dla Cloud Logging. Kluczowym pojęciem jest "Sink" – mechanizm, który decyduje, gdzie trafiają logi poza standardowe miejsce ich przechowywania.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zasada najmniejszych uprawnień (Least Privilege): Zamiast dawać `roles/logging.admin`, lepiej dać `roles/logging.configWriter`, jeśli celem jest tylko konfiguracja eksportu.</li>
+    <li>Słowo klucz "export" w kontekście logów niemal zawsze odnosi się do "Sinks".</li>
+    <li>Uprawnienia `list` i `get` to standardowe uprawnienia typu "Viewer" – nigdy nie pozwalają na zmiany w konfiguracji.</li>
 </ul>
 </div>
 <script>

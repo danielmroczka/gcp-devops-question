@@ -79,27 +79,32 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest C:
-- Aby skalować aplikację w oparciu o ruch (GCLB), należy wykorzystać natywne metryki GCP. Adapter metryk Stackdriver (teraz Google Cloud Metrics Adapter dla GKE) pozwala GKE na używanie metryk z Cloud Monitoring (Stackdriver) do decyzji HPA (Horizontal Pod Autoscaler).
+Poprawną odpowiedzią jest C, ponieważ skalowanie w oparciu o liczbę żądań z Load Balancera (GCLB) wymaga dostarczenia tych zewnętrznych metryk do Horizontal Pod Autoscalera (HPA) w klastrze GKE.
+
+1. **C (Install the Stackdriver custom metrics adapter and configure a horizontal pod autoscaler to use the number of requests provided by the GCLB):** HPA natywnie potrafi skalować w oparciu o użycie CPU i pamięci. Aby skalować na podstawie innych metryk (np. ruch HTTP na Load Balancerze), należy zainstalować **Custom Metrics Adapter** (często nazywany Stackdriver/Google Cloud Metrics Adapter). Pozwala on HPA "widzieć" metryki z Cloud Monitoring (wcześniej Stackdriver). Liczba zapytań na sekundę (RPS) z Load Balancera jest doskonałym wskaźnikiem SLI dla warstwy frontendowej, pozwalającym na szybką reakcję na wzrost ruchu.
 
 Analiza niepoprawnych odpowiedzi:
-- A: Liveness/Readiness probes służą do sprawdzania zdrowia poda, a nie do wyzwalania skalowania opartego na obciążeniu.
-- B: Vertical Pod Autoscaler zmienia zasoby (CPU/RAM) poda, a nie liczbę replik (skalowanie horyzontalne).
-- D: Statystyki NGINX wymagają dodatkowej konfiguracji (np. Prometheus/exporter), co jest mniej optymalne niż użycie metryk natywnych z GCLB, jeśli ten już obsługuje ruch.
+- **A: Configure HPA to use average response time from Liveness and Readiness probes:** Sondy Liveness i Readiness służą do sprawdzania, czy kontener żyje i czy jest gotowy do pracy, a nie do mierzenia wydajności czy obciążenia. HPA nie potrafi natywnie skalować w oparciu o czasy odpowiedzi tych sond.
+- **B: Configure the vertical pod autoscaler (VPA) and enable cluster autoscaler:** VPA (Vertical Pod Autoscaler) służy do skalowania wertykalnego (zwiększanie CPU/RAM dla konkretnego poda), a nie do zwiększania liczby replik. Choć VPA jest przydatny, dla frontendu o dużym natężeniu ruchu zazwyczaj preferowane jest skalowanie horyzontalne (HPA). Cluster Autoscaler z kolei dodaje węzły (nodes) do klastra, gdy brakuje miejsca na nowe pody, ale nie decyduje sam o liczbie replik aplikacji.
+- **D: Expose the NGINX stats endpoint and configure HPA:** Choć jest to technicznie możliwe (np. przy użyciu Prometheus i odpowiedniego adaptera), wymaga to znacznie więcej pracy konfiguracyjnej (eksponowanie statystyk, instalacja prometheus-adapter, konfiguracja scrape'owania) niż użycie gotowych metryk z GCLB, które już "płyną" do Cloud Monitoring.
 
-Wskazówki (Hints & Tricks):
-- Jeśli pytanie dotyczy skalowania opartego o HTTP GCLB w GKE – szukaj "custom metrics adapter" dla "requests per second" (RPS).
+Hity i triki (Hints & Tricks):
+- Jeśli widzisz w pytaniu GKE + Load Balancer + skalowanie oparte na ruchu -> szukaj "Custom Metrics" lub "External Metrics".
+- Pamiętaj: HPA = więcej podów, VPA = większe pody. Zazwyczaj nie stosuje się obu jednocześnie dla tej samej metryki (np. CPU), bo mogą ze sobą konkurować.
+- Metryki z Load Balancera są traktowane jako "External Metrics" w HPA, ponieważ nie pochodzą bezpośrednio z obiektów wewnątrz Kubernetes.
 
 Przydatne linki:
-- https://cloud.google.com/kubernetes-engine/docs/how-to/scaling-apps/hpa#custom_metrics</pre>
+- [Autoscaling deployments with Cloud Monitoring metrics](https://cloud.google.com/kubernetes-engine/docs/how-to/scaling-apps/hpa#custom_metrics)
+- [Optimize GKE cost with VPA and HPA](https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-autoscaling-101-hpa-vpa-and-vpa-recommender)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Pytanie sprawdza umiejętność wyboru odpowiedniej metody skalowania dla aplikacji webowej w GKE. Kluczowym elementem jest połączenie świata Kubernetes (HPA) ze światem infrastruktury Google Cloud (Cloud Load Balancing) poprzez metryki.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>HPA to standard dla skalowania frontendów (skalowanie horyzontalne).</li>
+    <li>Aby skalować na podstawie metryk *spoza* klastra (jak GCLB), niezbędny jest "Custom Metrics Adapter".</li>
+    <li>Zawsze wybieraj metryki najlepiej odzwierciedlające obciążenie użytkowników (SLI) – RPS (Requests Per Second) jest tu klasykiem.</li>
 </ul>
 </div>
 <script>

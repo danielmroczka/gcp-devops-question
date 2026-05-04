@@ -76,23 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Poprawna odpowiedź: A. Confirm that the Stackdriver agent has been installed in the hosting virtual machine.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. Stackdriver Agent (obecnie Google Cloud Ops Agent) musi być zainstalowany na maszynie wirtualnej (Compute Engine), aby zbierać logi z systemu operacyjnego oraz aplikacji, które nie są automatycznie logowane przez platformę (np. logi aplikacji zapisywane w plikach na dysku VM). Bez tego agenta, Stackdriver (Cloud Logging) nie otrzyma danych z wewnątrz instancji VM.
+W środowisku Google Compute Engine (GCE), logi systemowe i niektóre podstawowe metryki są zbierane automatycznie, ale logi aplikacji (np. te zapisywane do plików w /var/log/...) wymagają zainstalowania i skonfigurowania agenta (dawniej Stackdriver Logging Agent, obecnie Ops Agent). Bez tego agenta Cloud Logging nie "widzi" tego, co dzieje się wewnątrz systemu operacyjnego maszyny wirtualnej.
 
 Dlaczego inne odpowiedzi są błędne:
-- B: Błędne uprawnienia do dashboardu nie powodują braku pojawiania się logów w systemie; spowodowałyby jedynie błąd wyświetlania dla użytkownika, a logi wciąż byłyby dostępne w systemie Cloud Logging (Log Explorer).
-- C: Port 25 (SMTP) nie ma żadnego związku z przesyłaniem logów do Google Cloud. Logi są wysyłane przez API GCP, które komunikuje się przez HTTPS (port 443).
-- D: Nowoczesne podejście GCP opiera się na użyciu konta serwisowego przypisanego do instancji (Service Account) z odpowiednimi rolami IAM (np. `roles/logging.logWriter`), a nie na "ręcznym" przekazywaniu kluczy (service account keys), co jest uważane za złą praktykę bezpieczeństwa.</pre>
+- B: Proper permissions for the dashboard: Uprawnienia do dashboardu pozwalają na przeglądanie danych, które już są w systemie. Gdyby to był problem z uprawnieniami użytkownika, logi wciąż byłyby widoczne w Log Explorerze dla kogoś z rolą Logging Admin, a pytanie sugeruje, że logi w ogóle nie trafiają do Stackdrivera.
+- C: Port 25: Port 25 jest używany dla protokołu SMTP (poczta elektroniczna). Przesyłanie logów do Google Cloud API odbywa się drogą bezpieczną przez HTTPS na porcie 443. Otwieranie portu 25 nie ma żadnego związku z logowaniem.
+- D: Client library and service account key: Choć użycie bibliotek klienckich jest jedną z metod wysyłania logów, standardową i zalecaną praktyką dla aplikacji na VM jest logowanie do stdout/stderr lub plików, które są następnie przechwytywane przez agenta. Co więcej, używanie "kluczy konta serwisowego" (service account keys) wewnątrz GCP jest odradzane na rzecz domyślnych kont serwisowych instancji (Application Default Credentials).
+
+Hity i triki (GCP DevOps Exam):
+- Jeśli pytanie dotyczy braku logów z Compute Engine (VM) -> Zawsze najpierw sprawdź, czy zainstalowany jest Ops Agent (lub stary Logging Agent).
+- Pamiętaj o rolach IAM dla instancji: Nawet z agentem, VM musi mieć przypisane konto serwisowe z rolą `roles/logging.logWriter`, aby móc wysyłać logi.
+- Cloud Logging obsługuje automatycznie GKE (standard output) i App Engine. VM-y to jedyne miejsce, gdzie agent jest krytyczny dla logów aplikacyjnych.
+
+Pomocne linki:
+- https://cloud.google.com/logging/docs/agent/ops-agent
+- https://cloud.google.com/logging/docs/access-control
+- https://cloud.google.com/compute/docs/access/service-accounts</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczem do zbierania logów z maszyn wirtualnych jest agent (Ops Agent) oraz właściwa konfiguracja roli IAM przypisanej do instancji VM.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>Kwestia zbierania logów w GCP zależy od typu usługi (PaaS vs IaaS). W przypadku IaaS (Compute Engine), odpowiedzialność za przekazywanie logów z wnętrza systemu operacyjnego leży po stronie użytkownika, co realizuje się poprzez instalację agenta.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>Nie widzisz logów z VM? 1. Czy działa agent? 2. Czy VM ma dostęp (IAM)?</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/agent/ops-agent" target="_blank">Ops Agent Documentation</a></li>
+    <li><b>Ops Agent:</b> To obecnie standardowy agent dla Compute Engine, łączący funkcje Logging i Monitoring.</li>
+    <li><b>IAM Roles:</b> Bez roli <code>roles/logging.logWriter</code> logi nigdy nie trafią do systemu, nawet jeśli agent działa poprawnie.</li>
+    <li><b>Standard Streams:</b> Najlepszą praktyką w nowoczesnych aplikacjach (Cloud Native) jest wypisywanie logów na <code>stdout</code> i <code>stderr</code>.</li>
 </ul>
 </div>
 <script>

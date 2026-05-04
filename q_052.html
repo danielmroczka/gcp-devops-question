@@ -79,21 +79,34 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Poprawna odpowiedź to B. W przypadku podejrzenia aktywności złośliwego oprogramowania (malicious process) w środowisku produkcyjnym, kluczowe jest przechwycenie pełnego obrazu ruchu sieciowego. VPC Flow Logs rejestrują metadane połączeń sieciowych. 
-- Volume scale 1.0 oznacza, że logowane jest 100% ruchu. Jest to niezbędne do analizy bezpieczeństwa, aby nie pominąć żadnego pakietu, który mógłby świadczyć o ataku.
-- Włączamy logi tylko dla środowiska produkcyjnego (frontend i backend subnets), ponieważ to tam występuje podejrzenie zagrożenia.
+Poprawną odpowiedzią jest B, ponieważ analiza incydentu bezpieczeństwa (podejrzenie złośliwego procesu) wymaga zebrania pełnych danych o ruchu sieciowym bez żadnego próbkowania (sampling).
 
-Dlaczego inne odpowiedzi są błędne:
-- A: Volume scale 0.5 oznacza logowanie tylko 50% ruchu. W analizie bezpieczeństwa "próbkowanie" (sampling) może spowodować pominięcie krytycznych śladów ataku, co jest niedopuszczalne przy incydentach bezpieczeństwa.
-- C i D: Włączanie logowania (i generowanie dodatkowych kosztów oraz danych) w środowisku testowym jest zbędne, jeśli zagrożenie zidentyfikowano w produkcji. Dodatkowo, "Apply changes in testing before production" jest dobrą praktyką dla zmian w kodzie/konfiguracji, ale nie jest konieczne dla włączenia funkcji diagnostycznej w sytuacji awaryjnej w produkcji.</pre>
+1. **B (Enable VPC Flow Logs on the production VPC... with a sample volume scale of 1.0):** 
+   - **VPC Flow Logs:** To usługa, która rejestruje metadane o ruchu IP wchodzącym i wychodzącym z interfejsów sieciowych VM.
+   - **Sample volume scale 1.0:** Oznacza, że rejestrowane jest 100% pakietów. W przypadku diagnozowania ataków lub złośliwego oprogramowania, które może komunikować się rzadko lub nieregularnie ("intermittently"), każda próbka poniżej 1.0 (czyli poniżej 100%) mogłaby spowodować pominięcie śladu ataku.
+   - **Tylko produkcja:** Skupiamy się na środowisku produkcyjnym, ponieważ to tam zidentyfikowano podejrzenie zagrożenia. Włączanie pełnego logowania w testach byłoby generowaniem niepotrzebnych kosztów i szumu informacyjnego.
+
+Analiza niepoprawnych odpowiedzi:
+- **A (sample volume scale of 0.5):** Próbkowanie na poziomie 50% jest świetne do analizy wydajności lub planowania sieci, ale niedopuszczalne w bezpieczeństwie. Złośliwy ruch mógłby zostać "wycięty" przez mechanizm statystycznego próbkowania.
+- **C i D (Enable on testing and production... apply changes in testing before production):** Chociaż ogólna zasada "testuj przed wdrożeniem" jest słuszna, w sytuacji nagłego incydentu bezpieczeństwa (incident response) priorytetem jest natychmiastowe zbieranie danych z zainfekowanego środowiska. Dodatkowo, włączenie logów Flow Logs jest operacją bezpieczną dla infrastruktury (nie przerywa ruchu), więc nie wymaga długotrwałych testów w osobnym środowisku.
+
+Hity i triki (Hints & Tricks):
+- **Flow Logs vs Packet Capture:** Flow Logs to metadane (skąd, dokąd, jaki port, ile bajtów), a nie pełna treść pakietów. Do pełnej analizy (np. co dokładnie wysyła malware) używa się **Packet Mirroring**.
+- Koszt Flow Logs zależy od ilości logowanych danych. Sample 1.0 na bardzo obciążonej sieci produkcyjnej może być drogi, ale bezpieczeństwo jest priorytetem.
+- Flow Logs można przeglądać bezpośrednio w Cloud Logging lub eksportować do BigQuery do zaawansowanej analizy SQL.
+
+Przydatne linki:
+- [VPC Flow Logs overview](https://cloud.google.com/vpc/docs/flow-logs)
+- [Using VPC Flow Logs for security monitoring](https://cloud.google.com/blog/products/networking/using-vpc-flow-logs-for-network-security-analysis)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W GCP, przy diagnozowaniu incydentów bezpieczeństwa sieciowego: wybieraj pełne logowanie (sampling 1.0) i skup się na dotkniętym środowisku (produkcja).</p>
+<p>Zadanie testuje wiedzę o narzędziach diagnostycznych sieci w GCP oraz o specyfice reagowania na incydenty bezpieczeństwa. Kluczowym terminem jest "sample volume scale".</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Flow Logs: do analizy wydajności = próbkowanie (0.5); do analizy bezpieczeństwa = pełne logowanie (1.0).</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/vpc/docs/flow-logs" target="_blank">VPC Flow Logs Documentation</a></li>
+    <li>Bezpieczeństwo = Próbkowanie 100% (Scale 1.0).</li>
+    <li>Wydajność/Koszt = Próbkowanie mniejsze (np. 0.1 lub 0.5).</li>
+    <li>Pamiętaj, że Flow Logs są włączane na poziomie **Subnetu**, a nie całej sieci VPC (choć można je włączyć dla wszystkich subnetów w sieci).</li>
 </ul>
 </div>
 <script>

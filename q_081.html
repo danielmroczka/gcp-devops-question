@@ -80,22 +80,31 @@
 <pre>Odpowiedź: B, C.
 
 Wyjaśnienie:
-Poprawna odpowiedź to B oraz C. Jeśli serwis konsekwentnie osiąga swoje SLO, a poziom automatyzacji jest wysoki, oznacza to, że serwis osiągnął stan wysokiej stabilności ("high reliability"). W SRE wykorzystujemy tę sytuację do:
-- B: Zwiększenia "prędkości wdrażania" (deployment velocity). Jeśli mamy nadmiar budżetu błędów, możemy podejmować większe ryzyko przy wydaniach, dostarczając funkcje szybciej dla użytkowników.
-- C: Przekierowania zasobów inżynieryjnych na inne usługi, które potrzebują poprawy stabilności. Jest to optymalizacja pracy całego działu DevOps (inżynierowie nie zajmują się stabilnym serwisem, który "działa sam").
+Poprawna odpowiedź to B oraz C. SRE dąży do optymalizacji: jeśli usługa jest stabilna i zautomatyzowana, inżynierowie powinni unikać "over-reliability" (przesadnej niezawodności), która kosztuje zbyt wiele w stosunku do korzyści.
 
-Analiza błędnych opcji:
-- A: Zaostrzanie SLO nie rozwiązuje problemu balansu między velocity a reliability, a jedynie tworzy sztuczny wymóg ("toil") utrzymania wyższej niezawodności, niż jest to potrzebne biznesowi.
-- D: Priorytetyzacja niezawodności nad nowymi funkcjami jest błędna w momencie, gdy serwis jest już bardzo niezawodny (to by było marnowanie zasobów, które mogłyby być przeznaczone na rozwój).
-- E: Zmiana implementacji SLI sama w sobie nie optymalizuje relacji między velocity a reliability, chyba że obecne SLI są błędne.</pre>
+- B: Zwiększenie deployment velocity (częstotliwości wdrożeń) jest naturalnym krokiem, gdy usługa posiada spory zapas budżetu błędów. Zespół może pozwolić sobie na nieco wyższe ryzyko w zamian za szybsze dostarczanie wartości.
+- C: Zgodnie z najlepszymi praktykami SRE, inżynierowie powinni przeznaczać swój czas na pracę o najwyższej wartości (np. automatyzację, poprawę wydajności). Jeśli serwis jest stabilny, inżynierowie powinni przenieść fokus na inne, bardziej problematyczne usługi.
+
+Dlaczego inne opcje są błędne:
+- A: "Strict SLO" tworzy "Toil" – inżynierowie zmuszeni są walczyć o dodatkowe 0.1% dostępności, co rzadko przynosi realną wartość biznesową, a ogranicza innowacje.
+- D: Priorytetyzacja niezawodności ponad funkcjonalność jest wskazana dla usług krytycznych, ale nie dla usług, które już osiągnęły wysoki poziom stabilności (tzw. "SLO met").
+- E: Zmiana SLI nie jest celem samym w sobie, chyba że obecne mierniki nie odzwierciedlają doświadczenia użytkownika.
+
+Hity i triki:
+- SRE to balansowanie – nie dążymy do 100% dostępności, lecz do 100% zadowolenia biznesu/klienta przy akceptowalnych kosztach.
+- Jeśli Twoi inżynierowie się nudzą przy stabilnym serwisie, to znak, że powinieneś przenieść ich tam, gdzie pożar jest większy.
+
+Linki:
+- https://sre.google/sre-book/embracing-risk/
+- https://sre.google/sre-book/eliminating-toil/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowe zagadnienia: SRE, Reliability, Velocity, Error Budget, Toil reduction.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Wybieraj odpowiedzi, które promują balans między ryzykiem, szybkością zmian a niezawodnością.</li>
+    <li>Dokumentacja: <a href="https://sre.google/" target="_blank">SRE Book (Google)</a></li>
 </ul>
 </div>
 <script>

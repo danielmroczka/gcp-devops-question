@@ -76,28 +76,38 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A
+<pre>Odpowiedź: A.
 
 Wyjaśnienie:
-W SRE (Site Reliability Engineering), w przypadku wystąpienia incydentu o krytycznym znaczeniu, priorytetem jest "Mitigacja" (ograniczenie wpływu na użytkownika), a nie od razu "Diagnoza".
+Poprawna odpowiedź to A. Zgodnie z najlepszymi praktykami SRE (Site Reliability Engineering), w obliczu poważnej awarii (incident), pierwszym priorytetem jest **mitygacja** (ograniczenie skutków), a nie diagnoza.
 
-Dlaczego A jest poprawne:
-- Najszybszą metodą przywrócenia dostępności dla użytkowników w systemach wieloregionalnych jest skierowanie ruchu do zdrowych regionów (load balancer/global routing). To minimalizuje MTTR (Mean Time To Recovery).
+Dlaczego odpowiedź A jest poprawna:
+1. "Stop the bleeding": Rerouting ruchu to klasyczne działanie mające na celu natychmiastowe przywrócenie usługi użytkownikom. W systemach wieloregionalnych, globalny Load Balancer pozwala na szybkie odcięcie uszkodzonego regionu i przekierowanie użytkowników tam, gdzie system działa poprawnie.
+2. Minimalizacja MTTR: Skierowanie ruchu do innych regionów drastycznie skraca czas przestoju (Downtime) z perspektywy klienta.
+3. Spokój zespołu: Gdy usługa jest "tymczasowo naprawiona" dla użytkowników poprzez mitigację, zespół SRE może bez presji czasu przystąpić do analizy logów i monitoringu (Root Cause Analysis).
 
-Dlaczego inne są błędne:
-- B, D: Diagnoza (logi/monitoring) jest ważna, ale w pierwszej kolejności należy ograniczyć wpływ awarii na klientów. Jeśli wykonasz to przed mitigacją, użytkownicy będą odczuwać brak dostępu przez cały czas trwania diagnozy.
-- C: Skalowanie klastra nie naprawi awarii całego regionu, jeśli przyczyna leży w warstwie sieciowej, konfiguracji lub usługach zewnętrznych.
+Analiza błędnych odpowiedzi:
+- B i D: To kroki diagnostyczne. Chociaż są niezbędne, wykonanie ich jako **pierwszy** krok oznacza, że użytkownicy nadal doświadczają całkowitej awarii, podczas gdy Ty "czytasz logi". SRE uczy, że najpierw przywracamy działanie, potem szukamy przyczyny.
+- C: Dodawanie zasobów (skalowanie pionowe lub poziome) bez wiedzy o przyczynie awarii jest działaniem "na oślep". Jeśli problemem jest błąd w kodzie lub awaria sieci regionalnej, dodatkowe węzły nie pomogą, a jedynie zwiększą koszty.
 
-Wskazówki (Tricks):
-- SRE Motto: "Mitigate first, diagnose later". Zawsze wybieraj opcję, która najszybciej przywraca obsługę użytkowników (np. rerouting, rollback, failover).</pre>
+Hity i triki (Exam Tips):
+- SRE Motto: **"Mitigate first, diagnose later"** (Najpierw mityguj, potem diagnozuj).
+- Szukaj odpowiedzi, które przywracają usługę najszybciej: Rollback (wycofanie zmiany), Rerouting (zmiana trasy), Failover (przełączenie na zapas).
+- Pamiętaj, że w chmurze GCP Global HTTP(S) Load Balancing potrafi automatycznie przekierowywać ruch (overflow), ale w przypadku awarii całego regionu może być wymagana manualna interwencja lub zmiana konfiguracji Cloud DNS / Traffic Management.
+
+Przydatne linki:
+- [Google SRE Book - Incident Response](https://sre.google/sre-book/incident-response/)
+- [Global Load Balancing Overview](https://cloud.google.com/load-balancing/docs/features#global_load_balancing)
+- [Managing incidents](https://cloud.google.com/blog/products/management-tools/incident-response-google-sre-way)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowym konceptem w tym zadaniu jest hierarchia działań podczas incydentu. SRE nie szuka winnych ani przyczyn, dopóki pacjent (system) "krwawi". Przekierowanie ruchu to najskuteczniejsza metoda radzenia sobie z awariami regionalnymi (regional outages).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Na egzaminie zawsze odróżniaj działania **naprawcze** (np. rerouting) od **analitycznych** (np. sprawdzanie logów). Jeśli pytanie brzmi "What to do first?", naprawa zazwyczaj wygrywa.</li>
+    <li>Współczesne systemy Cloud DNS i Load Balancer mogą robić to automatycznie (health checks), ale inżynier musi wiedzieć, jak wymusić te działania.</li>
+    <li>Pamiętaj o "Error Budget" – jeśli incydent go wyczerpuje, Twoja polityka (z poprzednich pytań) powinna już być wdrożona.</li>
 </ul>
 </div>
 <script>

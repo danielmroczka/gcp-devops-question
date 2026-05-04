@@ -78,19 +78,33 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Binary Authorization to brama bezpieczeństwa (admission controller) dla klastrów GKE, która zapewnia, że do środowiska produkcyjnego trafiają tylko obrazy spełniające określone wymagania bezpieczeństwa (np. posiadające wymagane podpisy cyfrowe / atesty). W procesie CI/CD Twój rurociąg (np. Cloud Build) buduje obraz, skanuje go i jeśli testy przejdą pomyślnie, podpisuje go swoim kluczem (atestuje). GKE z włączonym Binary Authorization sprawdza te podpisy przed każdym wdrożeniem i odrzuca wszelkie obrazy, które nie pochodzą z zaufanego pipeline'u.
+Poprawną odpowiedzią jest **D (Set up the Kubernetes Engine clusters with Binary Authorization)**.
 
-A. Cloud Security Scanner szuka luk w działającej aplikacji WWW, nie zarządza procesem wdrażania.
-B. Vulnerability Analysis (część Container Analysis) skanuje obrazy pod kątem znanych luk (CVE), ale nie blokuje wdrożenia samych obrazów (chyba że zintegrujesz to z Binary Authorization).
-C. Private Clusters zwiększają bezpieczeństwo sieciowe (brak publicznych IP dla nodów), ale nie zabezpieczają przed wdrożeniem nieautoryzowanego kodu.</pre>
+**Dlaczego D jest poprawne?**
+Binary Authorization to usługa bezpieczeństwa w Google Cloud, która działa jako kontroler przyjęć (admission controller) dla Google Kubernetes Engine (GKE). Pozwala ona na wymuszenie polityki, zgodnie z którą tylko zaufane i zweryfikowane obrazy kontenerów mogą być wdrażane w klastrze. W typowym przepływie CI/CD, Twój pipeline (np. Cloud Build) buduje obraz, przeprowadza testy i skanowanie podatności, a następnie tworzy "atest" (cyfrowy podpis). Binary Authorization sprawdza te atesty przed zezwoleniem na uruchomienie kontenera, co gwarantuje, że tylko obrazy z Twojego zaufanego potoku trafią na produkcję.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **A. Enable Cloud Security Scanner on the clusters:** Cloud Security Scanner służy do wykrywania typowych luk w zabezpieczeniach aplikacji internetowych (np. XSS, SQL Injection) działających na App Engine, Compute Engine lub GKE. Nie zajmuje się weryfikacją pochodzenia obrazów ani autoryzacją wdrożeń.
+*   **B. Enable Vulnerability Analysis on the Container Registry:** To ważna funkcja (część Container Analysis), która skanuje obrazy pod kątem znanych podatności (CVE). Jednak samo skanowanie jedynie dostarcza informacji o bezpieczeństwie obrazu – nie blokuje automatycznie wdrożenia nieautoryzowanego obrazu, chyba że zostanie to zintegrowane z Binary Authorization jako reguła polityki.
+*   **C. Set up the Kubernetes Engine clusters as private clusters:** Klastry prywatne izolują węzły od publicznego Internetu, nadając im tylko wewnętrzne adresy IP. Zwiększa to bezpieczeństwo sieciowe, ale nie kontroluje tego, czy dany obraz kontenera jest zaufany, czy nie.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Słowa kluczowe: **"trusted images"**, **"only images built by..."**, **"verify before deploy"** -> Twoją pierwszą myślą powinno być **Binary Authorization**.
+- Pamiętaj o modelu **Atestatorów (Attestors)** – to one są odpowiedzialne za "podpisanie" obrazu po przejściu przez zaufany krok w pipeline.
+
+### 🔗 Dokumentacja i linki
+- [Binary Authorization Overview](https://cloud.google.com/binary-authorization/docs/overview)
+- [Software Supply Chain Security on GCP](https://cloud.google.com/security/products/software-supply-chain-security)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe pytanie: <b>"only images... trusted CI/CD pipeline are deployed"</b>. W GKE, egzekwowanie zaufania do obrazów to rola <b>Binary Authorization</b>.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>Kwestia bezpieczeństwa łańcucha dostaw oprogramowania (Software Supply Chain Security) jest kluczowa na egzaminie Professional Cloud DevOps Engineer. Pytanie to testuje wiedzę o tym, jak technicznie uniemożliwić uruchomienie nieautoryzowanego kodu w środowisku GKE.</p>
+<h3>Kluczowe zagadnienia:</h3>
 <ul>
-    <li>Zaufane obrazy w GKE? Szukaj <b>Binary Authorization</b>.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/binary-authorization/docs" target="_blank">Binary Authorization Overview</a></li>
+    <li><b>Policy Enforcement:</b> Użycie Binary Authorization do blokowania niepodpisanych obrazów.</li>
+    <li><b>Integracja CI/CD:</b> Pipeline jako zaufane źródło atestów.</li>
+    <li><b>GKE Admission Control:</b> Moment, w którym następuje weryfikacja (przed utworzeniem podów).</li>
 </ul>
 </div>
 <script>

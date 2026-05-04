@@ -79,22 +79,32 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. W architekturze microservices, gdzie system potrafi obsłużyć częściowe awarie (tzw. "graceful degradation"), kluczowe jest monitorowanie jakości odpowiedzi dostarczanych użytkownikowi.
-
-- A (Quality SLI): Idealnie mierzy to, czy odpowiedź serwera zawiera wszystko, czego użytkownik oczekuje. Jeśli strona główna jest serwowana, ale brakuje widgetów (np. pogody), jest to odpowiedź "degradowana". Mierząc stosunek odpowiedzi poprawnych (kompletnych) do wszystkich, otrzymujemy wskaźnik jakości (Quality SLI), który bezpośrednio przekłada się na doświadczenie użytkownika.
+Poprawna odpowiedź to A. W architekturze mikroserwisowej, która stosuje mechanizm "graceful degradation" (łagodna degradacja), tradycyjne mierzenie dostępności (Availability - czy strona w ogóle się wczytała) jest niewystarczające. Użytkownik może otrzymać stronę (sukces 200 OK), ale bez kluczowych informacji (brak widgetów). Wskaźnik jakości (Quality SLI) mierzy właśnie to: jaki procent wszystkich odpowiedzi był "pełnowartościowy" (niezdegradowany). Pozwala to precyzyjnie monitorować negatywny wpływ awarii mikroserwisów na doświadczenie użytkownika końcowego.
 
 Dlaczego inne odpowiedzi są błędne:
-- B (Availability SLI): Mierzenie dostępności poszczególnych mikroserwisów nie odzwierciedla doświadczenia użytkownika końcowego. Nawet jeśli 100% mikroserwisów działa, strona może ładować się za wolno lub zwracać błędy w warstwie prezentacji.
-- C (Freshness SLI): Odnosi się do tego, jak świeże są dane (np. ceny akcji), a nie do tego, czy użytkownik w ogóle otrzymał odpowiedź lub czy była ona kompletna.
-- D (Latency SLI): Mierzy szybkość działania usług, ale nie mówi nic o poprawności (kompletności) zwróconej strony www.</pre>
+B. Availability SLI oparte na liczbie zdrowych mikroserwisów mierzy stan infrastruktury, a nie doświadczenie użytkownika. Nawet jeśli jeden mikroserwis nie działa, użytkownik wciąż może być zadowolony z pozostałej części strony. SLO powinno być zawsze jak najbliżej perspektywy użytkownika.
+C. Freshness SLI mierzy aktualność danych (np. czy cena akcji jest sprzed sekundy czy minuty). Pytanie dotyczy jednak braku danych, a nie ich opóźnienia w aktualizacji.
+D. Latency SLI mierzy szybkość działania. Choć wydajność jest ważna, w tym scenariuszu głównym problemem jest brakująca treść, co jest domeną wskaźnika jakości (Quality), a nie czasu odpowiedzi (Latency).
+
+Hity i triki (Exam Tips):
+- **Availability SLI:** "Czy usługa działa?" (np. kod 200 vs 500).
+- **Quality SLI:** "Jak dobra jest odpowiedź?" (np. czy dane są kompletne, czy nie użyto domyślnych/uproszczonych wartości).
+- **Latency SLI:** "Jak szybko przyszła odpowiedź?".
+- **Freshness SLI:** "Jak aktualne są dane?".
+- Zapamiętaj: Jeśli system ma mechanizm "fallback" lub serwuje częściowe dane przy awarii -> wybierz **Quality SLI**.
+
+Dokumentacja:
+- https://sre.google/sre-book/service-level-objectives/
+- https://cloud.google.com/architecture/framework/reliability/service-level-objectives#types_of_sli</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Wybór właściwego SLI jest fundamentem SRE. W przypadku systemów rozproszonych, binarna dostępność (działa/nie działa) często nie oddaje rzeczywistości. Monitorowanie "jakości" odpowiedzi pozwala na lepsze zarządzanie budżetem błędów w systemach, które są zaprojektowane tak, aby nigdy całkowicie nie padać.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>User-Centric:</strong> Dobre SLO zawsze patrzy na system oczami użytkownika. Użytkownik widzi brak widgetu jako błąd, nawet jeśli serwer zwrócił kod 200.</li>
+    <li><strong>Graceful Degradation:</strong> To technika zwiększająca niezawodność – lepiej pokazać cokolwiek niż stronę błędu. Quality SLI to jedyny sposób, by zmierzyć koszt tej techniki.</li>
+    <li><strong>Error Budget:</strong> Pamiętaj, że przekroczenie SLO (wynikające z niskiego SLI) powinno wstrzymywać nowe wdrożenia, dopóki stabilność (lub jakość) nie wróci do normy.</li>
 </ul>
 </div>
 <script>

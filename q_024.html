@@ -79,20 +79,36 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. BigQuery jest skalowalnym, w pełni zarządzanym magazynem danych (data warehouse), który idealnie nadaje się do przechowywania i analityki dużych zbiorów danych logów z długich okresów (np. kwartalnych). Integracja między Cloud Logging (Stackdriver) a BigQuery jest natywna i zautomatyzowana (Sink). Looker Studio (dawniej Data Studio) jest natywnym narzędziem GCP do wizualizacji, które pozwala na łatwe tworzenie interaktywnych dashboardów, łączenie się z BigQuery i udostępnianie raportów interesariuszom bez konieczności utrzymywania własnej infrastruktury.
+Poprawną odpowiedzią jest **A (1. Export VM utilization logs from Stackdriver to BigQuery. 2. Create a dashboard in Data Studio. 3. Share the dashboard with your stakeholders)**.
 
-Dlaczego inne odpowiedzi są błędne:
-B. SIEM (Security Information and Event Management) jest narzędziem dedykowanym do analizy zdarzeń bezpieczeństwa, korelacji zagrożeń i audytu, a nie do tworzenia ogólnych dashboardów wydajnościowych. Jest to rozwiązanie zbyt wyspecjalizowane i często bardzo kosztowne.
-C. Google Sheets posiada limity wierszy i wydajnościowe, które uniemożliwiają analizę kwartalnych logów VM. Dodatkowo, ręczny eksport do CSV jest klasycznym przykładem "Toil" (ręcznej, powtarzalnej pracy), co jest niepożądane w praktykach DevOps.
-D. Budowanie własnej aplikacji do wizualizacji na podstawie danych z Cloud Storage to tzw. "reinventing the wheel" (tworzenie koła na nowo). Wymaga to projektowania, kodowania, hostowania, zabezpieczania i utrzymywania dedykowanego rozwiązania, co drastycznie zwiększa koszty operacyjne i dług technologiczny, podczas gdy dostępne są gotowe usługi typu managed.</pre>
+**Dlaczego A jest poprawne?**
+To rozwiązanie wykorzystuje trzy potężne, natywne usługi GCP w sposób zautomatyzowany:
+1.  **Cloud Logging (Stackdriver):** Gromadzi logi i metryki z maszyn VM.
+2.  **BigQuery:** Dzięki mechanizmowi "Log Sink" (zlewozmywak logów), dane mogą być automatycznie przesyłane do BigQuery w czasie rzeczywistym. BigQuery idealnie nadaje się do przechowywania ogromnych ilości danych przez długi czas (np. kwartały) i pozwala na wykonywanie szybkich zapytań SQL w celu agregacji danych.
+3.  **Looker Studio (dawniej Data Studio):** Jest to darmowe, chmurowe narzędzie do wizualizacji, które posiada natywny konektor do BigQuery. Pozwala na tworzenie interaktywnych, łatwych do udostępnienia dashboardów, które odświeżają się automatycznie.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **B. Export VM utilization logs... to a SIEM system:** Systemy SIEM (Security Information and Event Management) służą do analizy bezpieczeństwa i wykrywania zagrożeń, a nie do monitorowania wydajności i utylizacji zasobów. Ponadto, SIEM to często rozwiązanie zewnętrzne, a pytanie wymaga użycia rozwiązań GCP.
+*   **C. Export the logs to a CSV file... Import into Google Sheets:** To podejście jest skrajnie nieefektywne. Po pierwsze, kwartalne logi z wielu maszyn VM z łatwością przekroczą limity wierszy w Google Sheets. Po drugie, ręczny eksport do CSV i import to klasyczny przykład "toil" (mozolnej, ręcznej pracy), którego należy unikać w DevOps. Nie zapewnia to również aktualizacji w czasie rzeczywistym.
+*   **D. Build a custom data visualization application:** Budowanie własnej aplikacji tylko po to, by wyświetlić wykresy utylizacji VM, jest niepotrzebnym marnotrawstwem zasobów (zarówno czasu programistów, jak i kosztów utrzymania infrastruktury). W myśl zasady "Focus on what provides value", należy korzystać z gotowych narzędzi typu Managed Services (jak Looker Studio), zamiast tworzyć je od zera.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Ścieżka **Logs -> BigQuery -> Looker Studio** to najczęstszy wzorzec analityczny w Google Cloud. Zapamiętaj tę kombinację dla pytań o raportowanie i długoterminową analizę logów.
+- Pamiętaj, że standardowy okres retencji logów w Cloud Logging to 30 dni. Aby analizować dane kwartalne (90 dni), **musisz** je wyeksportować (np. do BigQuery lub Cloud Storage).
+
+### 🔗 Dokumentacja i linki
+- [Exporting logs with log sinks](https://cloud.google.com/logging/docs/export/configure_export_v2)
+- [Visualizing BigQuery data using Looker Studio](https://cloud.google.com/bigquery/docs/visualize-looker-studio)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>Zadanie to sprawdza wiedzę na temat ekosystemu analitycznego Google Cloud. Jako DevOps Engineer musisz wiedzieć, jak dostarczać interesariuszom dane o infrastrukturze w sposób przejrzysty i bezobsługowy.</p>
+<h3>Kluczowe zagadnienia:</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><b>Log Retention:</b> Świadomość limitów przechowywania danych w Cloud Logging.</li>
+    <li><b>Toil Reduction:</b> Wybór zautomatyzowanych potoków danych zamiast manualnych procesów (CSV/Sheets).</li>
+    <li><b>Managed Services:</b> Wykorzystanie gotowych narzędzi BI (Looker Studio) zamiast budowania własnych rozwiązań.</li>
 </ul>
 </div>
 <script>

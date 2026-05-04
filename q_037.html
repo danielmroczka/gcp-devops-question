@@ -79,18 +79,30 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 37: Poprawna odpowiedź C. W GCP limity (quotas) są przypisane do regionów i projektów. Przy skalowaniu do wielu regionów i przy dużym zużyciu zasobów, weryfikacja dostępności limitów jest krytycznym elementem planowania pojemności (capacity planning).
-- A: Wybór maszyny zależy od potrzeb aplikacji, nie tylko od "dużej liczby zasobów".
-- B: Stackdriver Trace służy do analizy wydajności requestów, nie do planowania pojemności VM.
-- D: Zaprzecza wymaganiu wdrożenia w wielu regionach.</pre>
+Poprawna odpowiedź to C. W Google Cloud Platform "planowanie pojemności" (capacity planning) opiera się w dużej mierze na zarządzaniu **limitami (Quotas)**. Są to ograniczenia nałożone na projekt, które określają, ile zasobów danego typu (np. vCPU, dyski SSD, adresy IP) można zużyć w konkretnym regionie. Przy wdrożeniach wieloregionalnych wymagających dużej ilości zasobów, kluczowe jest upewnienie się, że limity w każdym z regionów docelowych są wystarczające. Jeśli limity są zbyt niskie, proces autoskalowania Managed Instance Group (MIG) zawiedzie, co uniemożliwi obsługę ruchu.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Wybór konkretnego, dużego typu maszyny (jak n1-highcpu-96) bez sprawdzenia dostępności limitów może doprowadzić do sytuacji, w której nie będziesz mógł uruchomić ani jednej takiej instancji. Maszyny o dużej liczbie vCPU bardzo szybko wyczerpują standardowe limity regionalne.
+B. Cloud Trace (dawniej Stackdriver Trace) służy do analizy wydajności aplikacji na poziomie żądań (śledzenie opóźnień między usługami). Nie dostarcza informacji o dostępności zasobów infrastrukturalnych w regionach GCP.
+D. Wdrożenie w jednym regionie i użycie Load Balancera narusza bezpośrednie wymaganie pytania o wdrożenie wieloregionalne (multiple regions). Takie podejście obniża dostępność i zwiększa opóźnienia dla użytkowników z innych części świata.
+
+Hity i triki (Exam Tips):
+- **Quotas vs Project:** Limity są zazwyczaj regionalne. Musisz proaktywnie prosić o ich zwiększenie (Quota Increase Request) przed planowanym dużym wdrożeniem.
+- **Capacity Planning:** W chmurze oznacza to upewnienie się, że masz prawo do zakupu zasobów (Quota) oraz opcjonalnie zagwarantowanie ich dostępności fizycznej (Capacity Reservations).
+- **MIG w wielu regionach:** Pamiętaj, że autoskalowanie w MIG działa niezależnie w każdym regionie, więc każdy region musi mieć własną pulę wolnego limitu (Quota).
+
+Dokumentacja:
+- https://cloud.google.com/docs/quota
+- https://cloud.google.com/compute/docs/instances/reserving-zonal-resources</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze sprawdzaj limity (quotas) w GCP przed planowaniem dużych wdrożeń w nowych regionach.</p>
+<p>Skalowanie globalne wymaga globalnego spojrzenia na limity. Zapominanie o sprawdzeniu limitów przed wdrożeniem to jeden z najczęstszych błędów operacyjnych prowadzących do awarii "blackout" podczas nagłego wzrostu ruchu.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Weryfikacja limitów = klucz do sukcesu przy skalowaniu.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs/quota" target="_blank">Limity GCP Quotas</a></li>
+    <li><strong>Monitoring Quotas:</strong> Możesz ustawić alerty w Cloud Monitoring, które powiadomią Cię, gdy zużycie limitu (np. vCPU) przekroczy 80%.</li>
+    <li><strong>Zonal vs Regional Quotas:</strong> Większość limitów Compute Engine jest regionalna, co daje elastyczność w ramach stref tego regionu.</li>
+    <li><strong>Sustained Use Discounts:</strong> Planując duże wdrożenie VM na stałe, pamiętaj o oszczędnościach z SUD lub CUD (Committed Use Discounts).</li>
 </ul>
 </div>
 <script>

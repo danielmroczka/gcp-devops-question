@@ -76,21 +76,35 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Poprawna odpowiedź: C.
 
 Wyjaśnienie:
-Udostępnienie wykresu poprzez wygenerowany URL (Share chart by URL) pozwala na bezpośredni dostęp do konkretnego zasobu bez konieczności nadawania szerokich uprawnień do całego projektu czy workspace'u. Przypisanie roli "Monitoring Viewer" (zamiast szerszych ról edytorskich) na poziomie Workspace'u jest zgodne z zasadą Least Privilege – zespół SRE może przeglądać metryki (widok), ale nie może zmieniać konfiguracji monitoringu.
+Aby udostępnić konkretny wykres (chart) zespołowi SRE zgodnie z zasadą najmniejszych uprawnień (Least Privilege), należy połączyć precyzyjne wskazanie zasobu z odpowiednią rolą IAM. Funkcja "Share chart by URL" generuje bezpośredni link do wykresu, co pozwala uniknąć konieczności nawigowania przez zespół SRE po wszystkich dashboardach w projekcie. Jednak sam link nie daje dostępu – użytkownicy muszą mieć uprawnienia do odczytu danych monitoringu w projekcie.
 
-A i B. Udostępnienie "Project ID" jest niepraktyczne i może wiązać się z ryzykiem nadania zbyt dużych uprawnień, jeśli nie przemyślimy zakresu roli.
-D. "Dashboard Viewer" to rola, która mogłaby wystarczyć, ale C jest bardziej precyzyjne w kontekście udostępniania konkretnego wykresu (URL) przy zachowaniu niezbędnych uprawnień dostępu do Workspace (Monitoring Viewer).</pre>
+Rola "Monitoring Viewer" (roles/monitoring.viewer) jest tu najbardziej odpowiednia, ponieważ daje uprawnienia do odczytu metryk (time series data), które są niezbędne do wyrenderowania wykresu, oraz dostęp do dashboardów. Jest to rola typu "read-only", co spełnia wymóg Least Privilege.
+
+Dlaczego pozostałe odpowiedzi są błędne:
+A. Udostępnienie samego Project ID jest mniej efektywne. Zespół SRE musiałby samodzielnie odnaleźć odpowiedni dashboard i wykres, co marnuje czas i zwiększa ryzyko błędu. Zasada Least Privilege dotyczy nie tylko uprawnień, ale i ograniczania ekspozycji zbędnych informacji.
+B. Podobnie jak w A, brak bezpośredniego linku utrudnia pracę. Rola "Dashboard Viewer" (roles/monitoring.dashboardViewer) pozwala na przeglądanie dashboardów, ale w niektórych przypadkach może nie wystarczyć do poprawnego wyświetlenia danych na wykresie udostępnionym przez URL poza kontekstem całego dashboardu (jeśli wymagane są szersze uprawnienia do metryk).
+D. Choć użycie URL jest poprawne, rola "Dashboard Viewer" jest bardziej specyficzna dla samych dashboardów. Standardową praktyką w GCP Monitoring dla osób, które mają analizować metryki i wykresy, jest nadawanie roli "Monitoring Viewer", która gwarantuje dostęp do wszystkich niezbędnych danych wejściowych dla wykresów.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe w pytaniu są: <b>Least Privilege</b> oraz <b>SRE team only</b>. Udostępnianie konkretnego linku (URL) w połączeniu z precyzyjną rolą (Viewer) to wzorzec bezpiecznego udostępniania w GCP.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<p>Pytanie sprawdza umiejętność zarządzania dostępem do zasobów operacyjnych w GCP. Kluczem jest zrozumienie, że w Cloud Monitoring (dawniej Stackdriver) dostęp do wizualizacji wymaga uprawnień do danych podstawowych (metryk).</p>
+
+<h3>💡 Hity i triki (Exam Tips)</h3>
 <ul>
-    <li>W GCP DevOps: Zawsze wybieraj najmniejszy potrzebny zakres (np. Viewer > Editor, URL > Project Access).</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/monitoring/docs/charts" target="_blank">Cloud Monitoring Charts Access</a></li>
+    <li><b>Least Privilege</b> w monitoringu: Zawsze preferuj role <b>Viewer</b> nad Editor.</li>
+    <li><b>Share chart by URL</b>: To funkcja "deep linking". Użytkownik i tak musi mieć rolę IAM w projekcie, aby zobaczyć dane pod linkiem.</li>
+    <li>Różnica między <b>Monitoring Viewer</b> a <b>Dashboard Viewer</b>: Pierwsza jest szersza i bezpieczniejsza, gdy chcesz mieć pewność, że wszystkie metryki na wykresach będą widoczne.</li>
+    <li>W egzaminie, jeśli masz do wyboru udostępnienie "całego projektu" vs "konkretnego linku", link prawie zawsze wspiera zasadę ograniczonego zaufania i efektywności.</li>
+</ul>
+
+<h3>🔗 Linki do dokumentacji</h3>
+<ul>
+    <li><a href="https://cloud.google.com/monitoring/docs/charts/sharing" target="_blank">Sharing a chart by URL</a></li>
+    <li><a href="https://cloud.google.com/monitoring/access-control" target="_blank">Cloud Monitoring IAM Roles</a></li>
+    <li><a href="https://cloud.google.com/iam/docs/using-iam-securely" target="_blank">IAM Best Practices (Least Privilege)</a></li>
 </ul>
 </div>
 </div>

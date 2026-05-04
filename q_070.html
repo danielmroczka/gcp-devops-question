@@ -75,28 +75,39 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D
+<pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Zarządzanie sekretami w pipeline'ach CI/CD musi być bezpieczne (szyfrowane) i łatwe w utrzymaniu (minimalizacja wysiłku/Toil).
+Poprawna odpowiedź to D. Zarządzanie sekretami (takimi jak hasła do baz danych czy klucze API) w procesach CI/CD jest jednym z najważniejszych aspektów bezpieczeństwa w DevOps.
 
-Dlaczego D jest poprawne:
-- Cloud KMS (Key Management Service) to standard w GCP do zarządzania szyfrowaniem danych. Pozwala na bezpieczne przechowywanie zaszyfrowanych sekretów w repozytorium (np. w plikach konfiguracyjnych) i odszyfrowywanie ich w trakcie budowania (np. przez Cloud Build przy użyciu odpowiednich uprawnień IAM do KeyRing/CryptoKey).
+Dlaczego odpowiedź D jest poprawna:
+1. Natywne wsparcie: Cloud Build posiada wbudowany mechanizm obsługi sekretów zaszyfrowanych za pomocą Cloud KMS. Możesz zdefiniować blok `secrets` w pliku `cloudbuild.yaml`.
+2. Bezpieczeństwo "at rest": Nawet jeśli plik `cloudbuild.yaml` trafi do repozytorium kodu, sekrety są widoczne tylko jako zaszyfrowane ciągi znaków (ciphertext). Odszyfrowanie następuje dopiero w trakcie trwania buildu w bezpiecznym środowisku Google.
+3. Kontrola dostępu: Dzięki IAM możesz precyzyjnie kontrolować, które konto serwisowe (Service Account) ma uprawnienia do korzystania z konkretnego klucza KMS (KeyRing/CryptoKey).
 
-Dlaczego inne są błędne:
-- A, C: Cloud Storage (GCS) nie jest przeznaczony do bezpiecznego przechowywania sekretów w sposób jawny, nawet z szyfrowaniem. Wymagałoby to zarządzania kluczami poza systemem KMS.
-- B: Przechowywanie kluczy w innym repozytorium to utrudnienie (złożoność) i zwiększone ryzyko wycieku.
+Analiza błędnych odpowiedzi:
+- A: Przechowywanie sekretów w plikach tekstowych w Cloud Storage (GCS) jest ryzykowne. Każdy, kto ma dostęp do bucketu, może odczytać sekret. Szyfrowanie "at rest" w GCS jest przezroczyste dla użytkownika z uprawnieniami do odczytu obiektu.
+- B: Przechowywanie klucza deszyfrującego w innym repozytorium to tzw. "security by obscurity". Jest to skomplikowane w zarządzaniu (wysoki Toil) i nie rozwiązuje problemu – nadal musisz jakoś zabezpieczyć dostęp do tego drugiego repozytorium.
+- C: Szyfrowanie po stronie klienta (client-side encryption) przed wysłaniem do GCS wymaga dodatkowego kodu i zarządzania kluczami poza ekosystemem GCP, co drastycznie zwiększa wysiłek programistyczny (Development Effort).
 
-Wskazówki (Tricks):
-- W pytaniach o sekrety w GCP, szukaj "Cloud KMS" lub "Secret Manager". Nigdy nie przechowuj sekretów w repozytorium w postaci jawnej ("plain text").</pre>
+Hity i triki (Exam Tips):
+- Jeśli w pytaniu o sekrety pojawia się **Cloud KMS** lub **Secret Manager** – są to zazwyczaj najsilniejsi kandydaci na poprawną odpowiedź.
+- Cloud KMS służy do **szyfrowania danych**, podczas gdy Secret Manager (nowsza usługa) służy do **zarządzania sekretami** jako takimi. W nowszych pytaniach Secret Manager jest częściej preferowany, ale na egzaminie mechanizm z KMS jest nadal bardzo popularny.
+- Pamiętaj o używaniu zmiennych środowiskowych `secretEnv` w Cloud Build, aby nie przekazywać sekretów w argumentach linii komend (co mogłyby być widoczne w logach procesu).
+
+Przydatne linki:
+- [Using secrets in Cloud Build](https://cloud.google.com/build/docs/securing-builds/use-secrets)
+- [Cloud KMS documentation](https://cloud.google.com/kms/docs)
+- [Secret Manager overview](https://cloud.google.com/secret-manager/docs/overview)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W nowoczesnych pipeline'ach CI/CD, takich jak te oparte na Cloud Build, unika się tzw. "hardcoded secrets". Wykorzystanie Cloud KMS do szyfrowania i odszyfrowywania w locie (just-in-time decryption) jest krokiem w stronę bezpieczeństwa zgodnego z zasadą Zero Trust.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Warto wspomnieć o **Secret Manager**, który jest obecnie rekomendowanym sposobem przechowywania sekretów w GCP (łatwiejsze wersjonowanie i rotacja).</li>
+    <li>Upewnij się, że konto serwisowe Cloud Build (`[PROJECT_NUMBER]@cloudbuild.gserviceaccount.com`) ma rolę `roles/cloudkms.cryptoKeyDecrypter`.</li>
+    <li>Nigdy nie loguj sekretów do konsoli podczas buildu! Cloud Build automatycznie maskuje niektóre wartości, ale dobra praktyka to świadome unikanie `echo $SECRET`.</li>
 </ul>
 </div>
 <script>

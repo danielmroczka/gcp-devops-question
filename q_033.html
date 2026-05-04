@@ -79,18 +79,30 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 33: Poprawna odpowiedź C. Cloud KMS (Key Management Service) w połączeniu z Cloud Storage to bezpieczny sposób przechowywania zaszyfrowanych sekretów. Dostęp do KMS jest zarządzany przez IAM, co pozwala na bezpieczne przyznanie dostępu CI/CD.
-- A: Niebezpieczne - sekrety nie powinny być przechowywane w pamięci builda ani wpisywane ręcznie.
-- B: Niebezpieczne - przechowywanie sekretów w Git, nawet jeśli dostęp ma tylko kilku ludzi, jest ryzykowne (sekrety w historii Git).
-- D: Niebezpieczne - trzymanie sekretów w repozytorium źródłowym (nawet zaszyfrowanych) jest praktyką niezalecaną.</pre>
+Poprawna odpowiedź to C. Przechowywanie sekretów w Cloud Storage (GCS) w formie zaszyfrowanej przy użyciu kluczy z Cloud KMS (Key Management Service) to bezpieczna metoda, która pozwala na ścisłą kontrolę dostępu za pomocą IAM. CI/CD pipeline może otrzymać uprawnienia do pobrania zaszyfrowanego pliku z GCS oraz do jego odszyfrowania za pomocą konkretnego klucza w KMS. Taka separacja obowiązków (separation of duties) i szyfrowanie w spoczynku (encryption at rest) są zgodne z najlepszymi praktykami bezpieczeństwa. Chociaż obecnie Google zaleca korzystanie z usługi **Secret Manager**, rozwiązanie z KMS i GCS jest fundamentem bezpiecznego zarządzania sekretami w GCP.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Ręczne wpisywanie haseł przez deweloperów przy każdym wdrożeniu uniemożliwia automatyzację (Toil) i jest skrajnie niebezpieczne (ryzyko przechwycenia hasła, błąd ludzki).
+B. Przechowywanie sekretów w systemie kontroli wersji (Git) to jeden z najczęstszych błędów. Sekrety zapisują się w historii repozytorium i są niemal niemożliwe do całkowitego usunięcia. Nawet ograniczenie dostępu do pliku nie eliminuje ryzyka wycieku całego repozytorium.
+D. Szyfrowanie sekretów wewnątrz repozytorium Git (tzw. secrets-in-code) jest odradzane. Jeśli klucz deszyfrujący zostanie przejęty, atakujący ma dostęp do wszystkich historycznych wersji haseł zapisanych w Gicie.
+
+Hity i triki (Exam Tips):
+- **Secret Manager vs KMS:** Secret Manager służy do przechowywania haseł, kluczy API i certyfikatów. KMS służy do zarządzania kluczami szyfrującymi dane. W nowszych pytaniach Secret Manager będzie zazwyczaj preferowaną odpowiedzią.
+- **IAM:** Pamiętaj o zasadzie "least privilege" – CI/CD powinien mieć dostęp tylko do odszyfrowywania (kms.cryptoKeyDecryption), a nie do zarządzania kluczami.
+- **Rotation:** Automatyczna rotacja sekretów jest kluczowa dla ograniczania skutków potencjalnego włamania.
+
+Dokumentacja:
+- https://cloud.google.com/secret-manager/docs
+- https://cloud.google.com/kms/docs/envelope-encryption</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Nigdy nie przechowuj sekretów w repozytoriach kodu. Używaj KMS, Secret Manager lub dedykowanych rozwiązań do zarządzania sekretami.</p>
+<p>Bezpieczeństwo potoku CI/CD jest tak silne, jak najsłabsze ogniwo w łańcuchu dostaw. Zarządzanie sekretami poza kodem źródłowym to absolutna podstawa nowoczesnego DevOps.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze używaj dedykowanych rozwiązań (KMS, Secret Manager) zamiast Git/Plików konfiguracyjnych.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/secret-manager/docs" target="_blank">Secret Manager</a></li>
+    <li><strong>Nigdy w Git:</strong> To złota zasada. Jeśli sekrety trafią do Git, muszą zostać unieważnione (rotated) natychmiast.</li>
+    <li><strong>Secret Manager Integration:</strong> Wiele usług GCP (jak Cloud Run czy Cloud Build) posiada natywną integrację z Secret Managerem, co pozwala na wstrzykiwanie sekretów jako zmiennych środowiskowych bez pisania kodu deszyfrującego.</li>
+    <li><strong>External Secrets Operator:</strong> Jeśli używasz GKE, warto znać to narzędzie, które automatycznie synchronizuje sekrety z GCP Secret Manager do natywnych Secretów Kubernetes.</li>
 </ul>
 </div>
 <script>

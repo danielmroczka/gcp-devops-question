@@ -79,20 +79,30 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. W praktykach SRE, głównym priorytetem w przypadku wystąpienia incydentu produkcyjnego wywołanego wdrożeniem (np. canary release) jest jak najszybsze przywrócenie stabilności usługi dla użytkowników końcowych (Mean Time to Recovery - MTTR). "Rollback" (wycofanie zmian) jest najszybszą i najbezpieczniejszą metodą "naprawy" w tym scenariuszu, ponieważ pozwala natychmiastowo wyeliminować przyczynę awarii, nie tracąc czasu na diagnozowanie problemu w trakcie trwania incydentu.
+Poprawna odpowiedź to A. W praktykach SRE i zarządzaniu incydentami, priorytetem numer jeden jest jak najszybsze przywrócenie stabilności usługi (minimalizacja MTTR - Mean Time to Recovery). Ponieważ degradacja wydajności i błędy 500 wystąpiły bezpośrednio po wdrożeniu wersji typu "canary", najskuteczniejszą metodą natychmiastowego zminimalizowania negatywnego wpływu na użytkowników jest wycofanie (rollback) tej wersji. SRE kieruje się zasadą: "Najpierw przywróć działanie, potem szukaj przyczyny".
 
 Dlaczego inne odpowiedzi są błędne:
-B. Monitorowanie jest procesem ciągłym, a nie działaniem, które podejmuje się po wystąpieniu incydentu, aby "zminimalizować wpływ". Monitorowanie powinno już działać i to właśnie dzięki niemu wykryto problem.
-C. Tworzenie postmortemu jest bardzo ważnym elementem SRE, ale wykonuje się je PO rozwiązaniu incydentu (lub w jego późniejszej fazie), aby przeanalizować przyczyny źródłowe i zapobiec ich powtórzeniu. Nie pomaga to jednak w natychmiastowym zminimalizowaniu negatywnego wpływu na użytkowników.
-D. Trace-owanie i analiza przyczyn źródłowych (root cause analysis) są niezbędne do trwałego rozwiązania problemu, ale czasochłonne. Zbyt długa diagnoza w trakcie incydentu oznacza dłuższy przestój dla użytkowników, co jest niedopuszczalne, gdy dostępne jest szybkie i sprawdzone rozwiązanie, jakim jest rollback.</pre>
+B. Rozpoczęcie monitorowania (latency, traffic, errors, saturation – tzw. Golden Signals) po wystąpieniu błędu jest spóźnioną reakcją. Te metryki powinny być zbierane stale. Monitorowanie pomaga wykryć problem, ale samo w sobie go nie rozwiązuje.
+C. Dokumentacja postmortem jest kluczowa dla procesu uczenia się i zapobiegania przyszłym awariom, ale tworzy się ją PO rozwiązaniu incydentu. Skupienie się na niej w trakcie awarii opóźnia naprawę.
+D. Analiza przyczyny źródłowej (Root Cause Analysis - RCA) jest niezbędna, ale nie powinna być wykonywana kosztem czasu dostępności usługi. Szukanie błędów w kodzie czy konfiguracji w trakcie, gdy użytkownicy otrzymują błędy 500, jest nieefektywne, jeśli dostępny jest szybki rollback.
+
+Hity i triki (Exam Tips):
+- Słowa klucze: "quickly minimize impact", "shortly after deploying" -> prawie zawsze oznaczają Rollback.
+- Canary Deployment: Pozwala przetestować nową wersję na małym ułamku ruchu (np. 1-5%). Jeśli coś idzie nie tak, wycofujemy zmianę, chroniąc 95-99% użytkowników.
+- Złota zasada: "Fix first, debug later". Zachowaj artefakty (logi, zrzuty pamięci) do późniejszej analizy, ale najpierw przywróć system do stanu stabilnego.
+
+Dokumentacja:
+- https://sre.google/sre-book/incident-response/
+- https://cloud.google.com/architecture/application-deployment-strategies#canary_deployment</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Scenariusz ten sprawdza zrozumienie priorytetów operacyjnych. W świecie SRE/DevOps, szybkość reakcji na błąd wdrożenia jest miarą dojrzałości zespołu. Automatyczny rollback na podstawie metryk z canary jest szczytowym osiągnięciem w tej dziedzinie.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Golden Signals:</strong> Zapamiętaj 4 sygnały: Latency (Opóźnienie), Traffic (Ruch), Errors (Błędy), Saturation (Nasycenie).</li>
+    <li><strong>Canary vs Blue/Green:</strong> Canary wdraża się stopniowo (ułamek ruchu), Blue/Green przełącza ruch całkowicie na nową wersję. Oba pozwalają na szybki rollback.</li>
+    <li><strong>MTTR vs MTTF:</strong> SRE skupia się na obniżaniu MTTR (czasu naprawy) bardziej niż na MTTF (czasie między awariami), akceptując, że awarie są nieuniknione.</li>
 </ul>
 </div>
 <script>

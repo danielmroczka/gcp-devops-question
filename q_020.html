@@ -78,19 +78,34 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Gdy aplikacja zaczyna zwracać błędy typu "database timeout" po aktualizacji, a liczba użytkowników jest stabilna, najczęstszą przyczyną są problemy z pulą połączeń (connection pooling) lub wycieki połączeń w nowym kodzie. Sprawdzenie liczby aktywnych połączeń do Cloud SQL pozwala ustalić, czy aplikacja nie otwiera ich zbyt wiele, wyczerpując dostępny limit Cloud SQL.
+Poprawną odpowiedzią jest **C (Determine whether there is an increased number of connections to the Cloud SQL instance)**.
 
-A. Logi portu szeregowego pomagają przy awariach systemu operacyjnego, nie przy timeoutach aplikacji do bazy danych.
-B. Stackdriver Profiler (Cloud Profiler) jest doskonały do badania wydajności CPU i pamięci wewnątrz kodu aplikacji, ale problem dotyczy specyficznie połączenia z bazą danych (timeouty), a nie ogólnego wykorzystania zasobów (CPU/RAM).
-D. Cloud Security Scanner skanuje luki bezpieczeństwa (np. XSS), nie służy do badania wydajności bazy danych ani przyczyn timeoutów.</pre>
+**Dlaczego C jest poprawne?**
+Gdy aplikacja zgłasza błędy typu "timeout" przy połączeniu z bazą danych po aktualizacji kodu, a liczba użytkowników pozostaje bez zmian, najczęstszym winowajcą jest niewłaściwe zarządzanie połączeniami (connection management). Nowa wersja aplikacji może zawierać błąd powodujący tzw. wyciek połączeń (connection leak) – sytuację, w której połączenia z bazą są otwierane, ale nie są zamykane i zwracane do puli. Cloud SQL ma limity jednoczesnych połączeń; po ich wyczerpaniu każda kolejna próba połączenia zakończy się timeoutem. Sprawdzenie metryk połączeń w Cloud Monitoring jest najszybszym sposobem na potwierdzenie tej hipotezy.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **A. Check the serial port logs of the Compute Engine instance:** Logi portu szeregowego są niezwykle przydatne do diagnozowania problemów z uruchamianiem systemu operacyjnego (boot issues), błędów kernela lub problemów z siecią na poziomie systemu VM. Nie dostarczają one jednak informacji o logice aplikacji ani o jej interakcji z zewnętrzną bazą danych Cloud SQL.
+*   **B. Use Stackdriver Profiler to visualize the resources utilization throughout the application:** Cloud Profiler służy do analizy zużycia procesora (CPU) i pamięci przez poszczególne funkcje w kodzie aplikacji. Choć może pomóc znaleźć nieefektywny kod, błąd "database timeout" jest specyficzny dla warstwy komunikacji z bazą. Profiler nie pokaże bezpośrednio problemu z wyczerpaniem puli połączeń w Cloud SQL.
+*   **D. Use Cloud Security Scanner to see whether your Cloud SQL is under a Distributed Denial of Service (DDoS) attack:** Cloud Security Scanner to narzędzie do wykrywania luk w zabezpieczeniach (np. XSS, niebezpieczne biblioteki). Nie służy ono do monitorowania ruchu sieciowego pod kątem ataków DDoS ani do analizy wydajności bazy danych. Do ochrony przed DDoS w GCP służy usługa **Google Cloud Armor**.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Scenariusz: **Aktualizacja kodu + błędy bazy + stały ruch = Wyciek połączeń (Connection Leak)**.
+- Zawsze sprawdzaj metryki Cloud SQL: `database/instance/connections` to Twój pierwszy punkt styku przy diagnozowaniu timeoutów.
+- Pamiętaj, że limity połączeń w Cloud SQL zależą od rozmiaru instancji (liczby vCPU i RAM).
+
+### 🔗 Dokumentacja i linki
+- [Diagnosing issues with Cloud SQL connections](https://cloud.google.com/sql/docs/mysql/diagnose-issues#connections)
+- [Cloud SQL metrics overview](https://cloud.google.com/sql/docs/mysql/metrics)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W DevOps: <b>Timeouty do bazy = Najpierw sprawdź metrykę "Connections"</b>. To najszybszy sposób na potwierdzenie problemów z pulą połączeń.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>Pytanie to symuluje realny incydent produkcyjny typu "regression". Kluczem jest umiejętność odróżnienia problemów z zasobami obliczeniowymi (CPU/RAM) od problemów z zasobami zewnętrznymi (Database connections).</p>
+<h3>Kluczowe punkty:</h3>
 <ul>
-    <li>Timeout do bazy? Szukaj <b>liczby aktywnych połączeń (Connections)</b> w metrykach bazy.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/sql/docs/mysql/diagnose-issues" target="_blank">Cloud SQL Troubleshooting</a></li>
+    <li><b>Root Cause Analysis (RCA):</b> Izolacja zmiany (aktualizacja kodu) jako głównej przyczyny problemu.</li>
+    <li><b>Connection Pooling:</b> Zrozumienie, jak aplikacje zarządzają sesjami bazy danych.</li>
+    <li><b>Metric-Driven Development:</b> Wykorzystanie Cloud Monitoring do szybkiej weryfikacji stanu infrastruktury.</li>
 </ul>
 </div>
 <script>

@@ -76,29 +76,39 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B
+<pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Etykiety (labels) w GCP to kluczowy mechanizm metadanych pozwalający na grupowanie zasobów i raportowanie kosztów.
+Poprawna odpowiedź to B. Zarządzanie kosztami (FinOps) w chmurze wymaga precyzyjnego oznaczania zasobów, aby móc przypisać wydatki do konkretnych jednostek biznesowych lub systemów.
 
-Dlaczego B jest poprawne:
-- Etykiety są propagowane do danych rozliczeniowych (Billing Export to BigQuery). Umożliwiają precyzyjne odfiltrowanie kosztów dla poszczególnych systemów/aplikacji w ramach jednego projektu.
+Dlaczego odpowiedź B jest poprawna:
+1. Etykiety (Labels): To standardowy mechanizm w GCP do kategoryzacji zasobów. Są to pary klucz-wartość, które są natywnie wspierane przez system billingowy. Możesz nadać instancjom etykietę np. `system:ordering` lub `system:payment`.
+2. Billing Export do BigQuery: Jest to najpotężniejsze narzędzie do analizy kosztów w GCP. Po włączeniu eksportu, wszystkie dane o kosztach trafiają do BigQuery wraz z przypisanymi do zasobów etykietami. Pozwala to na pisanie zapytań SQL, które precyzyjnie sumują koszty dla każdej etykiety.
+3. Skalowalność i precyzja: To rozwiązanie działa automatycznie dla wszystkich instancji i pozwala na tworzenie zaawansowanych dashboardów (np. w Looker Studio).
 
-Dlaczego inne są błędne:
-- A: "Cost Breakdown" w konsoli pokazuje ogólny podział, ale nie pozwala na zaawansowaną, niestandardową analitykę kosztów per system bez wcześniejszego otagowania zasobów.
-- C: Stackdriver (Cloud Logging) nie służy do analizy kosztów. Etykiety zasobów (labels) są natywnie wspierane przez system rozliczeniowy GCP, a nie metadata logów.
-- D: Poleganie na nazwach VM (naming convention) jest kruche i podatne na błędy (np. zmiana nazwy, niekonsekwencja). Etykiety są formalnym sposobem zarządzania metadanymi zasobów.
+Analiza błędnych odpowiedzi:
+- A: "Cost Breakdown" w konsoli GCP jest przydatne do ogólnego przeglądu (np. kosztów per usługa jak Compute Engine vs Cloud Storage), ale bez użycia etykiet nie pozwoli na rozróżnienie kosztów poszczególnych systemów działających w ramach tego samego projektu.
+- C: Metadane instancji służą do konfiguracji wewnątrz systemu operacyjnego (np. skrypty startowe, klucze SSH). Nie są one przekazywane do systemu bilingowego. Cloud Logging (dawniej Stackdriver) służy do monitorowania i logowania zdarzeń, a nie do analizy finansowej.
+- D: Raporty użycia (Usage reports) w Cloud Storage są mniej elastyczne i trudniejsze w analizie niż natywny eksport bilingowy do BigQuery. Poleganie na nazwach VM (naming convention) jest ryzykowne, ponieważ nazwy mogą być niespójne, a system bilingowy GCP promuje etykiety jako oficjalny standard raportowania.
 
-Wskazówki (Tricks):
-- Jeśli pytanie dotyczy kosztów, szukaj "Labels" lub "Billing Export to BigQuery". Nigdy nie używaj logów ani nazw zasobów jako głównego mechanizmu raportowania kosztów.</pre>
+Hity i triki (Exam Tips):
+- **Labels vs Tags**: Zapamiętaj tę różnicę! **Labels** służą do bilingu i organizacji zasobów. **Tags** (network tags) służą wyłącznie do reguł firewalli i routingu. To częsta pułapka na egzaminie.
+- Etykiety są propagowane (dziedziczone) w dół w niektórych usługach, ale w Compute Engine musisz je nadać bezpośrednio instancjom lub szablonon instancji (Instance Templates).
+- Jeśli widzisz pytanie o "granulację kosztów" lub "podział kosztów per dział/system" – szukaj "Labels" i "BigQuery Export".
+
+Przydatne linki:
+- [Labeling resources for billing](https://cloud.google.com/compute/docs/labeling-resources)
+- [Export Cloud Billing data to BigQuery](https://cloud.google.com/billing/docs/how-to/export-data-bigquery)
+- [Visualize costs with Looker Studio](https://cloud.google.com/billing/docs/how-to/visualize-data-bigquery)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W kontekście DevOps i SRE, zrozumienie kosztów (Cost Observability) jest równie ważne jak monitorowanie wydajności. Podejście "Label everything" pozwala na wdrożenie kultury odpowiedzialności za koszty w zespołach deweloperskich (Cloud Financial Management).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>W dużych organizacjach warto wymuszać stosowanie etykiet za pomocą **Organization Policy** lub skryptów automatyzacji (np. Terraform).</li>
+    <li>Eksport bilingowy do BigQuery zawiera również informacje o rabatach (CUDs - Committed Use Discounts) oraz kredytach, co pozwala na wyliczenie realnego kosztu netto (amortyzowanego).</li>
+    <li>Używaj etykiet do automatyzacji – np. skryptów, które wyłączają na noc wszystkie instancje z etykietą `env:dev`.</li>
 </ul>
 </div>
 <script>

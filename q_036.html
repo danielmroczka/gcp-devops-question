@@ -79,18 +79,30 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 36: Poprawna odpowiedź C. "Logs-based metrics" to idealne narzędzie do zamiany zdarzeń w logach (np. "cache miss") na metryki (np. liczba wystąpień/s), które następnie można łatwo wizualizować w Cloud Monitoring (dawniej Stackdriver).
-- A: Data Studio nie jest przeznaczone do analizy metryk w czasie rzeczywistym z logów.
-- B: Stackdriver Profiler służy do profilowania kodu (CPU/pamięć), a nie do wizualizacji logów.
-- D: BigQuery jest dobre do analizy historycznej, ale zbyt złożone i drogie (i nie w czasie rzeczywistym) do prostych wizualizacji.</pre>
+Poprawna odpowiedź to C. W Google Cloud najlepszym narzędziem do przekształcania informacji tekstowych zawartych w logach na dane numeryczne gotowe do wizualizacji są **Logs-based metrics** (metryki oparte na logach). Możesz utworzyć metrykę typu "Counter", która będzie automatycznie zliczać każde wystąpienie frazy "cache miss" w dziennikach Cloud Logging. Po utworzeniu takiej metryki, staje się ona dostępna w Cloud Monitoring, gdzie możesz stworzyć dla niej wykres (dashboard), aby obserwować trendy i częstotliwość występowania tego zdarzenia w czasie.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Looker Studio (dawniej Data Studio) służy głównie do wizualizacji danych biznesowych i raportów okresowych. Choć potrafi łączyć się z różnymi źródłami, nie jest narzędziem pierwszego wyboru do bieżącego monitorowania parametrów technicznych aplikacji bezpośrednio z logów.
+B. Cloud Profiler to narzędzie do profilowania wydajności kodu (np. sprawdzanie, które funkcje zużywają najwięcej procesora). Nie analizuje ono logów i nie służy do monitorowania zdarzeń typu cache miss.
+D. Eksportowanie logów do BigQuery (sink) i tworzenie zaplanowanych zapytań to rozwiązanie bardzo rozbudowane, droższe i wolniejsze. BigQuery jest doskonałe do głębokiej analizy danych historycznych (np. korelacji cache miss z typem produktu), ale do prostej wizualizacji częstotliwości zdarzeń Logs-based metrics są znacznie bardziej efektywne.
+
+Hity i triki (Exam Tips):
+- **Logi -> Wykres:** Gdy widzisz w pytaniu frazę "logged in Cloud Logging" i chcesz to wizualizować, odpowiedzią prawie zawsze są **Logs-based metrics**.
+- **Counter vs Distribution:** Counter liczy ile razy coś się stało. Distribution pozwala wyciągać wartości (np. czas opóźnienia zapisany w logu) i tworzyć z nich histogramy.
+- Pamiętaj: Metryki oparte na logach nie działają wstecz – zaczną zbierać dane dopiero od momentu ich skonfigurowania.
+
+Dokumentacja:
+- https://cloud.google.com/logging/docs/logs-based-metrics
+- https://cloud.google.com/monitoring/charts/dashboards</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Logs-based metrics to szybki sposób na wizualizację trendów z logów bez przenoszenia ich do BigQuery.</p>
+<p>Logs-based metrics stanowią most między światem logowania (Logging) a światem monitorowania (Monitoring). Pozwalają one na niskokosztową ekstrakcję sygnałów operacyjnych bez konieczności modyfikacji kodu aplikacji pod kątem wysyłania custom metrics.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zamieniaj logi na metryki dla szybkiej wizualizacji w Cloud Monitoring.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/logs-based-metrics" target="_blank">Logs-based metrics</a></li>
+    <li><strong>Latency from logs:</strong> Jeśli log zawiera informację o czasie trwania operacji, możesz użyć Distribution Metric, aby monitorować opóźnienia bez użycia Cloud Trace.</li>
+    <li><strong>Alerting:</strong> Na podstawie metryk opartych na logach możesz ustawić alerty (np. wyślij powiadomienie, gdy liczba cache miss przekroczy 1000/min).</li>
+    <li><strong>Labels:</strong> Możesz używać wyrażeń regularnych (RegEx) w metrykach opartych na logach, aby tworzyć etykiety (np. dla konkretnych regionów lub wersji aplikacji wymienionych w logu).</li>
 </ul>
 </div>
 <script>

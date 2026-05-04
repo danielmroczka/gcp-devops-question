@@ -78,21 +78,38 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Musimy obliczyć wartości dla nowego systemu na podstawie podanych danych:
-1. MTTD (Mean Time To Detect): Pozostaje bez zmian, wynosi 5 minut.
-2. MTTR (Mean Time To Recovery): Stary system miał 10 minut, nowy system "takes twice as long", czyli 10 * 2 = 20 minut.
-3. MTBF (Mean Time Between Failures): Awaria występuje raz na kwartał (ok. 90 dni).
-4. Impact: Aplikacja działa w trzech strefach (resilience against the failure of a zone), więc awaria jednej strefy wpływa na 1/3 (33%) wszystkich użytkowników.
+Zadanie polega na wyliczeniu kluczowych metryk niezawodności (SRE) dla nowego systemu bazy danych na podstawie opisu sytuacji.
 
-Porównując z opcjami: MTTD: 5, MTTR: 20, MTBF: 90, Impact: 33% = Odpowiedź B.</pre>
+Obliczenia krok po kroku:
+1. **MTTD (Mean Time To Detect):** W treści zadania podano, że awarię można wykryć w ciągu pięciu minut. Wartość ta pozostaje bez zmian dla nowego systemu. **MTTD = 5**.
+2. **MTTR (Mean Time To Recovery):** Stary system potrzebował 10 minut na przełączenie awaryjne (failover). Nowy system potrzebuje dwa razy więcej czasu ("takes twice as long"). Zatem 10 minut * 2 = 20 minut. **MTTR = 20**.
+3. **MTBF (Mean Time Between Failures):** Awaria bazy danych zdarza się raz na kwartał. Przyjmując standardowy kwartał jako około 90 dni, otrzymujemy **MTBF = 90**.
+4. **Impact (Wpływ):** System jest wdrożony w trzech strefach (zones), a użytkownicy są między nie podzieleni. Awaria dotyczy jednej strefy/bazy, co oznacza, że dotyka 1/3 wszystkich użytkowników. 100% / 3 = 33,3%. **Impact = 33%**.
+
+Zestawiając te wyniki (MTTD: 5, MTTR: 20, MTBF: 90, Impact: 33%), otrzymujemy profil ryzyka pasujący do odpowiedzi B.
+
+Dlaczego pozostałe opcje są błędne:
+A. Ta opcja błędnie zakłada, że MTTR wynosi 10 minut (to wartość dla starego systemu, a nie dla nowego).
+C. Ta opcja błędnie zakłada Impact na poziomie 50% oraz MTTR na poziomie 10 minut.
+D. Ta opcja poprawnie wylicza MTTR (20 min), ale błędnie określa wpływ na użytkowników jako 50% (co sugerowałoby istnienie tylko dwóch stref).
+
+Hity i triki:
+- Zapamiętaj definicje: **MTTD** (wykrywanie), **MTTR** (naprawa/powrót), **MTBF** (czas między awariami - miara niezawodności).
+- W pytaniach egzaminacyjnych zawsze zwracaj uwagę na frazy typu "twice as long" lub "half the time".
+- Jeśli aplikacja jest rozproszona na X stref, wpływ awarii jednej strefy to zazwyczaj 1/X całości ruchu.
+
+Przydatne linki:
+- https://sre.google/sre-book/embracing-risk/
+- https://cloud.google.com/architecture/devops/devops-tech-monitoring-systems</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczem jest uważne czytanie treści pytania i wyłapanie wszystkich parametrów. <b>MTTR</b> podwoił się, a <b>Impact</b> wynika z podziału ruchu na 3 strefy (100% / 3 = 33%).</p>
+<p>Zrozumienie matematyki stojącej za metrykami SRE jest niezbędne do rzetelnej oceny ryzyka. W tym przypadku nowy system, mimo że oferuje nowe funkcje, znacząco pogarsza <b>MTTR</b>, co wpływa na całkowitą dostępność (Availability).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>W SRE: Zawsze obliczaj wpływ (impact) na podstawie liczby stref lub procentowego udziału użytkowników.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/embracing-risk/" target="_blank">Google SRE Book - Embracing Risk</a></li>
+    <li><b>MTTR:</b> To czas od wykrycia do pełnego przywrócenia usługi. Pamiętaj, że w niektórych modelach MTTR zawiera w sobie MTTD, ale w pytaniach egzaminacyjnych GCP zazwyczaj są one rozdzielone.</li>
+    <li><b>Availability Formula:</b> Dostępność = MTBF / (MTBF + MTTR). W tym zadaniu widzimy, że wzrost MTTR obniża teoretyczną dostępność usługi.</li>
+    <li><b>Analiza logiczna:</b> Jeśli masz 3 strefy i ruch jest rozdzielony równomiernie, awaria jednej strefy nigdy nie będzie miała 50% wpływu (Impact).</li>
 </ul>
 </div>
 <script>

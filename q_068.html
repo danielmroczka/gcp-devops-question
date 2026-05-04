@@ -76,29 +76,39 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C
+<pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Google Container Registry (GCR) obsługuje regionalne hosty, aby zminimalizować opóźnienia i koszty transferu danych (egress) poprzez przetrzymywanie obrazów bliżej klastrów.
+Poprawna odpowiedź to C. Google Container Registry (GCR) oraz nowszy Artifact Registry oferują regionalne i multiregionalne punkty końcowe (endpoints), które pozwalają na optymalizację przesyłu danych.
 
-Dlaczego C jest poprawne:
-- Skoro klaster GKE znajduje się w eu-west-1, wypchnięcie obrazu do eu.gcr.io spowoduje, że klaster będzie pobierał obrazy z regionu europejskiego, co zmniejsza opóźnienia sieciowe i koszty transferu międzyregionalnego.
+Dlaczego odpowiedź C jest poprawna:
+1. Wydajność od strony klastra: Klaster GKE znajduje się w regionie `eu-west-1` (Europa). Używając hosta `eu.gcr.io`, obrazy są przechowywane w multiregionie europejskim. Gdy klaster potrzebuje pobrać obraz (pull), robi to w obrębie tej samej sieci kontynentalnej, co zapewnia maksymalną przepustowość i najniższe opóźnienia.
+2. Koszty Egress: Pobieranie obrazów (pull) z innego kontynentu (np. z `us.gcr.io` do `eu-west-1`) wiąże się z kosztami transferu międzykontynentalnego (Egress). Przechowywanie obrazów blisko klastra eliminuje te koszty.
+3. Skalowalność: GCR jest usługą w pełni zarządzaną i wysoce skalowalną, opartą na Cloud Storage, co gwarantuje, że rejestr nie stanie się wąskim gardłem przy dużych wdrożeniach.
 
-Dlaczego inne są błędne:
-- A: gcr.io jest hostem domyślnym (zazwyczaj us), więc pobieranie obrazów w UE spowodowałoby narzut kosztowy i większe opóźnienia.
-- B: us.gcr.io jest dedykowany dla regionów USA, co pogarsza wydajność w UE.
-- D: Utrzymywanie prywatnego rejestru na Compute Engine to tzw. "undifferentiated heavy lifting". W DevOps/SRE należy preferować usługi zarządzane (GCR/Artifact Registry) zamiast samodzielnego zarządzania infrastrukturą rejestru.
+Analiza błędnych odpowiedzi:
+- A: Host `gcr.io` przechowuje obrazy w multiregionie USA. Dla klastra w Europie oznaczałoby to wolniejszy pobór danych i wyższe koszty transferu.
+- B: Host `us.gcr.io` jest dedykowany dla Stanów Zjednoczonych, co jest nieoptymalne dla usług działających w Europie.
+- D: Instalacja własnego rejestru na Compute Engine to tzw. "Toil" (mozolna praca). Wymaga zarządzania systemem operacyjnym, bezpieczeństwem, skalowaniem i dostępnością. SRE dąży do minimalizacji takich zadań poprzez wybieranie usług zarządzanych (Managed Services).
 
-Wskazówki (Tricks):
-- Zawsze wybieraj regionalny host najbliżej klastra, aby oszczędzać na kosztach transferu (egress) i poprawić szybkość wdrażania (deployment time).</pre>
+Hity i triki (Exam Tips):
+- Zawsze wybieraj lokalizację rejestru najbliższą **odbiorcy** (klastra GKE), a nie **nadawcy** (systemu buildowego). Pushing (nadawanie) zdarza się raz, pulling (odbieranie) zdarza się wielokrotnie przy każdym skalowaniu węzłów.
+- Zapamiętaj hosty GCR: `gcr.io` (US), `us.gcr.io` (US), `eu.gcr.io` (EU), `asia.gcr.io` (Azja).
+- W nowszych projektach zaleca się używanie **Artifact Registry**, który pozwala na jeszcze precyzyjniejszy wybór konkretnego regionu (np. `europe-west1-docker.pkg.dev`).
+
+Przydatne linki:
+- [Container Registry Regional Endpoints](https://cloud.google.com/container-registry/docs/pushing-and-pulling#regional_endpoints)
+- [Artifact Registry Regions](https://cloud.google.com/artifact-registry/docs/repositories/repo-locations)
+- [GCP Network Egress Pricing](https://cloud.google.com/storage/pricing#network-pricing)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kwestia lokalizacji rejestru kontenerów to klasyczny problem optymalizacji "Supply Chain" w DevOps. Chociaż system budowania znajduje się w USA, kluczowe jest, aby końcowy produkt (obraz kontenera) znajdował się jak najbliżej miejsca jego konsumpcji, aby zminimalizować czas trwania operacji `ImagePull` podczas skalowania (Auto-scaling).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>W przypadku dużych obrazów, czas `ImagePull` ma bezpośredni wpływ na latencję skalowania horyzontalnego (HPA).</li>
+    <li>Jeśli w pytaniu pojawia się **Artifact Registry**, pamiętaj, że oferuje on większą granulację regionalną niż GCR.</li>
+    <li>Transfer danych wewnątrz tego samego regionu/multiregionu w GCP jest zazwyczaj darmowy lub znacznie tańszy niż transfer międzykontynentalny.</li>
 </ul>
 </div>
 <script>

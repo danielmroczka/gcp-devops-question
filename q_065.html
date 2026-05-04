@@ -79,23 +79,36 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Poprawna odpowiedź to C. SLO (Service Level Objective) powinno być wyznaczone na poziomie nieco wyższym niż obecne rzeczywiste wyniki ("historical performance"). Wybranie wartości 90th percentile – 150ms i 95th percentile – 300ms zapewnia margines błędu ("headroom"), dzięki któremu użytkownicy nie odczują degradacji wydajności, a zespół SRE nie będzie otrzymywał niepotrzebnych alertów przy naturalnych wahaniach ruchu.
+Poprawna odpowiedź to C. Wyznaczanie SLO (Service Level Objectives) to proces balansowania między oczekiwaniami użytkowników a możliwościami technicznymi i kosztami operacyjnymi zespołu.
+
+Dlaczego odpowiedź C jest poprawna:
+1. Margines bezpieczeństwa (Safety Margin/Headroom): Obecne wyniki to 120ms (p90) i 275ms (p95). Ustawienie SLO na poziomie 150ms i 300ms daje niewielki bufor. Pozwala to na uniknięcie "false positive" alertów przy drobnych, naturalnych wahaniach obciążenia.
+2. Unikanie "Alert Fatigue": Gdybyśmy ustawili SLO dokładnie na poziomie obecnych wyników (opcja B) lub ostrzej (opcja A), każda najmniejsza anomalia powodowałaby spalanie budżetu błędów (Error Budget) i wysyłanie alertów do zespołu SRE, co prowadzi do zjawiska zmęczenia alertami.
+3. Zgodność z satysfakcją klienta: Skoro klienci są obecnie zadowoleni, utrzymanie wyników w okolicach 150/300ms nadal zapewni im wysoki komfort pracy, a zespołowi da przestrzeń na rozwój i drobne błędy.
 
 Analiza błędnych odpowiedzi:
-- A: 100ms i 250ms są bardziej restrykcyjne niż obecne wyniki, co niemal na pewno doprowadzi do ciągłego naruszania SLO i alertowania (tzw. "alert fatigue").
-- B: Tożsama wartość z obecnymi wynikami (120ms/275ms) jest ryzykowna, ponieważ każde drobne odchylenie spowoduje naruszenie SLO.
-- D: 250ms i 400ms są zbyt luźne i nie odzwierciedlają obecnych, wyższych standardów wydajności, które użytkownicy już zaakceptowali.
+- A: Ustawienie celów bardziej rygorystycznych niż obecna wydajność jest błędem. Zespół musiałby natychmiast optymalizować kod tylko po to, by nie naruszać sztucznie zawyżonego SLO.
+- B: Ustawienie SLO dokładnie na poziomie 90-tego i 95-tego percentyla oznacza, że statystycznie przez połowę czasu będziemy na granicy naruszenia celu. Brak bufora operacyjnego.
+- D: Wartości 250ms i 400ms są zbyt wysokie. Pozwalają na niemal dwukrotne pogorszenie wydajności aplikacji zanim system monitoringu zareaguje. Klienci prawdopodobnie przestaliby być "szczęśliwi" znacznie wcześniej.
+
+Hity i triki (Exam Tips):
+- SLO powinno być zawsze **nieco luźniejsze** niż obecna wydajność (historical performance), ale na tyle **ciasne**, aby odzwierciedlać moment, w którym użytkownik zacznie odczuwać dyskomfort.
+- Budżet błędów (Error Budget) = 1 - SLO. Jeśli SLO to 99,9%, budżet błędów to 0,1%.
+- Pamiętaj o zasadzie: "Zbyt wysokie SLO to zmarnowany budżet i niepotrzebna praca; zbyt niskie SLO to niezadowoleni użytkownicy".
 
 Przydatne linki:
-- https://sre.google/sre-book/service-level-objectives/</pre>
+- [Google SRE Book - Service Level Objectives](https://sre.google/sre-book/service-level-objectives/)
+- [The Art of SLOs](https://github.com/google/slo-generator)
+- [Defining SLOs in Cloud Monitoring](https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W inżynierii SRE (Site Reliability Engineering) kluczowe jest zrozumienie, że 100% dostępność lub idealna latencja niemal nigdy nie jest celem. Właściwie dobrane SLO pozwala na zdefiniowanie budżetu błędów (Error Budget), który może być wykorzystany na innowacje i szybsze wdrażanie zmian (velocity).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Wybieraj SLO na podstawie danych historycznych, dodając bufor rzędu 10-20% (zależnie od stabilności usługi).</li>
+    <li>Zwróć uwagę na okno czasowe (w pytaniu 28 dni) – to standardowy okres rozliczania SLO w GCP.</li>
+    <li>Percentyle (p90, p95, p99) są lepszą miarą latencji niż średnia (average), ponieważ średnia ukrywa tzw. "long tail" (odstające wyniki, które najbardziej irytują użytkowników).</li>
 </ul>
 </div>
 <script>

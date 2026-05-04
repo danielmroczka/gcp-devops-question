@@ -79,27 +79,32 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest A:
-- Cloud Profiler (część Cloud Observability) to usługa, która zbiera dane o wydajności (CPU, pamięć, czas wykonania funkcji) w sposób ciągły i minimalizuje narzut (overhead). Działa zarówno wewnątrz, jak i poza GCP (jeśli zainstalujesz agenta).
+Poprawną odpowiedzią jest A, ponieważ Cloud Profiler jest usługą Google Cloud zaprojektowaną do zbierania szczegółowych danych o wydajności aplikacji przy minimalnym narzucie na system.
+
+1. **A (Import the Stackdriver Profiler package):** Cloud Profiler to narzędzie typu "statistical profiler", które zbiera dane o użyciu procesora, pamięci i innych zasobów bezpośrednio z kodu aplikacji. Ważne jest to, że Profiler działa zarówno w Google Cloud, jak i poza nim (np. on-premise lub w innych chmurach), co spełnia wymóg "deployment both inside and outside GCP". Jest to rozwiązanie zarządzane (managed), co minimalizuje nakład pracy (Toil) potrzebny na konfigurację własnej infrastruktury do zbierania metryk.
 
 Analiza niepoprawnych odpowiedzi:
-- B: Debugger służy do inspekcji stanu aplikacji w czasie rzeczywistym, nie do zbierania metryk wydajności.
-- C: Ręczna instrumentacja jest pracochłonna (Toil) i narusza zasadę korzystania z usług zarządzanych (Managed Services).
-- D: APM innych firm jest dopuszczalne, ale pytanie wymagało "centralnych usług GCP".
+- **B (Import the Stackdriver Debugger package):** Cloud Debugger służy do inspekcji stanu aplikacji (podgląd zmiennych, stos wywołań) bez zatrzymywania jej na produkcji. Nie jest narzędziem do zbierania metryk wydajnościowych ani monitorowania zużycia zasobów systemowych. (Uwaga: Usługa ta została wycofana i zastąpiona rozwiązaniami open-source).
+- **C (Instrument the code using a timing library... scraped by Stackdriver):** To podejście wymaga znacznego nakładu pracy programistycznej (ręczna instrumentacja każdej istotnej funkcji) oraz konfiguracyjnej (ustawienie endpointu, zarządzanie scrapingiem). Narusza to warunek "minimizing the amount of work".
+- **D (Install an APM tool in both locations and configure export):** Instalacja i konfiguracja zewnętrznego narzędzia APM (Application Performance Monitoring) w wielu lokalizacjach oraz zarządzanie centralnym składowiskiem danych jest znacznie bardziej pracochłonne niż użycie natywnego, zarządzanego agenta Cloud Profiler, który automatycznie przesyła dane do GCP.
 
-Wskazówki (Hints & Tricks):
-- Cloud Profiler jest idealny do zrozumienia, która część kodu (funkcja) zużywa najwięcej CPU lub pamięci.
+Hity i triki (Hints & Tricks):
+- Cloud Profiler ma bardzo niski narzut (zazwyczaj poniżej 1% CPU/RAM), co czyni go bezpiecznym do używania na produkcji.
+- Jeśli widzisz "detailed metrics" i "function timing", myśl o **Profilowaniu**. Jeśli widzisz "centralized GCP services" i "outside GCP", szukaj usług z agentami/paczkami instalacyjnymi (Profiler, Logging, Monitoring).
+- Profiler pomaga znaleźć "gorące ścieżki" w kodzie (najbardziej zasobożerne funkcje).
 
 Przydatne linki:
-- https://cloud.google.com/profiler/docs</pre>
+- [Cloud Profiler overview](https://cloud.google.com/profiler/docs/about-profiler)
+- [Profiling applications outside of Google Cloud](https://cloud.google.com/profiler/docs/profiling-outside-gcp)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zadanie to testuje znajomość zestawu narzędzi Google Cloud Observability. Kluczem jest rozróżnienie między monitorowaniem (metryki infrastrukturalne), logowaniem, a profilowaniem (głęboka analiza wydajności kodu).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Cloud Profiler = Analiza wydajności na poziomie kodu (CPU, Heap, Wall Time).</li>
+    <li>Minimalny narzut (Overhead) to główna zaleta statystycznego profilowania w GCP.</li>
+    <li>Gdy firma chce "minimalizować pracę", zawsze szukaj natywnych rozwiązań typu "import package" lub "install agent" zamiast budowania własnych systemów agregacji.</li>
 </ul>
 </div>
 <script>

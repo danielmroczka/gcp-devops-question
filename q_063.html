@@ -79,23 +79,37 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Poprawna odpowiedź to D. Stackdriver Logging (obecnie Cloud Logging) pozwala na łatwe tworzenie "Sinks" (ujść), które przekierowują wybrane logi do docelowych usług GCP, takich jak Cloud Storage. Zastosowanie GCS jako miejsca docelowego pozwala na zastosowanie cyklu życia obiektu (Object Lifecycle Management), co jest bardzo tanim sposobem na przechowywanie danych przez długi okres (np. 7 lat) w klasach przechowywania "Archive" lub "Coldline".
+Poprawna odpowiedź to D. Cloud Logging (dawniej Stackdriver) umożliwia tworzenie tzw. "Sinks" (ujść), które automatycznie eksportują logi do zewnętrznych usług. Do długoterminowej archiwizacji (np. 7 lat ze względu na wymogi prawne) przy minimalizacji kosztów, Cloud Storage (GCS) jest najlepszym wyborem.
+
+Dlaczego odpowiedź D jest poprawna:
+1. Natywne rozwiązanie: Sink w Cloud Logging to standardowy mechanizm routingu logów.
+2. Niskie koszty: GCS oferuje klasy przechowywania "Archive" i "Coldline", które są niezwykle tanie dla danych, do których rzadko się sięga.
+3. Automatyzacja: Można skonfigurować Object Lifecycle Management, aby automatycznie usuwać logi po dokładnie 7 latach lub przenosić je do tańszych klas w miarę upływu czasu.
 
 Analiza błędnych odpowiedzi:
-- A: Wymuszenie na aplikacji bezpośredniego wysyłania logów do GCS jest nieefektywne i utrudnia zarządzanie logami z całego systemu.
-- B: BigQuery jest świetnym narzędziem do analizy danych, ale nie jest optymalnym rozwiązaniem (pod względem kosztów) do długoterminowej archiwizacji logów (przez 7 lat).
-- C: Pub/Sub służy do strumieniowania danych w czasie rzeczywistym, nie jest to rozwiązanie do długoterminowej archiwizacji logów.
+- A: Pisanie logów bezpośrednio z aplikacji do GCS to tzw. "anti-pattern". Utrudniasz monitorowanie w czasie rzeczywistym, debugowanie i tracisz centralne zarządzanie logami, które oferuje Cloud Logging.
+- B: BigQuery świetnie nadaje się do analizy logów (SQL), ale przechowywanie tam danych przez 7 lat tylko w celach archiwalnych będzie znacznie droższe niż w Cloud Storage. Dodatkowo tworzenie aplikacji w App Engine tylko do tego celu to niepotrzebny narzut (Toil).
+- C: Cloud Pub/Sub jest systemem kolejkowym do przetwarzania danych w czasie rzeczywistym. Nie służy do trwałego przechowywania danych przez lata. Musiałbyś mieć kolejnego konsumenta, który zapisze te dane w miejscu docelowym.
+
+Hity i triki (Exam Tips):
+- Zapamiętaj: Archiwizacja + Niskie koszty = Cloud Storage (Sink).
+- Zapamiętaj: Analiza + SQL = BigQuery (Sink).
+- Zapamiętaj: Przetwarzanie w czasie rzeczywistym / Inne systemy = Pub/Sub (Sink).
+- Używaj "Sink Filters", aby eksportować tylko te logi, które są faktycznie wymagane do archiwizacji, co dodatkowo obniży koszty.
 
 Przydatne linki:
-- https://cloud.google.com/logging/docs/export/configure_export_v2</pre>
+- [Routing and storage overview](https://cloud.google.com/logging/docs/routing/overview)
+- [Exporting logs with sinks](https://cloud.google.com/logging/docs/export/configure_export_v2)
+- [Cloud Storage Pricing](https://cloud.google.com/storage/pricing)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowym zagadnieniem w tym pytaniu jest balans między wymaganiami prawnymi (retencja 7 lat) a optymalizacją kosztów (Cost Optimization). W ekosystemie GCP, Cloud Logging pełni rolę centralnego huba, a mechanizm Sinków pozwala na elastyczne kierowanie strumieni danych tam, gdzie ich przechowywanie jest najbardziej ekonomiczne.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zawsze sprawdzaj, czy pytanie wymaga **analizy** logów czy tylko ich **przechowywania** (archiving). Dla analizy wybieraj BigQuery, dla archiwizacji Cloud Storage.</li>
+    <li>W przypadku Cloud Storage, wspomnij o **Object Lifecycle Management** – to klucz do automatycznego zarządzania kosztami w czasie.</li>
+    <li>Sink może być "Project-level" lub "Aggregated" (dla całej organizacji/folderu) – przydatne przy dużych środowiskach.</li>
 </ul>
 </div>
 <script>

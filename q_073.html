@@ -79,25 +79,30 @@
 <pre>Odpowiedź: A
 
 Wyjaśnienie:
-GKE (Kubernetes) domyślnie używa strategii `RollingUpdate` do aktualizacji Deploymentów.
+Aby wykonać fazowe wdrażanie (phased rollout) lub "canary rollout" w GKE, najbardziej precyzyjnym mechanizmem w kontekście StatefulSet jest "partitioned rolling update".
 
 Dlaczego A jest poprawne:
-- W Kubernetes, mechanizm `RollingUpdate` pozwala na kontrolowanie tempa wdrażania za pomocą pól `maxUnavailable` i `maxSurge`. Pozwalają one na zdefiniowanie "fazy" (particji), czyli ilu podów nie może być niedostępnych w danym momencie.
+Strategia aktualizacji partycjonowanej (Partitioned Rolling Update) jest natywną funkcjonalnością obiektu StatefulSet w Kubernetes. Pozwala ona na zdefiniowanie pola 'partition' w specyfikacji 'updateStrategy'. Pody o indeksach (ordinal) wyższych lub równych wartości 'partition' zostaną zaktualizowane, natomiast te z niższym indeksem pozostaną na poprzedniej wersji. Jest to idealne rozwiązanie do wdrożeń typu Canary, gdzie chcemy zaktualizować tylko część podów.
 
 Dlaczego inne są błędne:
-- B, D: Taints (dla węzłów) i StatefulSets (dla stanowych obciążeń) nie są głównymi mechanizmami dla fazowego wdrażania (rolloutu) aplikacji bezstanowych.
-- C: ReplicaSet sam w sobie nie zarządza strategią aktualizacji w czasie, robi to Deployment.
+- B: Node taints z efektem NoExecute służą do wypierania podów z konkretnych węzłów (np. w celu opróżnienia węzła dla prac serwisowych), a nie do kontrolowanego wdrażania nowych wersji kodu aplikacji.
+- C: ReplicaSet odpowiada jedynie za utrzymanie żądanej liczby replik (podów). Nie posiada on logiki wdrażania (rollout). Mechanizm aktualizacji jest dostępny w obiekcie Deployment (który zarządza ReplicaSetami), ale Deployment nie wspiera "partycjonowania" podów w ten sam sposób co StatefulSet.
+- D: StatefulSet z polityką podManagementPolicy typu Parallel powoduje, że pody uruchamiają się lub zatrzymują (podczas skalowania) równolegle, a nie jeden po drugim. Nie ma to bezpośredniego związku z fazową aktualizacją wersji aplikacji.
 
-Wskazówki (Tricks):
-- Jeśli słyszysz "phased rollout" w GKE/K8s, szukaj "RollingUpdate" i parametrów `maxUnavailable`/`maxSurge`.</pre>
+Hity i triki (Exam Tips):
+- Słowo klucz "phased rollout" w połączeniu ze StatefulSet prawie zawsze wskazuje na użycie parametru 'partition'.
+- Pamiętaj, że w standardowym Deploymencie używasz 'maxSurge' i 'maxUnavailable' do kontrolowania tempa aktualizacji, ale nie masz kontroli nad konkretnymi identyfikatorami (ordinal) podów.
+- Dokumentacja: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitioned-rolling-updates
+- Dokumentacja: https://cloud.google.com/kubernetes-engine/docs/concepts/statefulset</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do pytania jest zrozumienie, że StatefulSet oferuje unikalną kontrolę nad tożsamością podów (ordinals), co pozwala na precyzyjne wdrażanie wersji (partitioning).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>StatefulSet + Partition = Precyzyjna kontrola wdrażania (Canary).</li>
+    <li>Deployment = Procentowe wdrażanie (RollingUpdate).</li>
+    <li>GCP Devops Engineer często testuje znajomość różnic między tymi dwoma kontrolerami.</li>
 </ul>
 </div>
 <script>

@@ -77,30 +77,38 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: AC
+<pre>Odpowiedź: A, C.
 
 Wyjaśnienie:
-Postmortem (analiza powypadkowa) w kulturze SRE ma być "blameless" (nieobwiniająca) i nastawiona na naukę oraz poprawę systemu.
+Poprawna odpowiedź to A i C. Postmortem (analiza poawaryjna) w kulturze SRE (Site Reliability Engineering) ma na celu wyciągnięcie wniosków z incydentu i trwałą poprawę systemu, a nie szukanie winnych.
 
-Dlaczego AC jest poprawne:
-- A: Analiza przyczyny źródłowej (Root Cause Analysis) jest niezbędna, aby zrozumieć, dlaczego wystąpił błąd, i zapobiec jego powtórzeniu.
-- C: Action Items (zadania naprawcze) przekształcają wiedzę z postmortem w realne zmiany poprawiające niezawodność systemu.
+Dlaczego odpowiedzi A i C są poprawne:
+1. Root Cause Analysis (Analiza przyczyny źródłowej - A): Bez zrozumienia, dlaczego system zawiódł (używając np. metody "5 Whys"), nie można wdrożyć skutecznych poprawek. Root Cause wskazuje na błędy w architekturze, procesach lub kodzie, a nie na błędy ludzkie.
+2. Action Items (Zadania naprawcze - C): To najważniejsza część dokumentu. Są to konkretne, mierzalne zadania (np. dodanie testów automatycznych, zmiana konfiguracji timeoutów), które mają na celu zapobieżenie ponownemu wystąpieniu tego samego błędu. Każdy Action Item powinien mieć przypisanego właściciela i termin realizacji.
 
-Dlaczego inne są błędne:
-- B: Obwinianie jednostek jest niezgodne z kulturą "blameless postmortem". Skupiamy się na procesach, a nie na ludziach.
-- D: Subiektywne opinie o powadze incydentu nie wnoszą wartości technicznej.
-- E: Postmortem powinno zawierać podsumowanie, a nie kopię dokumentacji całego systemu, co prowadzi do przeładowania informacjami.
+Analiza błędnych odpowiedzi:
+- B: Obwinianie pracowników (finger-pointing) jest całkowicie sprzeczne z kulturą "Blameless Postmortem". Jeśli ludzie boją się kary, będą ukrywać błędy, co uniemożliwi ich naprawę i narazi firmę na większe straty w przyszłości.
+- D: Porównywanie subiektywne powagi incydentu z przeszłością nie pomaga w technicznej eliminacji błędu. Choć statystyki są ważne, nie są one kluczowym elementem zapobiegania konkretnej awarii.
+- E: Kopiowanie całych dokumentacji projektowych jest zbędne i zaciemnia obraz sytuacji. Postmortem powinno zawierać tylko te fragmenty architektury, które są bezpośrednio związane z awarią.
 
-Wskazówki (Tricks):
-- W SRE postmortem: Blameless, Root Cause, Action Items. Nigdy nie obwiniaj osób.</pre>
+Hity i triki (Exam Tips):
+- Zapamiętaj cechy dobrego Postmortem: **Blameless** (bez obwiniania), **Root Cause** (przyczyna źródłowa), **Actionable** (prowadzące do konkretnych działań).
+- Postmortem pisze się nie tylko po awarii (outage), ale też po incydentach, które "prawie" się wydarzyły (near-miss).
+- Pamiętaj o technice **5 Whys** – zadawaniu pytania "dlaczego?" pięć razy, aż dotrzesz do fundamentalnej słabości systemu.
+
+Przydatne linki:
+- [Google SRE Book - Postmortem Culture](https://sre.google/sre-book/postmortem-culture/)
+- [Postmortem Checklist](https://sre.google/sre-book/postmortem-checklist/)
+- [How to write a great post-mortem](https://cloud.google.com/blog/products/management-tools/incident-response-google-sre-way)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kultura "Blameless Postmortem" to jeden z fundamentów SRE w Google. Zakłada ona, że błędy są nieuniknione, a systemy powinny być projektowane tak, aby błędy ludzkie nie mogły doprowadzić do katastrofy (tzw. "Guardrails"). Dokument postmortem jest narzędziem edukacyjnym dla całej organizacji.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Na egzaminie odrzucaj wszelkie odpowiedzi sugerujące karanie, zwalnianie lub wskazywanie palcem na konkretne osoby.</li>
+    <li>Szukaj odpowiedzi promujących automatyzację jako rozwiązanie problemów (np. "automatyczne testy", "sanity checks" zamiast "większa uwaga pracownika").</li>
+    <li>Postmortem powinno być publikowane publicznie (wewnątrz firmy), aby inni mogli uniknąć tych samych błędów w swoich usługach.</li>
 </ul>
 </div>
 <script>

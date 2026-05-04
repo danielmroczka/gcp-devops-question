@@ -80,21 +80,32 @@
 <pre>Odpowiedź: B, E.
 
 Wyjaśnienie:
-Poprawna odpowiedź to B i E. W systemach rozproszonych, gdzie ruch przechodzi przez zewnętrzne elementy (jak CDN), pomiar dostępności tylko na poziomie Load Balancera (CLB) jest niewystarczający, ponieważ nie uwzględnia on błędów na trasie CDN -> CLB ani problemów po stronie klienta.
-- B: Instrumentacja w kodzie klienta (client-side) daje najbardziej prawdziwy obraz "doświadczenia użytkownika" (End-to-End Latency/Availability).
-- E: Synthetic monitoring (tzw. "canary testing") pozwala na ciągłe monitorowanie ścieżki krytycznej, niezależnie od tego, czy realni użytkownicy generują ruch, co jest niezbędne do wykrycia globalnych awarii sieciowych.
+Poprawna odpowiedź to B i E. Głównym wyzwaniem w tym scenariuszu jest monitorowanie komponentów, które znajdują się "przed" infrastrukturą Google Cloud (CDN zewnętrzny, DNS) oraz samej brzegowej infrastruktury GCP (Load Balancer). Jeśli błąd wystąpi w CDN lub Load Balancerze, żądanie użytkownika nigdy nie dotrze do serwerów GKE.
+- B (Instrumentation coded directly in the client): Jest to najbardziej wiarygodny sposób pomiaru, ponieważ mierzy rzeczywiste doświadczenie użytkownika (End-to-End). Jeśli przeglądarka klienta nie może połączyć się z usługą, raportuje to bezpośrednio, uwzględniając awarie na każdym etapie trasy (CDN, DNS, LB).
+- E (Synthetic client): Tzw. "probers" to automatyczne skrypty rozmieszczone w różnych lokalizacjach geograficznych, które symulują ruch użytkownika. Pozwalają one na wykrycie awarii sieciowych i konfiguracyjnych nawet wtedy, gdy nie ma aktywnego ruchu od realnych użytkowników, co daje stały i przewidywalny zestaw metryk.
 
-A. Logi serwera aplikacji nie uwzględniają problemów sieciowych pomiędzy klientem a serwerem (np. błędy CDN, przerwy w trasach BGP).
-C. Metryki serwera aplikacji (podobnie jak logi) nie widzą punktu końcowego, z którego korzysta użytkownik.
-D. Health checks w GKE sprawdzają stan kontenerów, a nie dostępność usługi z perspektywy globalnego użytkownika końcowego (np. po przejściu przez CDN).</pre>
+Dlaczego inne odpowiedzi są błędne:
+A i C. Logi i metryki z serwerów aplikacji widzą tylko te żądania, które pomyślnie przeszły przez CDN i Load Balancer. W przypadku globalnej awarii sieciowej serwery będą "bezczynne", a metryki mogą błędnie wskazywać 0% błędów (ponieważ żadne błędne żądanie do nich nie dotarło).
+D. Health checki GKE sprawdzają jedynie żywotność kontenerów (Liveness/Readiness) wewnątrz klastra. Nie mają one wglądu w to, czy usługa jest osiągalna z internetu przez CDN.
+
+Hity i triki (Exam Tips):
+- Jeśli chcesz wykryć problemy z **Load Balancerem, CDN lub DNS** -> musisz mierzyć **spoza** sieci (Client-side lub Synthetic).
+- Jeśli chcesz wykryć problemy z **logiką biznesową lub bazą danych** -> mierz na **serwerze** (Instrumentation/Logs).
+- SRE preferuje "User-facing SLIs". Im bliżej użytkownika jest punkt pomiarowy, tym lepiej odzwierciedla on rzeczywistą dostępność usługi.
+- Zapamiętaj: Synthetic monitoring (E) jest świetny do szybkiego alertowania, a Client-side (B) do precyzyjnego badania trendów i zachowań użytkowników.
+
+Dokumentacja:
+- https://sre.google/sre-book/monitoring-distributed-systems/
+- https://cloud.google.com/architecture/framework/reliability/monitoring-and-alerting</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W nowoczesnych systemach chmurowych sieć jest jednym z najbardziej złożonych i zawodnych elementów. Poleganie wyłącznie na metrykach serwerowych to powszechny błąd, który prowadzi do zjawiska "waterfall of ignorance" – gdy serwery raportują zdrowie, a użytkownicy nie mogą się połączyć.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>End-to-End Visibility:</strong> Zawsze staraj się mieć wgląd w całą ścieżkę żądania.</li>
+    <li><strong>Black-box vs White-box:</strong> Monitoring zewnętrzny (B, E) to monitoring typu "black-box" (testowanie z zewnątrz bez wiedzy o wnętrzu). Monitoring serwerowy (A, C) to "white-box". Oba są potrzebne.</li>
+    <li><strong>Synthetic locations:</strong> Pamiętaj, aby testy syntetyczne uruchamiać z wielu regionów świata, aby wykryć lokalne problemy z peeringiem lub CDN.</li>
 </ul>
 </div>
 <script>

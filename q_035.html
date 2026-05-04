@@ -79,20 +79,30 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. W ekosystemie GCP, Cloud Build posiada swoje domyślne konto serwisowe, które jest automatycznie używane do wykonywania kroków budowania. Aby umożliwić procesowi CI/CD bezpieczne i bezproblemowe zarządzanie klastrem GKE, należy przypisać odpowiednią rolę IAM bezpośrednio do tego konta. Rola "Kubernetes Engine Developer" (Container Developer) zapewnia precyzyjnie dobrane uprawnienia potrzebne do wdrażania zmian w aplikacjach (deployments, pods, services) na klastrze, przy zachowaniu zasady najmniejszych przywilejów (Least Privilege). Jest to najbardziej zgodne z natywnym podejściem GCP ("cloud-native approach").
+Poprawna odpowiedź to A. Cloud Build używa domyślnego konta serwisowego (o formacie `NUMER_PROJEKTU@cloudbuild.gserviceaccount.com`) do wykonywania operacji w Twoim projekcie. Aby zminimalizować nakład pracy programistycznej i konfiguracyjnej, wystarczy nadać temu kontu odpowiednią rolę IAM – w tym przypadku `Kubernetes Engine Developer` (roles/container.developer). Dzięki temu krok `kubectl` w pipeline będzie miał natywne uprawnienia do interakcji z API klastra GKE bez konieczności ręcznego generowania kluczy, logowania czy przekazywania tokenów. Jest to podejście zgodne z modelem bezpieczeństwa Google Cloud i zasadą najmniejszych przywilejów (Least Privilege).
 
 Dlaczego inne odpowiedzi są błędne:
-- B: Plik `cloudbuild.yaml` służy do definiowania etapów budowania i konfiguracji środowiska, a nie do definiowania uprawnień IAM. IAM zarządza się na poziomie platformy GCP (IAM & Admin), nie w kodzie aplikacji.
-- C: Tworzenie nowego konta serwisowego dla każdego projektu lub pipeline'u zwiększa nakład pracy administracyjnej ("toil") i komplikuje zarządzanie cyklem życia zasobów, podczas gdy domyślne konto Cloud Build jest wystarczające i bezpieczniejsze w zarządzaniu.
-- D: Ręczne pobieranie i zarządzanie kluczami/tokenami uwierzytelniającymi wewnątrz pipeline'u jest niebezpieczne, pracochłonne i narusza standardy bezpieczeństwa GCP. GCP automatycznie zarządza uwierzytelnianiem dla Cloud Build, jeśli posiada on odpowiednie uprawnienia IAM.</pre>
+B. Plik `cloudbuild.yaml` służy do opisywania kroków procesu budowania i wdrożenia. Nie można w nim definiować ani przydzielać ról IAM. Uprawnienia muszą zostać nadane na poziomie projektu przez administratora IAM.
+C. Choć stworzenie dedykowanego konta serwisowego jest dopuszczalne w zaawansowanych scenariuszach, wymaga to dodatkowej konfiguracji (np. określenia konta serwisowego w definicji builda). Opcja A jest najprostsza i w pełni wystarczająca dla większości standardowych zadań CI/CD.
+D. Ręczne pobieranie poświadczeń i przekazywanie ich do `kubectl` jest nie tylko skomplikowane (Toil), ale i niebezpieczne. Automatyczne uwierzytelnianie oparte na tożsamości konta serwisowego jest standardem w GCP i eliminuje ryzyko wycieku kluczy.
+
+Hity i triki (Exam Tips):
+- **Cloud Build Service Account:** Zawsze pamiętaj, że to konto wykonuje Twoje buildy. Jeśli build kończy się błędem "Permission Denied", pierwszym krokiem jest sprawdzenie uprawnień tego konta w IAM.
+- **Rola Container Developer:** Pozwala na pełne zarządzanie obiektami wewnątrz klastra (Deployment, Service, Pod), ale nie pozwala na usuwanie całego klastra czy zmianę jego rozmiaru (do tego służy Container Admin).
+- **Minimize Effort:** To sformułowanie w pytaniach GCP często sugeruje wykorzystanie natywnych, wbudowanych mechanizmów platformy, takich jak domyślne konta serwisowe.
+
+Dokumentacja:
+- https://cloud.google.com/build/docs/deploying-builds/deploy-gke
+- https://cloud.google.com/build/docs/cloud-build-service-account</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Dla usług GCP, używaj przypisanych ról IAM do kont serwisowych zamiast przekazywania kluczy czy skomplikowanych obejść.</p>
+<p>Automatyzacja wdrożeń na GKE za pomocą Cloud Build to jeden z najczęstszych scenariuszy w egzaminie Professional DevOps Engineer. Kluczem jest zrozumienie, jak tożsamość usługi (Service Account) integruje się z uprawnieniami platformy.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze używaj ról IAM dla kont serwisowych (Workload Identity).</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/iam/docs/service-accounts" target="_blank">Konta serwisowe GCP</a></li>
+    <li><strong>GKE Context:</strong> Zanim użyjesz `kubectl`, pipeline musi pobrać poświadczenia klastra za pomocą komendy `gcloud container clusters get-credentials`. Cloud Build robi to automatycznie, jeśli używasz oficjalnego buildera `gcr.io/cloud-builders/kubectl`.</li>
+    <li><strong>Project vs Service Account:</strong> Upewnij się, że konto serwisowe ma uprawnienia w projekcie, w którym znajduje się klaster (ważne w architekturach wieloprojektowych).</li>
+    <li><strong>Workload Identity:</strong> Wewnątrz samego GKE, aplikacje powinny używać Workload Identity, ale dla potoku wdrożeniowego Cloud Build, IAM Service Account jest właściwym rozwiązaniem.</li>
 </ul>
 </div>
 <script>

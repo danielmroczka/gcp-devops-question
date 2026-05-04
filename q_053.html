@@ -79,22 +79,35 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. Zarządzanie infrastrukturą za pomocą Terraform (Infrastructure as Code - IaC) wymaga takich samych praktyk, jak tworzenie oprogramowania. System kontroli wersji (VCS, np. Git) jest niezbędny do:
-- Wersjonowania konfiguracji (sprawdzanie kto, co i kiedy zmienił).
-- Współpracy zespołowej (mechanizmy Branching/Merging).
-- Bezpiecznego przeglądu kodu (Pull/Merge Requests) przed wdrożeniem zmian na produkcję.
-- Zapewnienia "Single Source of Truth" dla infrastruktury zespołu.
+Poprawną odpowiedzią jest A, ponieważ stosowanie Systemu Kontroli Wersji (VCS), takiego jak Git, jest fundamentem praktyk Infrastructure as Code (IaC) oraz DevOps.
 
-Dlaczego inne odpowiedzi są błędne:
-- B, C i D: Folder sieciowy, Google Drive czy Bucket w Cloud Storage nie zapewniają mechanizmów współbieżnej edycji (locking), historii zmian (diff/history), zarządzania konfliktami czy przeglądu kodu (Code Review). Korzystanie z nich prowadzi do błędów, nadpisywania zmian i braku przejrzystości, co jest niedopuszczalne w profesjonalnym zespole DevOps.</pre>
+1. **A (Store the Terraform code in a version-control system):** 
+   - **Wersjonowanie:** VCS pozwala na śledzenie każdej zmiany w kodzie infrastruktury, identyfikację autorów zmian oraz łatwe wycofywanie (rollback) do poprzednich, stabilnych wersji.
+   - **Współpraca:** Mechanizmy takie jak gałęzie (branches) pozwalają wielu inżynierom pracować nad różnymi elementami infrastruktury jednocześnie bez ryzyka nadpisania swojej pracy.
+   - **Proces zatwierdzania:** Procedury "pushing and merging" zazwyczaj obejmują Code Review (Pull/Merge Requests), co pozwala na weryfikację kodu pod kątem bezpieczeństwa i poprawności przed wdrożeniem zmian.
+
+Analiza niepoprawnych odpowiedzi:
+- **B (Network shared folder):** Foldery sieciowe nie oferują historii zmian, zarządzania konfliktami (gdy dwie osoby edytują ten sam plik) ani mechanizmów przeglądu kodu. Jest to rozwiązanie bardzo podatne na błędy ludzkie.
+- **C (Cloud Storage bucket using object versioning):** Choć Cloud Storage oferuje wersjonowanie obiektów, nie jest to system kontroli wersji kodu. Pobieranie plików, edytowanie ich lokalnie i ręczne przesyłanie z powrotem jest procesem mozolnym (Toil) i nie pozwala na efektywną pracę zespołową (brak mechanizmu `merge`).
+- **D (Shared Google Drive folder):** Podobnie jak folder sieciowy, Google Drive nie jest przeznaczony do przechowywania kodu źródłowego. Synchronizacja plików może prowadzić do nieprzewidywalnych konfliktów w plikach `.tf`, a brak zintegrowanego systemu gałęzi i przeglądu kodu dyskwalifikuje to rozwiązanie w profesjonalnym środowisku.
+
+Hity i triki (Hints & Tricks):
+- Wszystko, co jest tekstem (kod aplikacji, konfiguracja YAML, skrypty Terraform), powinno trafiać do **Gita**.
+- W Terraformie, oprócz samego kodu, kluczowe jest zarządzanie plikiem stanu (**State File**). O ile kod trzymamy w Gicie, o tyle plik stanu powinien być przechowywany w tzw. "Remote Backend" (np. GCS Bucket z włączonym blokowaniem/locking).
+- Korzystanie z Gita umożliwia wdrożenie **GitOps**, gdzie zmiany w infrastrukturze są automatycznie aplikowane po zaakceptowaniu Pull Requesta.
+
+Przydatne linki:
+- [DevOps tech: Version control](https://cloud.google.com/architecture/devops/devops-tech-version-control)
+- [Terraform: Best Practices](https://cloud.google.com/docs/terraform/best-practices-for-terraform)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>IaC traktuj jak kod aplikacji: Git, Pull Requesty i testy to fundament bezpiecznego DevOps.</p>
+<p>To pytanie sprawdza znajomość podstawowych zasad inżynierii oprogramowania stosowanych w infrastrukturze. IaC (Infrastructure as Code) wymaga traktowania definicji serwerów i sieci tak samo jak kodu aplikacji.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>W GCP DevOps: IaC zawsze w systemie kontroli wersji (Git). Nigdy w udostępnionych plikach.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/architecture/devops/devops-tech-version-control" target="_blank">DevOps Tech: Version Control</a></li>
+    <li>VCS = Git. Zawsze szukaj odpowiedzi z Git/VCS w kontekście zarządzania kodem lub konfiguracją.</li>
+    <li>Współpraca w zespole DevOps bez Gita jest praktycznie niemożliwa do skalowania.</li>
+    <li>Pamiętaj: "Code is king, Git is the castle".</li>
 </ul>
 </div>
 <script>

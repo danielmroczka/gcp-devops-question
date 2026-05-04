@@ -76,28 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Poprawna odpowiedź: A. Load test the application to profile its performance for scaling.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A (Load test the application to profile its performance for scaling).
+Przed zbliżającym się okresem wzmożonego ruchu (np. Black Friday), pierwszym i najważniejszym krokiem jest zrozumienie granic wydajnościowych systemu. Testy obciążeniowe (Load Testing) pozwalają na: 1. Zidentyfikowanie wąskich gardeł (np. limity bazy danych, zbyt mała pula połączeń), 2. Wyznaczenie metryk, według których system powinien się skalować, 3. Zweryfikowanie, czy aplikacja jest bezstanowa i faktycznie potrafi się skalować horyzontalnie. Bez profilowania wydajności, automatyczne skalowanie może nie zadziałać poprawnie lub nastąpić zbyt późno.
 
-Zanim przygotujesz aplikację na większy ruch, musisz znać jej ograniczenia wydajnościowe (profilowanie). Testy obciążeniowe pozwalają sprawdzić, gdzie pojawiają się "wąskie gardła" (bottlenecks) i jak aplikacja zachowuje się podczas skalowania.
+Dlaczego inne odpowiedzi są błędne:
+- B: Enable AutoScaling on the production clusters: Włączenie AutoSkalowania bez wcześniejszych testów jest ryzykowne. Musisz wiedzieć, kiedy skalować (np. przy 70% CPU czy 500ms latencji?) i jak szybko nowe instancje są gotowe do pracy. Testy obciążeniowe dostarczają danych niezbędnych do poprawnej konfiguracji AutoSkalowania.
+- C: Pre-provision double the compute power: "Rzucanie zasobami" w problem jest nieefektywne kosztowo i nie gwarantuje sukcesu. Jeśli wąskim gardłem jest baza danych (pojedynczy punkt awarii), podwojenie liczby serwerów aplikacyjnych może wręcz dobić bazę danych jeszcze szybciej.
+- D: Create a runbook on inflating the DR environment: Środowisko Disaster Recovery służy do przywracania usług po awarii, a nie do obsługi planowanego wzrostu ruchu. Obsługa ruchu powinna odbywać się w środowisku produkcyjnym poprzez skalowanie horyzontalne.
 
-Analiza błędnych odpowiedzi:
-- B: Enable AutoScaling - Automatyczne skalowanie jest ważne, ale jeśli kod nie jest zoptymalizowany, skalowanie może być bezużyteczne lub zbyt wolne.
-- C: Pre-provision double the compute power - Nadmiarowe przydzielanie zasobów ("overprovisioning") jest nieefektywne kosztowo i nie gwarantuje sukcesu.
-- D: Create a runbook on inflating the DR environment - DR to plan awaryjny, nie służy przygotowaniu na planowany wzrost ruchu.
+Hity i triki (GCP DevOps Exam):
+- Load Testing Tools on GCP: Rozważ użycie narzędzi takich jak Locust (często spotykany w dokumentacji GCP), JMeter lub k6.
+- Bottleneck identification: Pamiętaj, że skalowanie Compute Engine to nie wszystko – sprawdź limity Cloud SQL (IOPS), limity API oraz limity sieciowe (bandwidth).
+- Warm-up: Niektóre usługi potrzebują czasu na "rozgrzanie" (np. Load Balancer przy ekstremalnie szybkich skokach ruchu). W takich przypadkach warto zgłosić planowany szczyt do wsparcia Google (dla klientów Premium Support).
 
-Przydatne linki:
-- https://cloud.google.com/solutions/load-testing-on-gcp</pre>
+Pomocne linki:
+- https://cloud.google.com/architecture/distributed-load-testing-using-gke
+- https://cloud.google.com/architecture/framework/scalability/capacity-planning
+- https://cloud.google.com/compute/docs/autoscaler</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie</h2>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>Przygotowanie na "busy season" to proces ciągły, który zaczyna się od pomiarów. W chmurze nie pytamy "czy" się wyskalujemy, ale "jak efektywnie" to zrobimy.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>Zawsze testuj, zanim zaczniesz skalować (Load Testing).</li>
-    <li>W GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Dokumentacja GCP</a></li>
+    <li><b>Capacity Planning:</b> Wykorzystaj dane historyczne z Cloud Monitoring, aby oszacować przewidywany ruch, ale zawsze zweryfikuj to testami.</li>
+    <li><b>Horizontal Pod Autoscaler (HPA):</b> Jeśli używasz GKE, upewnij się, że Twoje limity i żądania (requests/limits) są poprawnie ustawione na podstawie wyników testów.</li>
+    <li><b>Quotas:</b> Sprawdź limity projektu (Quotas) w konsoli GCP. Nic tak nie psuje Black Friday jak brak możliwości uruchomienia nowych VM ze względu na limit CPU w regionie.</li>
 </ul>
 </div>
 <script>

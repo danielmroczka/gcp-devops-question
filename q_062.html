@@ -76,26 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Poprawna odpowiedź: D. Implement Jenkins on Compute Engine virtual machines.
 
 Wyjaśnienie:
-Poprawna odpowiedź to D. Jenkins na Google Compute Engine (GCE) pozwala na pełną kontrolę nad środowiskiem, umożliwiając bezpieczną konfigurację (np. za pomocą IAM roles/service accounts, co gwarantuje zasadę "least privilege"), automatyzację wdrożeń do GCP oraz łatwą skalowalność poprzez zarządzanie instancjami.
+Uruchomienie Jenkinsa na Google Compute Engine (GCE) jest standardowym sposobem na wdrożenie tego narzędzia w chmurze Google, gdy nie korzystamy z gotowych rozwiązań SaaS. Pozwala to na pełną integrację z ekosystemem GCP. Kluczowym aspektem bezpieczeństwa i redukcji "toil" jest tutaj wykorzystanie **Instancyjnych Kont Serwisowych (Service Accounts)**. Dzięki nim Jenkins może uwierzytelniać się w API Google Cloud bez konieczności ręcznego zarządzania kluczami JSON, co znacznie podnosi poziom bezpieczeństwa i ułatwia automatyzację.
 
-Analiza błędnych odpowiedzi:
-- A: Jenkins na stacjach lokalnych jest podatny na awarie sprzętowe, błędy konfiguracji i brak zabezpieczeń, co czyni go nieodpowiednim dla procesów CI/CD w przedsiębiorstwie.
-- B: Jenkins w Kubernetes on-premises wprowadza zbędny narzut operacyjny i utrzymuje "toil" związany z zarządzaniem infrastrukturą, której chcemy unikać w chmurze.
-- C: Google Cloud Functions nie jest przeznaczone do uruchamiania serwisów typu Jenkins master, ze względu na ograniczenia czasu wykonania (timeout) i brak trwałości stanu dla ciągłych procesów CI.
+Dlaczego inne odpowiedzi są błędne:
+- A: Implement Jenkins on local workstations: Rozwiązanie skrajnie niebezpieczne i nieprofesjonalne. Brak centralizacji, brak backupów, trudności w skalowaniu i ogromne ryzyko wycieku poświadczeń z lokalnej maszyny.
+- B: Implement Jenkins on Kubernetes on-premises: Chociaż Kubernetes jest świetny dla Jenkinsa, utrzymywanie klastra "on-premises" (lokalnie) do zarządzania zasobami w chmurze zwiększa opóźnienia i nakład pracy operacyjnej (Toil) związany z utrzymaniem własnej infrastruktury serwerowej.
+- C: Implement Jenkins on Google Cloud Functions: Cloud Functions to usługa typu FaaS, stworzona do krótkich, bezstanowych zadań. Jenkins jest ciężką, stanową aplikacją, która wymaga ciągłego działania mastera, co wyklucza użycie GCF.
 
-Przydatne linki:
-- https://cloud.google.com/solutions/jenkins-on-compute-engine</pre>
+Hity i triki (GCP DevOps Exam):
+- Service Accounts over Keys: Nigdy nie wgrywaj kluczy `.json` kont serwisowych do Jenkinsa, jeśli działa on na GCP. Przypisz odpowiednie uprawnienia bezpośrednio do maszyny VM (lub podu GKE).
+- Cloud Build as an alternative: W egzaminie warto pamiętać, że Google często promuje własne rozwiązanie "Cloud Build" jako bardziej "Cloud Native" i bezobsługowe (serverless) niż Jenkins.
+- Jenkins on GKE: Chociaż nie było tego w opcjach, uruchomienie Jenkinsa na GKE jest bardzo popularne, ponieważ pozwala na automatyczne tworzenie efemerycznych agentów (workerów) jako osobne pody, co jeszcze bardziej redukuje koszty i Toil.
+
+Pomocne linki:
+- https://cloud.google.com/architecture/jenkins-on-kubernetes-engine
+- https://cloud.google.com/compute/docs/access/service-accounts
+- https://plugins.jenkins.io/google-compute-engine/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>Wybór między Compute Engine a GKE dla Jenkinsa zależy od skali. Dla prostych wdrożeń VM (GCE) jest wystarczający, dla dużej skali GKE wygrywa dzięki elastyczności agentów.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><b>Least Privilege:</b> Jenkins powinien mieć przypisane konto serwisowe tylko z takimi uprawnieniami, jakich faktycznie potrzebuje do wdrożenia aplikacji (np. `roles/storage.admin` dla GCS lub `roles/container.developer` dla GKE).</li>
+    <li><b>Immutable Master:</b> Staraj się konfigurować Jenkinsa "jako kod" (CasC - Configuration as Code), aby móc go łatwo odtworzyć na nowej maszynie VM.</li>
+    <li><b>Ephemeral Workers:</b> Najlepszą metodą na "Operational Toil" jest sprawienie, by agenci Jenkinsa żyli tylko na czas budowania (np. używając wtyczki Google Compute Engine do dynamicznego startowania VM-ów).</li>
 </ul>
 </div>
 <script>

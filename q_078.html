@@ -76,19 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: Weryfikacja dla pytania 78.
+<pre>Odpowiedź: C
 
 Wyjaśnienie:
 Poprawna odpowiedź to C. 
 
-Prawidłowe podejście w Google Cloud Logging polega na:
-1. Użyciu "Log Exclusions" do usunięcia wpisów zawierających PII z głównego strumienia logów w Cloud Logging, zapobiegając ich dalszemu przetwarzaniu i przechowywaniu w logach (co zapewnia zgodność z wymogami prawnymi).
-2. Użyciu "Log Sinks" (eksport do GCS) do przechwycenia wszystkich logów, w tym tych zawierających PII, przed ich usunięciem (exkluzją), aby zachować dane do celów audytu lub późniejszej analizy (w bezpiecznym, szyfrowanym środowisku GCS).
+Prawidłowe podejście w Google Cloud Logging, gdy musimy zachować dane PII, ale nie chcemy, aby były one widoczne w głównym panelu Logging (naruszając politykę retencji lub dostępności danych), to:
+1. Użycie Log Sinks (eksport do GCS): Sinks przechwytują wszystkie logi (zanim zostaną wykluczone) i eksportują je do bezpiecznego zasobnika Google Cloud Storage (GCS). W GCS możemy skonfigurować bardziej rygorystyczne polityki dostępu (IAM) oraz retencji (Bucket Lock).
+2. Użycie Log Exclusions: Wykluczenia w Cloud Logging służą do usuwania (lub filtrowania) logów z indeksowania i przechowywania w głównym interfejsie Cloud Logging. Wykluczone logi nie są płatne i nie zajmują miejsca w logach, ale eksport (sink) nadal je przechwytuje.
 
 Dlaczego inne odpowiedzi są błędne:
-- A: Tworzenie tylko filtru i sinka bez wykluczenia (Log Exclusion) spowoduje, że PII nadal będą widoczne i przechowywane w Cloud Logging, co narusza bezpieczeństwo danych.
-- B: Fluentd może być użyty, ale jest to mniej natywna metoda w GCP niż natywne filtry Cloud Logging i nie jest zalecanym podejściem "Cloud-native" dla tego konkretnego problemu.
-- D: Łączy nadmiarowe kroki (Fluentd + Log Exclusions), co tworzy niepotrzebny "Toil" i złożoność operacyjną.</pre>
+- A: Brak Log Exclusion spowoduje, że dane PII nadal będą przechowywane w Cloud Logging, co narusza bezpieczeństwo i zgodność z RODO/GDPR.
+- B: Fluentd może być użyty do manipulacji logami, ale wymaga utrzymywania dodatkowego oprogramowania na każdej maszynie (agent), co jest mniej wydajne i trudniejsze w zarządzaniu niż natywne funkcje Logging ("Cloud-native approach").
+- D: Łączy nadmiarowe kroki (Fluentd + Log Exclusions), co tworzy niepotrzebny "Toil" (pracę ręczną/złożoność operacyjną), podczas gdy natywne Log Sinks wystarczają do tego zadania.
+
+Hity i triki:
+- Pamiętaj, że Log Sinks przetwarzają logi w kolejności ich przychodzenia, niezależnie od wykluczeń. Jeśli wyeksportujesz logi do GCS, będą tam bezpiecznie zapisane.
+- Używaj "Data Access Logs" oraz wykluczeń, aby zarządzać kosztami i zgodnością (compliance).
+
+Linki:
+- https://cloud.google.com/logging/docs/exclusions
+- https://cloud.google.com/logging/docs/export/configure_export</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>

@@ -79,25 +79,32 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest D:
-- Instancje preemptible (teraz Spot VMs) są znacznie tańsze, ale mogą zostać wyłączone przez GCP w dowolnym momencie. Dlatego nadają się tylko do zadań wsadowych (batch), które można wstrzymać i wznowić lub uruchomić ponownie (np. renderowanie wideo).
+Poprawną odpowiedzią jest D, ponieważ renderowanie wideo jest klasycznym przykładem zadania wsadowego (batch processing), które jest odporne na przerwania (fault-tolerant).
+
+1. **D (A GPU-accelerated video rendering platform...):** Instancje Spot (dawniej nazywane Preemptible VMs) oferują ogromne zniżki (do 60-91%), ale Google może je wyłączyć (preempt) w dowolnym momencie, jeśli potrzebuje tych zasobów dla innych klientów. Renderowanie wideo, które pobiera dane z Cloud Storage i zapisuje tam wynik, można łatwo zaprojektować tak, aby po przerwaniu pracy nowa instancja mogła wznowić renderowanie od ostatniej klatki. Wykorzystanie GPU z instancjami Spot dodatkowo potęguje oszczędności przy bardzo wymagających obliczeniach.
 
 Analiza niepoprawnych odpowiedzi:
-- A, B, C: Usługi publiczne, bazy danych lub cache wymagają wysokiej dostępności (HA). Nagłe wyłączenie tych usług spowodowałoby awarię (outage).
+- **A (A scalable in-memory caching system):** Systemy cache'owania w pamięci (jak Redis czy Memcached) służą do szybkiego dostępu do danych. Nagłe wyłączenie węzłów cache'u spowodowałoby "cache miss storm" i drastyczne obciążenie bazy danych, co mogłoby doprowadzić do awarii całej aplikacji.
+- **B (The organization's public-facing website):** Strony publiczne wymagają wysokiej dostępności (High Availability). Wyłączenie instancji obsługujących ruch użytkowników w dowolnym momencie skutkowałoby przerwami w działaniu serwisu (502 Bad Gateway), co jest niedopuszczalne dla wizerunku i biznesu.
+- **C (A distributed, eventually consistent NoSQL database):** Choć rozproszone bazy danych potrafią przeżyć awarię pojedynczych węzłów, używanie maszyn Spot dla klastra bazy danych jest bardzo ryzykowne. Jeśli Google wyłączy kilka węzłów jednocześnie, klaster może stracić quorum i stać się niedostępny lub dojść do utraty spójności danych. Bazy danych powinny działać na standardowych instancjach.
 
-Wskazówki (Hints & Tricks):
-- Jeśli słyszysz "preemptible" lub "Spot VM", szukaj odpowiedzi związanej z "batch processing", "fault-tolerant" lub "stateless".
+Hity i triki (Hints & Tricks):
+- **Spot VMs (Preemptible)** = Zadania, które mogą zostać przerwane i uruchomione ponownie bez straty danych. Słowa klucze: *Batch processing, rendering, genomic sequencing, stateless services, CI/CD runners*.
+- Instancje Spot są idealne dla klastrów GKE, które obsługują zadania typu "job".
+- Pamiętaj: Preemptible VMs wyłączają się po maksymalnie 24 godzinach ciągłej pracy (choć Spot VMs nie mają już tego sztywnego limitu, nadal mogą być wyłączone w każdej chwili).
 
 Przydatne linki:
-- https://cloud.google.com/compute/docs/instances/spot</pre>
+- [Spot VMs documentation](https://cloud.google.com/compute/docs/instances/spot)
+- [GPU on Spot VMs](https://cloud.google.com/compute/docs/instances/spot#gpus)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Pytanie to sprawdza zrozumienie kompromisu między ceną a dostępnością w chmurze (Cost vs Availability). Wybór odpowiedniego typu maszyny do konkretnego zadania to kluczowy obowiązek DevOps Engineera.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Spot/Preemptible = Tanie obliczenia, brak gwarancji czasu pracy.</li>
+    <li>Nigdy nie używaj Spot VMs dla baz danych lub krytycznych usług stanowych (stateful).</li>
+    <li>Zawsze projektuj aplikacje działające na Spot VMs tak, aby były "stateless" lub miały mechanizm "checkpointingu" (zapisywania stanu pracy).</li>
 </ul>
 </div>
 <script>

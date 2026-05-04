@@ -80,30 +80,33 @@
 <pre>Odpowiedź: DE.
 
 Wyjaśnienie:
-Poprawnymi odpowiedziami są D i E:
-- D (Create new synthetic clients to simulate a user journey): Syntetyczne testy pozwalają na monitorowanie dostępności i wydajności aplikacji z perspektywy użytkownika (tzw. "Black-box monitoring") bez konieczności wprowadzania zmian w kodzie źródłowym samej aplikacji.
-- E (Use current and historic Request Logs to trace customer interaction): Request Logs (dostępne w Google Cloud Logging) pozwalają na analizę zachowania użytkowników, czasów odpowiedzi i błędów (HTTP status codes) na poziomie infrastruktury (np. poprzez HTTP Load Balancer), co również nie wymaga zmian w aplikacji.
+Poprawnymi odpowiedziami są D i E, ponieważ obie metody pozwalają na mierzenie niezawodności z perspektywy użytkownika bez ingerencji w kod źródłowy aplikacji (tzw. Black-box monitoring).
+
+1. **D (Create new synthetic clients to simulate a user journey):** Monitorowanie syntetyczne (np. Cloud Monitoring Uptime Checks) polega na emulowaniu zachowań użytkowników przez zewnętrzne skrypty lub sondy. Pozwala to na proaktywne wykrywanie problemów z dostępnością i wydajnością z różnych lokalizacji geograficznych, nie wymagając żadnych zmian w samej aplikacji.
+2. **E (Use current and historic Request Logs to trace customer interaction):** Analiza logów żądań (Request Logs), generowanych przez infrastrukturę (np. Cloud Load Balancing), pozwala na badanie rzeczywistego ruchu użytkowników. Logi te zawierają kody odpowiedzi HTTP, czasy latencji i ścieżki dostępu, co umożliwia precyzyjne wyliczenie wskaźników SLI (Service Level Indicators) bez modyfikacji kodu.
 
 Analiza niepoprawnych odpowiedzi:
-- A: "Review current application metrics and add new ones as needed" sugeruje konieczność dodawania metryk, co zazwyczaj wiąże się z instrumentacją kodu (zmiany w aplikacji), czego pytanie zabrania ("without making any engineering changes").
-- B: "Modify the code to capture additional information" bezpośrednio narusza wymaganie braku zmian w kodzie aplikacji.
-- C: "Analyze the web proxy logs only..." jest zbyt wąskie. Samo analizowanie logów proxy może nie dawać pełnego obrazu "user journey" w porównaniu do syntetyków, a skupienie się *tylko* na jednym źródle jest ograniczeniem.
+- **A: Review current application metrics and add new ones as needed.** Dodawanie nowych metryk aplikacji zazwyczaj wymaga instrumentacji kodu (np. użycie bibliotek OpenTelemetry lub Prometheus), co narusza warunek braku zmian inżynieryjnych.
+- **B: Modify the code to capture additional information for user interaction.** Ta opcja bezpośrednio narusza główne ograniczenie zadania ("without making any engineering changes").
+- **C: Analyze the web proxy logs only and capture response time of each request.** Choć analiza logów jest słuszna, ograniczenie się *tylko* do logów proxy i *tylko* do czasu odpowiedzi jest mniej kompleksowe niż połączenie testów syntetycznych (które sprawdzają dostępność nawet gdy nie ma ruchu) i logów żądań (które dają pełny obraz interakcji).
 
-Wskazówki (Hints & Tricks):
-- SRE (Site Reliability Engineering) często korzysta z tzw. "Black-box monitoring", aby mierzyć SLI (Service Level Indicators) z perspektywy klienta końcowego.
-- Jeśli pytanie zabrania zmian w kodzie, zawsze szukaj metod opartych na logach infrastrukturalnych (Cloud Logging), monitorowaniu sieciowym lub syntetycznych testach (Uptime Checks / Synthetic Monitoring w Cloud Monitoring).
+Hity i triki (Hints & Tricks):
+- W SRE wyróżniamy **Black-box monitoring** (testowanie z zewnątrz, np. syntetyki) oraz **White-box monitoring** (metryki z wewnątrz aplikacji, np. eksportowane przez kod). Jeśli zadanie zabrania zmian w kodzie, szukaj rozwiązań Black-box.
+- SLI (Service Level Indicator) dla niezawodności to często stosunek zapytań zakończonych sukcesem do wszystkich zapytań. Logi Load Balancera są idealnym źródłem tych danych w GCP.
 
 Przydatne linki:
-- https://cloud.google.com/monitoring/uptime-checks
-- https://cloud.google.com/logging/docs/load-balancing</pre>
+- [Cloud Monitoring Uptime Checks](https://cloud.google.com/monitoring/uptime-checks)
+- [Monitoring Google Cloud Load Balancing](https://cloud.google.com/load-balancing/docs/monitoring)
+- [SRE Book: Monitoring Distributed Systems](https://sre.google/sre-book/monitoring-distributed-systems/)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do rozwiązania tego pytania jest zrozumienie ograniczenia "no engineering changes". Wymusza to zastosowanie metod monitorowania zewnętrznego (Black-box) lub wykorzystanie istniejących logów infrastrukturalnych.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Gdy widzisz "without making changes to code", myśl o: Uptime Checks, Cloud Logging, Cloud Load Balancing logs.</li>
+    <li>Mierzenie z "user perspective" sugeruje, że musimy widzieć to, co widzi klient (zewnętrzne IP, kody 2xx/5xx, latencja na brzegu sieci).</li>
+    <li>Zawsze odróżniaj metryki aplikacyjne (White-box) od infrastrukturalnych/zewnętrznych (Black-box).</li>
 </ul>
 </div>
 <script>

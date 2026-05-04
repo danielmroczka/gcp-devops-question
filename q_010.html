@@ -79,20 +79,33 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Stackdriver Logging agent (obecnie Cloud Logging agent) jest natywnym rozwiązaniem GCP do zbierania logów z maszyn wirtualnych. Instalacja agenta na maszynach w połączeniu z rolą IAM "Logs Viewer" zapewnia deweloperom bezpieczny, scentralizowany i łatwy dostęp do logów w konsoli GCP, przy minimalnym nakładzie pracy konfiguracyjnej (least effort).
+W Google Cloud Platform najlepszą praktyką zarządzania logami z instancji Compute Engine jest wykorzystanie dedykowanego agenta Cloud Logging (dawniej Stackdriver Logging agent).
 
-B. Rola "Private Logs Viewer" służy do przeglądania logów zawierających dane wrażliwe (PII) lub logów audytowych o podwyższonym rygorze dostępu. Zgodnie z zasadą Least Privilege, nie należy jej nadawać, jeśli wystarczy zwykły "Logs Viewer".
-C. Monitoring agent służy do zbierania metryk (CPU, RAM), a nie logów aplikacji.
-D. Ręczne pisanie skryptów do uploadu logów do GCS (cron + gsutil) to tzw. "antywzorzec" (antipattern) w GCP – wymaga ogromnego nakładu pracy w utrzymaniu, tworzy problemy z wydajnością, opóźnieniami w dostępności logów i jest bardzo trudne w debugowaniu. Zawsze wybieraj managed services (Logging agent).</pre>
+Dlaczego odpowiedź A jest poprawna:
+Instalacja agenta Cloud Logging na serwerach Compute Engine pozwala na automatyczne przesyłanie logów systemowych i aplikacyjnych do scentralizowanego repozytorium w Cloud Logging. Jest to rozwiązanie wymagające minimalnej konfiguracji (szczególnie przy użyciu skryptów startowych lub obrazów bazowych). Przypisanie deweloperom roli IAM `roles/logging.viewer` (Logs Viewer) daje im bezpieczny dostęp do przeglądania logów za pomocą konsoli GCP lub API, bez konieczności logowania się bezpośrednio na serwery przez SSH.
+
+Dlaczego pozostałe opcje są błędne:
+B. Rola `roles/logging.privateLogViewer` (Private Logs Viewer) daje dostęp do logów audytowych (Data Access audit logs) oraz logów, które mogą zawierać dane wrażliwe. Zgodnie z zasadą najmniejszych uprawnień (Least Privilege), jeśli deweloperzy potrzebują tylko logów aplikacji do debugowania, rola Logs Viewer (A) jest wystarczająca i bardziej bezpieczna.
+C. Agent Cloud Monitoring (dawniej Stackdriver Monitoring agent) służy do zbierania metryk systemowych (np. użycie procesora, pamięci RAM, operacje dyskowe). Nie służy on do przesyłania treści logów tekstowych. Rola Monitoring Viewer również nie daje dostępu do logów.
+D. Tworzenie własnych rozwiązań opartych na skryptach `cron` i `gsutil` do przesyłania logów do Cloud Storage (GCS) jest uznawane za "antywzorzec". Takie podejście wprowadza opóźnienia (logi nie są dostępne w czasie rzeczywistym), jest trudne w monitorowaniu, nie zapewnia automatycznej rotacji i generuje niepotrzebny narzut administracyjny. Ponadto, przeglądanie logów w GCS jest znacznie mniej wygodne niż korzystanie z dedykowanej przeglądarki logów (Logs Explorer).
+
+Hity i triki:
+- W nowszych typach maszyn Compute Engine agent Logging jest często preinstalowany lub można go włączyć jednym kliknięciem (lub flagą w gcloud).
+- Pamiętaj o różnicy: `Logging` = teksty/zdarzenia, `Monitoring` = liczby/wykresy.
+- Logs Viewer vs. Private Logs Viewer to częsty motyw w pytaniach o uprawnienia (IAM). Zwykły Viewer nie widzi np. kto pobrał jaki plik z GCS (to jest w logach prywatnych).
+
+Przydatne linki:
+- https://cloud.google.com/logging/docs/agent/installation
+- https://cloud.google.com/logging/docs/access-control</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczem jest <b>"least amount of configuration"</b> (najmniej pracy) i <b>"secure solution"</b>. Zarządzane usługi (Managed Services) jak Cloud Logging zawsze wygrywają z pisaniem własnych skryptów (np. cron+gsutil).</p>
+<p>Zapewnienie deweloperom dostępu do logów bez dostępu SSH do maszyn produkcyjnych to fundament bezpieczeństwa w DevOps. Cloud Logging rozwiązuje ten problem w sposób natywny i skalowalny.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Widzisz pytanie o logi na VM? Szukaj <b>Logging Agent</b>.</li>
-    <li>Widzisz pytanie o własny skrypt (cron)? Zazwyczaj jest to zła odpowiedź (chyba że nie ma innych opcji).</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/agent/installation" target="_blank">Cloud Logging Agent Installation</a></li>
+    <li><b>Least Effort = Native Tools:</b> Jeśli GCP oferuje agenta do konkretnego zadania, prawie zawsze jest on lepszym wyborem niż własny skrypt.</li>
+    <li><b>Zasada Least Privilege:</b> Wybieraj najbardziej restrykcyjną rolę, która pozwala na wykonanie zadania. Logs Viewer jest "słabszy" niż Private Logs Viewer.</li>
+    <li><b>Monitoring vs Logging:</b> Zapamiętaj: agent monitoringu NIE zbiera logów, a agent logowania NIE zbiera metryk (choć mogą być instalowane razem).</li>
 </ul>
 </div>
 </div>

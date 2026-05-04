@@ -79,21 +79,34 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Poprawna odpowiedź to D. Aby mieć pełną kontrolę nad strukturą i formatowaniem błędów wysyłanych do Error Reporting, należy użyć dedykowanego API (ReportedErrorEvent). Pozwala to na precyzyjne definiowanie kontekstu błędu (np. wersja usługi, nazwa funkcji, użytkownik), co znacznie ułatwia debugowanie w środowiskach takich jak App Engine Flexible, GKE czy GCE.
+Poprawna odpowiedź to D. Chociaż biblioteki klienckie (opcja C) ułatwiają integrację, pytanie dotyczy **personalizacji** (customization) informacji o błędach. 
+
+Dlaczego odpowiedź D jest najlepsza:
+1. Pełna kontrola: Użycie API Error Reporting lub przesyłanie logów w formacie `ReportedErrorEvent` pozwala na dołączenie szczegółowych metadanych, takich jak kontekst użytkownika (User context), kontekst usługi (Service context) czy specyficzne informacje o żądaniu HTTP.
+2. Elastyczność: Możesz sformatować logi w Cloud Logging tak, aby Error Reporting automatycznie je wyłapał i zinterpretował jako błędy strukturalne, co jest najbardziej elastycznym sposobem na przesyłanie niestandardowych danych w środowisku App Engine Flexible.
 
 Analiza błędnych odpowiedzi:
-- A, B, C: Same biblioteki (klienty) działają w różnych środowiskach, ale "personalizacja" (customizing) informacji o błędzie w pełnym zakresie, zgodnie z dokumentacją GCP, odbywa się przez dedykowane API, które zapewnia spójność bez względu na środowisko uruchomieniowe.
+- A i B: Proponują zmianę środowiska uruchomieniowego (Compute Engine, GKE), co jest niepotrzebne i nie rozwiązuje problemu personalizacji samej informacji o błędzie w Pythonie.
+- C: Instalacja biblioteki to krok wstępny. Biblioteka "pod maską" i tak wysyła dane do API, ale odpowiedź D precyzyjniej wskazuje na mechanizm (`ReportedErrorEvent`), który jest kluczem do zaawansowanej personalizacji zgodnie ze specyfikacją Error Reporting.
+
+Hity i triki (Exam Tips):
+- Error Reporting automatycznie wykrywa błędy w logach, jeśli zawierają one "Stack Trace" (zrzut stosu).
+- Jeśli chcesz dodać do błędu informację o konkretnym użytkowniku (user ID), musisz użyć struktury `context.user`.
+- Zapamiętaj frazę `ReportedErrorEvent` – to oficjalna nazwa struktury JSON, której Error Reporting używa do identyfikacji szczegółów błędu w logach.
 
 Przydatne linki:
-- https://cloud.google.com/error-reporting/docs/reference/rest/v1beta1/projects.events/report</pre>
+- [Formatting error messages in Cloud Logging](https://cloud.google.com/error-reporting/docs/formatting-error-messages)
+- [Error Reporting API reference](https://cloud.google.com/error-reporting/docs/reference/rest/v1beta1/projects.events/report)
+- [Python client for Error Reporting](https://cloud.google.com/python/docs/reference/clouderrorreporting/latest)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W środowisku App Engine Flexible, Error Reporting jest kluczowym elementem strategii "Observability". Standardowe logowanie `print()` lub `logging.error()` może wystarczyć do wykrycia błędu, ale profesjonalny DevOps Engineer dąży do wzbogacenia tych danych o kontekst biznesowy i techniczny, co skraca czas naprawy (MTTR).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>W Pythonie na App Engine, Error Reporting biblioteka jest zazwyczaj najlepszym startem, ale na egzaminie szukaj słów kluczowych takich jak **JSON structure**, **ReportedErrorEvent** lub **API**, gdy mowa o zaawansowanej personalizacji.</li>
+    <li>Upewnij się, że Twoja usługa ma uprawnienia IAM `logging.logWriter` oraz `errorreporting.writer`.</li>
+    <li>Error Reporting grupuje błędy na podstawie ich podobieństwa – personalizacja pomaga uniknąć błędnego grupowania różnych problemów w jeden rekord.</li>
 </ul>
 </div>
 <script>

@@ -79,19 +79,28 @@
 <pre>Odpowiedź: B
 
 Wyjaśnienie:
-Zgodnie z zasadami SRE, postmortem powinien prowadzić do wykonalnych działań naprawczych (actionable items), które eliminują przyczynę źródłową (root cause) incydentu. 
-- Opcja B (automatyzacja testów regresyjnych) jest klasycznym przykładem poprawy procesu w celu zapobiegania podobnym awariom w przyszłości. 
-- Opcja A ("blame culture") jest sprzeczna z zasadami "blameless postmortem", które mają na celu usprawnienie systemów, a nie karanie ludzi.
-- Opcja C przerzuca winę na recenzentów kodu, co nie rozwiązuje systemowego problemu jakości testów.
-- Opcja D (wymóg pilnego dzwonienia do zarządu) zwiększa presję i chaos (toil), zamiast adresować techniczne przyczyny awarii.</pre>
+Poprawna odpowiedź to B. SRE stawia na zapobieganie awariom poprzez budowanie odporności systemów (resilience). Najlepszym sposobem na uniknięcie powtórzenia tego samego incydentu (incydentów regresyjnych) jest automatyzacja weryfikacji – czyli dodanie testów, które wykryją ten konkretny błąd w przyszłości, zanim trafi on na produkcję.
+
+Dlaczego inne odpowiedzi są błędne:
+- A: "Blameless post-mortem" zakazuje szukania winnych (osób odpowiedzialnych). Celem jest poprawa procesu, a nie karanie jednostek.
+- C: Skupianie się na osobach recenzujących zmianę również uderza w kulturę "blameless" i jest mało skuteczne w zapobieganiu awariom. Systemy powinny być tak zaprojektowane, aby błąd ludzki nie prowadził do awarii (np. poprzez automatyczne sprawdzanie).
+- D: Zwiększanie presji (zarząd, dzwonienie do menedżerów) zwiększa poziom stresu i chaosu podczas incydentu, co nie ma żadnej wartości naprawczej. Działania naprawcze powinny być techniczne i procesowe.
+
+Hity i triki:
+- Post-mortem ma na celu zamianę błędu ludzkiego w poprawę systemu/procesu.
+- Action items (działania naprawcze) po post-mortem muszą być konkretne, mierzalne i przypisane do konkretnego celu technicznego (np. "dodać test regresyjny").
+
+Linki:
+- https://sre.google/sre-book/postmortem-culture/
+- https://sre.google/sre-book/effective-troubleshooting/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowe zagadnienia: SRE, Post-mortem, Kultura wolna od winy (Blameless), Prewencja awarii.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Wybieraj odpowiedzi promujące automatyzację i procesy (np. testy regresyjne), a odrzucaj te promujące szukanie winnych.</li>
+    <li>Dokumentacja: <a href="https://sre.google/" target="_blank">SRE Book (Google)</a></li>
 </ul>
 </div>
 <script>

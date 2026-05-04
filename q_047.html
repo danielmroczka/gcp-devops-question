@@ -79,25 +79,35 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest C:
-- Aby monitorować rozkład latencji (histogramy), wymagany jest typ danych DISTRIBUTION. Heatmapa jest najlepszym wizualnym narzędziem do analizy takich danych, ponieważ pozwala zobaczyć, jak rozkład latencji zmienia się w czasie (poziomy percentyli).
+Poprawną odpowiedzią jest C, ponieważ wizualizacja rozkładu latencji (histograms) dla wielu użytkowników najlepiej realizowana jest przy użyciu typu wartości `DISTRIBUTION` oraz wykresu typu `Heatmap`.
+
+1. **C (GAUGE and DISTRIBUTION with Heatmap):** 
+   - **GAUGE:** Metryka typu Gauge reprezentuje wartość w konkretnym punkcie czasowym (np. latencja ostatniego żądania).
+   - **DISTRIBUTION:** Ten typ wartości pozwala na zbieranie populacji danych i dzielenie ich na "kubełki" (buckets). Jest to niezbędne, aby zrozumieć nie tylko średnią latencję, ale także percentyle (np. p95, p99), które najlepiej oddają doświadczenie użytkowników.
+   - **Heatmap:** Mapa cieplna (Heatmap) w Cloud Monitoring wizualizuje dane typu `DISTRIBUTION` w czasie. Kolory reprezentują zagęszczenie próbek w danym zakresie latencji, co pozwala natychmiast zauważyć anomalie lub "rozjeżdżanie się" czasów odpowiedzi.
 
 Analiza niepoprawnych odpowiedzi:
-- A, B, D: Inne typy metryk (Gauge, Delta, Cumulative) nie są optymalne dla histogramów latencji i nie pozwalają na użycie heatmapy w Cloud Monitoring.
+- **A (DELTA and DOUBLE with Stacked Bar):** Typ `DELTA` mierzy zmianę wartości w czasie, a `DOUBLE` to pojedyncza liczba zmiennoprzecinkowa. Wykres słupkowy (Stacked Bar) nie nadaje się do ciągłego monitorowania rozkładu latencji tysięcy żądań w czasie.
+- **B (CUMULATIVE and DOUBLE with Line graph):** Typ `CUMULATIVE` służy do liczników, które tylko rosną (np. całkowita liczba bajtów). Wykres liniowy pokazałby tylko jedną wartość (np. średnią), co ukrywa istotne informacje o "ogonie" latencji (użytkownikach doświadczających bardzo wolnych odpowiedzi).
+- **D (METRIC_KIND_UNSPECIFIED and INT64 with Stacked Area):** Nieokreślony typ metryki i pojedyncza liczba całkowita (`INT64`) nie pozwalają na modelowanie statystycznego rozkładu latencji.
 
-Wskazówki (Hints & Tricks):
-- Pamiętaj: Jeśli pytanie dotyczy rozkładu wartości (latencji), szukaj DISTRIBUTION i Heatmap.
+Hity i triki (Hints & Tricks):
+- Słowo klucz "latencies experienced by all users" sugeruje potrzebę zobaczenia pełnego spektrum danych, a nie tylko średniej. Zawsze wtedy szukaj **DISTRIBUTION**.
+- Heatmapy są idealne do wykrywania "modalności" rozkładu (np. gdy część użytkowników obsługiwana jest z cache, a część z bazy danych – zobaczysz dwa wyraźne pasma na mapie).
+- Pamiętaj o różnicy: **Gauge** (obecny stan), **Delta** (zmiana od ostatniego odczytu), **Cumulative** (suma od początku).
 
 Przydatne linki:
-- https://cloud.google.com/monitoring/api/v3/metrics-details#metric-kinds</pre>
+- [Metric kinds and value types](https://cloud.google.com/monitoring/api/v3/metrics-details)
+- [Visualizing distributions (Heatmaps)](https://cloud.google.com/monitoring/charts/distributions)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>To pytanie testuje głęboką wiedzę o modelu danych Cloud Monitoring. Zrozumienie, jak agregować i wizualizować dane o wydajności, jest kluczowe dla roli DevOps/SRE.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Latencja = Distribution. Średnia kłamie (Average lies), percentyle mówią prawdę.</li>
+    <li>Heatmapa to jedyny sensowny sposób na wizualizację typu Distribution w GCP.</li>
+    <li>Zapamiętaj: Jeśli chcesz mierzyć "experience of all users", musisz widzieć rozkład, a nie pojedynczy punkt.</li>
 </ul>
 </div>
 <script>

@@ -79,23 +79,35 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. Error budget (budżet błędów) to kluczowe narzędzie w SRE. Ustalenie polityki error budgetu w porozumieniu z interesariuszami (Product Managers, Dev, SRE) pozwala na automatyczne określenie momentu, w którym należy wstrzymać wdrożenia nowych funkcji na rzecz poprawy niezawodności.
+Poprawna odpowiedź to A. W kulturze SRE (Site Reliability Engineering), Error Budget Policy (polityka budżetu błędów) jest swoistym "kontraktem społecznym" między zespołami deweloperskimi, biznesem (Product Owners) a zespołem SRE/DevOps.
+
+Dlaczego odpowiedź A jest poprawna:
+1. Jasne zasady: Ustalenie polityki przed wystąpieniem incydentu pozwala uniknąć konfliktów w sytuacjach kryzysowych. Każdy z góry wie, że jeśli budżet błędów zostanie wyczerpany, priorytetem staje się stabilność, a nie nowe funkcje.
+2. Wspólna odpowiedzialność: Włączenie wszystkich interesariuszy (stakeholders) gwarantuje, że biznes akceptuje ryzyko związane z szybkim wdrażaniem zmian, wiedząc jednocześnie, że istnieją bezpieczniki chroniące satysfakcję użytkownika.
+3. Obiektywizm: Decyzja o wstrzymaniu wdrożeń opiera się na twardych danych (SLO/SLI), a nie na emocjach czy subiektywnej ocenie po awarii.
 
 Analiza błędnych odpowiedzi:
-- B: Negocjacje "zawsze" są niepraktyczne; SRE promuje równowagę między nowymi funkcjami a stabilnością, a nie prymat jednego nad drugim.
-- C: Zmniejszenie częstotliwości wydań to działanie przeciwne do kultury DevOps/SRE, która promuje częste, małe zmiany.
-- D: Automatyczne blokady w Jenkins mogą być przydatne, ale bez wcześniejszej "polityki" i zgody interesariuszy, jest to działanie technokratyczne, które będzie generować konflikty w zespole.
+- B: Negocjowanie, by "zawsze" stawiać niezawodność nad funkcje, jest sprzeczne z celami biznesowymi. SRE promuje akceptowalne ryzyko (tolerancję na błędy), a nie dążenie do nierealistycznej 100% niezawodności kosztem rozwoju produktu.
+- C: Zmniejszenie częstotliwości wydań do jednego w tygodniu to krok wstecz w kulturze CI/CD. Mniejsze i częstsze wydania są zazwyczaj bezpieczniejsze, ponieważ łatwiej jest zidentyfikować przyczynę ewentualnego błędu.
+- D: Choć techniczna blokada w Jenkinsie jest dobrym krokiem implementacyjnym, to bez wcześniejszego ustalenia **polityki** (czyli odpowiedzi A) będzie ona postrzegana jako przeszkoda narzucona przez zespół operacyjny, co prowadzi do konfliktów i obchodzenia procedur.
+
+Hity i triki (Exam Tips):
+- Budżet błędów (Error Budget) to łącznik między tempem innowacji (velocity) a niezawodnością (reliability).
+- Jeśli budżet jest pełny – wdrażaj szybko. Jeśli budżet jest pusty – naprawiaj i stabilizuj.
+- Zapamiętaj: Polityka (Policy) zawsze musi być ustalona **wspólnie** z biznesem, aby miała moc sprawczą.
 
 Przydatne linki:
-- https://sre.google/sre-book/embracing-risk/</pre>
+- [Google SRE Book - Embracing Risk](https://sre.google/sre-book/embracing-risk/)
+- [Site Reliability Engineering: Error Budgets and Policies](https://cloud.google.com/blog/products/gcp/sre-error-budgets-and-policies)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>To pytanie dotyka sedna filozofii SRE, czyli zarządzania ryzykiem. Zamiast karać za błędy lub dążyć do niemożliwej perfekcji, SRE używa budżetu błędów jako mechanizmu regulacyjnego, który balansuje potrzeby deweloperów (szybkie zmiany) i użytkowników (stabilność).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Na egzaminie szukaj odpowiedzi, które promują **współpracę (cooperation)** i **porozumienie (agreement)** między zespołami.</li>
+    <li>Error Budget Policy powinna definiować nie tylko *kiedy* przestać wdrażać, ale też *kiedy* można wznowić wdrożenia (np. po przywróceniu SLO lub zidentyfikowaniu root cause).</li>
+    <li>Pamiętaj o pojęciu "Post-mortem" – bezkarnej analizie po awarii, która jest elementem polityki naprawczej.</li>
 </ul>
 </div>
 <script>

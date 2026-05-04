@@ -79,18 +79,30 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Pytanie 39: Poprawna odpowiedź D. Git pozwala na łatwe porównanie zmian (diff) w konfiguracji. W przypadku problemów z CI/CD, porównanie wersji (poprzednia vs obecna) konfiguracji (YAML) to pierwszy i najszybszy krok w diagnostyce (Troubleshooting).
-- A: Toil - manualna praca zamiast naprawy automatyzacji.
-- B: Nie rozwiązuje problemu błędu w konfiguracji YAML.
-- C: Użycie "Error Reporting" do plików konfiguracyjnych jest nietypowe i mniej wydajne niż Git diff.</pre>
+Poprawna odpowiedź to D. Zgodnie z praktykami SRE i DevOps, konfiguracja potoków CI/CD (np. pliki YAML w Cloud Build) powinna być traktowana jako kod (Configuration as Code). Gdy automatyzacja przestaje działać tuż po wprowadzeniu zmian, najszybszą i najbardziej skuteczną metodą diagnostyki jest sprawdzenie, co dokładnie zostało zmienione. Polecenie `git diff` (lub porównanie wersji w interfejsie webowym systemu Git) pozwala natychmiast wyłapać błędy składniowe, literówki w nazwach obrazów czy błędne wcięcia (indendację), które są częstą przyczyną awarii plików YAML.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Powrót do budowania manualnego to drastyczne zwiększenie "Toil" (mozolnej, powtarzalnej pracy). SRE dąży do naprawy automatyzacji, a nie jej porzucenia przy pierwszej trudności. Manualne wdrożenia są również bardziej podatne na błędy ludzkie.
+B. Zmiana Docker Hub na Container Registry to zmiana infrastrukturalna, która nie adresuje przyczyny błędu w samej konfiguracji. To działanie "na oślep", które nie wynika z analizy problemu.
+C. Cloud Error Reporting służy do monitorowania błędów (wyjątków) generowanych przez uruchomiony kod aplikacji w czasie rzeczywistym. Nie jest to narzędzie przeznaczone do sprawdzania poprawności plików konfiguracyjnych YAML.
+
+Hity i triki (Exam Tips):
+- **Troubleshooting Gold Rule:** Jeśli coś działało i przestało po zmianie -> sprawdź "diff".
+- **YAML to kod:** Traktuj pliki konfiguracji pipeline'ów z taką samą powagą jak kod źródłowy aplikacji. Pamiętaj o testowaniu zmian w konfiguracji na oddzielnych branchach.
+- **SRE Mindset:** Zamiast omijać błędy (manual build), naprawiaj przyczynę źródłową w automatyzacji.
+
+Dokumentacja:
+- https://cloud.google.com/build/docs/troubleshooting-build-errors
+- https://sre.google/sre-book/monitoring-distributed-systems/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W przypadku błędów w konfiguracji pipeline'u, pierwszy krok to "Git diff" porównujący zmiany.</p>
+<p>Kwestia ta dotyczy "Mean Time to Detect" (MTTD) i "Mean Time to Repair" (MTTR). W środowisku GitOps najkrótsza droga do naprawy prowadzi przez historię commitów.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Git diff to najszybsza metoda diagnostyki zmian w konfiguracji.</li>
-    <li>Dokumentacja: <a href="https://git-scm.com/docs/git-diff" target="_blank">Git diff docs</a></li>
+    <li><strong>Cloud Build local builder:</strong> Wspomnijmy o narzędziu `cloud-build-local`, które pozwala na testowanie plików YAML na własnej maszynie przed ich wypchnięciem do repozytorium – to zapobiega takim sytuacjom.</li>
+    <li><strong>Indentation matters:</strong> W YAML-u spacje są kluczowe. Często to właśnie brak jednej spacji psuje cały pipeline, a `git diff` to najszybszy sposób, by to zobaczyć.</li>
+    <li><strong>Blame-free culture:</strong> Nawet jeśli diff pokaże, kto popełnił błąd, SRE skupia się na tym, jak poprawić proces (np. dodać linter do pre-commit hooka), a nie na wytykaniu palcami.</li>
 </ul>
 </div>
 <script>

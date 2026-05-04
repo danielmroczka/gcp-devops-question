@@ -78,22 +78,36 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Podstawową zasadą DevOps i SRE jest separacja środowisk. Produkcja musi być chroniona przed eksperymentami, kodem w fazie rozwoju i obciążeniem z testów wydajnościowych. 
-- Środowisko deweloperskie (Dev) jest dla programistów do pisania i testowania kodu.
-- Środowisko testowe (Test) jest miejscem na konfigurację, eksperymenty oraz przeprowadzanie load testów, które mają imitować ruch produkcyjny.
-Dopiero tak odseparowane środowiska gwarantują, że błędy w testach nie wpłyną na użytkowników aplikacji produkcyjnej.
+Poprawną odpowiedzią jest **D (Create a development environment for writing code and a test environment for configurations, experiments, and load testing)**.
 
-A. Automatyczne skrypty w produkcji nie zapobiegają błędom, a jedynie mogą je wykryć – nie rozwiązują problemu zakłócania pracy użytkowników przez testerów.
-B. To krok w dobrym kierunku, ale samo ograniczenie dostępu do "małego" środowiska nie daje testerom odpowiedniego miejsca na testy konfiguracji i load testy.
-C. Jedna aktualizacja na rok to zaprzeczenie filozofii DevOps/Agile i szybkości dostarczania (Velocity).</pre>
+**Dlaczego D jest poprawne?**
+Jedną z fundamentalnych zasad DevOps i SRE (Site Reliability Engineering) jest separacja środowisk. Wykorzystywanie środowiska produkcyjnego do prac deweloperskich, eksperymentów czy testów obciążeniowych (load testing) jest prostą drogą do niestabilności systemu i negatywnego wpływu na końcowych użytkowników. Redesign środowiska powinien polegać na stworzeniu:
+1.  **Środowiska deweloperskiego (Dev):** Gdzie programiści mogą swobodnie pisać kod i przeprowadzać wstępne testy jednostkowe.
+2.  **Środowiska testowego/stagingu:** Które powinno być jak najbardziej zbliżone do produkcji pod względem konfiguracji, aby bezpiecznie przeprowadzać eksperymenty, testy integracyjne i – co bardzo ważne – testy obciążeniowe, nie spowalniając przy tym głównej aplikacji.
+3.  **Środowiska produkcyjnego:** Dedykowanego wyłącznie dla użytkowników końcowych, z restrykcyjnym dostępem i kontrolowanym procesem wdrożeniowym.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **A. Create an automated testing script in production to detect failures as soon as they occur:** To podejście jest reaktywne, a nie prewencyjne. Wykrywanie błędów po ich wystąpieniu na produkcji nie naprawia problemu ich powstawania. Ponadto, skrypty nie zapobiegną spowolnieniu systemu spowodowanemu przez testerów wykonujących testy obciążeniowe.
+*   **B. Create a development environment with smaller server capacity and give access only to developers and testers:** Choć separacja dostępu jest dobra, "mniejsza pojemność serwera" uniemożliwia rzetelne przeprowadzenie testów obciążeniowych. Wyniki takich testów na słabszym sprzęcie nie będą miarodajne dla skali produkcyjnej.
+*   **C. Secure the production environment to ensure that developers can't change it and set up one controlled update per year:** Ograniczenie aktualizacji do jednej w roku jest sprzeczne z kulturą Agile i DevOps, która promuje częste i małe wdrożenia (Continuous Delivery). Takie podejście drastycznie spowalnia rozwój produktu (Velocity) i paradoksalnie zwiększa ryzyko błędów przy ogromnych, rzadkich aktualizacjach.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Jeśli pytanie opisuje chaos na produkcji spowodowany przez dev/test -> rozwiązaniem zawsze jest **izolacja środowisk (Isolation/Separation of concerns)**.
+- Load testing (testy obciążeniowe) to najczęstsza przyczyna incydentów wydajnościowych, jeśli są robione na produkcji bez odpowiedniej kontroli. Zawsze szukaj opcji, która przenosi te testy do dedykowanego środowiska.
+
+### 🔗 Dokumentacja i linki
+- [SRE Book: Testing for Reliability](https://sre.google/sre-book/testing-for-reliability/)
+- [Best practices for enterprise organizations: Environments](https://cloud.google.com/architecture/best-practices-for-enterprise-organizations#environments)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W SRE: <b>Produkcja jest święta.</b> Nigdy nie używaj środowiska produkcyjnego do eksperymentów, load testów czy rozwoju kodu. Separacja środowisk to absolutny wymóg dla niezawodności.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>To pytanie dotyka sedna kultury DevOps: jak zrównoważyć szybkość dostarczania nowych funkcji (Agility) z niezawodnością systemu (Stability). Scenariusz opisuje klasyczną sytuację "anty-wzorca", gdzie brak separacji prowadzi do częstych awarii.</p>
+<h3>Kluczowe zagadnienia:</h3>
 <ul>
-    <li>"Production issues" + "developers experimenting" -> Szukaj: <b>Environment Separation (Dev/Test/Prod)</b>.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/introduction/" target="_blank">Google SRE Book - Intro</a></li>
+    <li><b>Environment Isolation:</b> Podział na Dev, Test i Prod jako standard rynkowy.</li>
+    <li><b>Blast Radius:</b> Zmniejszenie "promienia rażenia" błędów poprzez trzymanie ich z dala od użytkowników.</li>
+    <li><b>Load Testing Strategy:</b> Konieczność posiadania środowiska o skali zbliżonej do produkcji dla miarodajnych testów wydajnościowych.</li>
 </ul>
 </div>
 <script>

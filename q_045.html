@@ -80,26 +80,33 @@
 <pre>Odpowiedź: AC.
 
 Wyjaśnienie:
-Poprawnymi odpowiedziami są A (Operations Lead) i C (Communications Lead):
-- W modelu SRE Incident Response, Incident Commander (IC) deleguje zadania. Operations Lead zajmuje się technicznym rozwiązaniem problemu, a Communications Lead zarządza informacją dla interesariuszy.
+Poprawnymi odpowiedziami są A i C, ponieważ zgodnie z praktykami SRE (Site Reliability Engineering) i protokołem Incident Response, te dwie role są kluczowe dla odciążenia Dowódcy Incydentu (Incident Commander).
+
+1. **A (Operations Lead):** Ta osoba jest odpowiedzialna za techniczne aspekty naprawy incydentu. Zarządza zespołem technicznym, który wykonuje zmiany w systemie, wdraża poprawki lub wycofuje zmiany (rollback). IC deleguje "działanie" do Operations Lead, aby móc skupić się na strategii i ogólnym obrazie sytuacji.
+2. **C (Communications Lead):** Ta osoba zarządza przepływem informacji. Odpowiada za aktualizację statusów dla interesariuszy, komunikację z innymi zespołami i dbanie o to, aby IC nie był rozpraszany pytaniami typu "kiedy to będzie naprawione?". W dużych incydentach rola ta może obejmować również komunikację zewnętrzną (publiczną).
 
 Analiza niepoprawnych odpowiedzi:
-- B: Engineering Lead to zbyt ogólne określenie; w procesie zarządzania incydentem używa się konkretnych ról.
-- D/E: Zadania związane z oceną wpływu i komunikacją z klientem są zazwyczaj częścią roli Communications Lead lub innych ról (jak PR Lead), nie są oddzielnymi rolami "typu 2" dla IC.
+- **B (Engineering Lead):** Choć brzmi podobnie do Operations Lead, nie jest to standardowa nazwa roli w protokole Incident Command System (ICS) stosowanym w SRE. Rola inżynieryjna jest zazwyczaj reprezentowana przez Operations Lead.
+- **D (Customer Impact Assessor):** Ocena wpływu na klienta jest zadaniem, a nie oddzielną, główną rolą w modelu ICS. Zadanie to zazwyczaj wykonuje Operations Lead (techniczna ocena) we współpracy z Communications Lead (ocena biznesowa).
+- **E (External Customer Communications Lead):** W mniejszych lub średnich incydentach zadania te wykonuje Communications Lead. Tworzenie oddzielnej roli na samym początku incydentu (jak sugeruje pytanie "immediately assign") jest zazwyczaj nadmiarowe. Communications Lead to szersza rola obejmująca komunikację wewnętrzną i zewnętrzną.
 
-Wskazówki (Hints & Tricks):
-- W SRE, IC (Incident Commander) musi delegować: ktoś musi naprawiać (Ops), ktoś musi komunikować (Comms).
+Hity i triki (Hints & Tricks):
+- Model zarządzania incydentami w SRE wywodzi się z systemu ICS stosowanego przez straż pożarną i służby ratunkowe.
+- Najważniejsza zasada IC: **Deleguj.** IC nie powinien sam naprawiać błędu ani sam odpisywać na e-maile od klienta. IC ma zarządzać.
+- Trzy główne role: **Incident Commander (IC)**, **Operations Lead (Ops)**, **Communications Lead (Comms)**. Czasem dodaje się Planning Lead.
 
 Przydatne linki:
-- https://sre.google/books/site-reliability-engineering/ (rozdziały o zarządzaniu incydentami)</pre>
+- [SRE Book: Incident Response](https://sre.google/sre-book/incident-response/)
+- [SRE Book: Managing Incidents](https://sre.google/sre-book/managing-incidents/)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zarządzanie incydentami to krytyczny obszar egzaminu Professional Cloud DevOps Engineer. Pytanie to testuje znajomość struktury zespołu reagowania na sytuacje kryzysowe.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zapamiętaj triado: IC, Ops, Comms. To są filary każdego incydentu SRE.</li>
+    <li>Incident Commander (IC) ma najwyższą władzę podczas incydentu, nawet nad swoimi przełożonymi w strukturze hierarchicznej.</li>
+    <li>Kluczem do sukcesu jest "rozdzielenie ról" (separation of concerns) – ten, kto naprawia, nie powinien tracić czasu na pisanie raportów.</li>
 </ul>
 </div>
 <script>

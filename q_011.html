@@ -69,7 +69,7 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">D</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B</span>
 <br/>
 </span>
 </div>
@@ -79,19 +79,33 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Google Cloud oferuje dwie klasy sieci (Network Service Tiers): Premium Tier (globalna sieć Google, najwyższa wydajność, wyższy koszt) oraz Standard Tier (ruch wychodzi z sieci Google do Internetu w lokalizacji najbliższej danemu regionowi, niższa cena). Jeśli Twoim priorytetem jest "zmniejszenie kosztów sieciowych" (network cost), przejście na Standard Tier jest najbardziej bezpośrednim sposobem na obniżenie rachunków za egress (ruch wychodzący).
+Google Cloud Platform oferuje dwie warstwy usług sieciowych (Network Service Tiers), które różnią się sposobem przesyłania ruchu między zasobami w chmurze a użytkownikami w internecie.
 
-A. Shared VPC to architektura organizacji sieci, nie wpływa bezpośrednio na koszty ruchu.
-C. Private Cluster zwiększa bezpieczeństwo (brak publicznych IP dla węzłów), ale nie redukuje kosztów ruchu do Internetu.
-D. HTTP Load Balancer w konfiguracji Premium Tier (domyślnej) jest droższy niż Standard Tier. Użycie LB jako Ingress jest konieczne dla ruchu, ale nie czyni go "tańszym" samym w sobie bez odpowiedniego Network Tieru.</pre>
+Dlaczego odpowiedź B jest poprawna:
+Warstwa Standardowa (Standard Tier) kieruje ruch z GCP do Internetu przez publiczną sieć tranzytową (ISP), zamiast korzystać z globalnej sieci szkieletowej Google. Jest to rozwiązanie znacznie tańsze niż warstwa Premium, co czyni je idealnym wyborem w sytuacji, gdy głównym celem jest redukcja kosztów sieciowych ("reduce the network cost"). Wydajność w Standard Tier jest porównywalna z innymi dostawcami chmurowymi, ale niższa niż w Premium Tier Google.
+
+Dlaczego pozostałe opcje są błędne:
+A. Współdzielony VPC (Shared VPC) służy do zarządzania siecią w wielu projektach z poziomu jednego projektu hosta. Poprawia to bezpieczeństwo i spójność konfiguracji, ale samo w sobie nie zmniejsza kosztów ruchu wychodzącego (egress).
+C. Klaster prywatny (Private Cluster) w GKE polega na tym, że węzły (nodes) nie posiadają publicznych adresów IP. Zwiększa to bezpieczeństwo (izolacja sieciowa), ale nie wpływa bezpośrednio na koszty transferu danych do użytkowników mobilnych.
+D. Google Cloud HTTP Load Balancer używany jako Ingress jest bardzo wydajnym rozwiązaniem, ale domyślnie działa w warstwie Premium. Samo wdrożenie Load Balancera bez zmiany warstwy sieciowej na Standard nie spowoduje obniżenia kosztów, a może je nawet zwiększyć ze względu na opłaty za reguły przekierowania i przetworzone dane.
+
+Hity i triki:
+- Zapamiętaj: Premium Tier = Globalna sieć Google (szybciej, drożej). Standard Tier = Publiczny Internet (taniej).
+- Ruch wewnątrz regionu jest zazwyczaj darmowy lub bardzo tani. Koszty generuje ruch wychodzący do Internetu (Egress).
+- Cloud CDN (powiązany z HTTP Load Balancer) również może obniżyć koszty sieciowe dzięki cache'owaniu treści, ale Standard Tier jest najbardziej bezpośrednią odpowiedzią na pytanie o ogólne koszty sieciowe.
+
+Przydatne linki:
+- https://cloud.google.com/network-tiers/docs/overview
+- https://cloud.google.com/network-tiers/docs/using-standard-tier</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczem do pytania jest fraza <b>"network cost"</b>. Zawsze w GCP, gdy pytanie dotyczy oszczędności na ruchu sieciowym: szukaj <b>Network Service Tiers (Standard vs Premium)</b>.</p>
+<p>W pytaniach o koszty sieciowe na egzaminie GCP, Network Service Tiers są najczęstszym punktem wyboru. Wybór między <b>Premium</b> a <b>Standard</b> to klasyczny balans między wydajnością a ceną.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Network Tiers: Premium = Wydajność, Standard = Oszczędność kosztów.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/network-tiers/docs" target="_blank">Network Service Tiers</a></li>
+    <li><b>Standard Tier:</b> Ruch wychodzi z sieci Google tak szybko, jak to możliwe (Hot Potato Routing).</li>
+    <li><b>Premium Tier:</b> Ruch podróżuje siecią Google tak blisko użytkownika, jak to możliwe (Cold Potato Routing).</li>
+    <li>Dla aplikacji mobilnych, gdzie opóźnienia mogą być tolerowane w zamian za niższe koszty, Standard Tier jest logicznym wyborem.</li>
 </ul>
 </div>
 </div>

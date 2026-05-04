@@ -76,22 +76,31 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
 Wyjaśnienie:
-Poprawna odpowiedź to B. Zgodnie z filozofią Site Reliability Engineering (SRE), kluczowym elementem post-mortem jest kultura "Blameless" (pozbawiona winy). Skupiamy się na procesach, architekturze i narzędziach, które pozwoliły na wystąpienie błędu, zamiast szukać winnego wśród inżynierów. Dzięki temu zespół jest bardziej otwarty na zgłaszanie błędów i wspólne wyciąganie wniosków, co poprawia stabilność systemu.
+Poprawna odpowiedź to B. Zgodnie z filozofią Site Reliability Engineering (SRE) oraz kulturą "Blameless Post-mortem" (post-mortem wolne od obwiniania), głównym celem analizy incydentu jest zrozumienie, dlaczego system pozwolił na wystąpienie błędu, a nie wyciąganie konsekwencji wobec osób. SRE zakłada, że błędy są nieuniknione, a zadaniem zespołu jest budowanie systemów odpornych na błędy ludzkie (np. poprzez automatyzację testów, canary deployments, czy lepszy monitoring).
 
 Dlaczego inne odpowiedzi są błędne:
-- A: Unikanie analizy awarii (ignorowanie jej) prowadzi do powtarzania się tych samych problemów ("incident recurrence"), co jest przeciwieństwem kultury SRE.
-- C i D: Szukanie winnych (kto zatwierdził, kto commitował) oraz karanie inżynierów tworzy kulturę strachu. Zgodnie z praktykami SRE, jeśli inżynier mógł popełnić błąd, to znaczy, że system nie posiadał wystarczających zabezpieczeń (np. testów automatycznych, etapów weryfikacji), a nie że inżynier jest problemem.</pre>
+- A: Ignorowanie przyczyn awarii jest sprzeczne z zasadą ciągłego doskonalenia (Continuous Improvement). Powtarzające się awarie drastycznie obniżają dostępność usług.
+- C: Indywidualne spotkania w celu znalezienia "winnego" zatwierdzenia zmian budują kulturę strachu (blame culture). Zamiast tego, post-mortem powinno być otwarte dla całego zaangażowanego zespołu, aby wspólnie wypracować poprawki w procesie wdrażania.
+- D: Karanie inżyniera za błąd w kodzie jest drastycznym przykładem kultury obwiniania. Z punktu widzenia SRE, to proces (np. brak automatycznych testów wydajnościowych w CI/CD) zawiódł, pozwalając na wprowadzenie kodu obciążającego pamięć, a nie konkretna osoba.
+
+Hity i triki:
+- Post-mortems (analiza po awarii) muszą zawierać listę konkretnych działań (action items), które zapobiegną powtórzeniu się tego samego incydentu w przyszłości.
+- Najważniejszą wartością w SRE jest "Blameless culture". Jeśli szukasz osoby, której "ucina się głowę", nie stosujesz SRE.
+
+Linki:
+- https://sre.google/sre-book/postmortem-culture/
+- https://cloud.google.com/blog/products/devops-sre/how-to-do-blameless-post-mortems</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowe zagadnienia: Site Reliability Engineering (SRE), Blameless Post-mortem, Kultura zespołowa, Zarządzanie incydentami.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Wybieraj odpowiedzi promujące procesy, automatyzację i kulturę wolną od winy.</li>
+    <li>Dokumentacja: <a href="https://sre.google/" target="_blank">SRE Book (Google)</a></li>
 </ul>
 </div>
 <script>

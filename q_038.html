@@ -69,28 +69,42 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Pytanie 38: Poprawna odpowiedź B. Agent (Fluentd) pozwala na filtrowanie logów przed wysłaniem ich do Google Cloud Logging. To najbardziej wydajny sposób na zatrzymanie PII (np. 'userinfo') u źródła. Następnie można skonfigurować eksport (sink) do Cloud Storage, aby archiwizować logi (również te z PII, jeśli są potrzebne do audytu, ale w bezpiecznym miejscu).
-- A: Nie zapobiega wyciekowi PII do Cloud Logging (tylko eksportuje później).
-- C: Log exclusion wyklucza logi, ale PII i tak trafia do Cloud Logging przed wykluczeniem (naruszenie bezpieczeństwa).
-- D: Niepotrzebnie komplikuje proces, korzystając z Fluentd i Cloud Logging.</pre>
+Poprawna odpowiedź to C. W Google Cloud Logging najbardziej efektywnym i natywnym sposobem na obsługę logów zawierających wrażliwe dane (PII) jest połączenie mechanizmu **Zlewów (Sinks/Exports)** oraz **Wykluczeń (Exclusions)**.
+1. **Eksport (Sink):** Pozwala na przekierowanie logów pasujących do filtra (np. `userinfo`) do bezpiecznego miejsca, takiego jak Cloud Storage, gdzie dostęp jest ściśle kontrolowany. Ważne: Sinki przetwarzają logi *zanim* zostaną one odrzucone przez filtry wykluczające.
+2. **Wykluczenie (Exclusion):** Pozwala na odrzucenie logów pasujących do filtra, aby nie były one zapisywane (ingested) w standardowych zasobnikach Cloud Logging (`_Default`, `_Required`). Dzięki temu dane PII nie są widoczne w Logs Explorerze i nie generują kosztów przechowywania w systemie logowania.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Sam eksport (Sink) bez wykluczenia (Exclusion) spowoduje, że logi trafią do Cloud Storage, ale NADAL zostaną zapisane w Cloud Logging, co oznacza, że dane PII "wyciekną" do ogólnodostępnych dzienników systemowych.
+B. Filtrowanie na poziomie agenta (Fluentd) i ręczne kopiowanie do GCS jest skomplikowane ("Toil") i trudne do utrzymania w dużej skali. Wymagałoby to instalacji dodatkowych wtyczek i zarządzania poświadczeniami na każdej maszynie VM.
+D. Jeśli usuniesz (remove) logi za pomocą Fluentd, nigdy nie trafią one do usługi Cloud Logging, więc nie będzie możliwe ich wyeksportowanie za pomocą konfiguracji "log export" w konsoli GCP.
+
+Hity i triki (Exam Tips):
+- **Sinks vs Exclusions:** Zapamiętaj tę parę. Sinks "kopiują" logi do innego miejsca, Exclusions "zatrzymują" logi przed zapisaniem w Cloud Logging. Sinki działają PIERWSZE.
+- **PII w logach:** Zawsze szukaj rozwiązania, które usuwa te dane z widoku ogólnego (Logs Explorer) i przenosi je do bezpiecznego archiwum (GCS/BigQuery).
+- **Koszty:** Wykluczenia są świetnym sposobem na redukcję kosztów Cloud Logging przy zachowaniu logów w tańszym Cloud Storage.
+
+Dokumentacja:
+- https://cloud.google.com/logging/docs/routing/overview#exclusions
+- https://cloud.google.com/logging/docs/export/configure_export_v2</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>PII (dane osobowe) muszą być usuwane/maskowane u źródła, zanim trafią do centralnego systemu logowania.</p>
+<p>Zarządzanie danymi wrażliwymi w logach to krytyczny aspekt zgodności (compliance). Architektura GCP pozwala na elastyczne sterowanie przepływem logów, co umożliwia realizację złożonych wymagań bezpieczeństwa bez wpływu na wydajność aplikacji.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Filtrowanie logów u źródła (Fluentd/Agent) to bezpieczeństwo.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/agent/logging/configuration" target="_blank">Konfiguracja agenta logów</a></li>
+    <li><strong>Data Masking:</strong> Dla bardzo wrażliwych danych rozważ użycie Cloud DLP (Data Loss Prevention) do automatycznego maskowania PII przed ich zapisaniem.</li>
+    <li><strong>Centralized Logging:</strong> W dużych organizacjach sinki i wykluczenia konfiguruje się na poziomie folderu lub całej organizacji, aby zapewnić spójne polityki bezpieczeństwa.</li>
+    <li><strong>Audit Logs:</strong> Pamiętaj, że logi audytowe (`_Required`) nie mogą być wykluczone ani usunięte.</li>
 </ul>
 </div>
 <script>

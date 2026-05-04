@@ -78,19 +78,34 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Poprawna odpowiedź to C. Cloud Build umożliwia wykorzystanie tzw. "substitutions" (zmiennych zastępczych) podczas procesu budowania. Aby powiązać konkretny obraz z wersją z kontroli źródła (np. Git tag), w konfiguracji `cloudbuild.yaml` powinieneś skonfigurować krok budowania obrazu tak, aby tagował on obraz odpowiadającą zmienną (np. `${TAG_NAME}` lub `${COMMIT_SHA}`). Dzięki temu, w rejestrze (GCR/Artifact Registry) otrzymasz obraz z tagiem odpowiadającym konkretnej wersji w kodzie, co jest kluczowe dla identyfikowalności (traceability) w procesach CI/CD.
+Poprawną odpowiedzią jest **C (Use Cloud Build to include the release version tag in the application image)**.
 
-A. Obraz kontenera jest identyfikowany przez digest, ale digest jest generowany PO zbudowaniu obrazu i nie można go wstawić jako tagu przed budowaniem.
-B. Docker nie obsługuje "parametryzacji" nazw obrazów w taki sposób; tagi muszą być jawnie zdefiniowane w procesie budowania.
-D. Digest jest niezmienny (immutable), co jest świetne dla bezpieczeństwa, ale nie rozwiązuje problemu "specify a particular version" w sposób czytelny dla ludzi (wymagałoby mapowania tagu na digest w zewnętrznym systemie).</pre>
+**Dlaczego C jest poprawne?**
+W procesach CI/CD kluczowe jest zachowanie spójności między kodem źródłowym a artefaktem (obrazem kontenera). Cloud Build umożliwia automatyczne pobranie nazwy tagu z systemu kontroli wersji (np. GitHub, Bitbucket, Cloud Source Repositories) i użycie jej do otagowania budowanego obrazu w Google Container Registry (GCR) lub Artifact Registry. Robi się to za pomocą tzw. **substytucji (substitutions)**, takich jak `${TAG_NAME}`. Dzięki temu, jeśli w Git otagujesz kod jako `v1.2.0`, Cloud Build zbuduje obraz i wypchnie go do rejestru pod nazwą `gcr.io/[PROJECT_ID]/my-app:v1.2.0`. Pozwala to na łatwe wskazanie konkretnej wersji podczas wdrożenia.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **A. Reference the image digest in the source control tag:** Digest obrazu (skrót SHA256) jest generowany przez rejestr kontenerów dopiero *po* wypchnięciu obrazu. Próba umieszczenia go w tagu kontroli źródła (który zazwyczaj inicjuje proces budowania) jest logicznie błędna ("co było pierwsze: jajko czy kura"). Choć digest jest najbezpieczniejszą metodą identyfikacji obrazu, nie służy on do mapowania tagów Git na nazwy obrazów w ten sposób.
+*   **B. Supply the source control tag as a parameter within the image name:** Phrasing "parameter within the image name" jest mało precyzyjny technicznie. W ekosystemie Docker wersjonowanie odbywa się poprzez **tagi** (część po dwukropku w nazwie obrazu), a nie parametry wewnątrz nazwy. Opcja C precyzyjniej opisuje ten proces.
+*   **D. Use GCR digest versioning to match the image to the tag in source control:** GCR automatycznie wersjonuje obrazy za pomocą digestów, ale są one nieczytelne dla człowieka (np. `sha256:45b...`). Samo użycie digestów nie zapewnia automatycznego powiązania z konkretnym tagiem w systemie kontroli wersji bez dodatkowego kroku tagowania opisanego w punkcie C.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Pamiętaj o zmiennych w Cloud Build: `${TAG_NAME}` (dla tagów), `${COMMIT_SHA}` (dla konkretnego commitu), `${BRANCH_NAME}` (dla gałęzi).
+- Dobrą praktyką (Best Practice) jest tagowanie obrazu tagiem Git oraz unikalnym identyfikatorem buildu, aby zapewnić pełną identyfikowalność (Traceability).
+- Nigdy nie polegaj na tagu `:latest` na produkcji! Zawsze używaj konkretnych wersji (tagów) lub digestów.
+
+### 🔗 Dokumentacja i linki
+- [Cloud Build: Substituting variable values](https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values)
+- [Tagging images in Container Registry](https://cloud.google.com/container-registry/docs/pushing-and-pulling#tagging_an_image_locally)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W GCP DevOps, tagowanie obrazów w <b>Cloud Build</b> jest standardową praktyką zapewniającą bezpośrednie powiązanie między kodem (Git) a artefaktem (Container Image).</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>Zarządzanie wersjami (Release Management) to jeden z głównych filarów egzaminu DevOps. Musisz wiedzieć, jak połączyć artefakty z ich kodem źródłowym.</p>
+<h3>Kluczowe zagadnienia:</h3>
 <ul>
-    <li>Wersjonowanie? Używaj <b>Cloud Build Substitutions</b> do tagowania obrazów.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values" target="_blank">Cloud Build Substitutions</a></li>
+    <li><b>Traceability:</b> Możliwość sprawdzenia, jaki kod znajduje się w konkretnym obrazie.</li>
+    <li><b>Automation:</b> Automatyczne tagowanie obrazów przez system CI/CD (Cloud Build).</li>
+    <li><b>Docker Tagging:</b> Zrozumienie różnicy między tagiem (mutable) a digestem (immutable).</li>
 </ul>
 </div>
 <script>

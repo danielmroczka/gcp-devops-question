@@ -79,27 +79,32 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest B:
-- Binary Authorization to usługa bezpieczeństwa wdrażania, która wymusza, aby obrazy kontenerów były podpisane przez zaufanych wystawców (attestors) i spełniały określone polityki przed wdrożeniem do GKE. Pozwala to na zablokowanie wdrażania obrazów z nieautoryzowanych rejestrów.
+Poprawną odpowiedzią jest B, ponieważ Binary Authorization jest natywną usługą Google Cloud zaprojektowaną właśnie do wymuszania polityk bezpieczeństwa przy wdrażaniu obrazów kontenerów do GKE (Google Kubernetes Engine).
+
+1. **B (Use a Binary Authorization policy that includes the whitelist name pattern gcr.io/altostrat-images/):** Binary Authorization pozwala zdefiniować politykę "wymuszania" (enforcement). Jedną z najprostszych i najskuteczniejszych metod ograniczenia źródeł obrazów jest dodanie wzorca nazwy rejestru do białej listy (whitelist). Dzięki temu GKE automatycznie odrzuci każdą próbę wdrożenia obrazu, który nie pochodzi z `gcr.io/altostrat-images/`. Jest to rozwiązanie wymagające minimalnego czasu programistycznego, ponieważ konfiguruje się je na poziomie platformy, a nie aplikacji czy potoków CI/CD.
 
 Analiza niepoprawnych odpowiedzi:
-- A: Cloud Build tworzy obrazy, ale nie zarządza tym, co jest wdrażane w GKE.
-- C: Ręczna logika w potoku (pipeline) jest podatna na błędy i obejście. Binary Authorization jest rozwiązaniem natywnym dla Kubernetes, bardziej niezawodnym i skalowalnym.
-- D: Tagowanie obrazów nie gwarantuje, że obraz pochodzi z konkretnego zaufanego rejestru, a jedynie oznacza jego wersję.
+- **A: Create a custom builder for Cloud Build:** Cloud Build odpowiada za budowanie obrazów, ale nie kontroluje procesu wdrażania (deploymentu) do klastra. Nawet jeśli Cloud Build będzie wypychał obrazy tylko do jednego miejsca, ktoś inny mógłby ręcznie wdrożyć obraz z innego źródła.
+- **C: Add logic to the deployment pipeline:** Implementacja własnej logiki sprawdzającej manifesty w pipeline jest czasochłonna ("minimizing development time" jest warunkiem pytania) i podatna na błędy. Ponadto nie chroni przed wdrożeniami wykonywanymi poza potokiem (np. bezpośrednio przez kubectl).
+- **D: Add a tag to each image and check that this tag is present:** Tagi (etykiety) obrazów nie są bezpiecznym mechanizmem weryfikacji pochodzenia. Każdy może nadać obrazowi dowolny tag. Ponadto Kubernetes nie posiada natywnego mechanizmu blokowania wdrożeń na podstawie tagów obrazu w taki sposób, jak robi to Binary Authorization.
 
-Wskazówki (Hints & Tricks):
-- Binary Authorization to kluczowy mechanizm "supply chain security" w GCP. Jeśli pytanie dotyczy zabezpieczenia przed wdrażaniem nieautoryzowanego kodu w GKE – Binary Authorization jest niemal zawsze poprawną odpowiedzią.
+Hity i triki (Hints & Tricks):
+- Binary Authorization to tzw. "admission controller" w Kubernetesie. Działa na zasadzie: "Zanim wpuścisz ten pod do klastra, sprawdź czy spełnia politykę".
+- W rzeczywistych scenariuszach produkcyjnych Binary Authorization często używa się z "atestami" (attestations), czyli cyfrowymi podpisami potwierdzającymi, że obraz przeszedł np. testy QA lub skanowanie podatności.
+- "Whitelist" w Binary Authorization to najszybszy sposób na zablokowanie obrazów z publicznych rejestrów (np. Docker Hub).
 
 Przydatne linki:
-- https://cloud.google.com/binary-authorization/docs</pre>
+- [Binary Authorization overview](https://cloud.google.com/binary-authorization/docs/overview)
+- [Configuring a policy by using the Google Cloud console](https://cloud.google.com/binary-authorization/docs/configuring-policy-console)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Pytanie skupia się na bezpieczeństwie łańcucha dostaw (Supply Chain Security). Binary Authorization to standardowa odpowiedź w GCP dla problemów typu: "Jak kontrolować co trafia do mojego klastra GKE?".</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Szukaj słowa kluczowego "Binary Authorization", gdy mowa o ograniczaniu wdrożeń obrazów w GKE.</li>
+    <li>Warunek "minimizing development time" zazwyczaj wskazuje na wybór gotowej usługi managed zamiast pisania własnych skryptów w CI/CD.</li>
+    <li>Zapamiętaj: Binary Authorization = Admission Control.</li>
 </ul>
 </div>
 <script>

@@ -76,28 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Poprawna odpowiedź: D. Modify the App Engine configuration to have additional idle instances.
 
 Wyjaśnienie:
-Poprawna odpowiedź to D (Modify the App Engine configuration to have additional idle instances).
+Głównym problemem opisanym w scenariuszu jest nagły wzrost opóźnień (latency) wynikający ze sposobu, w jaki App Engine (szczególnie w środowisku Standard) zarządza instancjami. Gdy następuje skok ruchu, App Engine musi szybko uruchomić nowe instancje ("Cold Start"). Proces ten zajmuje czas, a zapytania w tym czasie trafiają do kolejki (Pending Queue), co drastycznie zwiększa odczuwalną latencję. Konfiguracja `min_idle_instances` pozwala na utrzymywanie określonej liczby "rozgrzanych" instancji, które są gotowe do natychmiastowej obsługi ruchu, co eliminuje problem Cold Startów podczas nagłych skoków.
 
-Problem polega na "zimnym starcie" (cold start) instancji App Engine. Jeśli liczba instancji drastycznie spadnie po przejściu ruchu, nowe zapytania muszą zainicjować nowe instancje, co powoduje opóźnienia. Utrzymywanie instancji w stanie "idle" (bezczynności) zapewnia, że aplikacja jest gotowa na nagły wzrost ruchu bez czekania na załadowanie środowiska uruchomieniowego.
+Dlaczego inne odpowiedzi są błędne:
+- A: Upgrade the GCS buckets to Multi-Regional: Typ lokalizacji (Regional vs Multi-Regional) w GCS wpływa na dostępność i redundancję geograficzną, a nie na latencję pojedynczych zapytań wewnątrz tego samego regionu. To nie rozwiąże problemu wysokiego użycia CPU i liczby procesów w App Engine.
+- B: Enable high availability on the CloudSQL instances: Wysoka dostępność (HA) w CloudSQL służy do ochrony przed awarią całej strefy poprzez utrzymywanie instancji standby. Nie ma ona wpływu na latencję zapytań w normalnych warunkach pracy, a tym bardziej nie rozwiąże problemów ze skalowaniem warstwy aplikacji.
+- C: Move the application from App Engine to Compute Engine: Przeprowadzka na Compute Engine (IaaS) daje większą kontrolę, ale kosztem znacznie większego nakładu pracy operacyjnej (Toil). App Engine jest stworzony do obsługi takich scenariuszy, pod warunkiem poprawnej konfiguracji parametrów skalowania.
 
-Analiza błędnych odpowiedzi:
-- A: Upgrade GCS buckets to Multi-Regional - GCS nie jest przyczyną latencji dla aplikacji webowej (to statyczne zasoby).
-- B: Enable high availability on CloudSQL - CloudSQL HA pomaga w razie awarii bazy, a nie z latencją wywołaną skalowaniem aplikacji.
-- C: Move to Compute Engine - Zwiększa nakład pracy operacyjnej (Toil) i nie naprawia problemu skalowania, który leży w konfiguracji aplikacji.
+Hity i triki (GCP DevOps Exam):
+- Cold Start: To czas potrzebny na załadowanie Twojej aplikacji do pamięci i jej zainicjowanie. Im cięższa aplikacja (więcej bibliotek, skomplikowany startup), tym większy Cold Start.
+- Warmup Requests: Włącz `warmup requests` w `app.yaml`, aby App Engine wysyłał zapytania testowe do nowych instancji, zanim zacznie na nie kierować realny ruch użytkowników.
+- min_idle_instances vs max_instances: `min_idle_instances` chroni przed latencją (kosztem pieniędzy), a `max_instances` chroni przed niespodziewanymi kosztami (kosztem dostępności).
 
-Przydatne linki:
-- https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed</pre>
+Pomocne linki:
+- https://cloud.google.com/appengine/docs/standard/python/config/appref#scaling_elements
+- https://cloud.google.com/appengine/docs/standard/warmup-requests
+- https://cloud.google.com/architecture/app-engine-standard-best-practices</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie</h2>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>W App Engine kluczem do sukcesu jest optymalizacja czasu startu aplikacji oraz inteligentne zarządzanie instancjami bezczynnymi. Latencja, która utrzymuje się po skoku ruchu, sugeruje, że system wciąż próbuje obsłużyć zakolejkowane żądania.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>App Engine "Cold Starts" to częsty powód latencji po okresach niskiego ruchu.</li>
-    <li>"Idle instances" pozwalają szybko obsłużyć nagły wzrost zapotrzebowania na aplikację.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/appengine/docs" target="_blank">Dokumentacja App Engine</a></li>
+    <li><b>Idle Instances:</b> To Twoja "rezerwa strategiczna". Kosztuje, ale zapewnia natychmiastową reakcję na skok ruchu.</li>
+    <li><b>App Engine Scaling:</b> Pamiętaj o różnicach między skalowaniem `automatic`, `basic` i `manual`. Tylko `automatic` wspiera `min_idle_instances`.</li>
+    <li><b>Pending Queue:</b> Monitoruj metrykę `appengine.googleapis.com/http/server/pending_latency`, aby wiedzieć, jak długo użytkownicy czekają na wolną instancję.</li>
 </ul>
 </div>
 <script>

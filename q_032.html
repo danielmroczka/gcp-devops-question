@@ -79,18 +79,30 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Pytanie 32: Poprawna odpowiedź B. Managed Instance Group (MIG) z health checkami to standardowa metoda zapewnienia wysokiej dostępności i automatycznego samonaprawiania (auto-healing) dla Compute Engine. Jeśli instancja ulegnie awarii, MIG automatycznie ją zrecreate.
-- A: Toil - manualna analiza błędów nie rozwiązuje problemu dostępności usługi w czasie rzeczywistym.
-- C: Load Balancer monitoruje dostępność, ale sam nie "naprawia" (recreate) instancji Compute Engine.
-- D: Alerty monitoringu tylko informują, nie wykonują naprawy, co nadal wymaga manualnej interwencji.</pre>
+Poprawna odpowiedź to B. Zgodnie z zasadami SRE (Site Reliability Engineering), kluczowym celem jest eliminacja "Toil" – czyli powtarzalnej, manualnej pracy, która nie wnosi trwałej wartości. Ręczne usuwanie i tworzenie nowej instancji Compute Engine po awarii jest klasycznym przykładem Toil. Rozwiązaniem jest użycie Managed Instance Group (MIG) z włączoną funkcją **auto-healing**. Dzięki health checkom system automatycznie wykrywa awarię aplikacji i bez udziału inżyniera dokonuje rekreacji (recreate) uszkodzonej instancji, zapewniając ciągłość działania usługi.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Zgłoszenie błędu (RCA - Root Cause Analysis) jest ważne dla długofalowej stabilności, ale nie rozwiązuje bieżącego problemu manualnego nakładu pracy (Toil) przy przywracaniu usługi.
+C. Load Balancer (LB) potrafi jedynie przekierować ruch na inne (zdrowe) instancje. Jeśli masz tylko jedną instancję i ona padnie, LB po prostu zgłosi błąd 5xx, ale nie naprawi samej maszyny wirtualnej.
+D. Alerty SMS jedynie skracają czas reakcji (Mean Time to Detect), ale proces naprawy wciąż pozostaje manualny. SRE dąży do tego, by system naprawiał się sam, a inżynier był informowany o tym fakcie po czasie (jeśli w ogóle).
+
+Hity i triki (Exam Tips):
+- Słowa klucze: "manual operations", "Toil", "SRE" -> szukaj **automatyzacji** (Auto-healing, Autoscaling, CI/CD).
+- Nawet jeśli usługa nie wymaga skalowania (zawsze 1 instancja), użycie MIG jest zalecane ze względu na darmowy mechanizm automatycznej naprawy.
+- Pamiętaj o zasadzie: "Self-healing infrastructure is a core DevOps/SRE capability".
+
+Dokumentacja:
+- https://cloud.google.com/compute/docs/instance-groups/autohealing-instances-in-migs
+- https://sre.google/sre-book/eliminating-toil/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Używaj Managed Instance Groups (MIG) do auto-healingu instancji zamiast ręcznego ich odtwarzania.</p>
+<p>Eliminacja Toil to nie tylko wygoda dla inżynierów, to przede wszystkim szybkość naprawy (MTTR). Automat zawsze zareaguje szybciej niż człowiek budzony w nocy przez SMS.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>MIG + Auto-healing = automatyczna naprawa usług na poziomie VM.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/compute/docs/instance-groups" target="_blank">MIG i Auto-healing</a></li>
+    <li><strong>Auto-healing Configuration:</strong> Pamiętaj, że do działania auto-healingu potrzebujesz: 1. Health Checka, 2. Instance Template, 3. Managed Instance Group.</li>
+    <li><strong>Grace Period:</strong> Przy konfiguracji auto-healingu ustaw odpowiedni "initial delay", aby dać instancji czas na uruchomienie aplikacji przed pierwszą kontrolą zdrowia.</li>
+    <li><strong>SRE mindset:</strong> Jeśli coś musisz zrobić ręcznie więcej niż dwa razy – zautomatyzuj to.</li>
 </ul>
 </div>
 <script>

@@ -79,18 +79,30 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Pytanie 40: Poprawna odpowiedź B. W SRE (kultura "Blameless Postmortem") skupiamy się na technicznych przyczynach i rozwiązaniach, a nie na winieniu ludzi. Poprawa testów (test cases) to najlepszy sposób na zapobieganie powtórzeniu się błędu tego samego typu w przyszłości.
-- A: "Blame" - narusza podstawową zasadę kultury SRE.
-- C: "Blame" - ponownie wskazuje na ludzi, zamiast na procesy/systemy.
-- D: Nie rozwiązuje technicznego problemu, który doprowadził do awarii.</pre>
+Poprawna odpowiedź to B. Jedną z najważniejszych zasad Site Reliability Engineering (SRE) jest kultura **Blameless Postmortem** (analiza poawaryjna bez obwiniania). SRE wychodzi z założenia, że błędy popełniane przez ludzi są objawem wadliwych procesów lub systemów, a nie ich przyczyną. Dlatego zamiast karać inżynierów, należy dążyć do wprowadzenia systemowych zabezpieczeń. Najbardziej skutecznym działaniem zapobiegawczym jest wzmocnienie potoku CI/CD o automatyczne testy (test cases), które wykryją dany błąd w przyszłości, zanim trafi on do środowiska produkcyjnego.
+
+Dlaczego inne odpowiedzi są błędne:
+A. Szukanie winnych i eskalacja do kierownictwa tworzy kulturę strachu. Prowadzi to do zatajania problemów i unikania ryzyka, co jest całkowicie sprzeczne z filozofią DevOps i SRE.
+C. Choć przegląd kodu (code review) jest ważny, poleganie wyłącznie na instrukcjach dla recenzentów jest rozwiązaniem kruchym, ponieważ ludzie nadal mogą popełnić błąd. Rozwiązania techniczne i automatyzacja są zawsze preferowane nad rozwiązaniami opartymi wyłącznie na procedurach ludzkich.
+D. Zmiana polityki powiadamiania zarządzania może usprawnić komunikację podczas samej awarii, ale nie przyczynia się do jej wyeliminowania w przyszłości. Postmortem powinien skupiać się na unikaniu ponownego wystąpienia błędu (Prevention).
+
+Hity i triki (Exam Tips):
+- **Blamelessness:** To słowo klucz. Jeśli w odpowiedzi pojawia się winienie ludzi, karanie lub eskalowanie personalne – odrzuć ją natychmiast.
+- **Systemic over Individual:** Zawsze wybieraj rozwiązania, które naprawiają proces lub narzędzia, a nie zachowanie jednostek.
+- **Action Items:** Dobry postmortem kończy się listą konkretnych, technicznych zadań do wykonania (np. dodanie testu, zmiana konfiguracji alertów).
+
+Dokumentacja:
+- https://sre.google/sre-book/postmortem-culture/
+- https://cloud.google.com/architecture/framework/reliability/post-incident-analysis</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kultura SRE: Blameless Postmortem (bez obwiniania). Skupiamy się na poprawie systemów, nie na karaniu ludzi.</p>
+<p>Kultura "Blameless" to nie tylko bycie miłym – to strategia inżynieryjna. Pozwala ona na otwarte badanie awarii i wyciąganie wniosków, które realnie zwiększają niezawodność systemów w dłuższym terminie.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>SRE = Blameless postmortem. Szukaj przyczyn w systemach/procesach.</li>
-    <li>Dokumentacja: <a href="https://sre.google/sre-book/postmortem-culture/" target="_blank">SRE Book: Postmortem Culture</a></li>
+    <li><strong>Focus on the "How", not the "Who":</strong> Analizuj, jak system dopuścił do błędu, a nie kto nacisnął guzik.</li>
+    <li><strong>Automation as a Shield:</strong> Każda awaria to okazja do napisania nowego testu regresyjnego.</li>
+    <li><strong>Transparency:</strong> SRE zachęca do udostępniania raportów postmortem wewnątrz całej organizacji, aby inni mogli uczyć się na cudzych błędach.</li>
 </ul>
 </div>
 <script>

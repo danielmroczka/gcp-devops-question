@@ -78,18 +78,34 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-W Cloud Monitoring dla Google App Engine, metryka `flex/connections/current` służy do monitorowania liczby aktywnych połączeń (otwartych gniazd/połączeń HTTP) do instancji App Engine Flexible Environment. Jest to standardowa metryka pozwalająca na ocenę obciążenia sieciowego serwisu.
+Poprawną odpowiedzią jest **A (flex/connections/current)**.
 
-B i C. Metryki typu `tcp_ssl_proxy` odnoszą się do usług Load Balancera (TCP/SSL Proxy LB), a nie bezpośrednio do metryk instancji App Engine.
-D. Metryka `flex/instance/connections/current` nie istnieje w tym formacie dla App Engine.</pre>
+**Dlaczego A jest poprawne?**
+W środowisku App Engine Flexible (oznaczonym prefixem `flex/`), metryka `appengine.googleapis.com/flex/connections/current` służy do monitorowania całkowitej liczby aktywnych połączeń (socketów) z aplikacją na poziomie wersji/usługi. Jest to kluczowy wskaźnik wydajności dla aplikacji o zasięgu globalnym, pozwalający zrozumieć aktualne obciążenie ruchem sieciowym pochodzącym z różnych urządzeń.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **B. tcp_ssl_proxy/new_connections:** Ta metryka dotyczy usługi Cloud SSL Proxy Load Balancer. Chociaż App Engine używa load balancera pod spodem, ta konkretna metryka nie jest częścią standardowego monitorowania "Stackdriver Monitoring for App Engine" w kontekście bezpośrednich metryk aplikacji.
+*   **C. tcp_ssl_proxy/open_connections:** Podobnie jak opcja B, odnosi się ona do zewnętrznego proxy load balancera (TCP/SSL Proxy), a nie bezpośrednio do metryk środowiska App Engine Flex.
+*   **D. flex/instance/connections/current:** Chociaż taka metryka istnieje w Cloud Monitoring, służy ona do sprawdzania liczby połączeń na poziomie *konkretnej instancji* (pojedynczej maszyny/kontenera). Pytanie brzmi ogólnie o "liczbę połączeń" dla aplikacji używanej globalnie, co sugeruje potrzebę monitorowania na poziomie wersji lub usługi (aggreggated), co lepiej adresuje opcja A.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Pamiętaj o hierarchii metryk w GCP: zazwyczaj masz metryki na poziomie **Resource** (np. `gae_app`) oraz na poziomie **Instance** (np. `gae_instance`).
+- Prefix `flex/` w nazwie metryki jednoznacznie wskazuje na **App Engine Flexible Environment**. Jeśli pytanie dotyczyłoby Standard Environment, szukałbyś metryk bez tego dopisku.
+- Słowa kluczowe: **App Engine**, **Monitoring**, **Connections** -> `flex/connections/current`.
+
+### 🔗 Dokumentacja i linki
+- [Google Cloud App Engine Metrics List](https://cloud.google.com/monitoring/api/metrics_gcp#gcp-appengine)
+- [Monitoring App Engine Flexible with Cloud Monitoring](https://cloud.google.com/appengine/docs/flexible/monitoring-cloud-monitoring)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W pytaniach o metryki: Jeśli znasz nazwę usługi (App Engine), zawsze szukaj metryki w jej "przestrzeni nazw" (np. <code>appengine/</code> lub <code>flex/</code>). Pytanie o App Engine -> szukaj metryki z prefixem `flex` lub `appengine`.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>To pytanie testuje znajomość specyficznych nazw metryk w Google Cloud Monitoring. Ważne jest, aby rozróżniać metryki dotyczące konkretnych usług (App Engine) od metryk komponentów infrastrukturalnych, takich jak Load Balancery.</p>
+<h3>Kluczowe punkty:</h3>
 <ul>
-    <li>App Engine Flexible = prefix <b>flex/</b>.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/monitoring/api/metrics_gcp#gcp-appengine" target="_blank">GCP Metrics List</a></li>
+    <li><b>Service-Level vs Instance-Level:</b> Zrozumienie, kiedy monitorować całą aplikację, a kiedy pojedyncze jednostki.</li>
+    <li><b>Metric Naming Convention:</b> Umiejętność rozpoznania prefixu <code>flex/</code> jako specyficznego dla środowiska elastycznego App Engine.</li>
+    <li><b>Observability:</b> Wykorzystanie natywnych metryk do oceny skali ruchu (connections) w aplikacji globalnej.</li>
 </ul>
 </div>
 <script>

@@ -79,20 +79,29 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Poprawna odpowiedź to B. W pracy zespołowej nad kodem (szczególnie "Infrastructure as Code" w Terraform), Git jest standardem przemysłowym. Umożliwia on równoległą pracę wielu inżynierów (dzięki branchom), śledzenie zmian (historia) oraz łatwe rozwiązywanie konfliktów. Proces "code review" (PR/MR) gwarantuje, że zmiany są sprawdzane przed scaleniem, a testy (jednostkowe/integracyjne) zapewniają, że nowa infrastruktura będzie działać zgodnie z planem. Jest to najlepszy sposób na zapewnienie spójności i jakości "mastera".
+Poprawna odpowiedź to B. W pracy zespołowej nad kodem infrastruktury (Infrastructure as Code - IaC), standardem jest traktowanie plików konfiguracyjnych (np. Terraform) tak samo jak kodu aplikacji. Użycie systemu kontroli wersji opartego na Gicie (np. Cloud Source Repositories, GitHub, GitLab) umożliwia równoległą pracę wielu osób, śledzenie historii zmian i rozwiązywanie konfliktów. Proces Code Review (przegląd kodu przez współpracowników) oraz testy (np. `terraform validate`, `tflint`) przed scaleniem do głównej gałęzi (master/main) gwarantują spójność, bezpieczeństwo i wysoką jakość "źródła prawdy" o infrastrukturze.
 
 Dlaczego inne odpowiedzi są błędne:
-A. Scalanie zmian tylko "na koniec każdego dnia" prowadzi do dużych konfliktów (tzw. "merge hell") i utrudnia śledzenie zmian. Ręczne pakowanie do Cloud Storage nie zastępuje systemu kontroli wersji i nie wspiera procesu review.
-C. Google Drive nie służy do kontroli wersji kodu. Nie posiada mechanizmów zarządzania konfliktami, historii zmian w kontekście programistycznym ani możliwości łatwego mergowania zmian wielu użytkowników.
-D. Podobnie jak w przypadku C, przechowywanie kodu w folderach na Google Drive i ręczne archiwizowanie (.zip) jest skrajnie nieefektywne i podatne na błędy. Jest to przykład pracy, która generuje duży "Toil" i nie wspiera bezpiecznego, powtarzalnego procesu inżynierskiego.</pre>
+A. Scalanie zmian tylko na koniec dnia prowadzi do dużych i trudnych do rozwiązania konfliktów (merge conflicts). Pakowanie kodu w archiwa i przesyłanie do Cloud Storage jest nieefektywne i nie zastępuje profesjonalnego przepływu pracy opartego na Gicie.
+C i D. Google Drive absolutnie nie nadaje się do zarządzania kodem źródłowym. Brakuje w nim mechanizmów różnicowania (diff), scalania (merge) oraz integracji z narzędziami automatyzacji (CI/CD). Przechowywanie wersji w folderach lub plikach .zip to ogromny "Toil" (mozolna, powtarzalna praca), który zwiększa ryzyko błędów ludzkich.
+
+Hity i triki (Exam Tips):
+- Słowa klucze dla IaC: "Git-based VCS", "Code Review", "CI/CD", "Pull Requests".
+- Pamiętaj: W Terraformie kluczowe jest również użycie **Remote Backend** (np. GCS) z włączonym blokowaniem stanu (State Locking), aby uniknąć jednoczesnych modyfikacji tej samej infrastruktury przez różne osoby.
+- Git zapewnia nie tylko kontrolę wersji, ale również "audytowalność" – dokładnie wiemy, kto, kiedy i dlaczego zmienił dany element infrastruktury.
+
+Dokumentacja:
+- https://cloud.google.com/docs/terraform/best-practices-for-terraform#source-control
+- https://cloud.google.com/architecture/devops/devops-tech-version-control</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zarządzanie infrastrukturą jako kodem (IaC) wymaga dyscypliny inżynierskiej. Git nie jest tylko narzędziem do zapisu plików, ale fundamentem całego cyklu życia DevOps, umożliwiającym współpracę i automatyzację (GitOps).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Version Control:</strong> Wszystko (kod, testy, konfiguracja, skrypty wdrożeniowe) powinno być w Gicie.</li>
+    <li><strong>Code Review:</strong> To najlepszy sposób na dzielenie się wiedzą w zespole i wykrywanie błędów przed ich trafieniem na produkcję.</li>
+    <li><strong>Automatyzacja:</strong> Każdy commit do głównej gałęzi powinien wyzwalać automatyczne testy i opcjonalnie wdrożenie.</li>
 </ul>
 </div>
 <script>

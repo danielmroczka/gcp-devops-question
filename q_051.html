@@ -79,27 +79,35 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest C:
-- Skalowanie poziome i geograficzne (wiele instancji w wielu strefach za load balancerem) to standardowa odpowiedź na problemy z wysokim ruchem i dostępnością (High Availability).
+Poprawną odpowiedzią jest C, ponieważ skalowanie horyzontalne (dodawanie kolejnych instancji) oraz rozmieszczenie ich w wielu strefach (High Availability) bezpośrednio rozwiązuje problem przeciążenia pojedynczej maszyny i niskiej dostępności usługi.
+
+1. **C (Set up additional service instances in other zones and load balance the traffic):** 
+   - **Skalowanie horyzontalne:** Dodanie większej liczby instancji pozwala rozłożyć ruch na wiele maszyn, co rozwiązuje problem braku pamięci (OOM - Out of Memory) wynikający z dużej liczby żądań na pojedynczym serwerze.
+   - **Wysoka dostępność (HA):** Umieszczenie instancji w różnych strefach (Multi-zone) chroni usługę przed awarią całej strefy. Użycie Load Balancera zapewnia automatyczne kierowanie ruchu tylko do "zdrowych" instancji. To rozwiązanie jest najbardziej zgodne z praktykami SRE w celu poprawy SLO dostępności.
 
 Analiza niepoprawnych odpowiedzi:
-- A: Zmiana SLO to oszustwo, nie rozwiązanie problemu.
-- B: Zwiększenie zasobów (Scale up) jest ograniczone (limit maszyny) i nie zapewnia HA.
-- D: "Failover" oznacza, że druga instancja czeka, a nie obsługuje ruchu. Użycie wielu instancji (load balancing) jest lepsze dla wydajności i dostępności.
+- **A (Change the specified SLO to match the measured SLI):** Jest to błąd procesowy. SLO powinno odzwierciedlać potrzeby biznesowe i oczekiwania użytkowników. Jeśli system nie spełnia SLO, należy poprawić system, a nie obniżać wymagania ("moving the goalposts").
+- **B (Move the service to higher-specification compute instances):** Jest to skalowanie pionowe (Vertical Scaling). Choć może tymczasowo pomóc z brakiem pamięci, nadal pozostawia usługę na pojedynczym punkcie awarii (Single Point of Failure). Jeśli ta jedna, większa maszyna ulegnie awarii, usługa całkowicie przestanie działać.
+- **D (Set up additional service instances... as a failover):** Model failover (Active-Passive) jest mniej efektywny niż Load Balancing (Active-Active). W modelu failover instancja zapasowa marnuje zasoby, czekając na awarię głównej, zamiast pomagać w obsłudze dużego ruchu, który jest przyczyną problemów z pamięcią.
 
-Wskazówki (Hints & Tricks):
-- Zawsze wybieraj skalowanie horyzontalne (więcej maszyn) przed pionowym (większa maszyna).
+Hity i triki (Hints & Tricks):
+- **SLI (Indicator):** To co mierzysz (np. % udanych zapytań).
+- **SLO (Objective):** Cel, który chcesz osiągnąć (np. 99.9%).
+- **Error Budget:** To 100% - SLO. Jeśli Twój SLI spada poniżej SLO, Twój budżet błędów został przekroczony i musisz skupić się na poprawie niezawodności zamiast na wdrażaniu nowych funkcji.
+- W chmurze zawsze preferuj **Horizontal Scaling** (skalowanie horyzontalne) nad Vertical Scaling.
 
 Przydatne linki:
-- https://cloud.google.com/compute/docs/load-balancing-and-autoscaling</pre>
+- [SRE Book: Service Level Objectives](https://sre.google/sre-book/service-level-objectives/)
+- [Global HTTP(S) Load Balancing overview](https://cloud.google.com/load-balancing/docs/https)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Pytanie łączy wiedzę o architekturze systemów (skalowanie) z procesami SRE (postmortem, SLO). Diagnoza wskazuje na dwa problemy: brak zasobów pod obciążeniem oraz brak odporności na awarie.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Jeśli aplikacja jest "stateless" (bezwidokowa), skalowanie horyzontalne jest prawie zawsze poprawnym wyborem.</li>
+    <li>"Single instance" w chmurze to zawsze ryzyko. Rozwiązania wysokiej dostępności (HA) wymagają co najmniej dwóch instancji w różnych strefach.</li>
+    <li>Load Balancer to fundament dla poprawy SLI dostępności i latencji w GCP.</li>
 </ul>
 </div>
 <script>

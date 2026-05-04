@@ -76,28 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Poprawna odpowiedź: A. Store the encryption keys in Cloud Key Management Service (KMS) and rotate the keys frequently.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A (Store the encryption keys in Cloud Key Management Service (KMS) and rotate the keys frequently).
+Cloud KMS (Key Management Service) to usługa GCP służąca do tworzenia, używania, rotowania i niszczenia kluczy szyfrujących. Szyfrowanie danych za pomocą KMS (często w modelu Envelope Encryption) zapewnia, że nawet w przypadku wycieku zaszyfrowanych danych, atakujący nie będzie mógł ich odczytać bez dostępu do klucza zarządzanego przez KMS. Częsta rotacja kluczy (Key Rotation) ogranicza zakres danych, które mogłyby zostać ujawnione w przypadku teoretycznego złamania jednego z kluczy.
 
-Użycie Google Cloud KMS jest standardem bezpieczeństwa dla zarządzania kluczami szyfrującymi. Pozwala na scentralizowane zarządzanie, audytowalność oraz rotację kluczy, co znacznie ogranicza skutki potencjalnego wycieku (jeśli klucz jest często rotowany, okno czasowe jego użyteczności jest ograniczone). 
+Dlaczego inne odpowiedzi są błędne:
+- B: Inject the secret at the time of instance creation: Wstrzykiwanie sekretów przez systemy zarządzania konfiguracją (np. Ansible, Chef) lub metadane instancji często wiąże się z zapisaniem ich w formie jawnej w logach, skryptach startowych lub pamięci metadanych, co zwiększa ryzyko ich wycieku.
+- C: Integrate the application with Single sign-on (SSO): SSO rozwiązuje problem autentykacji użytkowników (kto może się zalogować), ale nie rozwiązuje problemu bezpiecznego przechowywania danych technicznych aplikacji (np. kluczy API, haseł do bazy danych) ani ich szyfrowania.
+- D: Leverage a continuous build pipeline: Generowanie wielu wersji sekretów dla każdej instancji wprowadza ogromną złożoność operacyjną i nie adresuje głównego problemu: bezpiecznego przechowywania tych sekretów "w spoczynku" (at rest).
 
-Analiza błędnych odpowiedzi:
-- B: Inject the secret at instance creation - Podatne na wycieki w logach i pamięci podręcznej konfiguracji.
-- C: Integrate the application with SSO - SSO służy do autentykacji użytkowników, nie do szyfrowania danych przechowywanych.
-- D: Leverage a continuous build pipeline - Skomplikowane, podatne na błędy, brak centralnego zarządzania.
+Hity i triki (GCP DevOps Exam):
+- KMS vs Secret Manager: KMS służy do zarządzania kluczami (do szyfrowania danych), natomiast Secret Manager służy do przechowywania samych sekretów (API keys, hasła). Jeśli pytanie dotyczy szyfrowania informacji -> wybierz KMS. Jeśli dotyczy przechowywania hasła -> wybierz Secret Manager.
+- Envelope Encryption: To technika, w której szyfrujesz dane kluczem danych (DEK), a następnie szyfrujesz ten klucz kluczem nadrzędnym (KEK) przechowywanym w KMS.
+- Least Privilege: Pamiętaj, aby aplikacja miała tylko rolę `roles/cloudkms.cryptoKeyEncrypterDecrypter` do konkretnego klucza, a nie uprawnienia administracyjne do KMS.
 
-Przydatne linki:
-- https://cloud.google.com/kms/docs/overview</pre>
+Pomocne linki:
+- https://cloud.google.com/kms/docs/overview
+- https://cloud.google.com/secret-manager/docs/choosing-solutions
+- https://cloud.google.com/kms/docs/envelope-encryption</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie</h2>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>Bezpieczeństwo danych w chmurze opiera się na separacji obowiązków (Separation of Duties). Deweloperzy piszą kod, a usługa zarządzana (KMS) zarządza zaufaniem do kluczy.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>KMS to standard dla zarządzania kluczami w GCP.</li>
-    <li>Zawsze preferuj usługi zarządzane dla bezpieczeństwa (KMS, Secret Manager).</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/security/products" target="_blank">Bezpieczeństwo w GCP</a></li>
+    <li><b>Automated Rotation:</b> Cloud KMS pozwala na ustawienie harmonogramu automatycznej rotacji kluczy (np. co 90 dni), co jest wymogiem w wielu standardach bezpieczeństwa (np. PCI DSS).</li>
+    <li><b>Separation of Duties:</b> Zarządzanie kluczami (KMS Admin) powinno być oddzielone od ich używania (KMS CryptoKey User).</li>
+    <li><b>Audit Logging:</b> Każde użycie klucza w KMS jest odnotowywane w Cloud Audit Logs, co pozwala na pełną kontrolę nad tym, kto i kiedy odszyfrował dane.</li>
 </ul>
 </div>
 <script>

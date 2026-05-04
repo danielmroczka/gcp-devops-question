@@ -79,27 +79,32 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest D:
-- Binary Authorization to usługa bezpieczeństwa, która wymusza, aby obrazy były podpisane (attestation) przez zaufany proces (np. potok CI/CD po pomyślnych testach). Bez podpisu GKE odmówi wdrożenia.
+Poprawną odpowiedzią jest D, ponieważ Binary Authorization (BinAuthz) jest jedyną usługą w GCP, która pozwala na twarde wymuszenie (enforcement), aby do klastra Kubernetes trafiały wyłącznie obrazy zweryfikowane przez zaufany proces.
+
+1. **D (Enable binary authorization inside the Kubernetes cluster and configure the build pipeline as an attestor):** Binary Authorization działa jako kontroler przyjęć (admission controller) w GKE. Można go skonfigurować tak, aby wymagał "atestu" (podpisu cyfrowego) od konkretnego "wystawcy" (attestor). W tym scenariuszu potok CI/CD (np. Cloud Build), po pomyślnym zakończeniu wszystkich testów i zatwierdzeniu zmian, generuje taki atest. Jeśli ktokolwiek (programista lub operator) spróbuje wdrożyć obraz bez tego atestu (np. bezpośrednio przez `kubectl`), GKE zablokuje taką operację. Jest to najskuteczniejszy sposób na powiązanie wdrożeń z procesem zatwierdzania i testowania.
 
 Analiza niepoprawnych odpowiedzi:
-- A: Branże w git można obejść.
-- B: Admission Controller to ogólny mechanizm, ale "Binary Authorization" to dedykowana, wbudowana usługa GCP do tego specyficznego celu (weryfikacja pochodzenia/testów).
-- C: RBAC ogranicza kto może wdrożyć, ale nie kontroluje *co* jest wdrażane (czy przeszło testy).
+- **A (Configure the build system with protected branches):** Chronione gałęzie (protected branches) i Code Review są świetną praktyką, ale działają tylko na poziomie kodu źródłowego. Nie uniemożliwiają one operatorowi posiadającemu uprawnienia do klastra ręcznego wdrożenia obrazu, który został zbudowany lokalnie i nie przeszedł przez system budowania.
+- **B (Use an Admission Controller to verify requests originate from approved sources):** Admission Controller to ogólna kategoria mechanizmów w Kubernetes (BinAuthz jest jednym z nich). Odpowiedź ta jest zbyt mało precyzyjna. Ponadto standardowe admission controllery zazwyczaj sprawdzają strukturę manifestów, a nie pochodzenie i zaufanie do binariów obrazu.
+- **C (Leverage Kubernetes Role-Based Access Control - RBAC):** RBAC kontroluje, *kto* może wykonywać operacje (np. "użytkownik X może tworzyć pody"), ale nie kontroluje *treści* tej operacji (np. "użytkownik X może tworzyć pody tylko z zatwierdzonych obrazów"). Nawet z RBAC, uprawniony operator może wdrożyć niezatwierdzony obraz.
 
-Wskazówki (Hints & Tricks):
-- Binary Authorization = "Zaufane wdrożenia w K8s".
+Hity i triki (Hints & Tricks):
+- **Binary Authorization** = "Zaufany łańcuch dostaw" (Software Supply Chain Security).
+- **Atestor (Attestor)** to wirtualny obiekt w GCP, który reprezentuje zaufany proces. Klucze PGP/KMS są używane do podpisywania atestów.
+- BinAuthz może działać w trybie "Dry Run" (Audit Mode), gdzie tylko loguje naruszenia zasad, co jest polecane przy wdrażaniu tej usługi w istniejących środowiskach.
 
 Przydatne linki:
-- https://cloud.google.com/binary-authorization/docs/concepts</pre>
+- [Binary Authorization concepts](https://cloud.google.com/binary-authorization/docs/concepts)
+- [Vulnerability scanning with Binary Authorization](https://cloud.google.com/binary-authorization/docs/vulnerability-scanning)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Pytanie to dotyczy zapewnienia integralności procesu CI/CD. Kluczowym problemem jest "obejście" (circumvention) automatyzacji, co wymaga mechanizmu kontrolnego na samym końcu ścieżki – w momencie wdrożenia do klastra.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Gdy auditor martwi się o "puszczanie kodu bokiem", szukaj Binary Authorization.</li>
+    <li>Atest to dowód na to, że dany obraz spełnił wymagania (np. przeszedł testy, został przeskanowany pod kątem luk).</li>
+    <li>RBAC i Protected Branches to warstwy obrony (Defense in Depth), ale tylko Binary Authorization daje pewność co do pochodzenia uruchamianych kontenerów.</li>
 </ul>
 </div>
 <script>

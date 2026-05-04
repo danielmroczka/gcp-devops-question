@@ -76,29 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Poprawna odpowiedź: A. Roll back the recent release.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A (Roll back the recent release). 
-SRE (Site Reliability Engineering) promuje podejście "MTTR (Mean Time to Recovery) ponad wszystko". Jeśli nowa funkcjonalność powoduje problemy w produkcji, najszybszym sposobem na przywrócenie poprawnej pracy serwisu dla użytkowników jest powrót do poprzedniego stabilnego stanu (rollback). Analiza przyczyn (B) jest ważna, ale nie jest działaniem pierwszego wyboru, gdy użytkownicy doświadczają awarii. Zwiększanie mocy maszyn (C) jest nieefektywne, jeśli problemem jest błąd w kodzie. Wdrażanie nowego wydania (D) bez zrozumienia przyczyny awarii zwiększa ryzyko pogorszenia sytuacji.
+Zgodnie z zasadami Site Reliability Engineering (SRE), w przypadku wystąpienia incydentu po wdrożeniu nowej wersji (tzw. "change-induced incident"), priorytetem numer jeden jest mitygacja wpływu na użytkowników (MTTR - Mean Time To Recovery). Najszybszym i najbezpieczniejszym sposobem na przywrócenie stabilności serwisu jest wycofanie zmian (rollback) do ostatniej znanej stabilnej wersji. Analiza przyczyn (Root Cause Analysis) powinna nastąpić dopiero po przywróceniu sprawności systemu.
 
-Pamiętaj: Najpierw mityguj (rollback), potem analizuj (post-mortem).
+Dlaczego inne odpowiedzi są błędne:
+- B: Review the Stackdriver monitoring: Chociaż monitoring pomógł zidentyfikować problem, dalsza szczegółowa analiza w trakcie trwania awarii wydłuża czas niedostępności usługi dla użytkowników. Najpierw napraw (rollback), potem badaj.
+- C: Upsize the virtual machines: Zwiększenie rozmiaru maszyn (vertical scaling) to próba "przekrzyczenia" problemu zasobami. Jeśli opóźnienie wynika z błędu w logice nowej funkcji (np. zakleszczenie w bazie danych, nieskończona pętla), większe maszyny nie pomogą, a jedynie zwiększą koszty.
+- D: Deploy a new release: Próba naprawy błędu nowym kodem ("fix-forward") w trakcie trwającego incydentu jest niezwykle ryzykowna. Pod presją czasu łatwo o kolejne pomyłki, co może pogorszyć sytuację. Rollback jest znacznie pewniejszą procedurą.
 
-Analiza błędnych odpowiedzi:
-- B: Review the Stackdriver monitoring - Analiza jest niezbędna, ale po mitygacji. MTTR wymaga najpierw działania.
-- C: Upsize the virtual machines - Nie rozwiąże problemu logicznego w nowym kodzie, zwiększy koszty.
-- D: Deploy a new release - Zwiększa ryzyko w czasie incydentu.
+Hity i triki (GCP DevOps Exam):
+- "First, do no harm": Jeśli zmiana wywołała pożar, najpierw go zgaś (rollback), nie próbuj dobudowywać nowej ściany w trakcie pożaru.
+- MTTR vs MTTD: Skup się na skróceniu czasu naprawy (Recovery). Czas wykrycia (Detection) jest również ważny, ale to mitygacja ratuje SLA.
+- Blameless Post-mortem: Po zakończeniu incydentu zespół powinien przeprowadzić analizę, skupiając się na procesach i systemach, a nie na szukaniu winnych.
 
-Przydatne linki:
-- https://sre.google/sre-book/table-of-contents/</pre>
+Pomocne linki:
+- https://sre.google/sre-book/incident-response/
+- https://sre.google/sre-book/postmortem-culture/
+- https://cloud.google.com/architecture/devops/devops-process-incident-management</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie</h2>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>W egzaminie DevOps Professional, Google kładzie ogromny nacisk na kulturę SRE. Rollback jest niemal zawsze preferowaną odpowiedzią, gdy mowa o mitygacji błędnego wdrożenia.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>W przypadku awarii priorytetem jest MTTR.</li>
-    <li>Rollback jest zawsze najszybszą metodą mitygacji w przypadku wdrożeń.</li>
-    <li>Dokumentacja: <a href="https://sre.google/" target="_blank">Google SRE Books</a></li>
+    <li><b>MTTR is King:</b> W trakcie incydentu każda sekunda się liczy. Procedury automatycznego rollbacku (np. w GKE lub App Engine) są kluczowe.</li>
+    <li><b>Scalability != Reliability:</b> Skalowanie maszyn nie naprawi błędnego kodu.</li>
+    <li><b>Stop Digging:</b> Jeśli wdrożenie coś popsuło, przestań wdrażać nowe poprawki na gorąco. Wróć do tego, co działało.</li>
 </ul>
 </div>
 <script>

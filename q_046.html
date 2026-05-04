@@ -79,25 +79,32 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Poprawną odpowiedzią jest C:
-- Cloud Monitoring (dawniej Stackdriver) umożliwia wysyłanie alertów bezpośrednio na numer telefonu (SMS) lub adres e-mail zdefiniowany w profilu użytkownika.
+Poprawną odpowiedzią jest C, ponieważ Cloud Monitoring (wcześniej Stackdriver) posiada natywną funkcjonalność wysyłania powiadomień SMS, która jest najprostsza w konfiguracji i nie wymaga zewnętrznych narzędzi.
+
+1. **C (Ensure that your team members set their SMS/phone numbers in their Stackdriver Profile...):** W ramach Cloud Monitoring można skonfigurować tzw. "Notification Channels". Jednym z dostępnych kanałów jest SMS. Aby go użyć, użytkownicy muszą najpierw dodać swoje numery telefonów do profilu lub bezpośrednio w konfiguracji kanału powiadomień. Jest to rozwiązanie w pełni zarządzane przez GCP, co minimalizuje nakład pracy (minimalize Toil) i eliminuje potrzebę utrzymywania integracji z firmami trzecimi.
 
 Analiza niepoprawnych odpowiedzi:
-- A, B, D: Wymagają budowania zewnętrznych integracji, co jest skomplikowane i niepotrzebne przy natywnej funkcjonalności SMS w Cloud Monitoring.
+- **A (Download and configure a third-party integration):** Używanie zewnętrznych bramek SMS jest zbędne, skoro GCP oferuje tę funkcję natywnie. Wprowadza to dodatkową złożoność i potencjalne koszty u innego dostawcy.
+- **B (Select the Webhook notifications option):** Webhooki są bardzo potężnym narzędziem do integracji z systemami, które nie mają natywnego wsparcia w GCP (np. własny system ticketowy), ale dla SMS-ów byłoby to rozwiązanie nadmiarowe i bardziej skomplikowane niż opcja C.
+- **D (Configure a Slack notification... set up Slack-to-SMS):** Jest to rozwiązanie "naokoło". Wymaga posiadania Slacka, konfiguracji integracji wewnątrz Slacka oraz kolejnej integracji ze Slacka do SMS. Każdy dodatkowy element w łańcuchu powiadomień to potencjalny punkt awarii (Single Point of Failure).
 
-Wskazówki (Hints & Tricks):
-- W testach GCP często sprawdzana jest wiedza, czy dana funkcjonalność jest natywna dla GCP, czy wymaga narzędzi zewnętrznych. SMS w Cloud Monitoring jest usługą wbudowaną.
+Hity i triki (Hints & Tricks):
+- Powiadomienia SMS w Cloud Monitoring są ograniczone do określonych krajów i mogą podlegać limitom (np. liczba wiadomości na miesiąc). Zawsze sprawdzaj aktualną listę wspieranych krajów w dokumentacji.
+- Dla "najbardziej krytycznych alertów" (jak w pytaniu), SMS lub telefon (PagerDuty/Opsgenie) są lepsze niż e-mail, który łatwo przeoczyć.
+- W nowoczesnych środowiskach Cloud Monitoring zaleca się używanie "Notification Channels" zamiast starego podejścia opartego na profilach użytkowników, ale logika wyboru natywnego rozwiązania pozostaje taka sama.
 
 Przydatne linki:
-- https://cloud.google.com/monitoring/support/notification-options</pre>
+- [Create and manage notification channels](https://cloud.google.com/monitoring/alerts/using-channels)
+- [Notification options in Cloud Monitoring](https://cloud.google.com/monitoring/support/notification-options)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Pytanie sprawdza znajomość natywnych funkcji operacyjnych platformy Google Cloud. SRE (Site Reliability Engineering) promuje minimalizowanie "Toil" (mozolnej pracy), więc wybór wbudowanego rozwiązania nad skomplikowaną integracją zewnętrzną jest kluczowy.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Jeśli GCP oferuje natywną funkcję (Managed Service), zazwyczaj jest ona poprawną odpowiedzią, chyba że w pytaniu wyraźnie zaznaczono potrzebę użycia konkretnego narzędzia zewnętrznego.</li>
+    <li>SMS to świetny kanał dla alertów P1/P0, ale pamiętaj o kosztach i limitach w niektórych regionach.</li>
+    <li>W egzaminie szukaj rozwiązań najprostszych i najbardziej niezawodnych.</li>
 </ul>
 </div>
 <script>

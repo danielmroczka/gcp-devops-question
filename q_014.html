@@ -78,19 +78,33 @@
 <pre>Odpowiedź: B.
 
 Wyjaśnienie:
-Spinnaker natywnie integruje się z Pub/Sub, co jest najbardziej zautomatyzowanym sposobem na uruchamianie pipeline'u po wystąpieniu zdarzenia (np. pchnięcie nowego obrazu do GCR/Artifact Registry). Gdy obraz jest pchnięty, GCR generuje zdarzenie, które trafia do topiku Pub/Sub. Spinnaker, mając skonfigurowaną subskrypcję na tym topiku, automatycznie wykrywa zdarzenie i uruchamia odpowiedni pipeline. Jest to najbardziej skalowalne i "bezobsługowe" rozwiązanie.
+Aby zautomatyzować proces wdrażania aplikacji po aktualizacji obrazu w Google Container Registry (GCR) przy minimalnym nakładzie pracy, należy wykorzystać architekturę sterowaną zdarzeniami (event-driven).
 
-A. Cloud Build jest świetny jako narzędzie budujące, ale używanie go tylko do "przeklikania" do Spinnakera to niepotrzebny, dodatkowy krok w procesie.
-C. Jenkins to osobne narzędzie CI. Wprowadzanie go jako pośrednika między GCR a Spinnakerem to zwiększanie złożoności i kosztów utrzymania (toil).
-D. Budowa własnego serwisu do deploymentu to klasyczny przykład "not invented here" – wymaga pisania, utrzymywania, patchowania i skalowania kodu, podczas gdy Spinnaker robi to w pełni automatycznie.</pre>
+Dlaczego odpowiedź B jest poprawna:
+Google Container Registry (oraz jego następca Artifact Registry) automatycznie publikuje wiadomości o zmianach (np. pojawieniu się nowej wersji obrazu - `INSERT`) na temat (topic) Cloud Pub/Sub o nazwie `gcr`. Spinnaker posiada natywne wsparcie dla wyzwalaczy (triggers) opartych na Pub/Sub. Konfigurując Spinnakera tak, aby nasłuchiwał na odpowiednim temacie, możemy uzyskać w pełni zautomatyzowany pipeline, który uruchomi się natychmiast po pchnięciu nowego obrazu, bez konieczności pisania dodatkowego kodu czy skomplikowanej konfiguracji pośredników.
+
+Dlaczego pozostałe opcje są błędne:
+A. Choć Cloud Build może być użyty do budowania obrazu, wyzwalanie pipeline'u Spinnakera bezpośrednio z Cloud Build jest mniej efektywne i bardziej skomplikowane w konfiguracji niż natywna integracja Spinnaker-Pub/Sub. Pub/Sub służy jako standardowa szyna zdarzeń, która odseparowuje proces budowania od procesu wdrażania.
+C. Jenkins to potężne narzędzie, ale wprowadzanie go jako dodatkowego ogniwa (Custom Builder w Cloud Build -> Jenkins -> Deployment) znacznie zwiększa złożoność systemu i wymaga utrzymywania kolejnego serwera/usługi. Jest to zaprzeczenie celu "minimalizacji wysiłku".
+D. Tworzenie własnej usługi wdrożeniowej (Custom deployment service) w GKE to ogromny nakład pracy programistycznej i administracyjnej (tzw. "toil"). Należy unikać pisania własnych narzędzi tam, gdzie dostępne są dojrzałe rozwiązania rynkowe jak Spinnaker czy Google Cloud Deploy.
+
+Hity i triki:
+- Zapamiętaj: GCR/Artifact Registry + Pub/Sub = Standardowy sposób na wyzwalanie akcji po zmianie obrazu.
+- Spinnaker jest bardzo popularnym narzędziem w egzaminach GCP DevOps, szczególnie w kontekście zaawansowanych strategii wdrożeń (Canary, Blue/Green).
+- Zawsze szukaj rozwiązań "native" lub "managed" przed rozważaniem "custom".
+
+Przydatne linki:
+- https://spinnaker.io/docs/setup/install/triggers/pubsub/
+- https://cloud.google.com/container-registry/docs/configuring-notifications</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W DevOps/SRE: <b>Unikaj custom toolingu</b>, jeśli istnieją gotowe, natywne integracje. Pub/Sub + Spinnaker to wzorzec "Event-Driven CI/CD" w GCP.</p>
+<p>Automatyzacja typu "push-to-deploy" jest fundamentem nowoczesnego CI/CD. Wykorzystanie <b>Pub/Sub</b> jako łącznika między rejestrem obrazów a systemem CD jest najbardziej elastycznym wzorcem projektowym.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Nowy artefakt w GCR -> Trigger dla Spinnaker? Szukaj <b>Pub/Sub</b>.</li>
-    <li>Dokumentacja: <a href="https://spinnaker.io/docs/setup/install/triggers/pubsub/" target="_blank">Spinnaker Pub/Sub Triggers</a></li>
+    <li><b>Event-Driven:</b> Jeśli coś ma się stać automatycznie po zmianie w innym systemie, Pub/Sub jest najczęściej właściwym mechanizmem komunikacji w GCP.</li>
+    <li><b>Spinnaker Triggers:</b> Spinnaker może być wyzwalany przez: Git, Jenkins, Pub/Sub, Webhooks oraz Cron. Pub/Sub jest najbardziej "chmurowym" wyborem.</li>
+    <li><b>Minimalizacja wysiłku (Minimize effort):</b> To kluczowa fraza. Zawsze odrzucaj rozwiązania typu "write a custom script/service", jeśli istnieje gotowa integracja.</li>
 </ul>
 </div>
 <script>

@@ -79,25 +79,35 @@
 <pre>Odpowiedź: A
 
 Wyjaśnienie:
-Odpowiedzialność (Accountability) jest ważna w SRE, ale musi być jasna i zdefiniowana.
+Skuteczne zarządzanie post-mortem (post-mortems) wymaga jasnego podziału odpowiedzialności. Zgodnie z najlepszymi praktykami SRE (Site Reliability Engineering), kluczowe jest przypisanie jednego właściciela (RACI: Responsible) do każdego zadania naprawczego (action item).
 
 Dlaczego A jest poprawne:
-- Każde zadanie naprawcze (Action Item) musi mieć jednego właściciela (RACI model: "R" - Responsible), aby zapewnić, że zostanie ono wykonane. Współpraca (Collaborators) jest dopuszczalna, ale musi być jeden decydent.
+- Posiadanie jednego właściciela gwarantuje jasną odpowiedzialność (accountability). Współpracownicy mogą wspierać realizację, ale ostateczna decyzja i odpowiedzialność za postęp zadania spoczywają na jednej osobie, co drastycznie zwiększa skuteczność i szybkość wykonania zadań.
 
-Dlaczego inne są błędne:
-- B, C: Brak jasnego właściciela ("too many cooks in the kitchen" lub brak odpowiedzialności) powoduje, że zadania są odkładane w czasie ("bystander effect").
-- D: Zrzucanie wszystkiego na team leada jest nieefektywne i powoduje wąskie gardła (bottlenecks).
+Dlaczego inne odpowiedzi są błędne:
+- B: Przypisanie wielu właścicieli prowadzi do tzw. "bystander effect" (efektu rozproszenia odpowiedzialności), gdzie każdy z właścicieli zakłada, że ktoś inny wykona zadanie, co opóźnia jego realizację.
+- C: Brak indywidualnych właścicieli sprawia, że zadania stają się "niczyje", co jest przeciwieństwem skutecznego zarządzania. Postmortem jest "blameless" (bezosobowe w kontekście winy), co oznacza, że skupiamy się na procesach, a nie na karaniu ludzi, ale "blameless" nie oznacza "bezodpowiedzialności" za wykonanie zadań naprawczych.
+- D: Przypisywanie wszystkiego do Team Leada tworzy tzw. "bottleneck" (wąskie gardło). Zespół SRE powinien być zwinny i rozproszony, a lider nie powinien być jedyną osobą wykonującą zadania techniczne.
 
-Wskazówki (Tricks):
-- Action items in SRE: "One owner per item" to kluczowa zasada egzekucji postmortem.</pre>
+Hity i triki:
+- SRE Postmortem: "Blameless" dotyczy analizy przyczyn (why), nie zwalnia jednak z odpowiedzialności za realizację zadań naprawczych (who).
+- Zawsze: "One owner per action item".
+
+Linki do dokumentacji:
+- https://sre.google/sre-book/postmortem-culture/
+- https://cloud.google.com/blog/products/devops-sre/sre-post-mortem-culture-blameless</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do egzaminu jest zrozumienie kultury SRE:</p>
+<ul>
+    <li><strong>Blameless Post-mortem:</strong> Analiza bez szukania winnych (skupienie na procesie).</li>
+    <li><strong>Action Items:</strong> Jasna odpowiedzialność (jeden właściciel), terminowość, priorytetyzacja.</li>
+</ul>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Kiedy czytasz o "postmortem", szukaj odpowiedzi promujących jasną odpowiedzialność (jeden właściciel) i kulturę bez obwiniania (blameless).</li>
+    <li>Odrzucaj rozwiązania tworzące hierarchiczne wąskie gardła (np. "tylko lider wykonuje wszystko").</li>
 </ul>
 </div>
 <script>

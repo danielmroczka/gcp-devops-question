@@ -78,19 +78,34 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Stackdriver Kubernetes Engine Monitoring (obecnie w pełni zintegrowane w ramach Google Cloud Operations Suite / Cloud Monitoring) to natywne rozwiązanie GCP do monitorowania klastrów GKE. Zapewnia ono głęboką widoczność wewnątrz klastra, umożliwiając filtrowanie i sortowanie metryk (takich jak użycie CPU i pamięci) bezpośrednio na poziomie konkretnych kontenerów (podów). Jest to najbardziej "bezobsługowy" i efektywny sposób, ponieważ nie wymaga instalacji zewnętrznych narzędzi (jak Prometheus) ani budowania skomplikowanych rurociągów logów.
+Poprawną odpowiedzią jest **A (Use Stackdriver Kubernetes Engine Monitoring)**.
 
-B. Prometheus to świetne narzędzie, ale wymaga "utrzymania" (patchowanie, skalowanie, zarządzanie pamięcią serwera Prometheus), co w pytaniu o "najbardziej efektywne" rozwiązanie na GCP jest gorszą opcją niż natywna usługa.
-C. Ręczne budowanie grup w Monitoring API to niepotrzebny narzut operacyjny (toil).
-D. Logowanie to analiza zdarzeń (logi), a nie metryk wydajnościowych (CPU/Memory). Analiza logów do badania CPU/RAM jest nieprecyzyjna i bardzo kosztowna (BigQuery).</pre>
+**Dlaczego A jest poprawne?**
+Stackdriver Kubernetes Engine Monitoring (obecnie znany jako **Google Cloud Observability** lub **Cloud Monitoring for GKE**) jest natywnym rozwiązaniem Google Cloud do monitorowania wydajności klastrów GKE. Został on zaprojektowany tak, aby automatycznie zbierać metryki systemowe (takie jak zużycie procesora i pamięci RAM) bezpośrednio z kontenerów i podów. Co ważne w kontekście pytania, obsługuje on również klastry Anthos (GKE on-prem), co pozwala na uzyskanie spójnego widoku w środowisku hybrydowym. Umożliwia łatwe sortowanie i identyfikację zasobochłonnych kontenerów za pomocą dedykowanych dashboardów.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **B. Use Prometheus to collect and aggregate logs per container, and then analyze the results in Grafana:** Prometheus służy do zbierania *metryk*, a nie *logów*. Chociaż Prometheus jest standardem w ekosystemie Kubernetes, wymaga on samodzielnego zarządzania (instalacja, aktualizacje, skalowanie), co zwiększa narzut operacyjny (toil) w porównaniu do natywnego rozwiązania Google.
+*   **C. Use the Stackdriver Monitoring API to create custom metrics, and then organize your containers using groups:** Tworzenie własnych metryk (custom metrics) do monitorowania zużycia procesora i pamięci jest niepotrzebne, ponieważ te metryki są już standardowo dostępne (out-of-the-box). Ręczne tworzenie grup byłoby bardzo pracochłonne i trudne w utrzymaniu przy dużej skali klastra.
+*   **D. Use Stackdriver Logging to export application logs to BigQuery, aggregate logs per container, and then analyze CPU and memory consumption:** Logi (zdarzenia tekstowe) nie są odpowiednim źródłem danych do analizy zużycia zasobów w czasie rzeczywistym. Eksportowanie ogromnej ilości logów do BigQuery tylko po to, by wyciągnąć z nich informacje o CPU, byłoby niezwykle kosztowne, powolne i mało precyzyjne.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Pamiętaj: **Metryki (CPU/RAM) != Logi (Zdarzenia)**. Do monitorowania zasobów zawsze używaj narzędzi do metryk (Monitoring), a nie do logów (Logging).
+- Jeśli widzisz nazwę "Stackdriver", wiedz, że odnosi się ona do obecnego **Google Cloud Operations Suite**. Na egzaminie starsze nazewnictwo wciąż może się pojawiać.
+- Natywne rozwiązania (Managed Services) są w świecie GCP zazwyczaj preferowane nad rozwiązaniami typu "zrób to sam" (jak samodzielny Prometheus), chyba że wymogiem jest uniknięcie "vendor lock-in".
+
+### 🔗 Dokumentacja i linki
+- [Observability for GKE](https://cloud.google.com/stackdriver/docs/solutions/gke)
+- [Monitoring containers and services](https://cloud.google.com/monitoring/kubernetes-engine/observability)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W DevOps: <b>Natywna usługa GCP zawsze wygrywa z narzędziami trzecimi (Prometheus), jeśli zależy Ci na minimalizacji "toil" (pracy operacyjnej).</b> Cloud Monitoring automatycznie zbiera metryki z GKE.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>To pytanie sprawdza Twoją umiejętność wyboru właściwego narzędzia do monitorowania wydajności w środowisku hybrydowym. Kluczowym elementem jest zrozumienie różnicy między metrykami a logami oraz korzyści płynących z usług zarządzanych przez GCP.</p>
+<h3>Kluczowe punkty:</h3>
 <ul>
-    <li>GKE + Monitorowanie metryk (CPU/RAM)? Szukaj <b>Cloud Monitoring (Stackdriver)</b>.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/monitoring/kubernetes-engine/observability" target="_blank">Monitoring GKE</a></li>
+    <li><b>Unified Observability:</b> Możliwość monitorowania GKE w chmurze i on-prem (Anthos) w jednym miejscu.</li>
+    <li><b>Resource Efficiency:</b> Identyfikacja "top talkers" (kontenerów zużywających najwięcej zasobów) jest podstawową funkcją Cloud Monitoring.</li>
+    <li><b>Toil Reduction:</b> Wybór rozwiązania, które wymaga najmniej konfiguracji i utrzymania.</li>
 </ul>
 </div>
 <script>

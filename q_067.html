@@ -76,30 +76,39 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D
+<pre>Odpowiedź: D.
 
 Wyjaśnienie:
-W GKE, najlepszym sposobem na odizolowanie obciążeń (np. różnych zespołów) przy zachowaniu optymalizacji kosztów jest współdzielenie klastra (w ramach tego samego projektu) przy użyciu przestrzeni nazw (Kubernetes Namespaces).
+Poprawna odpowiedź to D. Strategia ta idealnie balansuje trzy kluczowe wymagania: izolację zespołów, separację środowisk (Dev/Prod) oraz minimalizację kosztów.
 
-Dlaczego D jest poprawne:
-- Klaster GKE pozwala na współdzielenie zasobów obliczeniowych, co minimalizuje koszty w porównaniu do utrzymywania osobnych klastrów dla każdego zespołu.
-- Kubernetes RBAC (Role-Based Access Control) to natywny i bezpieczny sposób na ograniczenie dostępu zespołów wyłącznie do ich przestrzeni nazw wewnątrz klastra.
+Dlaczego odpowiedź D jest poprawna:
+1. Separacja środowisk (Dev vs Prod): Użycie osobnych klastrów (i projektów) dla Developmentu i Produkcji to "best practice" w zakresie bezpieczeństwa i niezawodności. Zapobiega to przypadkowym zmianom na produkcji podczas prac deweloperskich (ograniczenie "Blast Radius").
+2. Minimalizacja kosztów (Multi-tenancy): Zamiast tworzyć osobne klastry dla każdego zespołu (co byłoby bardzo drogie ze względu na narzut płaszczyzny sterowania i mniejszą utylizację węzłów), tworzymy współdzielone klastry. Zespoły dzielą zasoby obliczeniowe wewnątrz klastra, co jest znacznie tańsze.
+3. Izolacja zespołów: Kubernetes Namespaces (przestrzenie nazw) w połączeniu z Kubernetes RBAC (Role-Based Access Control) pozwalają na precyzyjne ograniczenie uprawnień deweloperów tylko do ich własnych obszarów roboczych.
 
-Dlaczego inne są błędne:
-- A: Tworzenie wielu projektów i klastrów dla każdego zespołu/środowiska jest bardzo kosztowne i generuje wysoki narzut administracyjny ("overhead").
-- B: Choć Namespace jest używany, to przy dużej skali zarządzanie dostępem na poziomie całych projektów dla GKE może być mniej precyzyjne niż użycie dedykowanego RBAC w ramach współdzielonego klastra (zależnie od skali, ale D jest wzorcową odpowiedzią SRE).
-- C: Identity Aware Proxy (IAP) służy do ochrony aplikacji HTTP, a nie do izolacji przestrzeni nazw wewnątrz klastra Kubernetes. Do tego służy RBAC.
+Analiza błędnych odpowiedzi:
+- A: Tworzenie dwóch klastrów na każdy zespół (np. 10 zespołów = 20 klastrów) jest niezwykle nieefektywne kosztowo. Płacisz za każdy klaster (Management Fee) i tracisz korzyści z "bin-packingu" (współdzielenia węzłów).
+- B: Podobnie jak w punkcie A, tworzenie osobnego projektu i klastra na każdy zespół generuje ogromne koszty i narzut administracyjny ("Toil").
+- C: Identity Aware Proxy (IAP) służy do uwierzytelniania użytkowników próbujących uzyskać dostęp do aplikacji internetowych (HTTP) bez konieczności korzystania z VPN. Nie jest to narzędzie do zarządzania uprawnieniami wewnątrz klastra Kubernetes ani do izolacji przestrzeni nazw.
 
-Wskazówki (Tricks):
-- Szukaj słów kluczowych: "minimizing costs" -> współdzielenie klastra (GKE Namespace); "isolation" -> RBAC/NetworkPolicies.</pre>
+Hity i triki (Exam Tips):
+- Słowo klucz "Minimize costs" w kontekście GKE zazwyczaj sugeruje współdzielenie klastra (Namespaces).
+- Słowo klucz "Team isolation" sugeruje RBAC lub Network Policies.
+- Pamiętaj o różnicy: IAM zarządza dostępem do **GCP Resources** (cały klaster), natomiast RBAC zarządza dostępem do **Kubernetes Resources** (np. konkretny Namespace).
+
+Przydatne linki:
+- [GKE Multi-tenancy overview](https://cloud.google.com/kubernetes-engine/docs/concepts/multi-tenancy-overview)
+- [Configure RBAC in GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/role-based-access-control)
+- [Best practices for GKE multi-tenancy](https://cloud.google.com/kubernetes-engine/docs/best-practices/multi-tenancy)</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W projektowaniu infrastruktury GKE kluczowe jest rozróżnienie między "Soft Multi-tenancy" (izolacja za pomocą Namespaces) a "Hard Multi-tenancy" (izolacja za pomocą osobnych klastrów). Odpowiedź D łączy oba te podejścia, oferując twardą izolację między światem deweloperskim a produkcyjnym oraz miękką izolację między poszczególnymi zespołami projektowymi.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zawsze oddzielaj Produkcję od Developmentu na poziomie Projektu GCP – to standardowa bariera bezpieczeństwa.</li>
+    <li>Namespaces nie zapewniają pełnej izolacji sieciowej domyślnie. W rzeczywistym środowisku (i czasami na egzaminie) należy wspomnieć o **Network Policies**, aby zablokować ruch między przestrzeniami nazw.</li>
+    <li>Wykorzystuj GKE Autopilot, jeśli minimalizacja kosztów i narzutu administracyjnego jest absolutnym priorytetem (choć w pytaniach o architekturę często zakłada się Standard).</li>
 </ul>
 </div>
 <script>

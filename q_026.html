@@ -79,20 +79,31 @@
 <pre>Odpowiedź: C.
 
 Wyjaśnienie:
-Poprawna odpowiedź to C. Production Readiness Review (PRR) to krytyczny proces w SRE, mający na celu sprawdzenie, czy usługa jest gotowa na obsługę ruchu produkcyjnego i czy spełnia wymagania dotyczące niezawodności, monitoringu oraz zarządzania incydentami. Jeśli usługa nie spełnia ustalonych celów SLO, oznacza to, że nie jest gotowa na produkcję. Najwłaściwszym działaniem jest wstrzymanie wdrożenia do czasu wyeliminowania deficytów, które wpływają na stabilność (np. poprawa architektury, wdrożenie odpowiednich health checków, wzmocnienie redundancji, automatyzacja procesów naprawczych).
+Poprawna odpowiedź to C. Production Readiness Review (PRR) to krytyczny proces w SRE, mający na celu sprawdzenie, czy usługa jest gotowa na obsługę ruchu produkcyjnego i czy spełnia wymagania dotyczące niezawodności, monitoringu oraz zarządzania incydentami. Jeśli analiza wykazuje, że usługa nie jest w stanie sprostać swoim celom SLO (Service Level Objectives), oznacza to, że ryzyko awarii i niezadowolenia użytkowników jest zbyt wysokie. Zgodnie z praktykami SRE, należy zidentyfikować niezbędne poprawki (np. poprawa obsługi błędów, dodanie redundancji, ulepszenie health checków) i wdrożyć je przed oficjalnym przejęciem odpowiedzialności operacyjnej (handover).
 
 Dlaczego inne odpowiedzi są błędne:
-A. Zmiana (obniżenie) SLO tylko po to, aby "dopasować" je do słabej wydajności usługi, jest praktyką destrukcyjną dla zaufania użytkowników. SLO powinny odzwierciedlać oczekiwania użytkownika i biznesu, a nie być ustawiane pod obecne ograniczenia techniczne słabej jakości kodu.
-B. Przeniesienie wsparcia z powrotem na zespół Dev bez rozwiązania pierwotnych problemów jest jedynie unikaniem odpowiedzialności. Zespół SRE powinien wspierać zespoły Dev w budowaniu stabilnych usług, a nie tylko akceptować je w stanie, który spowoduje częste incydenty produkcyjne.
-D. Wprowadzenie usługi do produkcji bez SLO oznacza działanie "w ciemno". W SRE decyzje o tym, kiedy można wdrażać nowe funkcje, a kiedy trzeba skupić się na stabilności (tzw. Error Budget), są podejmowane w oparciu o SLO. Brak SLO uniemożliwia zarządzanie budżetem błędów i utrzymanie wysokiej dostępności.</pre>
+A. Zmiana (obniżenie) SLO tylko po to, aby "dopasować" je do słabej wydajności usługi, jest błędem. SLO powinny odzwierciedlać potrzeby biznesowe i oczekiwania użytkowników. Obniżenie ich bez uzasadnienia biznesowego prowadzi do akceptacji niskiej jakości.
+B. Chociaż w SRE zespoły deweloperskie często uczestniczą w on-call (zwłaszcza dla nowych usług), samo powiadomienie ich o wsparciu nie rozwiąże problemu niskiej niezawodności zidentyfikowanej w PRR.
+D. Wprowadzenie usługi bez SLO uniemożliwia zarządzanie budżetem błędów (Error Budget). Bez SLO nie wiemy, kiedy możemy bezpiecznie wdrażać nowe funkcje, a kiedy musimy skupić się na stabilności.
+
+Hity i triki (Exam Tips):
+- PRR (Production Readiness Review) to "brama" (gate) między fazą Development a Production.
+- Jeśli usługa nie spełnia SLO w testach/analizie -> nie wpuszczaj jej na produkcję bez poprawek.
+- SRE promuje kulturę "No-Blame" (bez obwiniania), ale jednocześnie trzyma się twardych danych (SLO/SLI).
+- Pamiętaj o modelu "Shared Responsibility" – deweloperzy i SRE współpracują nad niezawodnością.
+
+Dokumentacja:
+- https://sre.google/sre-book/production-readiness-review/
+- https://cloud.google.com/architecture/framework/reliability/service-level-objectives</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowym elementem filozofii SRE jest to, że operacje nie są "zrzucane" na inny zespół bez przygotowania. PRR służy jako mechanizm wymuszający jakość i niezawodność już na etapie projektowania i wczesnego wdrażania.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Zasada 50%:</strong> Pamiętaj, że SRE dąży do spędzania nie więcej niż 50% czasu na operacjach (toil). Przyjęcie zawodnej usługi drastycznie by to naruszyło.</li>
+    <li><strong>Handover:</strong> Przekazanie usługi do SRE to przywilej, na który usługa musi "zapracować" swoją stabilnością.</li>
+    <li><strong>SLO:</strong> Zawsze definiuj SLO przed przejściem na pełną produkcję.</li>
 </ul>
 </div>
 <script>

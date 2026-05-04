@@ -79,24 +79,28 @@
 <pre>Odpowiedź: B
 
 Wyjaśnienie:
-SLI (Service Level Indicator) to miara określająca jakość usługi, na którą umówiliśmy się z użytkownikiem (w ramach SLO).
+SLI (Service Level Indicator) to mierzalna wartość, która wskazuje na poziom świadczonej usługi z perspektywy klienta końcowego.
 
 Dlaczego B jest poprawne:
-- Dostępność (Availability) dla użytkownika jest mierzona z punktu widzenia sukcesu żądania. "Proporcja udanych odpowiedzi do wszystkich żądań" to standardowa definicja SLI dostępności.
+Dostępność (Availability) definiuje się jako stosunek udanych zapytań do wszystkich zapytań wykonanych przez użytkownika. Dla użytkownika kluczowe jest, czy otrzymał poprawny wynik raportu, a nie jak bardzo obciążone są nasze zasoby wewnętrzne. Dlatego proporcja sukcesów jest jedynym poprawnym SLI dostępności w tym zestawie.
 
 Dlaczego inne są błędne:
-- A, C, D: To są metryki "wewnętrzne" (tzw. SLIs pomocnicze/systemowe). Mogą one wyjaśniać przyczynę awarii (I/O wait, kolejka), ale nie są SLI dostępności z perspektywy klienta końcowego. Klienta nie obchodzi I/O wait, obchodzi go czy raport się wygenerował.
+- A (I/O wait): To metryka wydajnościowa (systemowa), która pomaga w debugowaniu problemów (tak jak w opisie przypadku), ale nie jest SLI dostępności dla klienta.
+- C (Kolejka): To metryka operacyjna, która wskazuje na zatory w systemie, ale użytkownik nie widzi rozmiaru kolejki, tylko błąd 500.
+- D (Przepustowość PD): To kolejna metryka wydajnościowa zasobów, która nie odzwierciedla bezpośrednio sukcesu biznesowego żądania użytkownika.
 
-Wskazówki (Tricks):
-- SLI = (Successful Requests) / (Total Requests). Zawsze szukaj miary sukcesu/porażki z perspektywy użytkownika końcowego.</pre>
+Hity i triki (Exam Tips):
+- Pamiętaj o różnicy między SLI (wskaźnik usługi - co widzi klient) a metryką (co widzi inżynier w dashboardzie).
+- SLI dostępności zawsze koncentruje się na wyniku żądania użytkownika: czy było udane (np. HTTP 2xx/3xx), czy zakończyło się błędem (np. HTTP 5xx).
+- Dokumentacja: https://cloud.google.com/blog/products/devops-sre/sre-fundamentals-slis-slos-and-slas</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W kontekście SRE i DevOps, kluczowe jest odróżnienie wskaźników zorientowanych na użytkownika (SLI) od metryk systemowych.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>SLI = (Udane żądania / Wszystkie żądania).</li>
+    <li>Nie myl przyczyn awarii (np. wysokie I/O) z samym wskaźnikiem awarii (brak dostępności).</li>
 </ul>
 </div>
 <script>

@@ -79,23 +79,36 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Poprawna odpowiedź to D. Tworzenie dedykowanego "projektu monitorującego" (monitoring project) jest zalecaną architekturą w GCP przy pracy z Cloud Monitoring (dawniej Stackdriver). Pozwala to na:
-1. Centralizację widoczności: wszystkie metryki z wielu projektów produkcyjnych trafiają w jedno miejsce.
-2. Izolację: odseparowanie środowisk produkcyjnych od deweloperskich/stagingowych.
-3. Least Privilege: dostęp do Workspace monitorującego przyznajesz tylko odpowiednim osobom (np. SRE), bez konieczności nadawania im dostępu do wszystkich projektów źródłowych (production projects).
+Poprawną odpowiedzią jest **D (Create a new GCP monitoring project and create a Stackdriver Workspace inside it. Attach the production projects to this workspace. Grant relevant team members read access to the Stackdriver Workspace)**.
 
-A. Błędne: Tworzenie Workspace w każdym projekcie osobno rozprasza monitorowanie i utrudnia zarządzanie.
-B. Błędne: Grantowanie dostępu do każdego projektu osobno narusza zasadę minimalnych uprawnień i zwiększa "toil" (pracochłonność).
-C. Błędne: Użycie istniejącego projektu produkcyjnego do monitorowania innych projektów produkcyjnych jest ryzykowne (jeśli projekt "host" padnie, tracisz wgląd w resztę) i utrudnia zarządzanie IAM.</pre>
+**Dlaczego D jest poprawne?**
+Zalecaną przez Google praktyką dla środowisk produkcyjnych o dużej skali jest użycie **dedykowanego projektu monitorującego** (scoping project). Pozwala to na:
+1.  **Centralizację:** Możesz podłączyć wiele projektów produkcyjnych (monitored projects) do jednego widoku (Metrics Scope / Workspace), co pozwala na szybką identyfikację problemów w całej infrastrukturze bez przełączania się między projektami.
+2.  **Izolację:** Poprzez dołączenie tylko projektów produkcyjnych do tego konkretnego obszaru, eliminujesz "szum" i fałszywe alerty pochodzące ze środowisk deweloperskich czy stagingowych.
+3.  **Zasadę najniższych uprawnień (Least Privilege):** Możesz nadać członkom zespołu uprawnienia `Monitoring Viewer` tylko w projekcie monitorującym. Dzięki temu widzą oni metryki i dashboardy dla wszystkich podłączonych projektów produkcyjnych, ale nie muszą posiadać żadnych uprawnień dostępu (np. Viewer czy Editor) w samych projektach produkcyjnych, co zwiększa bezpieczeństwo.
+
+**Dlaczego pozostałe opcje są błędne?**
+*   **A i B. Create Stackdriver workspaces inside each project:** Takie podejście wymusza na zespole operacyjnym sprawdzanie każdego projektu z osobna. Jest to nieefektywne ("toil") i znacznie wydłuża czas reakcji na incydenty (MTTR). Nadawanie ról w każdym projekcie z osobna jest również trudne do zarządzania i narusza zasadę centralnego zarządzania dostępem.
+*   **C. Choose an existing GCP production project to host the monitoring workspace:** Choć technicznie możliwe, nie jest to zalecane. Jeśli projekt hostujący workspace zostanie usunięty lub napotka błędy konfiguracyjne podczas prac nad aplikacją, stracisz monitoring nad całą produkcją. Dedykowany projekt zapewnia czystą separację zasobów infrastrukturalnych (monitoring) od aplikacji.
+
+### 💡 Hity i triki (Hints & Tricks)
+- Pamiętaj: **Jeden Metrics Scope (Workspace) = Jeden widok na wiele projektów**.
+- Szukaj słowa **"Dedicated"** lub **"New monitoring project"** w pytaniach o architekturę monitorowania wielu projektów.
+- Rola `Monitoring Viewer` (lub `Stackdriver Accounts Viewer` w starszych wersjach) jest kluczowa dla zasady "least privilege" w monitoringu.
+
+### 🔗 Dokumentacja i linki
+- [Metrics scopes overview (formerly Workspaces)](https://cloud.google.com/monitoring/settings/manage-scoping-projects)
+- [Best practices for monitoring multi-project environments](https://cloud.google.com/architecture/monitoring-multi-project-environments)
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W GCP Cloud Monitoring, zawsze szukaj odpowiedzi promującej <b>Monitoring Project</b> jako centralny punkt agregacji dla środowiska produkcyjnego.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (AI)</h2>
+<p>Zarządzanie projektami w skali Enterprise wymaga podejścia hierarchicznego i scentralizowanego. To pytanie sprawdza znajomość architektury Cloud Monitoring i umiejętność stosowania dobrych praktyk bezpieczeństwa (IAM).</p>
+<h3>Kluczowe punkty:</h3>
 <ul>
-    <li>Monitoring: <b>Centralny projekt</b> do monitorowania wielu projektów.</li>
-    <li>Jeśli pytanie wspomina o "false alerts" z dev/staging: kluczem jest odizolowanie środowisk poprzez dedykowany Monitoring Project dla produkcji.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/monitoring/docs/workspaces" target="_blank">Cloud Monitoring Workspaces</a></li>
+    <li><b>Scoping Projects:</b> Wykorzystanie jednego projektu jako "okna" na dane z innych projektów.</li>
+    <li><b>IAM Isolation:</b> Rozdzielenie uprawnień do oglądania danych od uprawnień do zarządzania zasobami.</li>
+    <li><b>Environment Segregation:</b> Unikanie mieszania alertów produkcyjnych z testowymi poprzez dedykowane obszary robocze.</li>
 </ul>
 </div>
 <script>

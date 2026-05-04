@@ -78,19 +78,35 @@
 <pre>Odpowiedź: A.
 
 Wyjaśnienie:
-Planowanie pojemności (Capacity Planning) to kluczowy element SRE. Nawet jeśli masz włączony Cluster Autoscaler, musisz mieć pewność, że "sufit" (maksymalny rozmiar node poola) jest ustawiony wystarczająco wysoko, aby obsłużyć prognozowany wzrost ruchu. HPA (Horizontal Pod Autoscaler) automatycznie skaluje liczbę podów, a Cluster Autoscaler dokupuje węzły, jeśli podom zabraknie miejsca. Jednak najważniejszym krokiem weryfikacyjnym jest **load test** (testy obciążeniowe), który potwierdza, czy Twoje założenia dotyczące wydajności są zgodne z rzeczywistością w zmienionym środowisku.
+Planowanie pojemności (Capacity Planning) w nowoczesnych środowiskach chmurowych nie polega na ręcznym dokupowaniu serwerów "na zapas", ale na zapewnieniu, że mechanizmy automatycznego skalowania mają odpowiednie ramy i są przetestowane pod kątem realnego obciążenia.
 
-B. Cluster Autoscaler ma swoje limity – jeśli osiągniesz max node pool size, nie doda więcej węzłów.
-C. Mimo 30% zajętości, musisz wziąć pod uwagę awarię strefy (zgodnie z wymaganiem "resilience against the failure of a zone"). Jeśli padnie jedna z trzech stref, tracisz 33% mocy obliczeniowej, co przy obecnym obciążeniu może doprowadzić do przeciążenia pozostałych stref.
-D. Proaktywne dodawanie 60% mocy to zgadywanie, które nie zastępuje testów i nie gwarantuje, że aplikacja poradzi sobie przy awarii strefy.</pre>
+Dlaczego odpowiedź A jest poprawna:
+1. **Weryfikacja limitów:** Cluster Autoscaler działa tylko w granicach zdefiniowanych dla puli węzłów (node pool). Jeśli przewidywany wzrost przekroczy aktualnie ustawiony limit maksymalny, klaster nie dokupi nowych maszyn.
+2. **HPA (Horizontal Pod Autoscaler):** Jest niezbędny do skalowania samej aplikacji (liczby podów) w odpowiedzi na metryki takie jak użycie CPU. Bez HPA, Cluster Autoscaler może nie zadziałać, jeśli pody nie będą zgłaszać zapotrzebowania na więcej miejsca.
+3. **Load Test (Testy obciążeniowe):** To kluczowy element SRE. Tylko testy potwierdzą, jak aplikacja zachowuje się przy zwiększonym ruchu i czy przyjęte limity są wystarczające. Pozwalają one również zweryfikować zachowanie klastra w symulowanej sytuacji awarii jednej strefy.
+
+Dlaczego pozostałe opcje są błędne:
+B. Poleganie na samym Cluster Autoscalerze bez sprawdzenia jego konfiguracji i bez testów obciążeniowych jest ryzykowne. Autoscaler skaluje się tylko do określonego limitu, a proces skalowania zajmuje czas, co przy gwałtownym wzroście może negatywnie wpłynąć na użytkowników.
+C. Choć obecnie wykorzystywane jest tylko 30% zasobów, przy wzroście 10% miesięcznie (kumulatywnie ok. 77% w pół roku) i konieczności zachowania odporności na awarię strefy (co natychmiast zabiera 1/3 zasobów w klastrze regionalnym 3-strefowym), obecna pojemność może okazać się niewystarczająca szybciej niż się wydaje.
+D. Ręczne dodawanie 60% pojemności "na sztywno" jest nieekonomiczne i zaprzecza idei elastyczności chmury. Ponadto, bez testów obciążeniowych wciąż nie mamy pewności, czy te 60% to faktycznie właściwa liczba.
+
+Hity i triki:
+- Pamiętaj o zasadzie N+1: Twój system powinien działać poprawnie nawet po awarii jednego z komponentów (np. strefy dostępności).
+- W klastrze regionalnym GKE pody są rozproszone po 3 strefach. Jeśli jedna padnie, tracisz 33% mocy. Musisz mieć zapas (headroom), aby pozostałe 67% przejęło ruch.
+- Cluster Autoscaler skaluje infrastrukturę (node'y), a HPA skaluje aplikację (pody). Oba muszą współpracować.
+
+Przydatne linki:
+- https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler
+- https://cloud.google.com/architecture/framework/operational-excellence/capacity-planning</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W SRE: <b>Zaufanie do automatyki (Auto-scaling) jest dobre, ale weryfikacja poprzez testy (Load Testing) jest lepsza</b>. Pamiętaj o uwzględnieniu <b>awarii strefy</b> (n+1) w obliczeniach pojemności.</p>
+<p>Skuteczne planowanie pojemności to proces ciągły, a nie jednorazowe działanie. Kluczem jest połączenie <b>automatyzacji</b> z <b>empiryczną weryfikacją</b>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Pytanie o skalowanie/pojemność? Szukaj <b>load test</b> i <b>max node pool size</b>.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/architecture/framework/operational-excellence/capacity-planning" target="_blank">Capacity Planning Guide</a></li>
+    <li><b>Regional Cluster Resilience:</b> Zawsze zakładaj, że musisz przetrwać utratę 1/3 zasobów (jedna z trzech stref).</li>
+    <li><b>Scaling logic:</b> Jeśli pody nie mają ustawionych `requests`, HPA i Cluster Autoscaler nie będą wiedziały, kiedy się uruchomić.</li>
+    <li><b>Load Testing:</b> W pytaniach o "jak się upewnić" lub "jak przygotować na wzrost", testy obciążeniowe są niemal zawsze częścią poprawnej odpowiedzi.</li>
 </ul>
 </div>
 <script>

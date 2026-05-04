@@ -76,22 +76,33 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Poprawna odpowiedź: D.
 
 Wyjaśnienie:
-Pierwszą i najważniejszą czynnością przy rozwiązywaniu problemów (troubleshooting) w infrastrukturze jest weryfikacja, czy usługa, która ma zbierać logi, w ogóle działa. Agent logujący w GCP (obecnie Cloud Logging agent, dawniej Stackdriver Logging agent) opiera się na procesie `fluentd`. Polecenie `ps ax | grep fluentd` pozwala sprawdzić, czy proces ten jest uruchomiony na maszynie wirtualnej. Jeśli proces nie działa, nie ma możliwości, aby logi zostały wysłane do Google Cloud.
+Przy rozwiązywaniu problemów (troubleshooting) z brakującymi danymi w chmurze, pierwszą zasadą jest weryfikacja stanu źródła. Agent Cloud Logging (dawniej Stackdriver) wykorzystuje pod spodem proces `fluentd` do zbierania, przetwarzania i wysyłania logów. Jeśli w Logs Viewer nie widzisz strumienia "syslog", najbardziej prawdopodobną przyczyną jest to, że agent na maszynie wirtualnej przestał działać lub w ogóle się nie uruchomił. Sprawdzenie listy procesów za pomocą `ps ax | grep fluentd` pozwala natychmiast potwierdzić, czy usługa jest aktywna.
 
-A. Sprawdzanie logów testowych jest istotne, ale dopiero PO upewnieniu się, że sam agent działa (inaczej tracisz czas).
-B. Instalacja nowej wersji to "strzał w ciemno", który nie rozwiązuje problemu, jeśli obecna wersja nie jest uruchomiona.
-C. Pytanie podaje, że VM posiada scope `cloud-platform` (który zawiera `logging.write`), więc uprawnienia prawdopodobnie są poprawne.</pre>
+Dlaczego pozostałe odpowiedzi są błędne:
+A. Szukanie logów testowych w konsoli jest krokiem wtórnym. Jeśli agent nie działa na VM (co sprawdzamy w punkcie D), to żadne logi testowe ani produkcyjne i tak nie pojawią się w Logs Viewer.
+B. Aktualizacja agenta bez wcześniejszej diagnozy ("czy w ogóle działa?") jest nieefektywnym działaniem (tzw. "shooting in the dark"). Może to naprawić problem przypadkiem, ale nie jest to poprawna metodologia SRE.
+C. W treści pytania wspomniano, że VM ma zakres (scope) `cloud-platform`. Jest to najszerszy możliwy zakres, który domyślnie zawiera uprawnienia do zapisu logów i metryk. Sprawdzanie tego jest mniej priorytetowe niż weryfikacja działania samego procesu na systemie operacyjnym.</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zasada numer 1 w troubleshootingu agentów: <b>"Czy proces w ogóle żyje?"</b>. Zawsze najpierw sprawdzaj status usługi przed zmianami w konfiguracji czy uprawnieniach.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<p>Pytanie to testuje Twoje umiejętności praktycznego troubleshootingu w środowisku hybrydowym (OS + Cloud). Kluczem jest znajomość komponentów składowych agentów operacyjnych Google Cloud.</p>
+
+<h3>💡 Hity i triki (Exam Tips)</h3>
 <ul>
-    <li>Agent logujący w GCP = <b>Fluentd</b>. Jeśli nie widzisz logów, sprawdź `fluentd` proces.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/logging/docs/agent/troubleshooting" target="_blank">Troubleshooting Logging Agent</a></li>
+    <li><b>Cloud Logging Agent</b> bazuje na <b>Fluentd</b>.</li>
+    <li><b>Cloud Monitoring Agent</b> bazuje na <b>Collectd</b>. (W nowym Ops Agent te dwa procesy są połączone, ale na egzaminie często pojawiają się jeszcze jako osobne byty).</li>
+    <li><b>Access Scopes</b> vs <b>IAM Roles</b>: Nawet jeśli masz rolę Editor w IAM, VM potrzebuje odpowiedniego Scope (np. `cloud-platform` lub `logging.write`), aby móc wysyłać dane. W pytaniu scope był poprawny.</li>
+    <li>Jeśli agent działa (`ps` zwraca wynik), kolejnym krokiem byłoby sprawdzenie pliku logów samego agenta: `/var/log/google-fluentd/google-fluentd.log`.</li>
+</ul>
+
+<h3>🔗 Linki do dokumentacji</h3>
+<ul>
+    <li><a href="https://cloud.google.com/logging/docs/agent/logging/troubleshooting" target="_blank">Troubleshooting the Logging agent</a></li>
+    <li><a href="https://cloud.google.com/compute/docs/access/service-accounts#access_scopes" target="_blank">Understanding Access Scopes</a></li>
+    <li><a href="https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent" target="_blank">Google Cloud Ops Agent (Modern replacement)</a></li>
 </ul>
 </div>
 </div>

@@ -76,28 +76,34 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Poprawna odpowiedź: A. Eliminate unactionable alerts.
 
 Wyjaśnienie:
-Poprawna odpowiedź to A (Eliminate unactionable alerts).
+Zgodnie z praktykami Site Reliability Engineering (SRE), każdy alert wysyłany do inżyniera pełniącego dyżur (on-call) musi być "actionable", czyli musi wymagać podjęcia konkretnego działania. Jeśli system automatycznie naprawia się w ciągu minuty (np. poprzez restart kontenera przez Kubernetes lub restart maszyny przez Managed Instance Group), to wysyłanie powiadomienia budzącego inżyniera w nocy jest błędem projektowym systemu monitoringu. Takie zdarzenia powinny być logowane i analizowane w godzinach pracy (jako trend), a nie jako pilne incydenty. Eliminacja niepotrzebnych alertów jest kluczowa w walce z "Alert Fatigue" (zmęczeniem alertami) i wypaleniem zawodowym.
 
-W SRE "alert fatigue" (zmęczenie alertami) jest kluczowym problemem prowadzącym do wypalenia zawodowego. Alerty, które nie wymagają działania inżyniera (np. bo system sam się naprawia), są nazywane "unactionable" i powinny być usunięte lub zautomatyzowane. 
+Dlaczego inne odpowiedzi są błędne:
+- B: Create an incident report for each of the alerts: Tworzenie raportu z incydentu (post-mortem) dla każdego krótkotrwałego restartu drastycznie zwiększyłoby ilość "Toil" (manualnej, żmudnej pracy), nie rozwiązując problemu przerywanego snu inżynierów.
+- C: Distribute the alerts to engineers in different time zones: Model "Follow-the-sun" (przekazywanie dyżuru między strefami czasowymi) jest świetną praktyką dla dużych, globalnych zespołów, ale tutaj jest to tylko "przerzucenie problemu na kogoś innego". Jeśli alert jest bezużyteczny (bo system sam się naprawia), to nie powinien on trafiać do nikogo, niezależnie od strefy czasowej.
+- D: Redefine the related Service Level Objective (SLO): Zmiana SLO pod "wygodę" inżynierów, bez poprawy stabilności systemu, jest zamazywaniem rzeczywistości. SLO powinno odzwierciedlać realne potrzeby biznesowe i satysfakcję użytkownika.
 
-Analiza błędnych odpowiedzi:
-- B: Create an incident report for each of the alerts - Tworzenie raportu dla każdego "przejściowego" problemu generuje tylko więcej pracy (toil), zamiast usuwać przyczynę.
-- C: Distribute the alerts to engineers in different time zones - Przesunięcie odpowiedzialności na inne strefy czasowe ("follow the sun") tylko maskuje problem, nie naprawia go.
-- D: Redefine the related SLO - Redefinicja SLO nie rozwiązuje problemu technicznego; wskaźniki powinny odzwierciedlać rzeczywisty stan usług.
+Hity i triki (GCP DevOps Exam):
+- Actionable vs. Informational: Jeśli alert nie wymaga natychmiastowej reakcji człowieka -> to nie jest alert, to jest ticket lub log.
+- Toil Reduction: Jednym z głównych zadań SRE jest redukcja pracy manualnej (Toil) poniżej 50% czasu pracy. Bezużyteczne alerty to czysty Toil.
+- Symptom-based alerting: Lepiej alertować na podstawie symptomów odczuwalnych przez użytkownika (np. wysoki error rate, latencja) niż na podstawie każdej awarii pojedynczego komponentu, który posiada mechanizmy auto-healingu.
 
-Przydatne linki:
-- https://sre.google/sre-book/alerting-on-slos/</pre>
+Pomocne linki:
+- https://sre.google/sre-book/monitoring-distributed-systems/
+- https://sre.google/sre-book/incident-response/
+- https://cloud.google.com/architecture/devops/devops-measurement-monitoring-and-observability</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
-<h2>Analiza i Podsumowanie</h2>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<h2>Analiza i Podsumowanie (GCP DevOps Expert)</h2>
+<p>Kluczem do zdrowego dyżuru (on-call) jest wysoka jakość sygnałów. Jeśli Twoje systemy potrafią same się naprawiać, zaufaj im i nie pozwól, aby budziły ludzi.</p>
+<h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li>SRE dąży do redukcji "Toil" (manualnej, powtarzalnej pracy).</li>
-    <li>Alert musi być wykonalny ("actionable"). Jeśli nie wymaga akcji - usuń go.</li>
-    <li>Dokumentacja: <a href="https://sre.google/" target="_blank">Google SRE Books</a></li>
+    <li><b>MTTR (Auto-healing):</b> Jeśli Mean Time To Recovery po stronie automatu jest wystarczająco niski, by nie naruszać SLO, inżynier nie musi o tym wiedzieć natychmiast.</li>
+    <li><b>Burnout Prevention:</b> SRE to nie tylko technologia, to kultura dbania o zespół. Walka z nadmiarem powiadomień to priorytet.</li>
+    <li><b>Critical Alerts Only:</b> Tylko zdarzenia krytyczne, zagrażające Error Budgetowi, powinny generować powiadomienia typu "paging".</li>
 </ul>
 </div>
 <script>

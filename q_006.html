@@ -79,19 +79,33 @@
 <pre>Odpowiedź: D.
 
 Wyjaśnienie:
-Cloud Build automatycznie publikuje zdarzenia (np. koniec budowania) na topic Pub/Sub o nazwie `cloud-builds`. Utworzenie subskrypcji typu "Push" na tym topiku, która kieruje wiadomość pod wskazany adres URL (webhook), jest najbardziej eleganckim i natywnym sposobem integracji. Osiągasz w ten sposób integrację bez modyfikacji samego pliku `cloudbuild.yaml` (brak narzutu na proces budowania) oraz bez dodatkowego kodu.
+Najbardziej efektywnym i najmniej pracochłonnym sposobem integracji Cloud Build z zewnętrznymi systemami jest wykorzystanie natywnego mechanizmu powiadomień opartego na usłudze Cloud Pub/Sub. 
 
-A. Modyfikacja każdego kroku pipeline'u jest mało wydajna i zwiększa szansę na błędy.
-B. Dodanie kroku na końcu działa, ale jeśli pipeline zakończy się błędem (np. deploy fail), ten krok może się nie wykonać (chyba że użyjesz `always`), co czyni to rozwiązanie mniej pewnym.
-C. Logs-based metrics służą do alertowania na podstawie wartości w logach, nie są dedykowanym mechanizmem do przekazywania meta-danych o całym buildzie przez webhooki.</pre>
+Dlaczego odpowiedź D jest poprawna:
+Cloud Build automatycznie publikuje wiadomości o stanie każdego buildu (np. `QUEUED`, `WORKING`, `SUCCESS`, `FAILURE`) na dedykowany temat (topic) Pub/Sub o nazwie `cloud-builds`. Utworzenie subskrypcji typu "Push" na tym temacie pozwala na automatyczne wysyłanie tych informacji pod wskazany adres URL (webhook) zewnętrznej platformy monitorującej. Jest to rozwiązanie "event-driven", które nie wymaga modyfikacji kodu aplikacji ani konfiguracji samego pliku `cloudbuild.yaml`.
+
+Dlaczego pozostałe opcje są błędne:
+A. Dodawanie logiki do każdego kroku builda jest czasochłonne, trudne w utrzymaniu i zwiększa ryzyko błędów. Każda zmiana w procesie budowania wymagałaby aktualizacji wielu kroków.
+B. Dodanie kroku na końcu pipeline'u (np. wykonującego `curl` do webhooka) jest lepsze niż opcja A, ale wciąż wymaga modyfikacji pliku konfiguracyjnego buildu. Dodatkowo, jeśli którykolwiek z wcześniejszych kroków zawiedzie, ostatni krok może się nie wykonać (chyba że zostanie jawnie skonfigurowany jako `allowFailure` lub użyjemy niestandardowej logiki), co spowoduje brak powiadomienia o błędzie.
+C. Używanie metryk opartych na logach (logs-based metrics) i alertów Cloud Monitoring jest przekomplikowane w tym scenariuszu. Alerty są przeznaczone do powiadamiania o incydentach, a nie do systematycznego przesyłania danych o każdym zakończonym buildzie do zewnętrznych platform.
+
+Hity i triki:
+- Zapamiętaj: Cloud Build + powiadomienia zewnętrzne = Pub/Sub topic `cloud-builds`.
+- Subskrypcja "Push" w Pub/Sub to najprostszy sposób na integrację z webhookami bez pisania dodatkowego kodu (np. Cloud Functions).
+- Możesz filtrować wiadomości w Pub/Sub, aby wysyłać do webhooka tylko informacje o buildach, które zakończyły się błędem (`FAILURE`).
+
+Przydatne linki:
+- https://cloud.google.com/build/docs/subscribe-build-notifications
+- https://cloud.google.com/pubsub/docs/push</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W DevOps: <b>Event-driven automation</b> wygrywa z hardkodowaniem logiki wewnątrz pipeline'u. Pub/Sub to idealny "bus" do dystrybucji zdarzeń z Cloud Build.</p>
+<p>Kluczem do rozwiązania tego pytania jest zrozumienie architektury sterowanej zdarzeniami (event-driven) w Google Cloud. Pub/Sub służy jako centralna szyna informacyjna dla usług GCP.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Cloud Build -> Webhook? Szukaj <b>Pub/Sub Push Subscription</b>.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/build/docs/subscribe-build-notifications" target="_blank">Cloud Build Notifications</a></li>
+    <li><b>Minimalizacja wysiłku (Minimize effort):</b> Szukaj rozwiązań natywnych, które nie wymagają pisania kodu lub dużej zmiany konfiguracji.</li>
+    <li><b>Automatyczne tematy:</b> Niektóre usługi GCP (jak Cloud Build) mają predefiniowane tematy Pub/Sub, które wystarczy zasubskrybować.</li>
+    <li><b>Webhooks:</b> Jeśli celem jest HTTP POST do zewnętrznego systemu, Pub/Sub Push Subscription jest prawie zawsze poprawną odpowiedzią.</li>
 </ul>
 </div>
 </div>

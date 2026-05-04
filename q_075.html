@@ -79,26 +79,38 @@
 <pre>Odpowiedź: D
 
 Wyjaśnienie:
-W systemach mikroserwisowych, zrozumienie przepływu żądania przez wiele usług jest możliwe tylko dzięki distributed tracing (śledzeniu rozproszonemu).
+W architekturach mikroserwisowych, gdzie jedno żądanie inicjuje łańcuch wywołań wielu usług, najskuteczniejszym sposobem na identyfikację wąskich gardeł (bottlenecks) jest zastosowanie śledzenia rozproszonego (distributed tracing).
 
 Dlaczego D jest poprawne:
-- OpenTelemetry lub Google Cloud Trace pozwala na wizualizację czasu trwania poszczególnych "spans" (odcinków) żądania w różnych serwisach. Dzięki temu od razu widać, gdzie występuje bottleneck (wąskie gardło).
+- Google Cloud Trace (część Google Cloud Observability) oraz standardy takie jak OpenTelemetry pozwalają na śledzenie pełnej ścieżki żądania w całym systemie. Każda operacja (span) w każdym serwisie otrzymuje sygnaturę czasową, co pozwala precyzyjnie wskazać, który serwis wprowadza największe opóźnienie (latencję).
 
-Dlaczego inne są błędne:
-- A: VPC Flow Logs pokazują ruch sieciowy (TCP/IP), a nie opóźnienia aplikacji/serwisów.
-- B: Proby (Health checks) tylko sprawdzają, czy serwis działa, a nie dlaczego działa wolno.
-- C: Dataflow służy do przetwarzania danych w dużej skali (np. logów), a nie do automatycznej identyfikacji opóźnień między mikroserwisami.
+Dlaczego inne odpowiedzi są błędne:
+- A: VPC Flow Logs rejestrują metadane połączeń sieciowych (np. IP, porty, bajty), ale nie dostarczają wglądu w logikę aplikacji ani czas odpowiedzi (response time) poszczególnych komponentów wywoływanych przez aplikację.
+- B: Liveness i Readiness probes służą do sprawdzania stanu zdrowia (czy serwis jest w stanie obsługiwać ruch), a nie do mierzenia wydajności czy opóźnień w obsłudze żądań.
+- C: Dataflow to usługa do przetwarzania strumieniowego i wsadowego danych. Choć teoretycznie można by przesyłać metryki do Dataflow w celu ich analizy, jest to rozwiązanie zbyt złożone, kosztowne i niestandardowe dla prostego zadania identyfikacji opóźnień między usługami.
 
-Wskazówki (Tricks):
-- "Which service is slow in a distributed system?" -> Distributed Tracing (Cloud Trace, OpenTelemetry).</pre>
+Hity i triki:
+- Pytanie o "slow downstream services" w środowisku rozproszonym = Distributed Tracing (Google Cloud Trace).
+- Pytanie o "network connectivity/traffic flows" = VPC Flow Logs.
+- Pytanie o "health/availability" = Readiness/Liveness Probes.
+
+Linki do dokumentacji:
+- https://cloud.google.com/trace/docs/overview
+- https://opentelemetry.io/docs/</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do egzaminu jest umiejętność dopasowania odpowiedniego narzędzia obserwowalności (Observability) do problemu:</p>
+<ul>
+    <li><strong>Cloud Trace:</strong> Opóźnienia aplikacji, wąskie gardła w mikroserwisach.</li>
+    <li><strong>Cloud Logging:</strong> Diagnostyka błędów, audyt zdarzeń.</li>
+    <li><strong>Cloud Monitoring:</strong> Metryki infrastruktury, alerty SLO/SLI.</li>
+    <li><strong>VPC Flow Logs:</strong> Analiza ruchu sieciowego (Security/Networking).</li>
+</ul>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Nie próbuj "budować" własnego narzędzia (jak Dataflow dla metryk), jeśli GCP oferuje w pełni zarządzaną usługę dedykowaną do tego celu (Trace).</li>
+    <li>Zwracaj uwagę na słowa kluczowe: "downstream services", "request flow", "slow response".</li>
 </ul>
 </div>
 <script>
