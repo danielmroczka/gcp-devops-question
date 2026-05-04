@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Delete the new container image, and delete the running Pods.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Update the Kubernetes Service to point to the previous Kubernetes Deployment.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Scale the new Kubernetes Deployment to zero.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 117 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+W strategii Blue/Green (w modelu Kubernetes) mamy dwa oddzielne Deploymenty ("Blue" i "Green"). Serwis Kubernetes (Service) pełni rolę przełącznika ruchu. Rollback polega na zmianie selektora (selector) w tym Serwisie tak, aby z powrotem kierował ruch do Deploymentu "Blue" (poprzedniego).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> `kubectl rollout undo` dotyczy Rolling Updates wewnątrz jednego Deploymentu. Nie jest to technika Blue/Green.
+- <strong>Opcja B:</strong> Usuwanie obrazów i Podów jest drastycznym działaniem, które nie powinno być częścią procesu rollbacku.
+- <strong>Opcja D:</strong> Skalowanie do zera jest częścią procesu usuwania wersji po pomyślnym wdrożeniu, ale samo w sobie nie jest natychmiastowym przełączeniem ruchu, które jest istotą Blue/Green.
+
+Więcej informacji:
+- <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" target="_blank">Kubernetes: Deployment</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W strategii <strong>Blue/Green</strong> serce przełączenia ruchu leży w <strong>Service Selector</strong>. Przełączasz Service, żeby wskazywał na inne Pods.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Blue/Green = Serwis przełącza ruch między Deploymentami.</li>
+    <li>Rolling Update = Deployment sam aktualizuje swoje Pods (tu używasz <code>rollout undo</code>).</li>
 </ul>
 </div>
 <script>

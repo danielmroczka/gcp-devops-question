@@ -76,22 +76,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 177 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+W przypadku podejrzenia awarii lub ataku na węzeł GKE, standardową procedurą izolacji jest:
+1. <strong>Cordon:</strong> Oznaczenie węzła jako "nieplanowalny" (unschedulable), co zapobiega lądowaniu na nim nowych podów.
+2. <strong>Drain:</strong> Bezpieczne usunięcie istniejących podów i przesunięcie ich na inne, zdrowe węzły klastra (rescheduling). Pozwala to odizolować "podejrzany" węzeł, nie przerywając działania aplikacji.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Taint (i tolerations) służą do zarządzania tym, jakie pody lądują na jakich węzłach, ale nie służą do odizolowania węzła w celach śledczych.
+- <strong>Opcja B:</strong> Skalowanie deploymentu do zera usuwa pody, ale nie usuwa problemu z samym węzłem (który może być nadal zainfekowany i stanowić zagrożenie).
+- <strong>Opcja C:</strong> Restart węzła może zniszczyć dowody potrzebne do śledztwa (forensics) oraz nie gwarantuje usunięcia przyczyny ataku.
+
+Więcej informacji:
+- <a href="https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/" target="_blank">Kubernetes: Cordon & Drain</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Pamiętaj o sekwencji: <strong>Cordon -> Drain</strong>. To standard w sytuacjach wymagających izolacji węzła przy jednoczesnym zachowaniu dostępności (uptime).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Cordon</strong> = Nie wpuszczaj nikogo nowego.</li>
+    <li><strong>Drain</strong> = Wyrzuć wszystkich obecnych (bezpiecznie).</li>
+    <li>To procedura standardowa dla konserwacji i izolacji (np. przy podejrzeniu compromise).</li>
 </ul>
 </div>
 <script>

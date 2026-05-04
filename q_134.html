@@ -76,22 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 134 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Binary Authorization to usługa, która zapewnia, że w GKE uruchamiane są tylko zaufane kontenery. Wymaga ona, aby obrazy były podpisane (atestowane) przez zaufany urząd lub proces (np. w CI/CD), co jest realizacją idei "shifting left on security" (sprawdzanie bezpieczeństwa jak najwcześniej w procesie wytwórczym).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Container Analysis pomaga wykrywać luki (CVE), ale nie blokuje automatycznie wdrażania obrazów na poziomie kontroli wstępu GKE (Admission Control).
+- <strong>Opcja C:</strong> IAM zarządza dostępem do zasobów (kto może co zrobić), ale nie kontroluje tego, co znajduje się wewnątrz obrazu kontenera.
+- <strong>Opcja D:</strong> Falco czy Twistlock (narzędzia runtime security) działają już po uruchomieniu kontenera. Choć są przydatne, nie realizują bezpośrednio celu "shift left" (czyli zapobiegania wdrożeniu przed uruchomieniem).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/binary-authorization/docs/overview" target="_blank">Google Cloud: Binary Authorization Overview</a>
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-security-management" target="_blank">Google Cloud: DevSecOps</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do "Shift Left Security" w Kubernetes na GCP jest <strong>Binary Authorization</strong>. Jeśli pytanie dotyczy "trusted images" lub "enforcing security at deployment time" w GKE, to jest to Twoja odpowiedź.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Shift Left = Binary Authorization:</strong> W kontekście GKE i zaufanych obrazów, Binary Authorization jest natywnym rozwiązaniem GCP dla tego problemu.</li>
+    <li><strong>Runtime vs. Deployment:</strong> Jeśli potrzebujesz blokady przed wdrożeniem -> Binary Authorization. Jeśli potrzebujesz detekcji podczas pracy -> narzędzia runtime security.</li>
 </ul>
 </div>
 <script>

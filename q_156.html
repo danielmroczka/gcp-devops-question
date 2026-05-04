@@ -76,22 +76,25 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 156 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Problem dotyczy DiskPressure w GKE, spowodowanego nadmiernym użyciem wolumenów efemerycznych.
+- <strong>Opcja B (Check container/ephemeral_storage/used_bytes):</strong> Jest to poprawne podejście w GCP. Metryki w Cloud Monitoring pozwalają na granularną analizę (na poziomie kontenera) zużycia miejsca na dysku. Pozwala to zidentyfikować konkretny Pod (kontener) powodujący problem bez konieczności logowania się do węzłów.
+- <strong>Opcja A:</strong> Metryka poziomu węzła (node) wskaże, że jest problem, ale nie wskaże "które Pody" go powodują.
+- <strong>Opcje C i D:</strong> Wymagają "execute access" do Podów, co w treści pytania zostało wykluczone.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Więcej informacji:
+- <a href="https://cloud.google.com/monitoring/api/metrics_kubernetes" target="_blank">Kubernetes Metrics in Cloud Monitoring</a>
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/ephemeral-volumes" target="_blank">GKE Ephemeral Volumes</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy w pytaniu GKE nie masz dostępu do środka Podów ("no execute access"), jedyną drogą jest monitorowanie z zewnątrz za pomocą Cloud Monitoring.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Pod vs Node Metrics:</strong> Jeśli pytanie pyta o "który Pod", zawsze szukaj metryki z "container" w nazwie, a nie "node".</li>
+    <li><strong>Unikaj "execute":</strong> Jeśli pytanie zabrania dostępu do węzłów/Podów, ignoruj odpowiedzi sugerujące komendy typu <code>df</code>, <code>ls</code>, czy <code>kubectl exec</code>.</li>
 </ul>
 </div>
 <script>

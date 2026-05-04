@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 193 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Separacja środowisk (development vs production) na poziomie klastrów GKE jest kluczową praktyką bezpieczeństwa w GCP.
+- <strong>Opcja C:</strong> Jest poprawna, ponieważ izolacja klastrów zapewnia silną separację środowisk (np. awaria w dev nie wpłynie na prod), a użycie oddzielnych przestrzeni nazw (namespaces) wewnątrz klastra pozwala na zarządzanie wieloma aplikacjami przy jednoczesnym ograniczeniu liczby klastrów, co minimalizuje narzut operacyjny (management overhead).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Umieszczenie wszystkich aplikacji i środowisk w jednym klastrze jest ryzykowne dla bezpieczeństwa danych (mniejsza izolacja).
+- <strong>Opcja B:</strong> Tworzenie jednego klastra dla każdej aplikacji zwiększa narzut operacyjny (management overhead) w sposób znaczący.
+- <strong>Opcja D:</strong> Podobnie jak A, umieszczenie wszystkiego w jednym klastrze bez separacji środowisk jest niebezpieczne i niezgodne z praktykami korporacyjnymi.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/kubernetes-engine/docs/best-practices/security" target="_blank">GKE Security Best Practices</a>
+- <a href="https://cloud.google.com/architecture/multi-tenancy-gke" target="_blank">Multi-tenancy in GKE</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W GKE, dla bezpieczeństwa i łatwego zarządzania: Separuj środowiska (Dev vs Prod) na poziomie <strong>KLASTRÓW</strong>, a aplikacje separuj na poziomie <strong>NAMESPACES</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zawsze separuj Dev i Prod na poziomie klastrów (lub przynajmniej projektów GCP).</li>
+    <li>Namespaces w K8s służą do logicznej separacji aplikacji, a nie do silnej separacji bezpieczeństwa (do tego służą polityki sieciowe - Network Policies).</li>
 </ul>
 </div>
 <script>

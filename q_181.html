@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 181 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Pytanie dotyczy zarządzania poziomami usług (SLO) w GCP.
+1. <strong>Opcja D</strong> jest poprawna, ponieważ w Google Cloud Monitoring SLO definiuje się poprzez SLI (Service Level Indicators) – dla dostępności (Availability) i opóźnień (Latency). Cloud Monitoring udostępnia dedykowane narzędzia do definiowania takich SLO i automatycznego alertowania na podstawie tzw. "burn rate" (szybkość zużycia budżetu błędów).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Alertowanie na podstawie sztywnych wartości (np. "latency > 150ms") to tradycyjne monitorowanie (alerting), a nie podejście oparte na SLO (Service Level Objectives). SLO skupia się na budżetach błędów w dłuższym czasie.
+- <strong>Opcja B:</strong> Arbitralne narzucenie innych celów niż wymagane w pytaniu (100ms vs 200ms) jest błędne – cele muszą odpowiadać wymaganiom biznesowym/użytkowników.
+- <strong>Opcja C:</strong> Podobnie jak w opcji B, wartości SLO są inne niż wymagane w pytaniu. SLO musi odzwierciedlać realne potrzeby.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/monitoring/service-monitoring" target="_blank">Google Cloud: Service Monitoring (SLO)</a>
+- <a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Google SRE Book: SLOs</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W GCP, gdy słyszysz "monitorować i mierzyć SLO", odpowiedzią jest zawsze użycie dedykowanej funkcji <strong>Service Monitoring</strong> w Cloud Monitoring, która opiera się na SLI (np. dostępność lub opóźnienia).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>SLO vs Alert:</strong> Jeśli w pytaniu mowa o SLO, zawsze wybieraj odpowiedź używającą terminów SLI/SLO wewnątrz narzędzi zarządzanych (Cloud Monitoring), a nie zwykłe alerty oparte na progach (thresholds).</li>
+    <li><strong>Zgodność z pytaniem:</strong> Zawsze sprawdzaj, czy liczby w odpowiedzi (np. 99%, 500ms) zgadzają się z wymaganiami w treści pytania.</li>
 </ul>
 </div>
 <script>

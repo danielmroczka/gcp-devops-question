@@ -70,29 +70,36 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">BD</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B, C</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: BD.
+<pre>Odpowiedź: B, C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 144 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+W Cloud Run, aby przetestować nową wersję bez narażania użytkowników:
+1. Używamy --no-traffic: Zapobiega to automatycznemu kierowaniu ruchu produkcyjnego do nowej wersji.
+2. Używamy tagów: Tagi w Cloud Run pozwalają na stworzenie dedykowanego, stabilnego adresu URL dla nowej wersji (revision), dzięki czemu zespół QA może przetestować wersję przed jej publicznym udostępnieniem.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- Opcja A: Tworzenie nowego serwisu dla każdej wersji jest nieefektywne i utrudnia zarządzanie ruchem oraz rollbacki.
+- Opcja D: Kierowanie ruchu produkcyjnego do URL rewizji (zamiast użycia podziału ruchu) jest ryzykowne i nie zapewnia izolacji potrzebnej do testów QA.
+- Opcja E: Splitting traffic (podział ruchu) automatycznie kieruje część ruchu użytkowników na nową wersję, co jest niebezpieczne, jeśli nie została ona jeszcze zweryfikowana przez QA.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/run/docs/managing/revisions#traffic-management" target="_blank">Cloud Run: Traffic Management</a>
+- <a href="https://cloud.google.com/run/docs/managing/tags" target="_blank">Cloud Run: Using Tags</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem w Cloud Run jest użycie <strong>tags</strong> do testowania rewizji bez przerywania ruchu głównego.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>--no-traffic:</strong> Zawsze używaj tego podczas wdrażania nowej rewizji, jeśli nie chcesz, aby od razu odbierała ruch.</li>
+    <li><strong>Tags:</strong> Pozwalają na testowanie konkretnej rewizji przez dedykowany URL.</li>
 </ul>
 </div>
 <script>

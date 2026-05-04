@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 132 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Service Accounts (Konta serwisowe)</strong> przypisane do instancji VM (Compute Engine) są rekomendowanym sposobem autoryzacji w GCP. Biblioteki klienckie GCP i narzędzia takie jak Terraform automatycznie używają tych poświadczeń (Default Credentials), co eliminuje potrzebę ręcznego zarządzania kluczami (secret keys), zwiększając bezpieczeństwo.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja B:</strong> Choć Secret Manager jest bezpieczny do przechowywania kluczy, nie jest to natywny i najprostszy sposób autoryzacji VM w GCP.
+- <strong>Opcja C:</strong> Ręczne pobieranie, kopiowanie i zarządzanie plikami kluczy (.json) jest wysoce niezalecane (zwiększa ryzyko wycieku, wymaga rotacji kluczy – zwiększa Toil).
+- <strong>Opcja D:</strong> <code>gcloud auth application-default login</code> jest narzędziem dla użytkowników indywidualnych w środowiskach lokalnych (local development), a nie dla automatyzacji w CI/CD na serwerach GCP.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/compute/docs/access/service-accounts" target="_blank">GCP Compute Engine: Service Accounts</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o <strong>autoryzację w GCP</strong> (dla instancji VM, Terraform, CI/CD), zawsze wybieraj <strong>Service Account przypisany do instancji (attached service account)</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Unikaj ręcznego zarządzania kluczami (JSON keys):</strong> Jeśli egzamin pyta o bezpieczeństwo i rekomendacje, JSON keys zawsze są złą odpowiedzią.</li>
+    <li><strong>Toil Reduction:</strong> Używanie attach service account to redukcja pracy operacyjnej (Toil) – brak potrzeby rotacji kluczy.</li>
 </ul>
 </div>
 <script>

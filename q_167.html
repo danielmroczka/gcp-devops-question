@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 167 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Definiowanie SLO (Service Level Objectives) powinno opierać się na rzeczywistych danych (current measurement) i oczekiwaniach użytkowników.
+1. <strong>Sytuacja "Klienci są zadowoleni"</strong>: Skoro obecne metryki (160 ms dla p90 i 300 ms dla p95) są akceptowalne dla użytkowników, najlepszą praktyką SRE jest ustawienie SLO na poziomie, który odzwierciedla ten stan.
+2. Ustawienie SLO na poziomie zbliżonym do aktualnej wydajności (opcja B) zapewnia, że będziesz powiadamiany tylko wtedy, gdy jakość usługi spadnie poniżej poziomu, który użytkownicy już zaakceptowali.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> 150/290 ms. Jeśli ustawisz SLO na poziomie wyższym niż obecna wydajność, system będzie generował "fałszywe alarmy", ponieważ aplikacja będzie częściej naruszać SLO, mimo że użytkownicy nadal są zadowoleni.
+- <strong>Opcja C i D:</strong> Ustawienie SLO znacznie powyżej obecnej wydajności (zbyt luźne cele) powoduje, że degradacja jakości usługi może trwać długo, zanim zespół zostanie powiadomiony (alarm włączy się za późno).
+
+Więcej informacji:
+- <a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Google SRE Book: Service Level Objectives</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do definicji SLO w SRE jest dostosowanie celów do <strong>aktualnego zadowolenia użytkowników</strong>. Nie definiuj SLO na wyrost (zbyt restrykcyjnie) ani za mało (zbyt luźno).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Słowo klucz:</strong> "Zadowoleni". Ustaw SLO tam, gdzie klienci są zadowoleni.</li>
 </ul>
 </div>
 <script>

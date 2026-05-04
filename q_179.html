@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 179 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Problem dotyczy aplikacji, która nie uruchamia się z powodu brakującej zmiennej środowiskowej.
+1. <strong>Integration tests (Testy integracyjne)</strong> są kluczowe w potoku CI/CD, ponieważ weryfikują współpracę różnych komponentów systemu, w tym środowiska uruchomieniowego (np. obecność zmiennych środowiskowych). Dzięki nim wykrywamy takie błędy na etapie testów, przed deploymentem na produkcję.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Canary deployment polega na stopniowym wdrażaniu wersji na produkcję dla wybranych użytkowników. Jeśli kontener nie wstaje z powodu błędu konfiguracyjnego (brak zmiennej), canary również nie zadziała poprawnie – nie naprawi to problemu, jedynie ograniczy wpływ na użytkowników.
+- <strong>Opcja B:</strong> Static code analysis (statyczna analiza kodu) analizuje kod źródłowy pod kątem błędów składniowych, naruszeń stylu lub luk bezpieczeństwa. Zazwyczaj nie sprawdza konfiguracji środowiska uruchomieniowego (zmienne środowiskowe), więc nie wykryłaby tego błędu.
+- <strong>Opcja D:</strong> Cloud Audit Logs służy do monitorowania działań (kto, co, kiedy zrobił w GCP). Pozwala zdiagnozować, *dlaczego* coś się stało po fakcie, ale nie zapobiega wystąpieniu błędu konfiguracyjnego w kolejnych wdrożeniach.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-testing" target="_blank">Google Cloud: Deployment Testing</a>
+- <a href="https://cloud.google.com/blog/products/devops-sre/the-role-of-testing-in-a-cicd-pipeline" target="_blank">Google Cloud Blog: Testing in CI/CD</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Błędy konfiguracyjne ("missing environment variable") to klasyczny problem infrastruktury. Testy integracyjne w CI pozwalają upewnić się, że aplikacja ma dostęp do wszystkich niezbędnych parametrów przed wejściem na produkcję.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>CI = Testowanie:</strong> Jeśli w pytaniu jest problem z uruchomieniem aplikacji w CI/CD, zawsze szukaj odpowiedzi związanej z testami (integracyjne, smoke tests).</li>
+    <li><strong>Rozróżniaj:</strong> Logowanie (Audit Logs) to diagnostyka, Testowanie to prewencja.</li>
 </ul>
 </div>
 <script>

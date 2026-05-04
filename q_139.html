@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 139 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+GKE pozwala na konfigurację zbierania logów. Domyślnie zbierane są logi systemowe i aplikacyjne. Aby zminimalizować koszty, należy wykluczyć logi, które nie są niezbędne (w tym przypadku logi aplikacji).
+- <strong>Opcja A (--logging=SYSTEM):</strong> Wyłącza zbieranie logów aplikacji (workload logs), co spełnia wymóg minimalizacji kosztów, ale pytanie wymaga również "kolekcjonowania logów operacyjnych GKE". `--logging=SYSTEM` zbiera tylko logi systemowe.
+- <strong>Opcja B (--logging=WORKLOAD):</strong> To ustawienie spowodowałoby zbieranie logów aplikacji, co zwiększyłoby koszty, a nie je zminimalizowało.
+- <strong>Opcja C (Wyłączenie sinka _Default):</strong> Wyłączenie sinka `_Default` spowodowałoby całkowite zatrzymanie zbierania logów w projekcie, co narusza wymóg zbierania logów operacyjnych GKE.
+- <strong>Opcja D (Exclusion filter):</strong> Jest to najlepsze rozwiązanie. Pozwala na precyzyjne wykluczenie określonych logów aplikacji (np. DEBUG) z sinka `_Default` w Cloud Logging, przy jednoczesnym zachowaniu logów operacyjnych GKE.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/routing/overview#exclusions" target="_blank">Cloud Logging: Log Exclusions</a>
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/logging" target="_blank">GKE: Logging and Monitoring</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do optymalizacji kosztów w Cloud Logging jest użycie <strong>Exclusion Filters</strong>. Pozwalają one na selektywne odrzucanie logów przed ich zapisaniem do storage'u, co bezpośrednio przekłada się na oszczędności.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Zrozum różnicę:</strong> Wyłączenie zbierania logów na poziomie klastra GKE (flagą) jest mniej elastyczne niż użycie filtrów wykluczenia w Cloud Logging.</li>
+    <li><strong>Słowo klucz:</strong> Jeśli pytanie mówi o "zmniejszeniu kosztów logów", zawsze szukaj odpowiedzi związanej z <strong>Exclusion Filters</strong> lub odpowiednim poziomem zbierania logów (np. System-only zamiast Everything).</li>
 </ul>
 </div>
 <script>

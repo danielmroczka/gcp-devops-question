@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 200 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Wymaganie: "Google Cloud's native observability and monitoring services" dla GKE.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie poprawnej odpowiedzi:
+- <strong>D. Enable Cloud Monitoring and Cloud Logging for GKE:</strong> To jest natywne rozwiązanie GCP dla GKE (wcześniej znane jako Stackdriver). Zapewnia pełny wgląd w metryki klastrów, podów i węzłów bez konieczności ręcznego zarządzania dodatkowymi narzędziami.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>A. Install Prometheus and Grafana on the cluster:</strong> To popularne narzędzie Open Source, ale wymaga ręcznej konfiguracji, zarządzania serwerami, przechowywaniem danych i bezpieczeństwem klastra (dodatkowy "toil").
+- <strong>B. Enable Google Cloud Managed Service for Prometheus:</strong> Choć jest to rozwiązanie zarządzane przez GCP, pytanie pyta o ogólne "native observability services" dla GKE, a Cloud Monitoring jest podstawowym, natywnym rozwiązaniem dla GCP, które integruje się z GKE domyślnie.
+- <strong>C. Deploy Datadog agents to the cluster:</strong> To rozwiązanie zewnętrznej firmy (third-party). Pytanie wyraźnie zaznacza, że chcesz używać natywnych usług Google Cloud.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/monitoring/kubernetes-engine/observability" target="_blank">Observability for GKE</a>
+- <a href="https://cloud.google.com/logging/docs/kubernetes" target="_blank">GKE Logging</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Dla GKE w GCP zawsze szukaj "natywnych" rozwiązań. Jeśli wymagane jest monitorowanie, Cloud Monitoring + Cloud Logging to standardowy zestaw.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Natywność vs Open Source:</strong> Egzamin preferuje natywne usługi GCP (Cloud Monitoring/Logging), jeśli w pytaniu mowa o "Google Cloud native".</li>
+    <li><strong>Managed Service for Prometheus:</strong> Jest to świetna opcja, jeśli organizacja już używa Prometheus, ale dla ogólnego monitorowania GKE, Cloud Monitoring jest pierwszym wyborem.</li>
 </ul>
 </div>
 <script>

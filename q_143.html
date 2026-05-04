@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 143 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Aby zdefiniować SLO (Service Level Objective) dla opóźnienia:
+- <strong>Metric:</strong> Musimy wybrać <strong>latency metric</strong> (metrykę opóźnienia), ponieważ sprawdzamy czy czas odpowiedzi jest krótszy niż 300 ms.
+- <strong>Method:</strong> <strong>Request-based method</strong> (metoda oparta na żądaniach) jest odpowiednia, gdy chcemy ocenić, jaki procent wszystkich żądań spełnia założone kryterium (w tym przypadku < 300 ms).
+- <strong>Dlaczego inne są błędne:</strong> Użycie availability (dostępności) byłoby błędne, ponieważ sprawdzamy wydajność (opóźnienie), a nie czy usługa "działa" (up/down). Window-based method jest używana, gdy SLO definiuje się poprzez okresy (np. "ile minut w godzinie usługa była dostępna"), a nie procent żądań.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Więcej informacji:
+- <a href="https://cloud.google.com/monitoring/service-monitoring/slo-concepts" target="_blank">Cloud Monitoring: SLO Concepts</a>
+- <a href="https://sre.google/sre-book/service-level-objectives/" target="_blank">Google SRE Book: SLOs</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zrozumienie typu SLO (Request-based vs Window-based) jest kluczowe dla inżyniera DevOps/SRE w GCP.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Request-based:</strong> "Jaki procent moich żądań był OK?"</li>
+    <li><strong>Window-based:</strong> "W ilu z moich 1-minutowych okien usługa była OK?"</li>
+    <li><strong>Słowo klucz:</strong> Jeśli pytanie pyta o "jaki procent żądań", to na 99% będzie to <strong>request-based</strong>.</li>
 </ul>
 </div>
 <script>

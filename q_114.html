@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Store public and private charts by using GitHub Enterprise with Google Workspace as the identity provider.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Store public and private charts by using Git repository. Configure Cloud Build to synchronize contents of the repository into a Cloud Storage bucket. Connect Helm to the bucket by using https://[bucket].storage-googleapis.com/[helmchart] as the Helm repository.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Configure a Helm chart repository server to run in Google Kubernetes Engine (GKE) with Cloud Storage bucket as the storage backend.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 114 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Artifact Registry obsługuje wykresy Helm jako obrazy OCI (Open Container Initiative). Pozwala to na przechowywanie zarówno prywatnych, jak i zdublowanych publicznych wykresów w jednym miejscu, stosowanie spójnej kontroli dostępu IAM oraz – co kluczowe dla wymagań pytania – wspiera VPC Service Controls, co zapewnia bezpieczeństwo sieciowe dla Twoich artefaktów.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja B:</strong> GitHub Enterprise nie jest natywnym rozwiązaniem GCP dla zarządzania wykresami Helm w modelu "uniform management" z VPC Service Controls.
+- <strong>Opcja C:</strong> To rozwiązanie jest skomplikowane ("toil"), wymaga ręcznego synchronizowania (Cloud Build + Storage) i nie zapewnia tak prostego i natywnego zarządzania jak Artifact Registry.
+- <strong>Opcja D:</strong> Uruchamianie własnego serwera Helm w GKE to niepotrzebne zwiększanie nakładu pracy (dodatkowe zarządzanie klastrem, dostępnością, poprawkami), co jest sprzeczne z celem korzystania z usług zarządzanych GCP.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/artifact-registry/docs/helm/helm-charts" target="_blank">Google Cloud: Zarządzanie wykresami Helm w Artifact Registry</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem jest tu "<strong>uniform management</strong>" (jednolite zarządzanie) oraz <strong>VPC Service Controls</strong>. W świecie GCP, Artifact Registry jest standardem dla artefaktów (obrazy kontenerów, Helm, Python, Java itp.).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Kiedy słyszysz "Helm charts" + "GCP native security/access control/VPC Service Controls", szukaj <strong>Artifact Registry</strong>.</li>
+    <li>Unikaj rozwiązań wymagających samodzielnego utrzymywania infrastruktury dla narzędzi (tzw. "running a server in GKE").</li>
 </ul>
 </div>
 <script>

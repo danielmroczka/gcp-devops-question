@@ -55,7 +55,7 @@
 </div>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
-         You use Terraform to manage an application deployed to a Google Cloud environment. The application runs on instances deployed by a managed instance group. The Terraform code is deployed by using a CI/CD pipeline. When you change the machine type on the instance template used by the managed instance group, the pipeline fails at the terraform apply stage with the following error message:You need to update the instance template and minimize disruption to the application and the number of pipeline runs.What should you do?
+         You use Terraform to manage an application deployed to a Google Cloud environment. The application runs on instances deployed by a managed instance group. The Terraform code is deployed by using a CI/CD pipeline. When you change the machine type on the instance template used by the managed instance group, the pipeline fails at the terraform apply stage with an error indicating that the template is in use. You need to update the instance template and minimize disruption to the application and the number of pipeline runs. What should you do?
 </p>
 <div class="question-choices-container">
 <ul>
@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Add a new instance template, update the managed instance group to use the new instance template, and delete the old instance template.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Remove the managed instance group from the Terraform state file, update the instance template, and reimport the managed instance group.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Set the create_before_destroy meta-argument to true in the lifecycle block on the instance template.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 115 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Błąd "template in use" występuje, ponieważ Terraform próbuje zaktualizować (usunąć) szablon instancji, który jest aktualnie używany przez Managed Instance Group (MIG). Meta-argument `create_before_destroy = true` w bloku `lifecycle` wymusza na Terraformie najpierw utworzenie nowego szablonu (z nowym typem maszyny), a dopiero potem zniszczenie starego. Dzięki temu MIG może płynnie przełączyć się na nowy szablon bez konfliktów.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Usuwanie i ponowne tworzenie grupy (MIG) spowoduje niepotrzebne przestoje (downtime) aplikacji.
+- <strong>Opcja B:</strong> To rozwiązanie jest poprawne, ale wymagałoby ręcznej ingerencji lub skomplikowanego kodowania (zależności zasobów), podczas gdy meta-argument jest natywnym i prostszym sposobem w Terraformie.
+- <strong>Opcja C:</strong> Manipulowanie plikiem stanu (terraform.tfstate) jest bardzo ryzykownym podejściem, którego należy unikać za wszelką cenę.
+
+Więcej informacji:
+- <a href="https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#create_before_destroy" target="_blank">Terraform: lifecycle meta-argument</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zasada w Terraform: Jeśli zasób nie może być zniszczony, bo jest używany przez inny, użyj <strong>lifecycle { create_before_destroy = true }</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zawsze, gdy Terraform zgłasza błąd "resource in use", pomyśl o <code>lifecycle { create_before_destroy = true }</code>.</li>
+    <li>Unikaj manipulacji stanem (state file) – to prosta droga do awarii.</li>
 </ul>
 </div>
 <script>

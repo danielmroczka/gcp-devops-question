@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Configure CPU to be always-allocated.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Increase the CPU limit in Cloud Run from 2 to 4.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Configure CPU to be allocated only during request processing.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 195 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Run (w domyślnym trybie "CPU allocated only during request processing") zamraża instancję kontenera natychmiast po zakończeniu obsługi żądania HTTP. Jeśli agent OpenTelemetry próbuje wysłać trace asynchronicznie (po wysłaniu odpowiedzi do klienta), instancja zostanie zamrożona przed wysłaniem danych, co powoduje utratę części śladów (inconsistent trace collection). Konfiguracja "CPU to be always-allocated" pozwala kontenerowi działać w tle przez krótki czas po zakończeniu żądania, co umożliwia agentowi poprawne zakończenie wysyłki danych do Cloud Trace.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Health check służy do sprawdzania dostępności instancji, a nie do wpływania na sposób wysyłki danych telemetrycznych.
+- <strong>Opcja C:</strong> Zwiększenie CPU nie rozwiązuje problemu zamrażania instancji, a jedynie zwiększa zasoby podczas żądania.
+- <strong>Opcja D:</strong> To jest domyślna konfiguracja, która powoduje opisany problem z zamrażaniem instancji po żądaniu.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/run/docs/configuring/cpu" target="_blank">Cloud Run: CPU allocation</a>
+- <a href="https://cloud.google.com/run/docs/troubleshooting#traces-missing" target="_blank">Cloud Run: Troubleshooting missing traces</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zawsze gdy w Cloud Run widzisz problem z "inconsistent telemetry data", "logs missing" lub "traces missing", pierwszym krokiem powinno być sprawdzenie trybu alokacji CPU.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Cloud Run "Always-allocated" = Kontener działa również po zakończeniu żądania HTTP.</li>
+    <li>Użyj tego, gdy musisz wysyłać dane w tle (telemetria, asynchroniczne zadania).</li>
 </ul>
 </div>
 <script>

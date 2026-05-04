@@ -76,22 +76,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 152 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+W GitOps, dla Infrastructure as Code (IaC) przy użyciu Terraform, zaleca się stosowanie pojedynczego repozytorium z odpowiednią strukturą katalogów, aby zarządzać różnymi środowiskami.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego odpowiedź A jest poprawna:
+- <strong>Struktura katalogów:</strong> Pozwala na łatwe współdzielenie modułów Terraform między środowiskami (DRY - Don't Repeat Yourself), przy zachowaniu izolacji zmiennych dla każdego z nich (dev/qa/prod). Jest to przejrzyste i łatwe do zarządzania w systemach CI/CD.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja C i D:</strong> Używanie różnych gałęzi (branches) dla różnych środowisk jest często odradzane w GitOps. Powoduje to trudności w śledzeniu zmian (git merge/rebase między gałęziami), sprawia, że porównywanie konfiguracji między środowiskami jest skomplikowane i sprzyja powstawaniu "config driftu".
+- <strong>Opcja B:</strong> Jest identyczna z A (błąd w pytaniu), jednak A jest zazwyczaj poprawną odpowiedzią wskazującą na strukturę katalogową.
+
+Więcej informacji:
+- <a href="https://www.terraform.io/docs/language/modules/develop/composition.html" target="_blank">Terraform: Module Composition</a>
+- <a href="https://cloud.google.com/architecture/terraform-gitops" target="_blank">Google Cloud: Terraform GitOps Patterns</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o strukturę repozytoriów Terraform/GitOps dla wielu środowisk: <strong>Katalogi > Gałęzie</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Unikaj Branching Environments:</strong> Zarządzanie środowiskami za pomocą gałęzi (branches) w Git jest anty-wzorcem w nowoczesnym DevOps i GitOps.</li>
+    <li><strong>DRY:</strong> Używaj modułów Terraform do współdzielenia logiki i struktur katalogów do definiowania wartości dla środowisk.</li>
 </ul>
 </div>
 <script>

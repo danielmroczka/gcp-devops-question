@@ -76,22 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 189 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Zasada najmniejszych uprawnień (Least Privilege) mówi, aby udzielać tylko takich uprawnień, które są niezbędne do wykonania zadania.
+- <strong>Opcja D:</strong> Jest poprawna, ponieważ pozwala na przypisanie roli `roles/clouddeploy.developer` konkretnie do zasobu "delivery pipeline", co ogranicza dostęp zespołu tylko do wybranego potoku (development).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Deny conditions są potężnym narzędziem, ale w tym przypadku użycie `roles/clouddeploy.operator` (która daje szersze uprawnienia niż `developer`) i skomplikowanych deny conditions jest mniej efektywne i trudniejsze w zarządzaniu niż bezpośrednie przypisanie roli na zasobie.
+- <strong>Opcja B:</strong> Tworzenie customowych ról dla standardowych zadań CI/CD nie jest zalecane (tzw. "over-engineering"). GCP posiada gotowe role, które powinny być używane w pierwszej kolejności.
+- <strong>Opcja C:</strong> Przypisywanie uprawnień do "development target" zamiast do "delivery pipeline" może nie dać pełnych wymaganych uprawnień do zarządzania procesem wdrożenia w ramach potoku.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/deploy/docs/iam-roles-permissions" target="_blank">Cloud Deploy IAM Roles</a>
+- <a href="https://cloud.google.com/iam/docs/best-practices-for-iam" target="_blank">IAM Best Practices</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zawsze stosuj zasadę <strong>Least Privilege</strong>. Jeśli masz do wyboru "custom role" kontra "predefined role", niemal zawsze poprawna odpowiedź wskazuje na <strong>predefined role</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Cloud Deploy:</strong> Używaj ról `developer` lub `operator` zgodnie z potrzebami zespołu, zawsze ograniczając zakres do konkretnego zasobu (resource-level IAM).</li>
 </ul>
 </div>
 <script>

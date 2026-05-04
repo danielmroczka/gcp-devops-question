@@ -77,22 +77,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: BC.
+<pre>Odpowiedź: BC
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 160 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Przygotowując się na duże, przewidywalne skoki ruchu (jak holiday season), musisz zadbać o dwie kluczowe rzeczy:
+1. <strong>Widoczność (Monitoring):</strong> (Opcja B) Musisz wiedzieć, kiedy aplikacja zaczyna mieć problemy, aby móc zareagować. Cloud Monitoring z odpowiednio dobranymi alertami (SLIs/SLOs) jest niezbędny.
+2. <strong>Przepustowość (Quota):</strong> (Opcja C) Wiele awarii w chmurze wynika z limitów quota. Zwiększenie limitów przed spodziewanym szczytem ruchu to standardowa procedura inżynierii niezawodności (SRE).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Anthos Service Mesh jest narzędziem do obserwowalności i zarządzania ruchem, ale samo "zidentyfikowanie na mapie" nie przygotowuje Cię na awarię – potrzebujesz aktywnego monitoringu i skalowalności.
+- <strong>Opcja D:</strong> Monitorowanie "średniej" (average) latencji jest błędem SRE. Zawsze należy monitorować percentyle (np. P95, P99), ponieważ średnia ukrywa problemy wpływające na pojedynczych użytkowników.
+- <strong>Opcja E:</strong> Tworzenie alertów dla "wszystkich wspólnych awarii" prowadzi do "alert fatigue" (zmęczenia alertami), co sprawia, że zespoły ignorują powiadomienia. Alerty powinny być tworzone tylko dla istotnych zdarzeń (SLO).
+
+Więcej informacji:
+- <a href="https://sre.google/sre-book/monitoring-distributed-systems/" target="_blank">Google SRE Book: Monitoring</a>
+- <a href="https://cloud.google.com/monitoring/quotas" target="_blank">GCP: Quotas</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o planowanie szczytów ruchu (load spikes) zawsze szukaj odpowiedzi związanych z <strong>Quotas</strong> oraz <strong>Monitoring/Alerts</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Unikaj średnich:</strong> W SRE "average latency" to wróg. Szukaj odpowiedzi z percentylami (P95, P99).</li>
+    <li><strong>Quotas:</strong> Zawsze pamiętaj: Chmura ma limity. Przy dużych eventach, sprawdź je wcześniej.</li>
 </ul>
 </div>
 <script>

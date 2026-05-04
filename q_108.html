@@ -64,7 +64,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Create a trigger on the Cloud Build job. Set the repository event setting to 'Push to a branch'</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Configure a branch protection rule for the main branch on the repository.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="E" style="font-weight: bold; margin-right: 10px;">E.</span> Enable the Approval option on the trigger.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -77,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: CD.
+<pre>Odpowiedź: CD
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 108 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Opcja C (Trigger "Push to a branch"):</strong> Jest to podstawowy sposób na uruchomienie Cloud Build automatycznie, gdy kod trafi do gałęzi `main`.
+- <strong>Opcja D (Branch protection):</strong> Jest to wymagane przez firmę w celu zapewnienia, że wszystkie zmiany w `main` są zatwierdzone przez "change control team" (np. poprzez wymagane code review lub status checks przed merge'em). Cloud Build uruchomi się dopiero, gdy kod pomyślnie trafi do `main` po przejściu procedur ochronnych.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> "Pull request" trigger uruchomiłby budowanie przy każdym PR, a nie dopiero po "pushes to the main branch" (czyli po merge'u).
+- <strong>Opcja B:</strong> Plik `OWNERS` służy do zarządzania uprawnieniami wewnątrz repozytorium (kto może zatwierdzać zmiany), a nie do sterowania triggerem Cloud Build.
+- <strong>Opcja E:</strong> Cloud Build nie posiada wbudowanej opcji "Approval" na samym poziomie konfiguracji triggera, która realizowałaby proces "change control" w ten sposób.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/build/docs/automating-builds/build-repos-from-github" target="_blank">Cloud Build: Automating builds from GitHub</a>
+- <a href="https://docs.github.com/en/repositories/configuring-branches-and-merging-your-repository-with-github-actions/managing-protected-branches" target="_blank">GitHub: Branch protection rules</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Wymogi "change control" w GitHubie prawie zawsze oznaczają <strong>Branch Protection Rules</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Change Control/Approvals in GitHub -> Branch Protection Rules.</li>
+    <li>Cloud Build Automations -> Triggers (Push/PR).</li>
 </ul>
 </div>
 <script>

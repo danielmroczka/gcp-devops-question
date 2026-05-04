@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 131 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Log Views (widoki logów)</strong> w Cloud Logging pozwalają na precyzyjne ograniczenie dostępu do logów (na poziomie projektu lub nawet poszczególnych logów) przy użyciu IAM. Tworząc dedykowane widoki dla każdego zespołu (np. filtrując po <code>resource.labels.project_id</code>), zapewniamy separację dostępu zgodnie z zasadą "Least Privilege". Operations team dostaje dostęp do widoku zawierającego wszystkie logi. Jest to rozwiązanie natywne, skalowalne i najbardziej efektywne kosztowo.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> _Default view zawiera wszystkie logi z projektu, nie pozwala na łatwe ograniczenie dostępu tylko do logów danego zespołu wewnątrz centralnego projektu.
+- <strong>Opcja B:</strong> Logi są już w centralnym projekcie, więc ograniczanie dostępu w poszczególnych projektach źródłowych nie rozwiązuje problemu w centralnym projekcie.
+- <strong>Opcja D:</strong> Eksportowanie logów do BigQuery dla każdego zespołu generuje dodatkowe koszty (storage + ingestion) oraz wymaga zarządzania dostępem do tabel, co jest znacznie mniej wydajne niż użycie natywnych Log Views.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/views" target="_blank">GCP Cloud Logging: Log Views</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o <strong>kontrolowanie dostępu do logów</strong> w centralnym projekcie, zawsze szukaj <strong>Log Views</strong>. To najtańsze i najbardziej natywne rozwiązanie.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Log Views vs BigQuery Export:</strong> Log Views służy do kontroli dostępu (kto co widzi). BigQuery Export służy do długoterminowej analizy, raportowania i dużych zbiorów danych.</li>
+    <li><strong>Zasada Least Privilege:</strong> Zawsze używaj widoków do ograniczania zakresu logów widocznych dla poszczególnych zespołów.</li>
 </ul>
 </div>
 <script>

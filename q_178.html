@@ -69,29 +69,37 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 178 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Rozwiązaniem problemu współdzielonego środowiska Dev jest tworzenie tzw. <strong>Ephemeral Environments</strong> (środowisk tymczasowych/dynamicznych).
+1. Użycie Cloud Build do automatyzacji CI i aktualizacji manifestów z każdego commitu w feature branchu.
+2. Integracja z Config Sync (lub po prostu Kubernetes namespaces) pozwala na tworzenie izolowanych przestrzeni nazw (namespaces) dla każdego brancha/funkcji w tym samym klastrze Dev.
+3. Jest to rozwiązanie "cost-effective" (oszczędne), ponieważ wykorzystuje jeden klaster (z autoscalingiem), a nie tworzy osobne klastry dla każdej zmiany.
+4. "Post-test namespace cleanup" gwarantuje, że nie zostawiamy niepotrzebnych zasobów (zgodnie z zasadami dbania o koszty i porządek).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Testowanie tylko po merge requestach do głównego brancha (main) to zbyt późny etap; deweloperzy potrzebują testów izolowanych <strong>w trakcie</strong> pracy nad feature branchem.
+- <strong>Opcja B:</strong> Cloud Deploy z potokiem do Env (Dev/Staging/Prod) to standardowe wdrożenie, nie rozwiązuje problemu <strong>wielu</strong> równoległych testów wewnątrz środowiska Dev.
+- <strong>Opcja D:</strong> Tworzenie osobnych klastrów GKE dla <strong>każdego</strong> feature brancha jest ekstremalnie kosztowne i nieefektywne (nie jest to "cost-effective").
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-ephemeral-environments" target="_blank">Google Cloud: Środowiska efemeryczne</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowe hasło: <strong>Cost-effective</strong> + <strong>Isolated development</strong> = <strong>Ephemeral environments</strong> (w ramach namespace'ów w jednym klastrze).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Jeśli pytanie brzmi "cost-effective" i "izolacja wewnątrz dev" -> wybieraj <strong>namespaces</strong>, a nie nowe klastry.</li>
+    <li>Jeśli pytanie brzmi "izolacja" i "wielu deweloperów" -> wybieraj dynamiczne tworzenie/czyszczenie środowisk (ephemeral).</li>
 </ul>
 </div>
 <script>

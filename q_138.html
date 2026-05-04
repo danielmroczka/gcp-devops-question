@@ -76,22 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 138 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Profiler to usługa zarządzana, która służy do ciągłego profilowania wydajności aplikacji w środowisku produkcyjnym z minimalnym wpływem (overhead) na wydajność. Jest idealnym rozwiązaniem do identyfikacji "wąskich gardeł" (slow paths) w kodzie, których nie można odtworzyć w środowisku deweloperskim.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Cloud Monitoring pokazuje utylizację CPU, ale nie wskazuje <em>gdzie dokładnie</em> w kodzie występują opóźnienia.
+- <strong>Opcja B:</strong> Instalowanie zewnętrznego narzędzia profilującego na Compute Engine (lub innym środowisku) zwiększa nakład pracy (toil) i nie wykorzystuje natywnej, zoptymalizowanej usługi GCP.
+- <strong>Opcja C:</strong> Ręczne uruchamianie `pprof` w środowisku produkcyjnym jest uciążliwe (wymaga dostępu, ręcznej obsługi) i nie zapewnia ciągłego monitorowania, czego wymagało pytanie.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/profiler/docs" target="_blank">Google Cloud: Cloud Profiler</a>
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-continuous-monitoring" target="_blank">Google Cloud: Continuous Monitoring</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli w GCP DevOps widzisz pytanie o <strong>identyfikację wolnych fragmentów kodu w produkcji</strong>, odpowiedzią jest zawsze <strong>Cloud Profiler</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Cloud Profiler to narzędzie do głębokiej analizy <em>kodu</em>, nie tylko zasobów (CPU/RAM).</li>
+    <li>Szukaj haseł: "slow paths", "performance analysis", "minimal overhead".</li>
 </ul>
 </div>
 <script>

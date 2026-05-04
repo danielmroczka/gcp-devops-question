@@ -59,39 +59,43 @@
 </p>
 <div class="question-choices-container">
 <ul>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Configure the Ops Agent with a logging receiver. Create a logs-based metric.B Create a script to scrape the web server log. Export the IP address request metrics to the Cloud Monitoring API.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Configure the Ops Agent with a logging receiver. Create a logs-based metric.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Update the application to export the IP address request metrics to the Cloud Monitoring API.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Configure the Ops Agent with a metrics receiver.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Answer: A</li>
-
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Create a script to scrape the web server log. Export the IP address request metrics to the Cloud Monitoring API.</li>
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;"></span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: .
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 113 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Logs-based metrics (metryki oparte na logach) są najskuteczniejszym i najbardziej natywnym sposobem w GCP na przekształcanie danych z logów (np. adresy IP z logów web serwera) w metryki, które można wizualizować w Cloud Monitoring. Ops Agent zbiera logi, a stworzenie takiej metryki pozwala na filtrowanie po konkretnym polu (IP) bez pisania własnych skryptów (minimalizacja operacyjnego nakładu pracy - 'toil').
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja B:</strong> Modyfikacja aplikacji w celu eksportowania metryk wymaga zmian w kodzie, testów i wdrożenia, co jest znacznie bardziej kosztowne operacyjnie niż użycie natywnych Logs-based metrics.
+- <strong>Opcja C:</strong> Ops Agent z metrics receiver zbiera metryki systemowe (CPU, RAM itp.) lub metryki aplikacji z API, ale nie jest przeznaczony do parsowania logów w celu wyciągania z nich liczby żądań z konkretnego IP.
+- <strong>Opcja D:</strong> Pisanie własnego skryptu ("scrapers") zwiększa złożoność utrzymania (tzw. toil), podczas gdy GCP oferuje gotowe narzędzia do obsługi logów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/logs-based-metrics" target="_blank">Google Cloud: Logs-based metrics</a>
+- <a href="https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent" target="_blank">Google Cloud: Ops Agent</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli musisz monitorować dane z logów w GCP, szukaj w opcjach "<strong>Logs-based metrics</strong>". To najszybsza metoda bez ingerencji w kod aplikacji.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Minimalizacja operacyjnego nakładu pracy (Toil reduction) oznacza wybieranie narzędzi natywnych GCP, a nie pisanie własnych skryptów.</li>
+    <li><strong>Logs-based metrics</strong> pozwalają na alertowanie i wykresy na podstawie logów.</li>
 </ul>
 </div>
 <script>

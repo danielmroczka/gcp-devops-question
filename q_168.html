@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 168 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+<strong>Config Connector</strong> to narzędzie od Google, które pozwala na zarządzanie zasobami Google Cloud przy użyciu API Kubernetes (Custom Resource Definitions - CRDs).
+1. <strong>Zarządzanie przez CRDs</strong>: Umożliwia programistom tworzenie, aktualizowanie i usuwanie zasobów Google Cloud (np. Cloud Storage bucket, Cloud SQL instance) poprzez standardowe polecenia `kubectl`, tak jakby były to obiekty Kubernetes.
+2. <strong>Wsparcie Google</strong>: Jest to rozwiązanie "Google-supported", co oznacza, że jest w pełni wspierane przez Google Cloud Support, co było wymogiem w pytaniu.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A i C:</strong> Terraform to świetne narzędzie, ale nie zarządza zasobami przez CRDs wewnątrz GKE (nie używa kubernetesowego modelu deklaratywnego w czasie rzeczywistym do zarządzania zasobami chmurowymi z poziomu klastra).
+- <strong>Opcja B:</strong> Crossplane to potężne narzędzie open-source, które również pozwala na zarządzanie chmurą przez K8s, ale nie jest "Google-supported" w tym samym sensie co Config Connector (dedykowane rozwiązanie od Google).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/config-connector/docs/overview" target="_blank">Google Cloud: Config Connector Overview</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy wymagane jest zarządzanie zasobami GCP z wewnątrz GKE przy użyciu CRDs (podpisane przez Google), odpowiedź to zawsze <strong>Config Connector</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Config Connector = K8s CRDs for GCP.</strong> Zapamiętaj to połączenie.</li>
 </ul>
 </div>
 <script>

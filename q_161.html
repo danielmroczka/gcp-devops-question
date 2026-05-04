@@ -76,22 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 161 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+GCP posiada oficjalny, wspierany przez Google zestaw modułów Terraform o nazwie <strong>Cloud Foundation Toolkit (CFT)</strong>. Jest to najlepsza praktyka w GCP dla provisioningu projektów i infrastruktury, ponieważ zapewnia zgodność z najlepszymi praktykami bezpieczeństwa, sieciowymi oraz standardami organizacyjnymi Google.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Ręczne tworzenie zasobów w konsoli (ClickOps) jest sprzeczne z zasadą "fast, reliable, and repeatable" (szybkie, niezawodne, powtarzalne).
+- <strong>Opcja B:</strong> Skrypty gcloud są lepsze niż konsola, ale nie zarządzają stanem infrastruktury tak dobrze jak Terraform (brak idempotency w takim samym stopniu jak IaC).
+- <strong>Opcja C:</strong> Pisanie własnych modułów od zera jest mniej efektywne i bardziej ryzykowne niż użycie gotowych, sprawdzonych modułów z Cloud Foundation Toolkit, które mają wbudowane standardy bezpieczeństwa GCP.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/docs/terraform" target="_blank">GCP: Terraform</a>
+- <a href="https://cloud.google.com/solutions/cloud-foundation-toolkit" target="_blank">Cloud Foundation Toolkit</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o IaC (Infrastructure as Code) w GCP: zawsze wybieraj <strong>Terraform</strong>, a jeśli istnieje opcja <strong>Cloud Foundation Toolkit</strong>, to ona jest poprawną odpowiedzią.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>CFT (Cloud Foundation Toolkit):</strong> Jeśli widzisz tę nazwę, zazwyczaj jest to klucz do sukcesu. Google promuje to jako standard dla Enterprise.</li>
+    <li><strong>IaC > ClickOps:</strong> Nigdy nie wybieraj ręcznego klikania w konsoli, jeśli pytają o "powtarzalność" lub "skalowalność".</li>
 </ul>
 </div>
 <script>

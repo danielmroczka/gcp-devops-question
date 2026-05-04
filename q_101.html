@@ -66,7 +66,6 @@
 
 </ul>
 </div>
-<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">D</span>
@@ -76,22 +75,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 101 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Potrzebujesz logować każdy adres IP, który uzyskuje dostęp do API w Compute Engine (przez wewnętrzny load balancer).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego D jest poprawną odpowiedzią:
+- <strong>VPC Flow Logs:</strong> Rejestrują informacje o przepływach sieciowych wewnątrz sieci VPC (w tym źródłowe i docelowe adresy IP, porty, protokoły). Jest to najprostszy ("fewest number of steps") sposób na uzyskanie informacji o ruchu sieciowym docierającym do instancji, bez konieczności instalacji agentów czy zmian w aplikacji.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>A:</strong> Packet Mirroring pozwala na głęboką inspekcję ruchu, ale jest to skomplikowane i kosztowne rozwiązanie, zazwyczaj używane do celów diagnostycznych lub bezpieczeństwa, a nie tylko do logowania adresów IP.
+- <strong>B:</strong> Ops Agent może logować dane z aplikacji, ale wymaga instalacji i konfiguracji agenta na każdej instancji. VPC Flow Logs są zarządzane na poziomie infrastruktury (subnety), więc wymagają znacznie mniej "kroków".
+- <strong>C:</strong> Logowanie na regule firewalla (Firewall Rules Logging) rejestruje trafienia na konkretną regułę, ale jest zazwyczaj stosowane do celów bezpieczeństwa i debugowania konkretnych blokad, a nie do logowania całego ruchu API (VPC Flow Logs są bardziej dedykowane do tego celu).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/vpc/docs/flow-logs" target="_blank">Google Cloud: VPC Flow Logs</a>
+- <a href="https://cloud.google.com/vpc/docs/firewall-rules-logging" target="_blank">Google Cloud: Firewall Rules Logging</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli potrzebujesz logowania ruchu sieciowego wewnątrz VPC bez modyfikacji aplikacji, zawsze myśl o <strong>VPC Flow Logs</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>"Fewest steps" (Najmniej kroków):</strong> GCP stawia na usługi sieciowe (managed). Zawsze wybieraj konfigurację na poziomie VPC/Subnetu, jeśli to możliwe, zamiast instalacji agentów.</li>
 </ul>
 </div>
 <script>

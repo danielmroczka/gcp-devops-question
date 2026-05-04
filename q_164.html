@@ -76,22 +76,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 164 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Przygotowanie do szczytowego sezonu ruchu (peak traffic season) zgodnie z najlepszymi praktykami Google wymaga najpierw zrozumienia obecnych ograniczeń wydajnościowych. 
+1. <strong>Load testing (testy obciążeniowe)</strong>: Pozwalają na profilowanie aplikacji pod kątem wydajności i skalowania. Dzięki nim dowiesz się, przy jakim obciążeniu aplikacja przestaje działać poprawnie (tzw. "breaking point"), co jest niezbędne do zaplanowania strategii skalowania.
+2. Bez tej wiedzy, jakiekolwiek inne kroki (np. provisionowanie mocy czy migracje) byłyby oparte na przypuszczeniach, a nie na danych.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Migracja aplikacji tuż przed sezonem szczytowym to ogromne ryzyko operacyjne. Najpierw testujemy, potem wprowadzamy zmiany (jeśli są konieczne).
+- <strong>Opcja B:</strong> Terraform jest świetny do infrastruktury, ale najpierw musisz wiedzieć, ile tej infrastruktury potrzebujesz w różnych scenariuszach obciążenia (co dają testy obciążeniowe).
+- <strong>Opcja D:</strong> Pre-provisioning (ręczne rezerwowanie zasobów) jest mało efektywne kosztowo i często niewystarczające, jeśli wzrost ruchu będzie większy niż przewidywany ("expect growth" to nie jest strategia).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/load-testing-on-gcp" target="_blank">Google Cloud: Load Testing on GCP</a>
+- <a href="https://sre.google/sre-book/load-balancing-datacenter/" target="_blank">Google SRE Book: Load Balancing</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o "przygotowanie do sezonu" lub "zwiększenie stabilności", zawsze szukaj odpowiedzi, która zaczyna się od <strong>zrozumienia danych/profilowania</strong> (testy) przed podjęciem akcji naprawczych.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Testy > Zmiany:</strong> Zawsze testuj wydajność przed zmianami w infrastrukturze.</li>
+    <li><strong>Unikaj "Manual Provisioning":</strong> Google stawia na elastyczność i autoskalowanie, a nie ręczne planowanie zasobów na "oko".</li>
 </ul>
 </div>
 <script>

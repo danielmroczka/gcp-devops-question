@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 124 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Audit logs (logi audytu), w szczególności "Data Access audit logs", zawierają wrażliwe informacje i wymagają specjalnych uprawnień dostępu.
+Standardowa rola `roles/logging.viewer` (Logs Viewer) nie daje dostępu do "Data Access audit logs".
+Rola `roles/logging.privateLogViewer` (Private Logs Viewer) jest wymagana, aby wyświetlać logi zawierające dane wrażliwe (takie jak logi audytu).
+Zgodnie z zasadami IAM w Google Cloud, najlepszą praktyką (best practice) jest przypisywanie ról do <strong>grup</strong> (Google Groups), a nie do poszczególnych użytkowników indywidualnie, co ułatwia zarządzanie i zapewnia spójność uprawnień.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A i B:</strong> Rola `roles/logging.viewer` nie wystarcza do przeglądania logów audytu dostępu do danych (Data Access audit logs).
+- <strong>Opcja C:</strong> Przypisywanie ról bezpośrednio do każdego użytkownika indywidualnie jest niezgodne z najlepszymi praktykami IAM w GCP (lepiej przypisać do grupy).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/access-control" target="_blank">Google Cloud: Access control for Logging</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem w zarządzaniu logami w GCP jest rozróżnienie między zwykłymi logami a <strong>logami wrażliwymi</strong> (np. audit logs).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Private Logs:</strong> Jeśli pytanie dotyczy logów audytu, zawsze szukaj roli z "privateLogViewer" w nazwie.</li>
+    <li><strong>IAM Best Practice:</strong> Zawsze przypisuj role do <strong>grup</strong>, nigdy do pojedynczych użytkowników, chyba że jest to absolutnie konieczne (co rzadko się zdarza na egzaminie).</li>
 </ul>
 </div>
 <script>

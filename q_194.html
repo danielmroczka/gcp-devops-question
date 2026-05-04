@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Run the gcloud compute start-iap-tunnel command to the Cloud Workstations VM.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Allow public IP addresses in the Cloud Workstations configuration.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Click the preview link in the Code OSS panel.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 194 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Workstations posiada wbudowaną funkcję port forwarding, która pozwala na łatwy i bezpieczny dostęp do aplikacji uruchomionych wewnątrz stacji roboczej. Po kliknięciu w "Web Preview" (ikona w pasku bocznym Code OSS), środowisko automatycznie konfiguruje bezpieczne przekierowanie ruchu, bez konieczności otwierania publicznych portów, używania dodatkowych maszyn (bastion) czy ręcznej konfiguracji tuneli IAP. Jest to rozwiązanie "out-of-the-box" wspierane przez Google.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Użycie bastion hosta to stara szkoła zarządzania, która zwiększa koszty i wprowadza dodatkowy punkt ataku (toil).
+- <strong>Opcja B:</strong> Choć IAP tunnel jest bezpieczny, nie jest to natywna, zalecana metoda dla Cloud Workstations, które ma dedykowany mechanizm preview dla tego celu.
+- <strong>Opcja C:</strong> Udostępnianie publicznych IP jest skrajnie niebezpieczne i narusza zasadę minimalizacji powierzchni ataku.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/workstations/docs/preview-web-service" target="_blank">Cloud Workstations: Preview a web service</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o Cloud Workstations, zawsze szukaj natywnych, wbudowanych funkcji (jak "Preview") zamiast ręcznego konfigurowania infrastruktury sieciowej.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Cloud Workstations = "Preview" dla web dev.</li>
+    <li>Unikaj publicznych IP w pracy z Cloud Workstations.</li>
 </ul>
 </div>
 <script>

@@ -76,22 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 191 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Deploy wspiera tworzenie potoków (delivery pipelines) z wieloma etapami (stages), co pozwala na modelowanie procesów wdrożeniowych z ręczną weryfikacją (manual approval).
+- <strong>Opcja D:</strong> Jest poprawna, ponieważ stworzenie dwóch etapów (np. staging i prod) pozwala na wymaganie zatwierdzenia przez QA w pierwszym etapie przed wdrożeniem do produkcji. Standardowy deployment jest w zupełności wystarczający, skoro nie ma automatycznych testów (canary jest bardziej złożony i zazwyczaj używany przy automatycznym monitorowaniu stabilności).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A i B:</strong> Pojedynczy etap nie pozwala na oddzielenie wdrożenia do testów od wdrożenia na produkcję z kontrolą jakości pośrodku.
+- <strong>Opcja C:</strong> Canary deployment wymaga zaawansowanego monitorowania, aby automatycznie decydować o sukcesie wdrożenia, co nie jest konieczne (ani nawet możliwe bez testów) przy ręcznej weryfikacji przez QA.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/deploy/docs/pipelines" target="_blank">Cloud Deploy Delivery Pipelines</a>
+- <a href="https://cloud.google.com/deploy/docs/approval" target="_blank">Requiring Approvals</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy potrzebujesz weryfikacji ręcznej (manual approval) w Cloud Deploy, zawsze używaj wieloetapowego potoku (multiple stages).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>QA Manual Verification:</strong> Zawsze oznacza wymóg "ręcznego zatwierdzenia" (manual approval) na etapie potoku Cloud Deploy.</li>
+    <li><strong>Canary:</strong> Używaj tylko wtedy, gdy masz automatyczne monitorowanie stabilności.</li>
 </ul>
 </div>
 <script>

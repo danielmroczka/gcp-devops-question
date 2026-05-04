@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Configure Cloud Data Loss Prevention to scan logs in real-time and redact PII before it's stored in Cloud Logging.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Disable Cloud Logging for the application to prevent sensitive data from being logged.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Store all logs in an encrypted Cloud Storage bucket with restricted access.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 196 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Data Loss Prevention (DLP), teraz część Sensitive Data Protection, jest natywną usługą Google Cloud zaprojektowaną do automatycznego wykrywania, klasyfikowania i redakcji (maskowania) wrażliwych danych (PII). Konfiguracja DLP z Cloud Logging pozwala na automatyczne oczyszczanie logów z wrażliwych informacji przed ich trwałym zapisaniem, co jest kluczowe dla spełnienia wymagań regulacyjnych (np. RODO/GDPR) i bezpieczeństwa.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Log sampling zmniejsza ilość danych, ale nie usuwa PII z logów, które zostaną zapisane.
+- <strong>Opcja C:</strong> Wyłączenie logowania utrudnia debugowanie i audyt aplikacji, co jest niedopuszczalne w systemach produkcyjnych.
+- <strong>Opcja D:</strong> Nawet jeśli bucket jest zaszyfrowany, PII nadal znajduje się w logach w postaci jawnej (cleartext), co nie rozwiązuje problemu ekspozycji danych dla użytkowników z uprawnieniami do odczytu logów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/sensitive-data-protection/docs/redacting-sensitive-data-logging" target="_blank">Sensitive Data Protection: Redacting sensitive data in Cloud Logging</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach dotyczących PII i bezpieczeństwa w GCP, zawsze szukaj natywnej usługi ochrony danych (Sensitive Data Protection / DLP).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>PII + Logging = Sensitive Data Protection (DLP).</li>
+    <li>Redakcja logów powinna odbywać się przed ich trwałym zapisem.</li>
 </ul>
 </div>
 <script>

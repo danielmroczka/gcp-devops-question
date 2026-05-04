@@ -76,22 +76,23 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 142 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Opcja B (sha256 digest):</strong> Użycie skrótu SHA256 (digest) jest jedynym pewnym sposobem na wskazanie konkretnej, niezmiennej wersji obrazu kontenera. Tagi (jak `latest`) są zmienne i mogą zostać nadpisane, co w przypadku awarii na produkcji uniemożliwia precyzyjny rollback.
+- <strong>Opcje A, C, D:</strong> Opierają się na tagach lub budowaniu nowych obrazów, co jest ryzykowne (tagi mogą wskazywać na coś innego niż oczekujemy, budowanie może przynieść inne zależności).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Więcej informacji:
+- <a href="https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy" target="_blank">Kubernetes: Image Pull Policy</a>
+- <a href="https://cloud.google.com/container-registry/docs/managing" target="_blank">GCR: Managing Images</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W produkcyjnych systemach Kubernetes/GKE, <strong>używaj sha256 digest</strong> zamiast tagów (szczególnie `latest`), aby zapewnić determinizm wdrożeń i bezpieczeństwo rollbacku.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Złota zasada:</strong> Obrazy kontenerów powinny być <strong>niezmienne (immutable)</strong>. Tagi są mutowalne (zmienne), digesty nie.</li>
+    <li><strong>Exam Hint:</strong> Jeśli w pytaniu o K8s/GKE chodzi o "pewność wersji" lub "rollback do znanej wersji", odpowiedź prawie zawsze zawiera <strong>SHA256 digest</strong>.</li>
 </ul>
 </div>
 <script>

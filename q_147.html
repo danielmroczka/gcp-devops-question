@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 147 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Anthos Config Management (ACM) to rozwiązanie Google Cloud służące do zarządzania konfiguracją w skali wielu klastrów.
+- ACM integruje się bezpośrednio z repozytorium (np. GitHub).
+- Gdy zmiany są wprowadzane do repozytorium Git, ACM automatycznie synchronizuje stan klastrów z definicją w kodzie (GitOps).
+- Jest to natywny sposób zarządzania politykami (Policy Controller) w klastrach GKE przy użyciu repozytoriów git.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- Opcja A: Cloud Build jest narzędziem do CI/CD, a nie do zarządzania stanem klastra (GitOps). Wymagałoby to ciągłego uruchamiania zadań, co jest mniej efektywne i bardziej podatne na błędy niż ciągła synchronizacja ACM.
+- Opcja B: Anthos Service Mesh (ASM) służy do zarządzania komunikacją między usługami (Service Mesh), a nie do nakładania polityk klastrowych.
+- Opcja D: Config Connector służy do zarządzania zasobami GCP za pomocą obiektów Kubernetes (przenoszenie konfiguracji chmury do Git), a nie do narzucania polityk (Constraint Templates) wewnątrz klastrów GKE.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/anthos-config-management/docs" target="_blank">Anthos Config Management</a>
+- <a href="https://cloud.google.com/anthos-config-management/docs/concepts/overview" target="_blank">Concepts of ACM</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zarządzanie politykami w klastrach GKE w skali = <strong>Anthos Config Management (ACM)</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>GitOps dla polityk GKE:</strong> Jeśli widzisz GitHub + polityki GKE = Anthos Config Management.</li>
+    <li><strong>ACM vs Config Connector:</strong> ACM zarządza politykami i konfiguracją klastrów, Config Connector zarządza zasobami GCP jako obiektami k8s.</li>
 </ul>
 </div>
 <script>

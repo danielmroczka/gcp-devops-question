@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 112 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+W metodologii blue/green deployment, service (serwis) kieruje ruch do konkretnej wersji aplikacji za pomocą selektorów (labels). Jeśli nowa wersja ("green") powoduje błędy, najszybszym sposobem na wycofanie się ("rollback") jest zmiana selektora serwisu tak, aby ponownie kierował cały ruch do poprzedniej, stabilnej wersji ("blue").
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- A. Aktualizacja wersji blue (podczas gdy green jest popsuta) nie naprawia problemu dla użytkowników, którzy nadal korzystają z green.
+- B. Aktualizacja deploymentu green (powrót do poprzedniej wersji) jest rozwiązaniem, ale zajmuje więcej czasu niż natychmiastowe przełączenie serwisu (przełączenie selektora jest niemal natychmiastowe).
+- C. Zmiana selektora na ogólny (app: my-app) mogłaby skierować ruch do obu wersji (jeśli obie mają ten label), co nie rozwiązuje problemu awaryjności.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-deployment-automation" target="_blank">Google Cloud: Deployment Automation</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W blue/green deployment, <strong>rollback</strong> to zmiana selektora na serwisie. To najszybsza metoda przywrócenia stabilnej wersji.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Wybieraj zawsze najszybszą metodę rollbacku w testach certyfikacyjnych.</li>
+    <li>Service selectors to klucz do przełączania ruchu między blue/green.</li>
 </ul>
 </div>
 <script>

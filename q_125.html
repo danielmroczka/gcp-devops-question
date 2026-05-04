@@ -76,22 +76,31 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 125 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Pytanie dotyczy przetwarzania wsadowego (batch) danych o zmiennej wielkości z naciskiem na minimalizację kosztów i czasu przetwarzania.
+1. <strong>Cloud Storage</strong> jest najbardziej efektywnym i bezpiecznym sposobem przyjmowania danych od stron trzecich (używamy IAM do kontroli dostępu).
+2. <strong>Cloud Function</strong> z triggerem `google.storage.object.finalize` jest idealny do reagowania na nowe pliki w czasie rzeczywistym.
+3. <strong>Compute Engine Managed Instance Group (MIG)</strong> z autoscalingiem jest najlepszym wyborem dla "compute-heavy" zadań (możemy użyć maszyn z dużą liczbą CPU, a MIG automatycznie je skaluje).
+4. Automatyczne usuwanie instancji po zakończeniu zadania (terminating instances) zapewnia optymalizację kosztów.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> SFTP jest przestarzałe i trudniejsze w zarządzaniu (dodatkowy "toil") niż Cloud Storage.
+- <strong>Opcja B:</strong> Utrzymywanie klastra GKE w celu monitorowania Cloud Storage jest niepotrzebnie kosztowne i skomplikowane w porównaniu do prostego triggera w Cloud Functions.
+- <strong>Opcja D:</strong> Cloud Functions mają limity czasu wykonywania (timeout) i pamięci, więc nie są przeznaczone do "compute-heavy" przetwarzania dużych partii danych.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/storage/docs/pubsub-notifications" target="_blank">Google Cloud: Storage notifications</a>
+- <a href="https://cloud.google.com/compute/docs/instance-groups" target="_blank">Google Cloud: Instance Groups</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do optymalizacji kosztów w GCP jest <strong>skalowanie zasobów w dół do zera</strong>, gdy nie ma pracy.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Compute-heavy:</strong> Jeśli masz ciężkie zadania obliczeniowe, GCE (Compute Engine) jest zazwyczaj lepszy niż Cloud Functions.</li>
+    <li><strong>Event-driven:</strong> Wykorzystuj Cloud Storage + Cloud Functions jako "klej" (glue code) do uruchamiania większych procesów w GCE.</li>
 </ul>
 </div>
 <script>

@@ -76,22 +76,25 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 129 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Quotas (limity)</strong> w GCP są kluczowym elementem planowania pojemności. Gdy wdrażasz usługę wymagającą dużej ilości zasobów (duże instancje) w wielu regionach za pomocą Managed Instance Groups (MIGs), musisz upewnić się, że Twój projekt posiada wystarczający limit (quota) dla tych zasobów w każdym docelowym regionie, aby autoscale mógł poprawnie działać.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Cloud Trace służy do monitorowania wydajności (latencji) aplikacji, a nie do planowania capacity dla infrastruktury pod autoscaling.
+- <strong>Opcja B:</strong> Wybór konkretnego typu maszyny (np. n2-highcpu-96) jest decyzją konfiguracyjną, ale nie rozwiązuje problemu "planowania capacity" w wielu regionach, jeśli nie sprawdzisz dostępności limitów dla tych maszyn w danym regionie.
+- <strong>Opcja C:</strong> Wdrażanie w wielu regionach i używanie load balancera to poprawna architektura, ale nie adresuje wprost wymogu "planowania dla capacity" i ryzyka niepowodzenia wdrożenia z powodu braku limitów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/compute/docs/quotas" target="_blank">GCP Compute Engine: Quotas</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowe słowo w pytaniach o skalowanie i wdrażanie: <strong>Capacity Planning</strong> i <strong>Quotas</strong>. Zawsze sprawdzaj limity (quotas) w każdym regionie, w którym planujesz wdrożenie.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Złota zasada:</strong> Zawsze zanim skalujesz infrastrukturę, sprawdź dostępność limitów (Quotas) w regionach docelowych. Unikniesz w ten sposób błędu <code>QUOTA_EXCEEDED</code> podczas automatycznego skalowania (autoscaling).</li>
 </ul>
 </div>
 <script>

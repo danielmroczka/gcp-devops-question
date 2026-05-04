@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 174 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Run pozwala na zarządzanie wieloma wersjami (rewizjami) usługi w ramach jednego serwisu.
+1. Deploy the new revision to the existing service without traffic allocated: Jest to standardowa procedura w Cloud Run – wdrażasz nową wersję, ale nie przypisujesz jej jeszcze żadnego ruchu.
+2. Split the traffic between the old revision and the new revision: Cloud Run posiada wbudowaną funkcjonalność podziału ruchu (traffic splitting). Możesz łatwo skierować 90% ruchu do starej wersji i 10% do nowej w ramach tego samego serwisu, co jest najmniej skomplikowanym podejściem ("least amount of effort").
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Udostępnienie unikalnego URL rewizji (tagging) nie realizuje wymogu testowania na "10% klientów" w sposób automatyczny/przezroczysty dla użytkownika – wymagałoby to ręcznego kierowania klientów na dany URL.
+- <strong>Opcja B:</strong> Tworzenie nowego serwisu i zarządzanie ruchem między nimi to znacznie większy nakład pracy (high effort) i niepotrzebna złożoność.
+- <strong>Opcja C:</strong> Użycie load balancera do tego celu jest możliwe, ale wymaga dodatkowej konfiguracji infrastruktury, co jest sprzeczne z celem "least amount of effort" w ramach funkcji natywnych Cloud Run.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/run/docs/managing/traffic-splitting" target="_blank">Cloud Run: Traffic Splitting</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy widzisz "<strong>Cloud Run</strong>" i "<strong>traffic splitting</strong>" – to natywna, najprostsza metoda zarządzania rewizjami.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Cloud Run vs GKE:</strong> W Cloud Run traffic splitting jest natywną funkcją serwisu. W GKE (Ingress) wymagałoby to bardziej złożonej konfiguracji.</li>
+    <li><strong>Minimalizuj wysiłek (Least Effort):</strong> Zawsze szukaj rozwiązania, które używa wbudowanych mechanizmów usługi (native features), zamiast budować infrastrukturę (np. load balancery) na zewnątrz.</li>
 </ul>
 </div>
 <script>

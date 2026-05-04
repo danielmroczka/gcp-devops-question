@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 128 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Horizontal Pod Autoscaler (HPA)</strong> jest idealny dla aplikacji stateless z nieprzewidywalnym ruchem. Automatycznie zwiększa lub zmniejsza liczbę replik (podów) w oparciu o metryki (np. wykorzystanie CPU/RAM), co zapewnia spójną wydajność użytkownika przy jednoczesnej optymalizacji zasobów.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Cron job (skalowanie na podstawie harmonogramu) jest niewłaściwy, gdy ruch jest "inconsistent" (nieprzewidywalny, a nie cykliczny).
+- <strong>Opcja C:</strong> Vertical Pod Autoscaler (VPA) zmienia limity zasobów dla istniejących podów, co często wymaga restartu podów – nie jest to optymalne dla utrzymania spójnego doświadczenia użytkownika przy szybko zmieniającym się ruchu.
+- <strong>Opcja D:</strong> Cluster autoscaling zarządza liczbą węzłów (node'ów) w puli, a nie liczbą podów. Jest to mechanizm uzupełniający, ale to HPA bezpośrednio odpowiada na wahania ruchu aplikacji.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler" target="_blank">GKE: Horizontal Pod Autoscaler</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy w GKE masz "<strong>stateless application</strong>" i "<strong>inconsistent traffic</strong>", zawsze szukaj <strong>Horizontal Pod Autoscaler (HPA)</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>HPA vs VPA:</strong> HPA dla skalowania poziomego (więcej podów), VPA dla skalowania pionowego (większe pody). HPA jest preferowane dla ruchu sieciowego.</li>
+    <li><strong>Cluster Autoscaler:</strong> Działa na poziomie węzłów, gdy podom brakuje zasobów. Pamiętaj o różnicy między skalowaniem podów a skalowaniem węzłów.</li>
 </ul>
 </div>
 <script>

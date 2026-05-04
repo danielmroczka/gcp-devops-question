@@ -76,22 +76,25 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 162 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+<strong>Cloud Build private pools</strong> zostały stworzone właśnie w tym celu: pozwalają na uruchamianie kroków kompilacji/testów wewnątrz Twojej sieci VPC. Dzięki temu masz dostęp do zasobów prywatnych (np. prywatnych API, baz danych, innych usług wewnątrz VPC) bez wystawiania ich do publicznego internetu, co jest kluczowym wymogiem bezpieczeństwa w tym scenariuszu.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja B:</strong> Spinnaker służy głównie do Continuous Deployment (CD), a nie do rozwiązywania problemów z siecią wewnątrz CI w Cloud Build.
+- <strong>Opcje C i D:</strong> Używanie Load Balancerów (HTTP(S)) do dostępu do API wewnątrz sieci dla celów CI jest zbyt skomplikowane i generuje zbędny narzut zarządzania (management overhead) w porównaniu do prostego rozwiązania, jakim są Private Pools.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/build/docs/private-pools/private-pools-overview" target="_blank">Cloud Build: Private Pools</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli musisz połączyć usługę Google (jak Cloud Build) z własną siecią VPC w sposób prywatny – <strong>Private Pools</strong> są standardową odpowiedzią.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Private Pools:</strong> Zapamiętaj, że private pools w Cloud Build pozwalają na dostęp do VPC. To bardzo częste pytanie egzaminacyjne.</li>
+    <li><strong>Management overhead:</strong> Szukaj rozwiązań, które są natywne i zarządzane (managed). Load Balancer do API w CI to "overengineering".</li>
 </ul>
 </div>
 <script>

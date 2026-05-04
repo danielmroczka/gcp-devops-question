@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 153 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Aby agent Cloud Logging (lub Ops Agent) mógł przesyłać logi do Cloud Logging, przypisane do instancji Compute Engine konto serwisowe musi posiadać odpowiednie uprawnienia IAM.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego odpowiedź C jest poprawna:
+- <strong>Logs Writer (logging.logWriter):</strong> Jest to wymagana rola IAM, która pozwala kontu serwisowemu na zapisywanie logów w Cloud Logging. Bez tej roli agent nie będzie mógł wysłać żadnych danych, nawet jeśli jest poprawnie zainstalowany i uruchomiony.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Eksportowanie i używanie kluczy kont serwisowych (JSON key files) jest <strong>niezalecaną praktyką</strong> ze względów bezpieczeństwa (ryzyko wycieku, trudność w rotacji). W GCP należy zawsze używać tożsamości dołączonych do zasobów (IAM roles).
+- <strong>Opcja B:</strong> Używanie domyślnego konta serwisowego ("Compute Engine default service account") jest niezalecane, ponieważ domyślnie posiada ono szerokie uprawnienia (często Editor), co narusza zasadę najmniejszych uprawnień (Least Privilege).
+- <strong>Opcja D:</strong> Private Google Access jest potrzebne, gdy instancja nie ma publicznego IP i musi komunikować się z API Google. Pytanie wyraźnie mówi, że instancja <strong>ma publiczny IP</strong>, więc komunikacja z API Google jest możliwa bez tej opcji.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/agent/authorization" target="_blank">Cloud Logging Agent: Authorization</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Problem z logami w GCP? Sprawdź 3 rzeczy: <strong>Agent</strong>, <strong>Sieć</strong>, <strong>IAM</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Logs Writer Role:</strong> Jeśli logi nie płyną, sprawdź czy konto serwisowe ma rolę `roles/logging.logWriter`.</li>
+    <li><strong>Unikaj JSON Keys:</strong> W testach GCP, każda opcja sugerująca pobranie/użycie klucza JSON jest zazwyczaj błędna.</li>
+    <li><strong>Private Google Access:</strong> Tylko jeśli instancja NIE MA publicznego IP, a musi gadać z usługami Google przez API.</li>
 </ul>
 </div>
 <script>

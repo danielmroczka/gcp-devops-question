@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 111 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+<strong>Connectivity Tests</strong> w usłudze Network Connectivity Center (lub Network Intelligence Center) to natywne narzędzie GCP pozwalające na diagnostykę problemów z łącznością (np. firewall, routing) bez konieczności dostępu do instancji czy kontenerów. Jest to najlepsza metoda, gdy mamy ograniczone uprawnienia.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- A. Instalacja kontenerów debugowych wymaga uprawnień do zarządzania workloadami/node'ami, których pytanie wyraźnie zabrania.
+- C. Użycie kontenerów debugowych również wymaga uprawnień, których nie mamy.
+- D. VPC Flow Logs pomagają w analizie, ale są narzędziem pasywnym i wymagają dalszej analizy (np. przez BigQuery), nie są tak skuteczne i bezpośrednie jak Connectivity Tests w diagnostyce warstwy sieciowej w locie.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/network-intelligence/docs/connectivity-tests/overview" target="_blank">Google Cloud: Connectivity Tests Overview</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy w GCP DevOps pojawia się problem z siecią, a masz ograniczone uprawnienia (brak dostępu do instancji), <strong>Connectivity Tests</strong> to odpowiedź.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zawsze preferuj <strong>narzędzia managed (zarządzane)</strong> zamiast ręcznego debugowania, jeśli to możliwe.</li>
+    <li>Connectivity Tests sprawdzają konfigurację firewalli i routingu wewnątrz GCP.</li>
 </ul>
 </div>
 <script>

@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 169 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+1. <strong>Wymagania:</strong> Musisz zapewnić, że logi ze wszystkich obecnych i przyszłych projektów są skanowane przez SIEM przez Pub/Sub.
+2. <strong>Rozwiązanie:</strong> Organizacyjne (organization-level) agregowane (aggregated) sinki automatycznie obejmują wszystkie projekty i foldery wewnątrz organizacji, nawet te tworzone w przyszłości. Użycie Pub/Sub jako celu (destination) jest bezpośrednio wymagane przez SIEM w tym scenariuszu.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Log bucket jest magazynem logów (Cloud Logging storage), a nie potokiem danych (jak Pub/Sub), więc SIEM nie będzie mógł ich odczytać w sposób ciągły zgodnie z wymaganiami.
+- <strong>Opcja B:</strong> Folder-level sinki działają, ale wymagają ręcznego powtarzania konfiguracji dla każdego folderu, co jest nieefektywne (zwiększa 'toil') i narusza zasadę automatyzacji. Organizacyjny sink załatwia sprawę raz dla całej organizacji.
+- <strong>Opcja D:</strong> Projekt-level sinki wymagają ręcznej konfiguracji dla każdego nowego projektu, co przy częstym tworzeniu nowych projektów prowadzi do błędu ludzkiego i pominięcia logów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/routing/overview#aggregated_sinks" target="_blank">Google Cloud: Aggregated Sinks</a>
+- <a href="https://cloud.google.com/logging/docs/export/using_exported_logs" target="_blank">Google Cloud: Exporting logs to Pub/Sub</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do tego typu pytań jest słowo "all current and future" (wszystkie obecne i przyszłe). Zawsze szukaj rozwiązań na poziomie organizacji (Organization-level), aby uniknąć konieczności ręcznego zarządzania (toil).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Aggregation = Org/Folder Level:</strong> Jeśli zadanie mówi o wszystkich projektach w organizacji, użyj "Aggregated Sink".</li>
+    <li><strong>Integration = Pub/Sub:</strong> Integracje z zewnętrznymi SIEM w GCP prawie zawsze wykorzystują Pub/Sub jako pośrednika.</li>
 </ul>
 </div>
 <script>

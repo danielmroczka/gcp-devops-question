@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 104 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Organizational Policies (zasady organizacji) są stosowane hierarchicznie. Jeśli w organizacji jest wymuszona polityka zabraniająca tworzenia kluczy konta serwisowego (`iam.disableServiceAccountKeyCreation`), aby rozwiązać ten problem dla konkretnego projektu, musisz nadpisać tę politykę na poziomie tego projektu. 
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>A i C:</strong> Wykorzystanie domyślnych kluczy kont serwisowych jest odradzane ze względu na bezpieczeństwo (nie można ich rotować tak łatwo jak własnych kluczy i są współdzielone).
+- <strong>B:</strong> Usunięcie polityki na poziomie organizacji wpłynie na całą organizację, co narusza zasadę najmniejszych uprawnień (Least Privilege) i niepotrzebnie zwiększa ryzyko bezpieczeństwa dla innych projektów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/resource-manager/docs/organization-policy/overview" target="_blank">Google Cloud: Organization Policy Service</a>
+- <a href="https://cloud.google.com/iam/docs/creating-managing-service-account-keys" target="_blank">Google Cloud: Tworzenie i zarządzanie kluczami kont serwisowych</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Klucze kont serwisowych w GCP powinny być traktowane jak "sekrety". Zasada `iam.disableServiceAccountKeyCreation` ma na celu wymuszenie bezpieczniejszych metod uwierzytelniania, takich jak <strong>Workload Identity Federation</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Jeśli widzisz "Organization Policy" i problem dotyczy "tylko jednego projektu", zawsze szukaj odpowiedzi, która pozwala na <strong>nadpisanie (override) polityki na poziomie projektu</strong>.</li>
+    <li>Jeśli aplikacja jest w GCP (GKE, Cloud Run), zamiast kluczy użyj <strong>Workload Identity</strong>. Klucze to ostateczność dla aplikacji zewnętrznych.</li>
 </ul>
 </div>
 <script>

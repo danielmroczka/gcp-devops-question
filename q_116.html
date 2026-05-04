@@ -61,9 +61,8 @@
 <ul>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Use Cloud Logging to configure an aggregated sink at the organization level to export all logs into a BigQuery dataset.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Use Cloud Logging to configure an aggregated sink at the organization level to export all logs into Cloud Storage with a seven-year retention policy and Bucket Lock.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Use Cloud Logging to configure an export sink at each project level to export all logs into a BigQuery dataset</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Use Cloud Logging to configure an export sink at each project level to export all logs into a BigQuery dataset.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Use Cloud Logging to configure an export sink at each project level to export all logs into Cloud Storage with a seven-year retention policy and Bucket Lock.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 116 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Aggregated sink (poziom organizacji):</strong> Pozwala na automatyczne wychwytywanie logów ze wszystkich projektów w organizacji (nawet tych przyszłych), co eliminuje ryzyko pominięcia logów przez pomyłkę człowieka.
+- <strong>Cloud Storage + Bucket Lock:</strong> Jest standardem dla długoterminowej retencji (archiwizacji). Bucket Lock (WORM - Write Once, Read Many) zapewnia, że logi nie zostaną usunięte ani zmodyfikowane przez nikogo (nawet administratora) przed upływem 7 lat.
+- <strong>Złożoność:</strong> To rozwiązanie jest w pełni zarządzane i skalowalne.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A i C:</strong> BigQuery jest świetne do analityki, ale nie służy jako długoterminowa, tania i odporna na modyfikacje (WORM) przechowalnia dla celów audytowych.
+- <strong>Opcja D:</strong> Konfigurowanie sinków na poziomie każdego projektu (zamiast na poziomie organizacji) drastycznie zwiększa złożoność operacyjną ("toil") i ryzyko błędów przy dodawaniu nowych projektów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/export/configure_export_v2" target="_blank">Google Cloud: Routing i eksport logów</a>
+- <a href="https://cloud.google.com/storage/docs/bucket-lock" target="_blank">Google Cloud: Bucket Lock</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli w pytaniu pojawiają się słowa: <strong>długoterminowa retencja (7 lat)</strong> + <strong>odporność na błędy człowieka/modyfikacje</strong> + <strong>organizacja (skala)</strong> = <strong>Aggregated Sink (Org Level)</strong> + <strong>Cloud Storage z Bucket Lock</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Aggregated sink (Org Level) = automatyczne logowanie ze wszystkich projektów (skalowalność i unikanie błędów).</li>
+    <li>Bucket Lock = ochrona przed modyfikacją (wymóg regulacyjny).</li>
 </ul>
 </div>
 <script>

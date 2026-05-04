@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 165 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+W Google Cloud przepustowość sieci (network throughput) dla instancji Compute Engine jest bezpośrednio powiązana z liczbą vCPU w danym typie maszyny.
+1. <strong>Zależność vCPU -> Przepustowość</strong>: Większe maszyny (posiadające więcej vCPU) mają wyższe limity przepustowości sieciowej. Zmiana z n2-standard-2 (2 vCPU) na n2-standard-8 (8 vCPU) znacząco zwiększy maksymalną przepustowość dostępną dla instancji, co rozwiąże problem "peak network throughput" i przyspieszy pobieranie plików.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> W GCP, dla większości typów maszyn, dodawanie dodatkowych interfejsów NIC nie zwiększa ogólnej przepustowości sieciowej instancji, która jest limitowana przez jej typ (vCPU).
+- <strong>Opcja B:</strong> Cloud NAT służy do umożliwienia instancjom w prywatnych podsieciach dostępu do internetu, a nie do zwiększania przepustowości sieciowej samych maszyn.
+- <strong>Opcja D:</strong> Ops Agent służy do zbierania metryk, nie wpływa w żaden sposób na wydajność sieciową instancji.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/compute/docs/network-bandwidth" target="_blank">Google Cloud: Compute Engine Network Bandwidth</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli widzisz problem z "network throughput" w Compute Engine, pierwszą rzeczą do sprawdzenia w dokumentacji jest limit przepustowości dla typu maszyny (zależy on od liczby vCPU).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>vCPU = Network Bandwidth:</strong> W Compute Engine większa liczba vCPU to niemal zawsze większa przepustowość sieciowa.</li>
 </ul>
 </div>
 <script>

@@ -51,11 +51,11 @@
 <div class="q-card mb-4">
 <h2>Question 119 / 201</h2>
 <div class="product-badges mb-3">
-    <span class="badge badge-devops"><i class="fas fa-file-alt"></i> Logging</span>
+    <span class="badge badge-devops"><i class="fas fa-shield-alt"></i> Security</span>
 </div>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
-         You are building and running client applications in Cloud Run and Cloud Functions. Your client requires that all logs must be available for one year so that the client can import the logs into their logging service. You must minimize required code changes. What should you do?
+         You want to ensure that only trusted and verified container images are deployed to your Google Kubernetes Engine (GKE) clusters. You need to enforce this policy during the CI/CD pipeline, ensuring that only images signed by your build process can be run. What should you do?
 </p>
 <div class="question-choices-container">
 <ul>
@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Configure Identity and Access Management (IAM) policies to create a least privilege model on your GKE clusters.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Use Binary Authorization to attest images during your CI/CD pipeline.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Enable Container Analysis in Artifact Registry, and check for common vulnerabilities and exposures (CVEs) in your container images.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 119 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+<strong>Binary Authorization</strong> to usługa w GCP, która zapewnia bezpieczeństwo wdrożeń kontenerów, wymuszając, aby wszystkie obrazy były podpisane przez zaufane podmioty (tzw. attesters) przed dopuszczeniem ich do uruchomienia w GKE. Jest to kluczowe narzędzie do implementacji polityki "supply chain security" (bezpieczeństwo łańcucha dostaw).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Falco/Twistlock to narzędzia do monitorowania zachowania (runtime security), a nie do wymuszania polityki wdrożeniowej opartej na podpisach obrazów przed wdrożeniem.
+- <strong>Opcja B:</strong> IAM kontroluje kto ma dostęp, a nie jakie obrazy (treść) są uruchamiane wewnątrz klastra.
+- <strong>Opcja D:</strong> Container Analysis skanuje obrazy w poszukiwaniu luk (CVE), ale nie zarządza podpisami ani nie blokuje wdrożeń na podstawie potwierdzenia (attestation) z CI/CD.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/binary-authorization/docs/overview" target="_blank">Google Cloud: Binary Authorization Overview</a>
+- <a href="https://cloud.google.com/blog/products/containers-kubernetes/ensure-secure-container-deployments-with-binary-authorization" target="_blank">Blog GCP: Zabezpieczanie wdrożeń z Binary Authorization</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach dotyczących <strong>zaufanych obrazów</strong> i <strong>wymuszania polityk</strong> w CI/CD, poprawną odpowiedzią w GCP jest zawsze <strong>Binary Authorization</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Słowa klucze:</strong> Jeśli widzisz "only trusted images", "enforce policy", "signed by CI/CD" -> szukaj "Binary Authorization".</li>
+    <li><strong>Odpowiedzi-pułapki:</strong> Skanowanie podatności (Container Analysis) nie jest tym samym co wymuszanie polityki wdrożeniowej (Binary Authorization).</li>
 </ul>
 </div>
 <script>

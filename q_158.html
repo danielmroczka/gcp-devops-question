@@ -76,22 +76,23 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 158 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Pytanie wymaga testowania nowej wersji pod "full production load" przed jej uruchomieniem (launch).
+- <strong>Opcja D (Shadow testing):</strong> Polega na kierowaniu kopii rzeczywistego ruchu produkcyjnego do nowej wersji aplikacji, przy czym odpowiedzi nowej wersji są ignorowane (nie trafiają do klienta). Pozwala to sprawdzić, jak nowa wersja radzi sobie pod pełnym obciążeniem, nie wpływając na użytkowników.
+- <strong>Opcja A (A/B testing/Blue-green):</strong> Te techniki wpływają na użytkowników (przełączają ich na nową wersję), co jest sprzeczne z wymaganiem testowania przed "uruchomieniem" (launch) dla wszystkich użytkowników.
+- <strong>Opcje B i C (Canary testing):</strong> Canary polega na stopniowym wystawianiu użytkowników na nową wersję, co również wpływa na nich.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-deployment-automation" target="_blank">Google Cloud: Deployment Automation</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy w pytaniu o wdrożenia pojawia się fraza "<strong>full production load</strong>" (pełne obciążenie produkcyjne) bez wpływu na użytkowników, prawidłową odpowiedzią zawsze jest <strong>Shadow Testing</strong> (inaczej nazywane Traffic Mirroring).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Shadow vs Canary:</strong> Shadow = testy pod obciążeniem bez ryzyka. Canary = testy na prawdziwych użytkownikach (ryzyko ograniczone).</li>
 </ul>
 </div>
 <script>

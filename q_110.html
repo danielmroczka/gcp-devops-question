@@ -76,22 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 110 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Run oferuje natywną funkcjonalność "Traffic Splitting" oraz "Tags". Używając flagi --tag, tworzymy unikalny, przewidywalny URL dla konkretnej rewizji usługi. Dzięki --no-traffic, rewizja ta jest wdrażana, ale nie obsługuje głównego ruchu produkcyjnego, co pozwala na bezpieczne testowanie najnowszych zmian.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- B. Polecenie to zarządza ruchem, ale nie tworzy unikalnego punktu końcowego (URL) dla nowej rewizji do testów, a jedynie zmienia kierowanie ruchu do rewizji.
+- C. Dodanie tokena autoryzacyjnego wymusza jedynie uwierzytelnienie, ale nie zapewnia izolowanego środowiska testowego (URL) dla konkretnej rewizji.
+- D. `run.invoker` jest wymagany do wywołania usługi, ale domena `.private.run.app` nie istnieje w Cloud Run w ten sposób.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/run/docs/managing/traffic-splitting" target="_blank">Cloud Run Traffic Splitting</a>
+- <a href="https://cloud.google.com/run/docs/configuring/tags" target="_blank">Cloud Run Tags</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zapamiętaj: <strong>--tag</strong> w Cloud Run tworzy dedykowany URL typu [tag]--[service].a.run.app.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>--no-traffic:</strong> Jest kluczowe dla "Blue-Green" lub "Canary" deployments, aby nie wpływać na użytkowników produkcyjnych.</li>
+    <li>Cloud Run Tags są idealne do testowania przed wdrożeniem produkcyjnym.</li>
 </ul>
 </div>
 <script>

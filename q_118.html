@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 118 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Pytanie dotyczy długoterminowego przechowywania logów z zachowaniem minimalnej liczby zmian w kodzie.
+1. <strong>Logging Sink (Sink logowania)</strong> pozwala automatycznie przekierowywać logi do różnych miejsc (m.in. Cloud Storage, BigQuery, Pub/Sub).
+2. <strong>Logs Bucket (Wiadro logów)</strong> to specjalny typ zasobnika w Cloud Logging, który pozwala na ustawienie retencji (np. 365 dni) i zarządzanie logami w sposób natywny.
+3. <strong>Minimalizacja zmian w kodzie:</strong> Rozwiązanie to wykorzystuje infrastrukturę GCP (sinki i buckety), dzięki czemu kod aplikacji nie musi być modyfikowany, aby wysyłać logi do zewnętrznego serwisu.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Wymaga modyfikacji wszystkich aplikacji (send logs to both...), co jest sprzeczne z wymaganiem "minimalizacji zmian w kodzie" i wprowadza ogromny dług techniczny.
+- <strong>Opcja B:</strong> Pub/Sub jest systemem kolejkowania komunikatów, a nie długoterminowego składowania logów (retencja w Pub/Sub jest zazwyczaj znacznie krótsza niż rok).
+- <strong>Opcja C:</strong> Ręczne wysyłanie logów z kontenerów/funkcji do storage bucketa jest bardzo trudne do utrzymania, wymaga zmian w kodzie i skomplikowanej konfiguracji firewalli/uprawnień, co jest niezalecane.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/routing/overview" target="_blank">Google Cloud: Routing and Storage Overview</a>
+- <a href="https://cloud.google.com/logging/docs/storage" target="_blank">Google Cloud: Logs Buckets</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem w tym pytaniu jest <strong>minimalizacja zmian w kodzie</strong>. W GCP, jeśli musisz przesłać logi w inne miejsce, zawsze szukaj rozwiązania opartego na <strong>Logging Sinks</strong>, a nie na zmianach wewnątrz aplikacji.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Zasada GCP:</strong> Jeśli możesz skonfigurować to na poziomie infrastruktury (Logging Sink), nie dotykaj kodu aplikacji.</li>
+    <li><strong>Logging Sinks:</strong> To Twój najlepszy przyjaciel w pytaniach o przekierowywanie logów.</li>
 </ul>
 </div>
 <script>

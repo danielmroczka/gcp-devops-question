@@ -66,7 +66,6 @@
 
 </ul>
 </div>
-<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">D</span>
@@ -76,22 +75,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 102 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Twoim celem jest skalowanie zarówno liczby Podów (aby obsługiwać zmienny ruch), jak i liczby węzłów (aby te Pody miały gdzie działać).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego D jest poprawną odpowiedzią:
+- <strong>Horizontal Pod Autoscaler (HPA):</strong> Automatycznie skaluje liczbę replik Podów w zależności od zapotrzebowania (np. użycie CPU/RAM).
+- <strong>Cluster Autoscaler (CA):</strong> Automatycznie skaluje liczbę węzłów w klastrze, gdy Pody nie mogą zostać uruchomione (brak zasobów) lub gdy węzły są niedostatecznie wykorzystane. To połączenie idealnie realizuje założenie: "tylko wystarczająca liczba Podów i węzłów".
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>A i C:</strong> Jeśli ograniczysz się tylko do skalowania Podów (HPA) bez skalowania węzłów, to w sytuacji dużego ruchu Pody nie będą miały gdzie się uruchomić, jeśli węzły osiągną limit zasobów. Jeśli ograniczysz się tylko do VPA (skalowanie w górę/dół zasobów pojedynczego Poda), również nie rozwiążesz problemu zmiennej liczby Podów przy zmiennym ruchu.
+- <strong>B:</strong> VPA zmienia zasoby (requesty/limity) pojedynczych Podów. W środowiskach o zmiennym natężeniu ruchu (typowy ecommerce) znacznie lepiej sprawdza się horyzontalne skalowanie (dodawanie/usuwanie Podów - HPA), podczas gdy VPA jest używane do optymalizacji zasobów stałych Podów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler" target="_blank">Google Cloud: HPA</a>
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler" target="_blank">Google Cloud: Cluster Autoscaler</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Skalowanie w GKE to zazwyczaj duet: <strong>HPA</strong> (dla Podów) + <strong>Cluster Autoscaler</strong> (dla węzłów).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Zawsze myśl dwupoziomowo w Kubernetes: Skalowanie aplikacji (Pody) i skalowanie infrastruktury (węzły).</li>
+    <li>Jeśli aplikacja ma zmienne obciążenie, <strong>Horizontal Pod Autoscaler</strong> jest zawsze pierwszym wyborem.</li>
 </ul>
 </div>
 <script>

@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 186 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Masz problem z konkretną wersją aplikacji w konkretnej strefie. Twoim celem jest wycofanie zmian dla tych konkretnych Podów przy minimalnym wpływie na użytkowników (czyli nie chcesz wycofywać całego wdrożenia, jeśli w innych strefach działa poprawnie).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego poprawna jest odpowiedź C:
+- <strong>C. Modify the Deployment to use the Pod template from the previous version of your application. Perform a rolling update to replace the Pods in the affected zone:</strong> Jest to najbardziej precyzyjne podejście. Przywrócenie szablonu Poda do poprzedniej (działającej) wersji i wykonanie update'u pozwoli GKE na kontrolowaną zamianę błędnych Podów na działające. GKE automatycznie zarządza procesem rolling update, minimalizując przestoje.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Skalowanie w dół usunie Pody, ale nie zmieni ich definicji (nadal będą korzystać z nowej, błędnej wersji, jeśli spróbujesz je przywrócić).
+- <strong>Opcja B:</strong> Drainowanie węzłów wymusi migrację Podów na inne węzły, ale jeśli obraz kontenera jest ten sam (błędna wersja), problem po prostu przeniesie się na inne węzły, nie rozwiązując go.
+- <strong>Opcja D:</strong> <code>kubectl rollout undo</code> wycofa całe wdrożenie dla całego klastra (wszystkich stref), co jest "strzelaniem z armaty do wróbla" i wpływa negatywnie na użytkowników w strefach, gdzie aplikacja działa poprawnie.
+
+Więcej informacji:
+- <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment" target="_blank">Kubernetes: Rolling Update Deployment</a>
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/deployment" target="_blank">GKE: Managing Deployments</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W GKE/Kubernetes, jeśli wdrożenie się nie udaje, kluczem jest precyzyjne zarządzanie wersją szablonu Podów (Pod Template). Nigdy nie usuwaj "na siłę" (np. skalując w dół czy drainując węzły), jeśli problem leży w definicji wdrożenia.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Rollout Undo = Całość:</strong> <code>kubectl rollout undo</code> to rollback całego Deploymentu. Jeśli problem jest lokalny (np. strefa), szukaj rozwiązania, które pozwoli na bardziej precyzyjne sterowanie.</li>
+    <li><strong>Pod Template jest kluczem:</strong> To właśnie zmiana w Pod Template (obraz, zmienne środowiskowe) powoduje problemy. Przywrócenie go do poprzedniej wersji to najszybsza metoda naprawy.</li>
 </ul>
 </div>
 <script>

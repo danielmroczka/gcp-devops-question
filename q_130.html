@@ -64,7 +64,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Examine the wall-clock time and the CPU time of the application. If the difference is substantial, increase the local disk storage allocation.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Examine the latency time the wall-clock time and the CPU time of the application. If the latency time is slowly burning down the error budget, and the difference between wall-clock time and CPU time is minimal mark the application for optimization.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="E" style="font-weight: bold; margin-right: 10px;">E.</span> Examine the heap usage of the application. If the usage is low, mark the application for optimization.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -77,22 +76,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: DE.
+<pre>Odpowiedź: DE
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 130 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Analiza wydajności aplikacji w GCP opiera się na zrozumieniu, w jaki sposób aplikacja wykorzystuje dostępne zasoby systemowe.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+- <strong>Opcja D (Poprawna):</strong> Jeśli latencja wpływa negatywnie na "error budget", a czas procesora (CPU time) jest bardzo zbliżony do czasu rzeczywistego (wall-clock time), oznacza to, że aplikacja jest "CPU-bound". Procesor jest w pełni wykorzystany, co sugeruje konieczność optymalizacji kodu lub algorytmów.
+- <strong>Opcja E (Poprawna):</strong> Niska utylizacja sterty (heap usage) w kontekście problemów z wydajnością może wskazywać na inne wąskie gardła (np. nieefektywne zarządzanie wątkami, blokady), co kwalifikuje aplikację do dalszej, bardziej szczegółowej analizy wydajnościowej.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A, B i C:</strong> Zwiększanie zasobów (CPU, pamięć, dysk) w ciemno, bez wcześniejszego zdiagnozowania problemu za pomocą narzędzi takich jak Cloud Profiler, jest nieefektywną praktyką (tzw. "guessing game"). W inżynierii niezawodności (SRE) najpierw szukamy przyczyny (root cause) w kodzie lub konfiguracji.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/profiler/docs/concepts" target="_blank">Cloud Profiler Concepts</a>
+- <a href="https://cloud.google.com/trace/docs" target="_blank">Cloud Trace</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zasada numer jeden: Najpierw mierz, potem optymalizuj.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>CPU bound:</strong> Jeśli CPU time ≈ Wall-clock time, optymalizuj algorytmy/kod.</li>
+    <li><strong>I/O bound:</strong> Jeśli Wall-clock time >> CPU time, aplikacja czeka na operacje wejścia/wyjścia (sieć, disk).</li>
+    <li><strong>Nie zwiększaj zasobów w ciemno:</strong> W pytaniach typu "Performance Tuning", prawidłowe odpowiedzi niemal zawsze dotyczą analizy danych (profilowania) lub weryfikacji metryk, a nie po prostu "dodania RAM/CPU".</li>
 </ul>
 </div>
 <script>

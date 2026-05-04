@@ -59,11 +59,10 @@
 </p>
 <div class="question-choices-container">
 <ul>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> 1. Create a Google service account.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> 1. Create a Google service account.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> 1. Create a Google service account.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> 1. Create a Google service account.</li>
-
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Create a Google Service Account (GSA), create a Kubernetes Service Account (KSA), and bind them using IAM Policy.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Create a GSA, annotate the KSA with the GSA email address, and enable Workload Identity on the GKE cluster.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Enable Workload Identity on the cluster, create a GSA, create a KSA, and bind the KSA to the GSA using IAM policy.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Create a GSA with the required permissions, and attach the GSA to the GKE nodes.</li>
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 175 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Rozwiązaniem problemu długożyjących kluczy (long-lived credentials) w GKE jest <strong>Workload Identity</strong>.
+1. Enable Workload Identity na klastrze (lub puli węzłów).
+2. Tworzysz GSA (Google Service Account).
+3. Tworzysz KSA (Kubernetes Service Account).
+4. Bindujesz (wiążesz) KSA z GSA za pomocą polityki IAM (IAM policy binding), co pozwala podom używającym danego KSA na przejęcie (impersonate) tożsamości GSA.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Zwykłe bindownie IAM nie jest wystarczające, by KSA mogło bezpiecznie przejąć tożsamość GSA bez aktywacji Workload Identity na klastrze.
+- <strong>Opcja B:</strong> Sama adnotacja (annotation) jest częścią procesu, ale nie jest pełnym procesem – wymaga poprawnej konfiguracji wiązania IAM policy (binding).
+- <strong>Opcja D:</strong> Przypisywanie GSA do węzłów (nodes) klastra narusza zasadę najmniejszych uprawnień (PoLP), ponieważ wszystkie pody na danym węźle otrzymałyby te same uprawnienia. To właśnie Workload Identity zostało stworzone, aby tego unikać.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity" target="_blank">GKE: Workload Identity</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowe słowo: <strong>Workload Identity</strong>. To standard GCP do rozwiązywania problemu "long-lived credentials" w GKE.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Unikaj "Attach GSA to Nodes":</strong> To anty-wzorzec bezpieczeństwa. Workload Identity pozwala przypisać uprawnienia bezpośrednio do konkretnego podu (za pomocą KSA).</li>
+    <li><strong>Kolejność:</strong> Enable WI na klastrze -> Create GSA -> Create KSA -> Bind IAM (KSA to GSA).</li>
 </ul>
 </div>
 <script>

@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 190 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+<strong>Personalized Service Health</strong> to usługa w GCP, która dostarcza informacje o awariach i problemach dotyczących konkretnych usług Google Cloud używanych przez Twoją organizację.
+- <strong>Opcja D:</strong> Jest poprawna, ponieważ pozwala na bezpośrednie wyświetlenie na pulpicie nawigacyjnym (dashboardzie) zdarzeń związanych z infrastrukturą GCP, co w połączeniu z Twoimi metrykami pozwala łatwo odróżnić awarie GCP od problemów z własną aplikacją.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A i B:</strong> Log-based metrics oraz logs widgets są przydatne do monitorowania błędów aplikacji, ale nie są przeznaczone do śledzenia awarii po stronie samej platformy GCP w sposób zintegrowany.
+- <strong>Opcja C:</strong> Alerting policy służy do powiadamiania o problemach, a nie do wizualnego odróżniania przyczyn awarii na dashboardzie w czasie rzeczywistym.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/service-health/docs/overview" target="_blank">Personalized Service Health Overview</a>
+- <a href="https://cloud.google.com/monitoring/charts/dashboards" target="_blank">Cloud Monitoring Dashboards</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zawsze w GCP, gdy mowa o "Google Cloud service" i odróżnianiu od "własnego serwisu", myśl o <strong>Service Health</strong> (dawniej Health Dashboard).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Personalized Service Health:</strong> Kluczowe narzędzie do sprawdzania, czy "to wina Google czy nasza".</li>
 </ul>
 </div>
 <script>

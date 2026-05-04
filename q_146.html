@@ -70,29 +70,36 @@
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">CD</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C, D</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: CD.
+<pre>Odpowiedź: C, D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 146 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Wprowadzenie kultury post-mortem (analizy poawaryjnej) wymaga przede wszystkim wsparcia kultury "blameless" (bez obwiniania):
+- Opcja C: Zaangażowanie liderów pokazuje, że organizacja traktuje naukę z błędów jako priorytet, a nie jako karę.
+- Opcja D: Nagradzanie za pisanie post-mortem promuje transparentność i chęć dzielenia się wiedzą.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- Opcja A: Post-mortem powinni prowadzić ludzie, którzy uczestniczyli w awarii (lub byli blisko niej), aby zrozumieć kontekst. Zmuszanie nowych pracowników do tego nie ma sensu.
+- Opcja B: Powołanie "zespołu od post-mortem" tworzy silosy i sprawia, że reszta organizacji przestaje czuć odpowiedzialność za swoje błędy.
+- Opcja E: Krytyka post-mortem może zniechęcić ludzi do bycia szczerymi. Zamiast krytyki należy promować konstruktywną informację zwrotną (feedback), która prowadzi do poprawy procesu.
+
+Więcej informacji:
+- <a href="https://sre.google/sre-book/postmortem-culture/" target="_blank">Google SRE Book: Postmortem Culture</a>
+- <a href="https://sre.google/sre-book/managing-incidents/" target="_blank">Google SRE Book: Managing Incidents</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem do postmortems jest kultura <strong>blameless</strong> (bez obwiniania) i wsparcie liderów.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Blameless Culture:</strong> Szukaj odpowiedzi, które wspierają uczenie się, a nie szukanie winnych.</li>
+    <li><strong>Liderzy:</strong> Ich wsparcie jest kluczowe dla powodzenia każdej zmiany kulturowej.</li>
 </ul>
 </div>
 <script>

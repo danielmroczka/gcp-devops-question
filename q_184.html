@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 184 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Problem statusu <strong>OOMKilled</strong> (Out Of Memory Killed) oznacza, że kontenery z mikroserwisem przekroczyły przypisany im limit pamięci (resource memory limit) i zostały zamknięte przez system operacyjny węzła (kubelet).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego poprawna jest odpowiedź D:
+- <strong>D. Increase the memory resource limit of the microservice:</strong> Jest to bezpośrednie rozwiązanie problemu. Jeśli kontener jest zabijany z powodu braku pamięci, należy zwiększyć limit pamięci dla tego konkretnego kontenera w jego specyfikacji (w pliku YAML wdrożenia).
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Zwiększenie typu maszyny węzła zwiększy całkowitą ilość pamięci dostępnej na węźle, ale nie zmieni limitu dla kontenera. Pod będzie nadal zabijany po przekroczeniu swojego limitu.
+- <strong>Opcja B:</strong> Zwiększenie liczby węzłów w puli (node autoscaling) nie rozwiąże problemu OOMKilled, ponieważ każda nowa instancja poda (jeśli została by stworzona) również miałaby ten sam, zbyt niski limit pamięci.
+- <strong>Opcja C:</strong> Zwiększenie limitu replik HPA nic nie zmieni, ponieważ pods są zabijane przez OOM, a nie przez brak wystarczającej liczby instancji. Nawet większa liczba replik nie pomoże, jeśli każda z nich ma za mało pamięci.
+
+Więcej informacji:
+- <a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/" target="_blank">Kubernetes: Assign Memory Resources to Containers and Pods</a>
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/resource-management" target="_blank">GKE: Resource management</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Błąd <strong>OOMKilled</strong> w GKE jest klasycznym problemem zarządzania zasobami (resource management). Zawsze sprawdzaj, czy błąd wynika z braku pamięci na poziomie poda, czy na poziomie węzła (Node).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>OOMKilled = Memory Limit:</strong> Zawsze w pierwszej kolejności zwiększ limit pamięci w specyfikacji poda.</li>
+    <li><strong>Troubleshooting:</strong> Użyj <code>kubectl describe pod</code>, aby potwierdzić przyczynę restartów kontenerów. Jeśli widzisz "OOMKilled", to na 100% przekroczenie limitu.</li>
 </ul>
 </div>
 <script>

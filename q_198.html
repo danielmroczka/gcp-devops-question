@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Perform A/B testing, and test your application periodically after the deployment is complete.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Perform a canary deployment, and test your new application periodically after the new version is deployed.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Perform a blue/green deployment, and test your new application after the deployment is complete.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,25 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 198 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+<strong>Blue/Green deployment</strong> polega na posiadaniu dwóch identycznych środowisk produkcyjnych (Blue - stara wersja, Green - nowa wersja). Ruch jest kierowany do środowiska Blue, a nowa wersja jest wdrażana na środowisko Green. Po przetestowaniu Green, następuje przełączenie ruchu (load balancer). Jeśli wystąpi problem na środowisku Green, przełączenie ruchu z powrotem na Blue (roll back) jest niemal natychmiastowe.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Rolling deployment stopniowo zastępuje instancje, co jest dobre dla zerowego przestoju (zero-downtime), ale roll back nie jest "natychmiastowy" w tym samym stopniu co przełączenie load balancera w Blue/Green.
+- <strong>Opcje B, C:</strong> A/B i Canary to techniki testowania na produkcji, które nie gwarantują natychmiastowego wycofania całego ruchu tak efektywnie jak Blue/Green.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-deployment-automation" target="_blank">Google Cloud: Deployment Automation</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy w pytaniu o wdrożenia pada fraza "<strong>instantly roll back</strong>" (natychmiastowe wycofanie), Twoim pierwszym skojarzeniem w GCP powinno być <strong>Blue/Green Deployment</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Blue/Green = Szybki rollback całego systemu.</li>
+    <li>Rolling = Stopniowy rollback, wolniejszy.</li>
 </ul>
 </div>
 <script>

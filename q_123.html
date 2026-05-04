@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 123 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Aby wyświetlać metryki Cloud Monitoring z projektów w określonym folderze i wykluczyć inne foldery, należy utworzyć projekt zakresu (scoping project) dla każdego folderu.
+Cloud Monitoring pozwala na grupowanie projektów w "Multi-project observability". Projekt zakresu (scoping project) definiuje zakres danych, które są widoczne w pulpitach nawigacyjnych.
+Tworząc osobny projekt zakresu dla każdego folderu, uzyskujesz logiczną separację danych monitorowania odpowiadającą strukturze folderów w organizacji.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Jeden nowy projekt zakresu dla całej organizacji wyświetliłby metryki ze wszystkich projektów, nie spełniając wymagania ograniczenia do jednego folderu.
+- <strong>Opcja C:</strong> Wykorzystanie istniejącego projektu produkcyjnego jako projektu zakresu jest ryzykowne (bezpieczeństwo, limity) i nie rozwiązuje problemu separacji według folderów.
+- <strong>Opcja D:</strong> Używanie wielu projektów jako projektów zakresu dla każdego folderu jest niejasne i niezgodne z modelem "jeden projekt zakresu na grupę zasobów" (Multi-project scoping).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/monitoring/settings#create-multi-project" target="_blank">Google Cloud: Multi-project metrics scoping</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o <strong>Cloud Monitoring</strong>, kluczem jest zrozumienie pojęcia <strong>Scoping Project</strong>. Projekt ten działa jako "agregator" metryk z innych projektów.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Multi-project:</strong> Jeśli chcesz patrzeć na metryki z wielu projektów w jednym pulpicie, potrzebujesz <strong>scoping project</strong>.</li>
+    <li><strong>Struktura:</strong> Scoping project jest logicznym kontenerem dla widoczności metryk. Jeśli masz strukturę folderów w organizacji, najczystszą architekturą jest dopasowanie projektów zakresu do tej struktury (np. 1 scoping project na folder/środowisko).</li>
 </ul>
 </div>
 <script>

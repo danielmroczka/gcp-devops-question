@@ -50,9 +50,6 @@
 </nav>
 <div class="q-card mb-4">
 <h2>Question 107 / 201</h2>
-<div class="product-badges mb-3">
-    
-</div>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
          Your application's performance in Google Cloud has degraded since the last release. You suspect that downstream dependencies might be causing some requests to take longer to complete. You need to investigate the issue with your application to determine the cause. What should you do?
@@ -63,7 +60,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Configure Google Cloud Managed Service for Prometheus in your application.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Configure Cloud Profiler in your application.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Configure Cloud Trace in your application.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +72,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 107 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Cloud Trace</strong> to usługa służąca do śledzenia zapytań (distributed tracing) w systemach rozproszonych. Pozwala ona na identyfikację wąskich gardeł (latency) poprzez wizualizację czasu, jaki zapytania spędzają w poszczególnych usługach lub zależnościach (downstream dependencies). Jest to narzędzie idealne do diagnozowania sytuacji, w której ogólna wydajność aplikacji spada z powodu opóźnień w zewnętrznych serwisach.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A (Error Reporting):</strong> Służy do monitorowania i powiadamiania o błędach aplikacji (wyjątkach), a nie do badania opóźnień (latency).
+- <strong>Opcja B (Managed Service for Prometheus):</strong> Służy do zbierania metryk systemowych i aplikacyjnych (czasy odpowiedzi, wykorzystanie CPU/RAM), co pozwala zauważyć, że wydajność spadła, ale nie pozwala tak łatwo "wejść" w konkretne zapytanie i zobaczyć, który downstream serwis powoduje opóźnienie, jak robi to Trace.
+- <strong>Opcja C (Cloud Profiler):</strong> Służy do analizy wydajności CPU i pamięci wewnątrz samego kodu aplikacji (np. gdzie kod zużywa najwięcej zasobów), a nie do badania opóźnień w komunikacji sieciowej między serwisami.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/trace/docs" target="_blank">Google Cloud Trace</a>
+- <a href="https://cloud.google.com/trace/docs/overview" target="_blank">Czym jest Cloud Trace?</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli problemem jest <strong>latencja w systemach rozproszonych</strong> (np. komunikacja między mikrousługami), odpowiedź jest zawsze jedna: <strong>Cloud Trace</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Latency -> Cloud Trace</li>
+    <li>Performance bottlenecks in code -> Cloud Profiler</li>
+    <li>Metrics/Alerting -> Cloud Monitoring/Prometheus</li>
+    <li>Application Errors -> Error Reporting</li>
 </ul>
 </div>
 <script>

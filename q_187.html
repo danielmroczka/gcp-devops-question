@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 187 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Masz politykę organizacji (Organization Policy), która ogranicza lokalizację zasobów (Resource Location Restriction) tylko do regionów USA. Błąd wynika z faktu, że Secret Manager domyślnie próbuje replikować sekret w trybie "globalnym" (wieloregionalnym), co narusza tę politykę.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego poprawna jest odpowiedź C:
+- <strong>C. Create the secret with a user-managed replication policy:</strong> Replikacja zarządzana przez użytkownika (user-managed) pozwala na jawne wskazanie konkretnych regionów, w których ma być przechowywany sekret. Dzięki temu możesz wybrać tylko regiony znajdujące się w USA, co spełnia wymogi regulacyjne i nie narusza polityki ograniczającej lokalizację zasobów.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Usuwanie polityk organizacji jest zazwyczaj zabronione ze względu na bezpieczeństwo i wymogi regulacyjne (compliance).
+- <strong>Opcja B:</strong> Automatyczna replikacja w Secret Managerze zazwyczaj oznacza replikację wieloregionalną lub globalną, co w tym przypadku narusza politykę ograniczającą lokalizację zasobów.
+- <strong>Opcja D:</strong> Dodanie regionu "global" do polityki nie rozwiąże problemu, jeśli sama polityka ma na celu ograniczenie zasobów do konkretnych regionów USA (zgodność z przepisami).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/secret-manager/docs/replication-policy" target="_blank">Secret Manager: Replication policies</a>
+- <a href="https://cloud.google.com/resource-manager/docs/organization-policy/restricting-resources" target="_blank">Organization Policy: Restricting resource locations</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy napotkasz błąd <code>constraints/gcp.resourceLocations</code>, oznacza to, że próbujesz utworzyć zasób w miejscu, które jest zabronione przez Twoją organizację. Rozwiązaniem jest zawsze ograniczenie lokalizacji (np. regionów) tego zasobu dozwolonych przez politykę.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Compliance przede wszystkim:</strong> W pytaniach dotyczących healthcare/finance zawsze szukaj odpowiedzi zgodnej z politykami (compliance), a nie takiej, która je obchodzi.</li>
+    <li><strong>User-managed = Kontrola:</strong> Jeśli automatyka powoduje błędy z polityką, zmień konfigurację na "user-managed" (zarządzaną przez użytkownika), aby precyzyjnie wskazać dozwolone lokalizacje.</li>
 </ul>
 </div>
 <script>

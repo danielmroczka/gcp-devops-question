@@ -50,9 +50,6 @@
 </nav>
 <div class="q-card mb-4">
 <h2>Question 109 / 201</h2>
-<div class="product-badges mb-3">
-    
-</div>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
          You built a serverless application by using Cloud Run and deployed the application to your production environment. You want to identify the resource utilization of the application for cost optimization. What should you do?
@@ -63,7 +60,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Use Cloud Profiler with Ops Agent to monitor the CPU and memory utilization of the application.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Use Cloud Monitoring to monitor the container CPU and memory utilization of the application.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Use Cloud Ops to create logs-based metrics to monitor the resource utilization of the application.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +72,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 109 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+- <strong>Cloud Monitoring</strong> (część Google Cloud Operations Suite) automatycznie zbiera metryki z usług zarządzanych, takich jak Cloud Run. Umożliwia monitorowanie użycia CPU i pamięci przez instancje kontenerów, co jest bezpośrednim źródłem danych potrzebnych do analizy kosztów (np. czy kontener nie prosi o zbyt duże zasoby, których nie wykorzystuje).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A (Cloud Trace):</strong> Służy do analizy opóźnień (latency), a nie do śledzenia zużycia CPU/RAM.
+- <strong>Opcja B (Cloud Profiler):</strong> Służy do profilowania kodu (wskazuje, jakie funkcje w kodzie zużywają najwięcej zasobów), a nie do ogólnego monitorowania zużycia zasobów infrastruktury. Ponadto, w przypadku Cloud Run (usługa serverless), nie mamy możliwości instalacji "Ops Agent" w taki sam sposób jak na maszynach wirtualnych (Compute Engine).
+- <strong>Opcja D (Logs-based metrics):</strong> Można stworzyć metryki z logów, ale jest to metoda znacznie bardziej skomplikowana i pośrednia. Cloud Monitoring zapewnia te dane w sposób natywny i bez dodatkowej konfiguracji.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/run/docs/monitoring" target="_blank">Cloud Run: Monitoring and Alerting</a>
+- <a href="https://cloud.google.com/monitoring/docs" target="_blank">Cloud Monitoring Overview</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy pytają o monitorowanie zasobów (CPU/RAM) w usługach managed (Cloud Run, GKE) w GCP, odpowiedź brzmi zawsze <strong>Cloud Monitoring</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Resource Utilization (CPU/RAM) -> Cloud Monitoring.</li>
+    <li>Performance bottlenecks in code -> Cloud Profiler.</li>
+    <li>Latency -> Cloud Trace.</li>
 </ul>
 </div>
 <script>

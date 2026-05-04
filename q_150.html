@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 150 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Aby obsłużyć rotację haseł co 24 godziny bez downtime'u w Cloud Run, należy zastosować Secret Manager.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego odpowiedź B jest poprawna:
+- <strong>Secret Manager:</strong> Jest natywnym rozwiązaniem GCP do przechowywania i automatycznej rotacji sekretów.
+- <strong>Mounting as Volume:</strong> W Cloud Run (i GKE) zamontowanie sekretu jako woluminu jest preferowaną metodą dla aplikacji, które muszą odczytywać plik z dysku. Gdy sekret jest rotowany w Secret Managerze, Cloud Run może odświeżyć zamontowany wolumin przy kolejnym wdrożeniu lub poprzez mechanizmy odświeżania, co pozwala na płynną aktualizację bez konieczności przebudowy całego obrazu kontenera.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Zmienne środowiskowe są ustawiane raz podczas uruchamiania kontenera. Aby zaktualizować zmienną (nowe hasło), trzeba zrestartować aplikację (zmienić revision w Cloud Run), co nie jest tak elastyczne jak wolumin.
+- <strong>Opcja C i D:</strong> Wbudowywanie haseł do obrazu (hardcoding) to krytyczne naruszenie bezpieczeństwa (Secrets in code). Rebuildowanie obrazu co 24h z powodu zmiany hasła to ogromny "toil" i nieefektywne wykorzystanie zasobów CI/CD.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/run/docs/configuring/secrets" target="_blank">Cloud Run: Using Secrets</a>
+- <a href="https://cloud.google.com/secret-manager/docs/overview" target="_blank">Secret Manager: Overview</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zasada bezpieczeństwa GCP: <strong>Nigdy nie hardcoduj sekretów</strong> w obrazach ani nie wrzucaj ich do repozytorium kodu.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Cloud Run & Secrets:</strong> Najlepszą praktyką dla Cloud Run jest korzystanie z <strong>Secret Manager</strong> zintegrowanego bezpośrednio z usługą (montowanie jako wolumin lub zmienna środowiskowa, z preferencją woluminu dla plików konfiguracyjnych).</li>
+    <li><strong>Toil:</strong> Jeśli rozwiązanie wymaga przebudowywania obrazów przy każdej zmianie (jak hasło), jest to błędne podejście.</li>
 </ul>
 </div>
 <script>
