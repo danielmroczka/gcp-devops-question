@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 89 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Wdrożenie blue/green (niebiesko-zielone) to jedna z najbezpieczniejszych strategii wdrożeniowych, gdy celem jest możliwość natychmiastowego wycofania zmian (instant rollback).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+- <strong>Opcja D (Poprawna):</strong> Model blue/green polega na utrzymywaniu dwóch identycznych środowisk: "Blue" (obecna wersja produkcyjna) i "Green" (nowa wersja). Po zakończeniu wdrożenia na środowisko Green i przeprowadzeniu na nim testów, następuje przełączenie ruchu (przez load balancer). Jeśli wystąpi problem, przełączenie ruchu z powrotem na "Blue" jest natychmiastowe.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Rolling deployment (wdrożenie kroczące) stopniowo zastępuje instancje. Jeśli wystąpi błąd, wycofanie zmian trwa tyle samo, co ponowne wdrożenie poprzedniej wersji, co nie jest "natychmiastowe".
+- <strong>Opcja B:</strong> A/B testing służy do testowania różnych wersji pod kątem zachowań użytkowników/biznesu, a nie jest dedykowaną strategią wdrożeniową mającą na celu bezpieczeństwo rollbacku.
+- <strong>Opcja C:</strong> Canary deployment polega na udostępnieniu nowej wersji tylko małej grupie użytkowników. Jest to bezpieczna metoda, ale w przypadku wykrycia błędu, "natychmiastowe wycofanie" wymaga wyłączenia ruchu dla canary – jednak pełna spójność i natychmiastowość blue/green w przełączaniu całej infrastruktury jest w tym kontekście bardziej dopasowana do "instant rollback".
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/application-deployment-and-testing-strategies" target="_blank">Application deployment and testing strategies</a>
+- <a href="https://cloud.google.com/solutions/blue-green-deployments-on-gke" target="_blank">Blue/green deployments on GKE</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy w pytaniu o wdrożenia pojawia się fraza "<strong>instantly roll back</strong>" (natychmiastowe wycofanie), Twoim pierwszym skojarzeniem w GCP powinno być <strong>Blue/Green Deployment</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Rolling deployment</strong> = bezpieczne, ale wolniejszy rollback.</li>
+    <li><strong>Canary deployment</strong> = bezpieczne, służy do testów na małej grupie.</li>
+    <li><strong>Blue/Green deployment</strong> = najwyższe bezpieczeństwo przełączania, najszybszy rollback, ale kosztuje 2x więcej (2 środowiska).</li>
 </ul>
 </div>
 <script>

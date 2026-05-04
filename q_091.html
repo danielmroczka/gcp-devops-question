@@ -55,7 +55,7 @@
 </div>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
-         You work for a global organization and run a service with an availability target of 99% with limited engineering resources.For the current calendar month, you noticed that the service has 99.5% availability. You must ensure that your service meets the defined availability goals and can react to business changes, including the upcoming launch of new features.You also need to reduce technical debt while minimizing operational costs. You want to follow Google-recommended practices. What should you do?
+         You work for a global organization and run a service with an availability target of 99% with limited engineering resources. For the current calendar month, you noticed that the service has 99.5% availability. You must ensure that your service meets the defined availability goals and can react to business changes, including the upcoming launch of new features. You also need to reduce technical debt while minimizing operational costs. You want to follow Google-recommended practices. What should you do?
 </p>
 <div class="question-choices-container">
 <ul>
@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Identify, measure, and eliminate toil by automating repetitive tasks.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Define an error budget for your service level availability and minimize the remaining error budget.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Allocate available engineers to the feature backlog while you ensure that the service remains within the availability target.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 91 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+W modelu Site Reliability Engineering (SRE), "toil" (powtarzalna, manualna praca operacyjna) jest główną przeszkodą w rozwoju inżynieryjnym. Automatyzacja takich zadań pozwala inżynierom zaoszczędzić czas, który można zainwestować w redukcję długu technicznego oraz rozwój nowych funkcji, przy jednoczesnym obniżeniu kosztów operacyjnych. Skoro obecna dostępność (99.5%) przekracza cel (99%), organizacja ma miejsce na wprowadzenie zmian.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Dodanie redundancji N+1 zwiększa koszty (infrastruktura, licencje, zarządzanie), co jest sprzeczne z wymaganiem "minimalizacji kosztów operacyjnych" i nie rozwiązuje problemu długu technicznego.
+- <strong>Opcja C:</strong> Error budget jest narzędziem do równoważenia ryzyka wdrożeń z szybkością innowacji. Choć jest istotny w SRE, nie jest to bezpośrednia metoda na eliminację długu technicznego czy automatyzację zadań operacyjnych w celu obniżenia kosztów.
+- <strong>Opcja D:</strong> Skupienie inżynierów wyłącznie na nowych funkcjach (backlogu) kosztem automatyzacji i długu technicznego doprowadzi do "erozji" stabilności w dłuższym terminie (dług techniczny będzie rósł).
+
+Więcej informacji:
+- <a href="https://sre.google/sre-book/eliminating-toil/" target="_blank">Google SRE Book: Eliminating Toil</a>
+- <a href="https://cloud.google.com/blog/products/devops-sre" target="_blank">Google Cloud Blog: SRE & DevOps</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o poprawę stabilności i wydajności przy ograniczonych zasobach, kluczem jest <strong>automatyzacja</strong> (eliminacja toilu).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Toil vs Engineering:</strong> GCP zawsze promuje dążenie do ograniczenia toilu do poniżej 50% czasu pracy inżyniera.</li>
+    <li><strong>Pytania egzaminacyjne:</strong> Jeśli pytanie dotyczy redukcji kosztów, poprawy stabilności i rozwoju (innowacji) – szukaj odpowiedzi związanych z automatyzacją (toil reduction).</li>
 </ul>
 </div>
 <script>

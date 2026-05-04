@@ -76,22 +76,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 96 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Problem polega na braku współdzielonego stanu infrastruktury (terraform.tfstate). Jeśli każdy przebieg pipeline'u używa lokalnego stanu, Terraform nie wie o istnieniu wcześniejszych zasobów i tworzy nowe.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> To działanie naprawcze po fakcie (reaktywne), a nie rozwiązanie problemu u źródła.
+- <strong>Opcja C:</strong> Przechowywanie pliku tfstate w kontroli wersji (np. Git) jest <strong>bardzo niezalecane</strong>. Może prowadzić do problemów z blokowaniem (locking), konfliktami przy jednoczesnych zmianach, a przede wszystkim do wycieku wrażliwych danych (pliki state często zawierają sekrety w czystym tekście).
+- <strong>Opcja D:</strong> Ręczne usuwanie zasobów niszczy ideę IaC i powoduje przestoje (downtime). Terraform powinien zarządzać cyklem życia zasobów (update/replace) przy użyciu zdalnego stanu.
+
+Więcej informacji:
+- <a href="https://www.terraform.io/language/settings/backends/gcs" target="_blank">Terraform: GCS Backend</a>
+- <a href="https://cloud.google.com/architecture/terraform-gke" target="_blank">Google Cloud: Terraform Best Practices</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Zawsze używaj zdalnego backendu (najlepiej GCS dla GCP) w Terraform. Stan lokalny to przepis na katastrofę w środowiskach CI/CD.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Stan Terraform (tfstate) musi być przechowywany w zdalnym, współdzielonym backendzie (GCS z włączonym Object Versioning i Locking!).</li>
+    <li>Nigdy nie przechowuj stanu w Gicie!</li>
 </ul>
 </div>
 <script>

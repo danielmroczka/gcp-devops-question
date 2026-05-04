@@ -76,22 +76,30 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 97 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Log Sinks w Google Cloud mogą być tworzone na różnych poziomach hierarchii zasobów (Project, Folder, Billing Account, Organization). 
+Wymagania to:
+1. Minimalizacja liczby sinków: Tworząc sink na poziomie folderu, automatycznie obejmujemy wszystkie projekty znajdujące się wewnątrz tego folderu (oraz te, które zostaną w nim utworzone w przyszłości).
+2. Rozdzielenie danych (dev_dataset i prod_dataset): Tworząc jeden sink w folderze Dev i drugi w folderze Prod, spełniamy wymagania separacji logów w prosty i skalowalny sposób.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Jeden sink na poziomie organizacji z filtrowaniem byłby skomplikowany w zarządzaniu uprawnieniami do BigQuery (jeden dataset dla wszystkiego) i utrudniałby separację danych na poziomie projektu.
+- <strong>Opcja B:</strong> Tworzenie sinka w każdym projekcie jest nieefektywne (wysoki poziom 'toil'), trudne w utrzymaniu i nie spełnia wymogu automatycznego obejmowania przyszłych projektów.
+- <strong>Opcja C:</strong> Sink na poziomie organizacji jest możliwy, ale wymagałby skomplikowanych filtrów i konfiguracji w celu poprawnego kierowania logów do różnych datasetów (BigQuery), co jest bardziej podatne na błędy niż podejście oparte na folderach.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/export/configure_export_v2#folder-sinks" target="_blank">Cloud Logging: Exporting logs from folders</a>
+- <a href="https://cloud.google.com/logging/docs/routing/overview" target="_blank">Cloud Logging: Overview of sinks</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczem w tym pytaniu jest <strong>hierarchia zasobów GCP</strong>. Jeśli musisz zastosować regułę dla wielu projektów, zawsze szukaj poziomu najwyższego, który obejmuje te projekty, ale nie wykracza poza wymagany zakres (folder > projekt).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Zasada "najwyższego poziomu":</strong> Jeśli zadanie dotyczy wszystkich projektów w folderze, wybierz sink na poziomie folderu.</li>
+    <li><strong>Skalowalność:</strong> Sink na poziomie folderu jest najlepszym sposobem na "przyszłościowość" konfiguracji (automatycznie obejmuje nowo tworzone projekty).</li>
 </ul>
 </div>
 <script>

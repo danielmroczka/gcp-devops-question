@@ -79,19 +79,27 @@
 <pre>Odpowiedź: D
 
 Wyjaśnienie:
-Wymagania obejmują: kierowanie ruchem na podstawie User-Agent (Android) oraz zaawansowane dzielenie ruchu (traffic splitting).
-- GKE + Anthos Service Mesh (ASM) wspiera zaawansowane reguły routingu (VirtualServices w Istio/ASM), które umożliwiają dzielenie ruchu na podstawie nagłówków HTTP (jak `User-Agent`) oraz procentowe rozdzielanie ruchu.
-- Opcja A (Cloud Run) ma ograniczone wsparcie dla routingu opartego na nagłówkach aplikacji dla poszczególnych wersji w taki sposób jak ASM.
-- Opcja B (App Engine) oferuje dzielenie ruchu, ale nie na podstawie `User-Agent`.
-- Opcja C jest niepoprawna technicznie, ASM w tej konfiguracji używa GKE.</pre>
+Aby spełnić wszystkie trzy wymagania (routing oparty na `User-Agent`, procentowe dzielenie ruchu oraz ciągłe testowanie wielu wersji), konieczne jest użycie narzędzia klasy Service Mesh.
+
+- <strong>Opcja D (Poprawna):</strong> Google Kubernetes Engine (GKE) w połączeniu z Anthos Service Mesh (opartym na Istio) pozwala na tworzenie zaawansowanych reguł routingu (`VirtualService`). Umożliwiają one precyzyjne kierowanie ruchem na podstawie dowolnego nagłówka HTTP (np. `User-Agent: Android`) oraz jednoczesne definiowanie wag (procentowy podział ruchu) między wersjami microservice'ów.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Cloud Run umożliwia podział ruchu między wersje, ale nie pozwala na zaawansowany routing oparty na nagłówkach HTTP (np. User-Agent) w ramach standardowych funkcji zarządzania ruchem.
+- <strong>Opcja B:</strong> App Engine wspiera procentowy podział ruchu (traffic splitting), ale nie oferuje zaawansowanych możliwości routingu opartego na nagłówkach aplikacji (np. User-Agent).
+- <strong>Opcja C:</strong> Choć ASM można uruchomić w różnych środowiskach, rozwiązanie oparte na GKE jest naturalnym i zalecanym środowiskiem dla ASM do zarządzania kontenerami, podczas gdy Compute Engine (VM-y) wymagałoby znacznie bardziej złożonej i ręcznej konfiguracji, która nie jest standardem dla tego typu zadań.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/anthos/service-mesh/docs/overview" target="_blank">Anthos Service Mesh Overview</a>
+- <a href="https://istio.io/latest/docs/reference/config/networking/virtual-service/" target="_blank">Istio VirtualService Reference</a>
+- <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/ingress" target="_blank">GKE Ingress for HTTP(S) Load Balancing</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach dotyczących zaawansowanego routingu ruchu w kontenerach na GCP, Service Mesh (Anthos/Istio) jest zazwyczaj poprawną odpowiedzią.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Złota zasada routingu:</strong> Jeśli potrzebujesz zaawansowanego routingu na podstawie nagłówków HTTP (Header-based routing), od razu myśl o <strong>Service Mesh</strong> (Anthos/Istio) lub <strong>Ingress z dedykowanym Controllerem</strong>.</li>
+    <li><strong>GKE vs Cloud Run:</strong> Cloud Run jest świetny dla prostych, skalowalnych usług, ale GKE zapewnia pełną kontrolę nad infrastrukturą i zaawansowane możliwości sieciowe typu Service Mesh.</li>
 </ul>
 </div>
 <script>

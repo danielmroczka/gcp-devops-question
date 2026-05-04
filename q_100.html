@@ -66,7 +66,6 @@
 
 </ul>
 </div>
-<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
@@ -76,22 +75,31 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A.
+<pre>Odpowiedź: A
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 100 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Wymagania pytania: wdrożenie na GKE, brak możliwości pełnego testu obciążeniowego w pre-prod, konieczność automatyzacji i zapewnienia wydajności.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Dlaczego A jest poprawną odpowiedzią:
+- <strong>Canary deployments:</strong> Pozwalają na stopniowe kierowanie ruchu do nowej wersji (canary) przy jednoczesnym monitorowaniu wydajności za pomocą Cloud Monitoring. W razie wykrycia problemów (np. zwiększone opóźnienia, błędy 5xx), można szybko wstrzymać wdrożenie lub wycofać zmiany.
+- <strong>Automatyzacja:</strong> Continuous delivery pipeline pozwala na bezpieczne i powtarzalne wdrażanie.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>B:</strong> Blue/green jest świetne, ale w kontekście GKE i "braku pełnych testów obciążeniowych", canary pozwala na bardziej precyzyjne i stopniowe sprawdzenie wpływu na wydajność przy realnym obciążeniu.
+- <strong>C:</strong> Config Connector służy do zarządzania zasobami GCP przez Kubernetes, nie służy do "rampowania ruchu" między wersjami aplikacji.
+- <strong>D:</strong> RollingUpdate jest standardowym mechanizmem, ale ręczne monitorowanie i ewentualny rollback (kubectl) nie spełnia tak dobrze wymogu automatyzacji i bezpieczeństwa "canary testing" dla ryzykownego wdrożenia.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-deployment-automation" target="_blank">Google Cloud: Deployment Automation</a>
+- <a href="https://cloud.google.com/solutions/automated-canary-deployments-on-gke" target="_blank">Google Cloud: Canary Deployments on GKE</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Jeśli masz obawy o wydajność nowej wersji i chcesz ją bezpiecznie przetestować w produkcji, <strong>Canary Deployment</strong> to standardowe podejście w świecie GKE/DevOps.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Kluczowe słowo "brak testów obciążeniowych":</strong> Zawsze szukaj strategii, która pozwala na stopniowe zwiększanie ruchu (Canary).</li>
+    <li><strong>Złota zasada GKE:</strong> Automatyzacja poprzez CI/CD pipeline jest zawsze preferowana nad ręcznym wykonywaniem poleceń typu <code>kubectl</code>.</li>
 </ul>
 </div>
 <script>

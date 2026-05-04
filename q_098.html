@@ -76,22 +76,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 98 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+<strong>Google Cloud Managed Service for Prometheus (GMP)</strong> to w pełni zarządzana, skalowalna usługa, która pozwala na zbieranie, przechowywanie i wykonywanie zapytań do metryk z wielu klastrów GKE w sposób globalny. Jest kompatybilna z ekosystemem Prometheus (PromQL), co minimalizuje potrzebę zmiany istniejącego narzędziowania, a jednocześnie eliminuje 'toil' związany z zarządzaniem własnymi serwerami Prometheus, ich skalowaniem i federacją.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A i C (Federacja):</strong> Federacja (zarówno cross-service, jak i hierarchiczna) w czystym Prometheusie jest trudna w skalowaniu, wymaga ręcznej konfiguracji połączeń między serwerami, zwiększa złożoność operacyjną i jest podatna na błędy przy wielu klastrach. Nie jest to rekomendowane rozwiązanie dla środowisk produkcyjnych na dużą skalę w GCP.
+- <strong>Opcja B (Cloud Operations for GKE):</strong> Mimo że Cloud Operations (dawniej Stackdriver) wspiera monitorowanie GKE, w kontekście wymagań dotyczących użycia istniejącego "Prometheus-based tooling" i "globalnego queryingu", Managed Service for Prometheus (GMP) jest rozwiązaniem zaprojektowanym bezpośrednio do tego celu.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/stackdriver/docs/managed-prometheus" target="_blank">Google Cloud: Managed Service for Prometheus</a>
+- <a href="https://cloud.google.com/blog/products/management-tools/google-cloud-managed-service-for-prometheus-is-generally-available" target="_blank">Google Blog: Managed Service for Prometheus</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o Prometheus w GCP, jeśli usłyszysz "skalowalność", "globalne query" i "minimalizacja zarządzania" – zawsze szukaj odpowiedzi: <strong>Managed Service for Prometheus (GMP)</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>GMP vs. Własny Prometheus:</strong> Własny Prometheus w klastrze wymaga zarządzania pamięcią, dyskiem i konfiguracją federacji. GMP to usługa w pełni zarządzana (Serverless).</li>
+    <li><strong>Kompatybilność:</strong> GMP wspiera natywne zapytania PromQL, więc nie musisz uczyć się nowego języka zapytań.</li>
 </ul>
 </div>
 <script>

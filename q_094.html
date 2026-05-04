@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Add a virtual queue to the online store that allows typical traffic levels.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Increase the number of Pod replicas.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Increase the Pod CPU and memory limits.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,26 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 94 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Problem wynika z tego, że usługa przetwarzająca wiadomości z Pub/Sub (consumer) nie nadąża za napływem zamówień. W GKE, gdy consumer jest wąskim gardłem, najskuteczniejszym sposobem na zwiększenie przepustowości przetwarzania (w tym przypadku przetwarzania wiadomości z Pub/Sub) jest zwiększenie liczby instancji (Podów) realizujących to zadanie, co pozwala na równoległe przetwarzanie większej liczby wiadomości.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Zmniejszenie acknowledgment deadline skróci czas oczekiwania na potwierdzenie, co w przypadku, gdy consumer już jest przeciążony, spowoduje jedynie częstsze redelivery wiadomości i jeszcze większy chaos (tzw. "message backlog explosion").
+- <strong>Opcja B:</strong> Dodanie wirtualnej kolejki w sklepie to zmiana architektury aplikacji, która nie rozwiązuje problemu wydajności przetwarzania istniejącego backlogu w czasie rzeczywistym.
+- <strong>Opcja D:</strong> Zwiększenie limitów CPU i pamięci (vertical scaling) może pomóc, jeśli Pod jest ograniczony zasobami (CPU throttle), ale w systemach rozproszonych takich jak GKE + Pub/Sub, horyzontalne skalowanie (zwiększenie liczby Podów) jest zazwyczaj bardziej efektywnym sposobem na zwiększenie przepustowości (throughput) dla systemów kolejkowych.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/pubsub/docs/pull#scaling_throughput" target="_blank">Pub/Sub: Scaling Throughput</a>
+- <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" target="_blank">Kubernetes: HPA</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W systemach opartych na kolejkach (Pub/Sub), gdy consumer nie wyrabia, <strong>horyzontalne skalowanie (zwiększenie liczby replik/Podów)</strong> jest standardowym rozwiązaniem zwiększającym przepustowość.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li>Pamiętaj o różnicy między Vertical Scaling (CPU/RAM - większy Pod) a Horizontal Scaling (więcej Podów). Dla systemów kolejkowych, poziom horyzontalny jest niemal zawsze lepszy.</li>
 </ul>
 </div>
 <script>

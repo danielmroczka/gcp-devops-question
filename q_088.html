@@ -76,22 +76,28 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D.
+<pre>Odpowiedź: D
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 88 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Kluczowe wymagania to: minimalizacja kosztów, specyficzny rynek (UK) oraz użycie load balancera.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+- <strong>Opcja D (Poprawna):</strong> <code>Standard Tier</code> jest tańszy niż <code>Premium Tier</code>, ponieważ ruch sieciowy wykorzystuje publiczny internet (dla części trasy) zamiast w całości globalnej sieci szkieletowej Google. W połączeniu z <code>regionalnym load balancerem</code> (External HTTP(S) Load Balancer z backendem regionalnym), jest to najbardziej kosztowo efektywne rozwiązanie, gdy aplikacja nie potrzebuje globalnego zasięgu i niskich opóźnień międzykontynentalnych (jest obsługiwana w jednym regionie).
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A i B:</strong> <code>Premium Tier</code> oferuje najwyższą jakość sieci i jest znacznie droższy. Użycie go w sytuacji, gdy aplikacja działa tylko w jednym regionie (UK) i nie wymaga globalnej sieci Google dla całego ruchu, generuje niepotrzebne koszty.
+- <strong>Opcja C:</strong> Użycie globalnego load balancera z tanią siecią (Standard Tier) często nie jest w pełni wspierane w taki sam sposób jak w Premium (globalny LB zazwyczaj wymaga Premium do pełnej funkcjonalności routingu globalnego), a co ważniejsze – regionalny load balancer jest tańszy i wystarczający dla aplikacji działającej w jednym regionie.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/network-tiers/docs/overview" target="_blank">Network Service Tiers overview</a>
+- <a href="https://cloud.google.com/load-balancing/docs/load-balancing-overview" target="_blank">Cloud Load Balancing overview</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o koszty sieci w GCP pamiętaj o różnicy między <strong>Premium Tier</strong> a <strong>Standard Tier</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Złota zasada kosztów sieci:</strong> <strong>Standard Tier</strong> = tańszy, publiczny internet dla części trasy. <strong>Premium Tier</strong> = droższy, globalna sieć szkieletowa Google.</li>
+    <li><strong>Wybór load balancera:</strong> Jeśli aplikacja jest regionalna (działa w jednym regionie), wybieraj <strong>regionalne load balancery</strong>, aby obniżyć koszty.</li>
 </ul>
 </div>
 <script>

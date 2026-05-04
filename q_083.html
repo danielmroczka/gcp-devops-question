@@ -80,20 +80,28 @@
 <pre>Odpowiedź: CE
 
 Wyjaśnienie:
-Celowanie w wysoką wydajność dostarczania oprogramowania wymaga redukcji tzw. "change friction" przy jednoczesnym utrzymaniu wysokiej jakości.
-- Opcja C (Peer-review + testy automatyczne) zapewnia jakość bez konieczności czekania na spotkania CAB.
-- Opcja E (Szybki feedback) pozwala programistom na wczesne wykrywanie błędów, co jest fundamentem nowoczesnego DevOps.
-- Opcja A jest nieskuteczna (wąskie gardło wciąż istnieje).
-- Opcja B (mergowanie bez kontroli) jest zbyt ryzykowna bez automatycznych zabezpieczeń.
-- Opcja D (Batchowanie) jest przeciwieństwem praktyk DevOps, które promują częste, małe zmiany.</pre>
+Tradycyjne spotkania Change Advisory Board (CAB) często stają się wąskim gardłem w procesie dostarczania oprogramowania, opóźniając wdrożenia. Nowoczesny DevOps dąży do zastąpienia takich ręcznych procesów automatyzacją i mechanizmami zapewniającymi jakość na wczesnym etapie.
+
+- <strong>Opcja C (Poprawna):</strong> Przejście na proces przeglądu kodu (peer-review) wymuszony w momencie "check-in" oraz wsparcie testami automatycznymi pozwala na wykrywanie defektów przed wdrożeniem, co eliminuje potrzebę czekania na zewnętrzną zgodę CAB.
+- <strong>Opcja E (Poprawna):</strong> Szybki feedback (np. z testów jednostkowych, integracyjnych i monitoringu) pozwala programistom zrozumieć wpływ ich zmian niemal natychmiast, co jest kluczowe dla zwiększenia częstotliwości i bezpieczeństwa wdrożeń.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Zastąpienie CAB jedną osobą (managerem) nie rozwiązuje problemu wąskiego gardła – proces nadal zależy od decyzji jednej osoby zamiast być w pełni zautomatyzowany i zdecentralizowany.
+- <strong>Opcja B:</strong> Choć możliwość wycofania zmian (rollback) jest ważna, pozwolenie na mergowanie zmian bez żadnej kontroli jakości (peer-review/automatyczne testy) zwiększa ryzyko awarii produkcyjnych. Rollback to mechanizm naprawczy, nie zapobiegawczy.
+- <strong>Opcja D:</strong> Batchowanie zmian (tworzenie dużych paczek zmian) zwiększa ryzyko awarii, utrudnia ich debugowanie i wydłuża czas dostarczenia wartości do użytkownika, co jest sprzeczne z zasadami Agile i DevOps.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-change-approval-processes" target="_blank">Google Cloud: Modernizing change approval processes</a>
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-code-review" target="_blank">Google Cloud: Peer review for code changes</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W egzaminie DevOps Professional zawsze szukaj rozwiązań, które promują automatyzację (CI/CD), wczesne wykrywanie błędów (shift-left) i autonomię zespołów.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Unikaj "ludzkich" wąskich gardeł:</strong> Jeśli pytanie dotyczy CAB, szukaj odpowiedzi promujących automatyczną weryfikację zmian, a nie tylko zmianę osoby podejmującej decyzję.</li>
+    <li><strong>Małe zmiany, częste wdrożenia:</strong> DevOps promuje "Small batch size" – to zawsze bezpieczniejsze niż wielkie, rzadkie releasy.</li>
+    <li><strong>Dokumentacja:</strong> Zapoznaj się z sekcją o <a href="https://cloud.google.com/architecture/devops" target="_blank">DORA metrics i DevOps na GCP</a>.</li>
 </ul>
 </div>
 <script>

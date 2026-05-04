@@ -63,7 +63,6 @@
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Blue/green deployment and canary testing</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Rolling update deployment and A/B testing</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Rolling update deployment and shadow testing</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -76,22 +75,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B.
+<pre>Odpowiedź: B
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 92 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Wymagania pytania to:
+1. Redukcja złożoności wdrożeń i minimalizacja czasu rollbacku: <strong>Blue/green deployment</strong> pozwala na szybkie przełączenie ruchu z wersji "blue" na "green" (i odwrotnie w razie awarii), co minimalizuje czas potrzebny na rollback.
+2. Testowanie na realnym ruchu z stopniowym zwiększaniem użytkowników: <strong>Canary testing</strong> dokładnie to realizuje – kieruje mały procent ruchu do nowej wersji, monitorując jej zachowanie przed szerszym udostępnieniem.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Recreate deployment (usuwanie wszystkich starych instancji przed stworzeniem nowych) powoduje przestoje (downtime), co jest sprzeczne z celami nowoczesnych systemów CI/CD.
+- <strong>Opcja C:</strong> A/B testing (często używane do testów biznesowych, nie technicznych) zazwyczaj nie jest tym samym co techniczne canary deployments (stopniowe zwiększanie ruchu technicznego). Choć rolling update jest dobry, blue/green lepiej spełnia kryterium minimalizacji czasu rollbacku.
+- <strong>Opcja D:</strong> Shadow testing (kopiowanie ruchu do nowej wersji bez wpływu na użytkownika) jest świetne, ale nie pozwala na bezpośrednią interakcję z realnym ruchem "zwiększającym liczbę użytkowników" (użytkownicy nie widzą efektów nowej wersji). Rolling update nie daje tak szybkiego rollbacku jak blue/green.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/architecture/devops/devops-tech-deployment-automation" target="_blank">Google Cloud: Deployment Automation</a>
+- <a href="https://sre.google/sre-book/release-engineering/" target="_blank">Google SRE Book: Release Engineering</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kiedy w pytaniu o wdrożenia pojawia się fraza "<strong>instantly roll back</strong>" (natychmiastowe wycofanie), Twoim pierwszym skojarzeniem w GCP powinno być <strong>Blue/Green Deployment</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Blue/Green vs Canary:</strong> Zawsze pamiętaj: Blue/Green = szybki rollback całego systemu. Canary = stopniowe sprawdzanie stabilności nowej wersji na małym ruchu.</li>
+    <li><strong>Unikaj "Recreate":</strong> Recreate deployment to synonim przestoju (downtime), co jest niedopuszczalne w wysokodostępnych usługach GCP.</li>
 </ul>
 </div>
 <script>

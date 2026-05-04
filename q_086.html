@@ -79,19 +79,26 @@
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-Zarządzanie agentami na dużą skalę (fleet management) w GCP wymaga podejścia deklaratywnego i zautomatyzowanego.
-- Agent Policy w GCP pozwala zdefiniować politykę (np. "zainstaluj/utrzymuj Ops Agent"), która jest automatycznie stosowana do wszystkich istniejących i przyszłych instancji Compute Engine pasujących do filtrów (np. etykiety).
-- Opcja A (gcloud CLI w pętli) jest nieefektywna i nie obsługuje przyszłych instancji.
-- Opcja B (Cloud Ops dashboard) jest ręcznym procesem, który nie gwarantuje automatycznej aktualizacji w przyszłości.
-- Opcja D (startup script) to "stara szkoła" – trudna w utrzymaniu, gdy trzeba aktualizować agenta na tysiącach maszyn.</pre>
+Efektywne zarządzanie agentami w dużej skali wymaga podejścia zautomatyzowanego, które nie tylko instaluje oprogramowanie, ale także utrzymuje je w aktualnym stanie na wszystkich (również nowych) instancjach.
+
+- <strong>Opcja C (Poprawna):</strong> <code>Agent Policy</code> w GCP (realizowane przez Google Cloud OS Config) to rozwiązanie klasy enterprise do zarządzania agentami. Pozwala na zdefiniowanie polityki, która jest automatycznie egzekwowana dla instancji spełniających określone kryteria (np. etykiety). Dzięki temu nowe instancje automatycznie otrzymają agenta, a istniejące będą aktualizowane.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Ręczne uruchamianie skryptów przez gcloud CLI dla każdej VM jest rozwiązaniem typu "manual toiling", nie skaluje się i nie zapewnia automatycznego dołączania agenta do nowo tworzonych maszyn.
+- <strong>Opcja B:</strong> Konsola Cloud Operations pozwala na ręczną instalację agentów na wybranych maszynach, ale jest to proces reaktywny i manualny – nie zapewnia automatycznego utrzymania (aktualizacji) dla nowych maszyn.
+- <strong>Opcja D:</strong> Skrypty startowe (`startup scripts`) były popularne w przeszłości, ale są trudne w zarządzaniu przy dużej liczbie maszyn. Wymagają przebudowy obrazów lub ręcznego zarządzania skryptami przy każdej aktualizacji agenta, co zwiększa ryzyko błędów i nakład pracy (toil).
+
+Więcej informacji:
+- <a href="https://cloud.google.com/compute/docs/os-config-management" target="_blank">OS Config management overview</a>
+- <a href="https://cloud.google.com/compute/docs/manage-os-config-policies" target="_blank">Creating and managing agent policies</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o zarządzanie oprogramowaniem na wielu VM-ach w GCP, zawsze szukaj rozwiązań deklaratywnych (Agent Policy/OS Config) zamiast skryptów lub ręcznych działań.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Unikaj "Toilu":</strong> Jeśli proces wymaga ręcznego klikania lub uruchamiania skryptów dla każdej maszyny, to w egzaminie DevOps Professional jest to niemal zawsze błędna odpowiedź.</li>
+    <li><strong>Skalowalność:</strong> Pytanie o "obecne i przyszłe" instancje to kluczowa wskazówka, że szukamy rozwiązania zautomatyzowanego, które działa na poziomie całego projektu/floty (fleet management).</li>
 </ul>
 </div>
 <script>

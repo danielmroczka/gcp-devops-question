@@ -76,22 +76,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 90 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Cloud Run oferuje zaawansowane mechanizmy zarządzania wersjami (rewizjami), które są kluczowe dla bezpiecznych wdrożeń mikroserwisów.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+- <strong>Opcja C (Poprawna):</strong> Cloud Run pozwala na wdrażanie rewizji z przypisanymi tagami (np. <code>--tag</code>). Rewizja z tagiem jest w pełni funkcjonalna (można ją wywołać przez specjalny URL), ale nie obsługuje głównego ruchu produkcyjnego, dopóki nie zmienimy konfiguracji "traffic splitting". Jest to idealne rozwiązanie do testów "staging-like" bezpośrednio w środowisku produkcyjnym przed pełnym udostępnieniem.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Kierowanie nawet 1% ruchu do wersji, która nie została w pełni przetestowana, jest ryzykowne. W DevOps dążymy do pełnej weryfikacji technicznej przed dopuszczeniem jakiegokolwiek użytkownika.
+- <strong>Opcja B:</strong> 50% ruchu to zdecydowanie zbyt duża wartość dla pierwszej fazy testów (canary release). Standardowo zaczyna się od bardzo małych wartości (np. 1-5%).
+- <strong>Opcja D:</strong> Tworzenie całych nowych środowisk dla każdego wdrożenia jest nieefektywne, kosztowne i wprowadza duży "toil" związany z zarządzaniem cyklem życia dodatkowych zasobów.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/run/docs/managing/revisions#tags" target="_blank">Cloud Run Revision Tags</a>
+- <a href="https://cloud.google.com/run/docs/managing/revisions#traffic-splitting" target="_blank">Cloud Run Traffic Splitting</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o Cloud Run, szukaj rozwiązań wykorzystujących <strong>Revision Tags</strong> do testów oraz <strong>Traffic Splitting</strong> do stopniowego udostępniania wersji.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Separacja wdrożenia od ruchu:</strong> Jeśli pytanie mówi o testowaniu wersji "przed" udostępnieniem jej użytkownikom, <strong>Revision Tags</strong> w Cloud Run są najlepszą odpowiedzią.</li>
+    <li><strong>Unikaj "overkill":</strong> Tworzenie całych środowisk dla każdego wdrożenia (blue-green w tym wydaniu) jest w świecie Cloud Run/K8s często traktowane jako rozwiązanie o zbyt dużym narzucie.</li>
 </ul>
 </div>
 <script>

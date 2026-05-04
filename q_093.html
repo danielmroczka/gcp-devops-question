@@ -77,22 +77,27 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: AC.
+<pre>Odpowiedź: AC
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 93 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+1. <strong>Opcja A:</strong> <strong>Workload Identity</strong> to rekomendowany sposób uwierzytelniania w GKE. Pozwala on na powiązanie Kubernetes Service Account (KSA) z Google Service Account (GSA), dzięki czemu Pod może bezpiecznie przyjąć tożsamość GSA i uzyskać dostęp do usług GCP bez konieczności używania kluczy JSON.
+2. <strong>Opcja C:</strong> Należy stworzyć oddzielne Google Service Account dla tego procesu i przyznać mu odpowiednie uprawnienia IAM zgodnie z zasadą najmniejszych przywilejów (Least Privilege).
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja B i D:</strong> Używanie kluczy serwisowych (JSON key files) jest <strong>odradzane</strong> w Google Cloud. Klucze są ryzykowne, trudne do rotacji i zarządzania. W nowoczesnym DevOps dążymy do ich eliminacji na rzecz Workload Identity.
+- <strong>Opcja E:</strong> Przypisywanie uprawnień do konta serwisowego całego węzła (Node) jest błędem bezpieczeństwa, ponieważ daje wszystkim Podom uruchomionym na tym węźle dostęp do usług GCP, co narusza zasadę separacji uprawnień.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity" target="_blank">Google Cloud: Workload Identity</a>
+- <a href="https://cloud.google.com/iam/docs/best-practices-service-accounts" target="_blank">Google Cloud: IAM Service Account Best Practices</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>Kluczowym hasłem w GKE + IAM jest <strong>Workload Identity</strong>. Jeśli widzisz pytanie o "bezpieczne uwierzytelnianie Podów w GCP", odpowiedź zawsze będzie skupiona na eliminacji kluczy JSON na rzecz natywnej tożsamości.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Workload Identity > Klucze JSON:</strong> Zawsze wybieraj Workload Identity. Klucze JSON to "legacy" i ryzyko wycieku.</li>
+    <li><strong>Least Privilege:</strong> Zawsze twórz specyficzne Service Account dla zadania, zamiast używać domyślnych kont węzłów.</li>
 </ul>
 </div>
 <script>

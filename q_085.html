@@ -79,19 +79,26 @@
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-W modelu SRE, "burn rate" (tempo zużycia) błędu pozwala na szybkie wykrycie, czy system jest na drodze do wyczerpania całego budżetu dostępności.
-- Alertowanie na podstawie `select_slo_burn_rate` w Cloud Monitoring jest standardowym mechanizmem wdrożenia SLO/Error Budget w GCP.
-- Opcja A (proste alerty na metryki) nie bierze pod uwagę kontekstu budżetu błędu.
-- Opcja B (Anthos Service Mesh) jest przydatna, ale sama w sobie nie zarządza budżetem błędu.
-- Opcja D (uptime checks) to tylko prosty monitoring dostępności (zewnętrzny ping), który nie wystarcza do zaawansowanego zarządzania Error Budget.</pre>
+W inżynierii niezawodności (SRE), budżet błędu (Error Budget) to różnica między celem dostępności (SLO) a 100%. Aby skutecznie zarządzać tym budżetem i podejmować decyzje dotyczące wydań (np. zatrzymać wdrożenia, jeśli budżet znika zbyt szybko), konieczne jest monitorowanie tempa jego zużycia (burn rate).
+
+- <strong>Opcja C (Poprawna):</strong> Cloud Monitoring posiada natywną funkcjonalność monitorowania SLO i alertowania opartego na "burn rate". Użycie reguły <code>select_slo_burn_rate</code> pozwala wygenerować alert, gdy szybkość zużywania budżetu błędu zagraża całemu SLO w danym oknie czasowym.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Tworzenie prostych alertów na metrykach nie uwzględnia definicji budżetu błędu i SLO. Takie podejście prowadzi do "alert fatigue" (zmęczenia alertami), zamiast skupiać się na celach biznesowych dotyczących dostępności.
+- <strong>Opcja B:</strong> Anthos Service Mesh dostarcza świetnych metryk dotyczących sieci i zdrowia mikroserwisów, ale sam w sobie nie posiada wbudowanego silnika do zarządzania budżetami błędów (SLO/SLI) w sposób zintegrowany z politykami wydań.
+- <strong>Opcja D:</strong> Uptime checks to zewnętrzne testy dostępności (tzw. syntetyczne). Są przydatne, ale zbyt uproszczone. Nie mierzą jakości odpowiedzi, czasu odpowiedzi czy innych istotnych wskaźników SLO, a tym bardziej nie obliczają zużycia budżetu błędu.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/blog/products/devops-sre/adopting-service-level-objectives-a-practical-guide" target="_blank">Adopting Service Level Objectives: A Practical Guide</a>
+- <a href="https://cloud.google.com/monitoring/service-monitoring/slo-burn-rate-alerts" target="_blank">Alerting on SLO burn rates</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o Error Budget i SLO w GCP, szukaj słów kluczowych związanych z <strong>SLO, SLI</strong> oraz <strong>burn rate</strong> w kontekście Cloud Monitoring.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>SRE to dane:</strong> Error budget nie jest pojęciem abstrakcyjnym. W GCP jest ściśle powiązany z Alertami na podstawie SLO burn rate.</li>
+    <li><strong>Unikaj prostego monitoringu:</strong> Uptime checks czy proste alerty na CPU/RAM to poziom "junior", a certyfikat DevOps Professional wymaga rozumienia podejścia SRE (SLI/SLO).</li>
 </ul>
 </div>
 <script>

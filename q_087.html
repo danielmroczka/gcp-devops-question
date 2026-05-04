@@ -76,22 +76,29 @@
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C.
+<pre>Odpowiedź: C
 
-Wyjaśnienie techniczne (SRE perspective):
-Pytanie 87 odnosi się do fundamentalnych zasad GCP i SRE. Poprawna odpowiedź wynika z bezpośredniego zastosowania usług zarządzanych (Managed Services) GCP, które są zaprojektowane w celu minimalizacji 'toil' (nakładu pracy operacyjnej) oraz zapewnienia wysokiej dostępności i skalowalności zgodnie z modelem współdzielonej odpowiedzialności.
+Wyjaśnienie:
+Wymaganie polega na scentralizowaniu logów z wielu projektów w jednym miejscu (folderze produkcyjnym) przy jednoczesnym zapewnieniu możliwości alertowania i analizy w czasie rzeczywistym.
 
-Dlaczego inne opcje są nieprawidłowe:
-- Inne opcje są sprzeczne z zasadami automatyzacji, naruszają zasadę 'Least Privilege' (IAM) lub wymagają ręcznego utrzymywania zasobów, co jest niezalecane w profesjonalnym środowisku chmurowym.
-- Wykorzystanie narzędzi zewnętrznych lub ręczne zarządzanie konfiguracją wewnątrz kontenerów/VM często pomija natywne zabezpieczenia i mechanizmy skalowania platformy GCP.</pre>
+- <strong>Opcja C (Poprawna):</strong> <code>Log Sink</code> pozwala na eksportowanie logów poza projekt (np. do Pub/Sub, BigQuery lub Cloud Storage). Użycie "agregowanego" log sinka (aggregated log sink) na poziomie folderu lub organizacji pozwala na zebranie wszystkich logów z projektów podrzędnych. Pub/Sub jest doskonałym miejscem docelowym dla "near-real time analysis" (analizy w czasie niemal rzeczywistym), ponieważ pozwala na łatwe podpięcie subskrybentów (np. Dataflow do analizy lub systemów alertujących).
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- <strong>Opcja A:</strong> Workflows służą do orkiestracji procesów, a nie do centralnego zbierania i rutowania logów na poziomie całej infrastruktury folderów/projektów.
+- <strong>Opcja B:</strong> Cloud Monitoring workspace pozwala na widoczność metryk (i części logów) z wielu projektów w jednym panelu, ale nie jest to mechanizm "centralizacji logów" w celach archiwizacji czy zaawansowanej analizy (do tego służy Log Sink + Log Bucket/BigQuery).
+- <strong>Opcja D:</strong> Log bucket (Cloud Logging bucket) jest poprawną metodą przechowywania logów, ale Pub/Sub (w opcji C) lepiej wspiera wymaganie "near-real time analysis" i alertowania, gdyż pozwala na natychmiastowe przetwarzanie zdarzeń przez inne usługi GCP.
+
+Więcej informacji:
+- <a href="https://cloud.google.com/logging/docs/routing/overview" target="_blank">Routing and storage overview</a>
+- <a href="https://cloud.google.com/logging/docs/export/aggregated_sinks" target="_blank">Aggregated log sinks</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</p>
+<p>W pytaniach o centralizację logów GCP kluczem jest zrozumienie mechanizmu <strong>Log Sinks</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Zawsze w GCP DevOps: Automatyzuj wdrożenia, wybieraj usługi managed, minimalizuj Toil.</li>
-    <li>Dokumentacja: <a href="https://cloud.google.com/docs" target="_blank">Oficjalna dokumentacja GCP</a></li>
+    <li><strong>Złota zasada logowania:</strong> Jeśli potrzebujesz logów z całego folderu/organizacji, używaj <strong>Aggregated Log Sinks</strong>.</li>
+    <li><strong>Real-time vs Storage:</strong> <strong>Pub/Sub</strong> jest idealny dla streamingu/analizy czasu rzeczywistego (triggering alerts/functions), podczas gdy <strong>BigQuery</strong> jest lepszy dla analityki historycznej, a <strong>GCS</strong> dla taniej archiwizacji.</li>
 </ul>
 </div>
 <script>
