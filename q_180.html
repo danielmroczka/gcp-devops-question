@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pl">
 <head>
 <meta charset="utf-8"/>
@@ -44,34 +45,37 @@
 <body class="home2">
 <div class="q-page">
 <nav class="q-nav d-flex justify-content-between align-items-center my-3">
-<a class="btn btn-outline-primary " href="q_179.html">← Poprzednie</a>
+<a class="btn btn-outline-primary" href="q_179.html">← Poprzednie</a>
 <a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
-<a class="btn btn-outline-primary " href="q_181.html">Następne →</a>
+<a class="btn btn-outline-primary" href="q_181.html">Następne →</a>
 </nav>
 <div class="q-card mb-4">
 <h2>Question 180 / 201</h2>
 <div class="product-badges mb-3">
-    <span class="badge badge-devops"><i class="fas fa-chart-pie"></i> SLO</span>
+<span class="badge badge-devops"><i class="fas fa-chart-pie"></i> SLO</span>
 </div>
 <div class="question-body mt-3 pt-3 border-top">
-<p class="card-text">
-You work for a company that offers a free photo processing application. You are designing the infrastructure for the backend service that processes the photos. The service: • Uses Cloud Storage to store both unprocessed and processed photos. • Can resume processing photos in the event of a failure. • Is not suitable for containerization. There is no SLO for the time taken to process a photo. You need to choose the most cost-effective solution for running the service. <br><br><strong>What should you do?</strong>
-</p>
+<p class="card-text">You work for a company that offers a free photo processing application. You are designing the infrastructure for the backend service that processes the photos. The service:
+<ul>
+  <li>Uses Cloud Storage to store both unprocessed and processed photos.</li>
+  <li>Can resume processing photos in the event of a failure.</li>
+  <li>Is not suitable for containerization.</li>
+</ul>
+There is no SLO for the time taken to process a photo. You need to choose the most cost-effective solution for running the service.<br><br><strong>What should you do?</strong></p>
 <div class="question-choices-container">
 <ul>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Deploy the service by using Cloud Run.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Deploy the service by using standard VMs with a 3-year committed use discount.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Deploy the service by using GKE.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Deploy the service by using Spot VMs.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">D</span>
-<br/>
-</span>
+<br>
+</br></span>
 </div>
 </div>
 </div>
@@ -80,10 +84,10 @@ You work for a company that offers a free photo processing application. You are 
 
 Wyjaśnienie:
 Kluczowe wymagania:
-1. "Not suitable for containerization" -> Wyklucza Cloud Run (A) i GKE (C).
-2. "Can resume processing photos in the event of a failure" -> Oznacza, że usługa jest odporna na przerwania (fault-tolerant).
-3. "There is no SLO for the time" -> Oznacza brak presji na czas (brak wymogu wysokiej dostępności typu 99.99%).
-4. "Most cost-effective" -> Spot VMs są najtańszą opcją obliczeniową w GCP, oferując do 91% zniżki w porównaniu ze standardowymi VM.
+1. "Not suitable for containerization" -&gt; Wyklucza Cloud Run (A) i GKE (C).
+2. "Can resume processing photos in the event of a failure" -&gt; Oznacza, że usługa jest odporna na przerwania (fault-tolerant).
+3. "There is no SLO for the time" -&gt; Oznacza brak presji na czas (brak wymogu wysokiej dostępności typu 99.99%).
+4. "Most cost-effective" -&gt; Spot VMs są najtańszą opcją obliczeniową w GCP, oferując do 91% zniżki w porównaniu ze standardowymi VM.
 
 Dzięki odporności na awarie (odporność na przerywanie przetwarzania) i braku rygorystycznych SLO, <strong>Spot VMs</strong> są idealnym wyborem, mimo że mogą zostać w każdej chwili wyłączone przez Google.
 
@@ -100,8 +104,8 @@ Więcej informacji:
 <p>Kluczem do optymalizacji kosztów w GCP jest zrozumienie kompromisu między dostępnością (SLO) a ceną. Jeśli zadanie może zostać przerwane i wznowione, a SLO nie istnieje – <strong>Spot VMs</strong> wygrywają bezapelacyjnie.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li><strong>Spot VMs:</strong> Zawsze szukaj słów kluczowych: "fault-tolerant", "batch job", "resumable", "no SLO" – to oznacza Spot VMs.</li>
-    <li><strong>Nie konteneryzuj na siłę:</strong> Jeśli pytanie mówi, że coś nie jest odpowiednie do kontenerów, nie wybieraj GKE/Run.</li>
+<li><strong>Spot VMs:</strong> Zawsze szukaj słów kluczowych: "fault-tolerant", "batch job", "resumable", "no SLO" – to oznacza Spot VMs.</li>
+<li><strong>Nie konteneryzuj na siłę:</strong> Jeśli pytanie mówi, że coś nie jest odpowiednie do kontenerów, nie wybieraj GKE/Run.</li>
 </ul>
 </div>
 <script>
@@ -130,5 +134,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-</body>
+</div></body>
 </html>

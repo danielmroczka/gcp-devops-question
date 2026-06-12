@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pl">
 <head>
 <meta charset="utf-8"/>
@@ -44,34 +45,34 @@
 <body class="home2">
 <div class="q-page">
 <nav class="q-nav d-flex justify-content-between align-items-center my-3">
-<a class="btn btn-outline-primary " href="q_151.html">← Poprzednie</a>
+<a class="btn btn-outline-primary" href="q_151.html">← Poprzednie</a>
 <a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
-<a class="btn btn-outline-primary " href="q_153.html">Następne →</a>
+<a class="btn btn-outline-primary" href="q_153.html">Następne →</a>
 </nav>
 <div class="q-card mb-4">
 <h2>Question 152 / 201</h2>
 <div class="product-badges mb-3">
-    <span class="badge badge-devops"><i class="fas fa-dharmachakra"></i> GKE</span><span class="badge badge-devops"><i class="fas fa-dharmachakra"></i> Kubernetes</span><span class="badge badge-devops"><i class="fas fa-cube"></i> Terraform</span>
+<span class="badge badge-devops"><i class="fas fa-dharmachakra"></i> GKE</span><span class="badge badge-devops"><i class="fas fa-dharmachakra"></i> Kubernetes</span><span class="badge badge-devops"><i class="fas fa-cube"></i> Terraform</span>
 </div>
 <div class="question-body mt-3 pt-3 border-top">
-<p class="card-text">
-You are designing a system with three different environments: development, quality assurance (QA), and production. Each environment will be deployed with Terraform and has a Google Kubernetes Engine (GKE) cluster created so that application teams can deploy their applications. Anthos Config Management will be used and templated to deploy infrastructure level resources in each GKE cluster. All users (for example, infrastructure operators and application owners) will use GitOps. <br><br><strong>How should you structure your source control repositories for both Infrastructure as Code (IaC) and application code?</strong>
-</p>
+<p class="card-text">You are designing a system with three different environments: development, quality assurance (QA), and production. Each environment will be deployed with Terraform and has a Google Kubernetes Engine (GKE) cluster created so that application teams can deploy their applications. Anthos Config Management will be used and templated to deploy infrastructure level resources in each GKE cluster. All users (for example, infrastructure operators and application owner
+<ul style="list-style-type: lower-alpha;">
+  <li>will use GitOps.</li>
+</ul><br><br><strong>How should you structure your source control repositories for both Infrastructure as Code (IaC) and application code?</strong></p>
 <div class="question-choices-container">
 <ul>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> • Cloud Infrastructure (Terraform) repository is shared: different directories are different environments</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> • Cloud Infrastructure (Terraform) repository is shared: different directories are different environments</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> • Cloud Infrastructure (Terraform) repository is shared: different branches are different environments</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> • Cloud Infrastructure (Terraform) repositories are separated: different branches are different environments</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
-</span>
+<br>
+</br></span>
 </div>
 </div>
 </div>
@@ -94,11 +95,11 @@ Więcej informacji:
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>W pytaniach o strukturę repozytoriów Terraform/GitOps dla wielu środowisk: <strong>Katalogi > Gałęzie</strong>.</p>
+<p>W pytaniach o strukturę repozytoriów Terraform/GitOps dla wielu środowisk: <strong>Katalogi &gt; Gałęzie</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li><strong>Unikaj Branching Environments:</strong> Zarządzanie środowiskami za pomocą gałęzi (branches) w Git jest anty-wzorcem w nowoczesnym DevOps i GitOps.</li>
-    <li><strong>DRY:</strong> Używaj modułów Terraform do współdzielenia logiki i struktur katalogów do definiowania wartości dla środowisk.</li>
+<li><strong>Unikaj Branching Environments:</strong> Zarządzanie środowiskami za pomocą gałęzi (branches) w Git jest anty-wzorcem w nowoczesnym DevOps i GitOps.</li>
+<li><strong>DRY:</strong> Używaj modułów Terraform do współdzielenia logiki i struktur katalogów do definiowania wartości dla środowisk.</li>
 </ul>
 </div>
 <script>
@@ -127,5 +128,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-</body>
+</div></body>
 </html>

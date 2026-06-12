@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pl">
 <head>
 <meta charset="utf-8"/>
@@ -44,34 +45,37 @@
 <body class="home2">
 <div class="q-page">
 <nav class="q-nav d-flex justify-content-between align-items-center my-3">
-<a class="btn btn-outline-primary " href="q_060.html">← Poprzednie</a>
+<a class="btn btn-outline-primary" href="q_060.html">← Poprzednie</a>
 <a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
-<a class="btn btn-outline-primary " href="q_062.html">Następne →</a>
+<a class="btn btn-outline-primary" href="q_062.html">Następne →</a>
 </nav>
 <div class="q-card mb-4">
 <h2>Question 61 / 201</h2>
 <div class="product-badges mb-3">
-    
 </div>
 <div class="question-body mt-3 pt-3 border-top">
-<p class="card-text">
-You support a web application that runs on App Engine and uses CloudSQL and Cloud Storage for data storage. After a short spike in website traffic, you notice a big increase in latency for all user requests, increase in CPU use, and the number of processes running the application. Initial troubleshooting reveals: - After the initial spike in traffic, load levels returned to normal but users still experience high latency. - Requests for content from the CloudSQL database and images from Cloud Storage show the same high latency. - No changes were made to the website around the time the latency increased. - There is no increase in the number of errors to the users. You expect another spike in website traffic in the coming days and want to make sure users don't experience latency. <br><br><strong>What should you do?</strong>
-</p>
+<p class="card-text">You support a web application that runs on App Engine and uses CloudSQL and Cloud Storage for data storage. After a short spike in website traffic, you notice a big increase in latency for all user requests, increase in CPU use, and the number of processes running the application. Initial troubleshooting reveals:
+<ul>
+  <li>After the initial spike in traffic, load levels returned to normal but users still experience high latency.</li>
+  <li>Requests for content from the CloudSQL database and images from Cloud Storage show the same high latency.</li>
+  <li>No changes were made to the website around the time the latency increased.</li>
+  <li>There is no increase in the number of errors to the users.</li>
+</ul>
+You expect another spike in website traffic in the coming days and want to make sure users don't experience latency.<br><br><strong>What should you do?</strong></p>
 <div class="question-choices-container">
 <ul>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Upgrade the GCS buckets to Multi-Regional.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Enable high availability on the CloudSQL instances.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Move the application from App Engine to Compute Engine.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Modify the App Engine configuration to have additional idle instances.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">D</span>
-<br/>
-</span>
+<br>
+</br></span>
 </div>
 </div>
 </div>
@@ -101,9 +105,9 @@ Pomocne linki:
 <p>W App Engine kluczem do sukcesu jest optymalizacja czasu startu aplikacji oraz inteligentne zarządzanie instancjami bezczynnymi. Latencja, która utrzymuje się po skoku ruchu, sugeruje, że system wciąż próbuje obsłużyć zakolejkowane żądania.</p>
 <h3>💡 Kluczowe wnioski:</h3>
 <ul>
-    <li><b>Idle Instances:</b> To Twoja "rezerwa strategiczna". Kosztuje, ale zapewnia natychmiastową reakcję na skok ruchu.</li>
-    <li><b>App Engine Scaling:</b> Pamiętaj o różnicach między skalowaniem `automatic`, `basic` i `manual`. Tylko `automatic` wspiera `min_idle_instances`.</li>
-    <li><b>Pending Queue:</b> Monitoruj metrykę `appengine.googleapis.com/http/server/pending_latency`, aby wiedzieć, jak długo użytkownicy czekają na wolną instancję.</li>
+<li><b>Idle Instances:</b> To Twoja "rezerwa strategiczna". Kosztuje, ale zapewnia natychmiastową reakcję na skok ruchu.</li>
+<li><b>App Engine Scaling:</b> Pamiętaj o różnicach między skalowaniem `automatic`, `basic` i `manual`. Tylko `automatic` wspiera `min_idle_instances`.</li>
+<li><b>Pending Queue:</b> Monitoruj metrykę `appengine.googleapis.com/http/server/pending_latency`, aby wiedzieć, jak długo użytkownicy czekają na wolną instancję.</li>
 </ul>
 </div>
 <script>
@@ -132,5 +136,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-</body>
+</div></body>
 </html>
