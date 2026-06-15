@@ -59,10 +59,10 @@ You are the Operations Lead for an ongoing incident with one of your services. T
 </p>
 <div class="question-choices-container">
 <ul>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> 1. Communicate your intent to the incident team.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> 1. Communicate your intent to the incident team.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> 1. Drain traffic from the unhealthy node and remove the node from service.</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> 1. Drain traffic from the unhealthy node and remove the old node from service.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> 1. Communicate your intent to the incident team. <br>2. Perform a load analysis to determine if the remaining nodes can handle the increase in traffic offloaded from the removed node, and scale appropriately. <br>3. When any new nodes report healthy, drain traffic from the unhealthy node, and remove the unhealthy node from service.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> 1. Communicate your intent to the incident team. <br>2. Add a new node to the pool, and wait for the new node to report as healthy. <br>3. When traffic is being served on the new node, drain traffic from the unhealthy node, and remove the old node from service.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> 1. Drain traffic from the unhealthy node and remove the node from service. <br>2. Monitor traffic to ensure that the error is resolved and that the other nodes in the pool are handling the traffic appropriately. <br>3. Scale the pool as necessary to handle the new load. <br>4. Communicate your actions to the incident team.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> 1. Drain traffic from the unhealthy node and remove the old node from service. <br>2. Add a new node to the pool, wait for the new node to report as healthy, and then serve traffic to the new node. <br>3. Monitor traffic to ensure that the pool is healthy and is handling traffic appropriately. <br>4. Communicate your actions to the incident team.</li>
 
 </ul>
 </div>
@@ -76,16 +76,18 @@ You are the Operations Lead for an ongoing incident with one of your services. T
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A (kolejność: 1. Komunikacja, 2. Odcięcie ruchu)
+<pre>Odpowiedź: A
 
 Wyjaśnienie:
-Zgodnie z zasadami zarządzania incydentami (Incident Management) SRE:
-1. Komunikacja jest kluczowa. Zespół musi wiedzieć, że wykonujesz akcję, która może wpłynąć na dostępność lub metryki usługi.
-2. Po zakomunikowaniu intencji, należy odciąć ruch od wadliwego węzła (drain), aby zatrzymać wpływ na użytkowników, a następnie usunąć go z puli do analizy.
+To pytanie sprawdza znajomość praktyk Google SRE (Site Reliability Engineering) w zakresie zarządzania incydentami i rozwiązywania problemów:
 
-Dlaczego inne opcje są mniej poprawne:
-- Pytanie sugeruje, że musimy wybrać "pierwszy krok". Pierwszym krokiem w zarządzaniu incydentem zawsze jest komunikacja, aby uniknąć konfliktów działań w zespole.
-- Wykonanie technicznej akcji (odcięcie ruchu) bez powiadomienia zespołu może pogorszyć sytuację (np. jeśli inny członek zespołu właśnie zaczął automatyczny rollback, który zostałby zakłócony przez twoje ręczne działanie).
+1. Komunikacja przede wszystkim: Jako Operations Lead, musisz poinformować zespół o swoich zamiarach przed podjęciem działań, które zmieniają stan infrastruktury. Pozwala to uniknąć konfliktów (np. gdy ktoś inny próbuje wykonać rollback).
+2. Analiza obciążenia i skalowanie: Usługa działa na 70% wydajności. Usunięcie węzła bez sprawdzenia, czy pozostałe poradzą sobie z dodatkowym ruchem, może doprowadzić do przeciążenia reszty floty i kaskadowej awarii całego systemu. Prawidłowa kolejność to: Analiza -> Skalowanie (jeśli trzeba) -> Usunięcie wadliwego elementu.
+3. Bezpieczna izolacja: Draining traffic (odprowadzanie ruchu) zapewnia, że aktywne połączenia zostaną zakończone poprawnie przed całkowitym wyłączeniem węzła do analizy.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- Opcja B: Jest bezpieczniejsza niż C i D, ale pomija krok analizy obciążenia (load analysis). Dodanie węzła "w ciemno" może nie wystarczyć lub być niepotrzebne, a Google promuje podejście oparte na danych (data-driven).
+- Opcje C i D: Te opcje sugerują podjęcie działań technicznych (usunięcie węzła) przed komunikacją z zespołem i przed zapewnieniem odpowiedniej wydajności reszty systemu. Takie podejście "najpierw działaj, potem mów" jest ryzykowne i niezgodne z praktykami SRE.
 
 Więcej informacji:
 - <a href="https://sre.google/sre-book/managing-incidents/" target="_blank">Google SRE Book: Managing Incidents</a>
@@ -93,10 +95,12 @@ Więcej informacji:
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Zasada numer 1 w incydentach: <strong>Komunikuj się</strong>, zanim podejmiesz działanie.</p>
+<p>Zarządzanie incydentami według Google SRE to nie tylko technika, ale przede wszystkim proces i komunikacja.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li><strong>Pierwszy krok:</strong> Jeśli w pytaniu dotyczącym incydentu masz opcję "Komunikacja" lub "Powiadomienie", niemal zawsze będzie to pierwszy krok.</li>
+    <li><strong>Zasada 1: Komunikacja.</strong> Zawsze szukaj opcji, która zaczyna się od poinformowania zespołu.</li>
+    <li><strong>Zasada 2: Nie pogarszaj sytuacji.</strong> Jeśli usługa działa na 70% mocy, usunięcie węzłów bez analizy może spowodować kaskadową awarię (cascading failure).</li>
+    <li><strong>Zasada 3: Load Analysis.</strong> Przed usunięciem zasobów w trakcie incydentu, upewnij się, że pozostała infrastruktura wytrzyma obciążenie.</li>
 </ul>
 </div>
 <script>

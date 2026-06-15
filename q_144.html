@@ -70,24 +70,25 @@ You have an application that runs on Cloud Run. You want to use live production 
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B, C</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B, E</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B, C
+<pre>Odpowiedź: B, E
 
 Wyjaśnienie:
-W Cloud Run, aby przetestować nową wersję bez narażania użytkowników:
-1. Używamy --no-traffic: Zapobiega to automatycznemu kierowaniu ruchu produkcyjnego do nowej wersji.
-2. Używamy tagów: Tagi w Cloud Run pozwalają na stworzenie dedykowanego, stabilnego adresu URL dla nowej wersji (revision), dzięki czemu zespół QA może przetestować wersję przed jej publicznym udostępnieniem.
+To zadanie wymaga spełnienia dwóch celów: umożliwienia zespołowi QA testów manualnych oraz przetestowania nowej wersji na żywym ruchu produkcyjnym (Canary testing).
+
+1. Opcja B (Tagi dla QA): Użycie flagi --tag podczas wdrażania z --no-traffic pozwala na utworzenie unikalnego, stabilnego adresu URL dla konkretnej rewizji (np. https://tag---service-url). Dzięki temu zespół QA może testować tę konkretną wersję w izolacji, zanim trafi ona do użytkowników.
+2. Opcja E (Live Traffic): Aby przetestować nową wersję na "żywym ruchu" (zgodnie z wymaganiem "use live production traffic"), należy zastosować podział ruchu (traffic splitting). Pozwala to skierować niewielki procent (np. 1-5%) użytkowników do nowej wersji, co ogranicza potencjalny wpływ błędów i pozwala na natychmiastowy rollback.
 
 Wyjaśnienie niepoprawnych odpowiedzi:
-- Opcja A: Tworzenie nowego serwisu dla każdej wersji jest nieefektywne i utrudnia zarządzanie ruchem oraz rollbacki.
-- Opcja D: Kierowanie ruchu produkcyjnego do URL rewizji (zamiast użycia podziału ruchu) jest ryzykowne i nie zapewnia izolacji potrzebnej do testów QA.
-- Opcja E: Splitting traffic (podział ruchu) automatycznie kieruje część ruchu użytkowników na nową wersję, co jest niebezpieczne, jeśli nie została ona jeszcze zweryfikowana przez QA.
+- Opcja A: Tworzenie osobnego serwisu Cloud Run dla każdej wersji jest nieefektywne i utrudnia płynne przełączanie ruchu (canary/rollback).
+- Opcja C: Wdrożenie bez tagu sprawia, że dostęp dla QA jest utrudniony, ponieważ każda nowa rewizja otrzymuje losowy identyfikator, zamiast czytelnego i stałego adresu URL zapewnianego przez tag.
+- Opcja D: Routing ruchu produkcyjnego bezpośrednio do URL-a rewizji nie jest zalecaną praktyką w Cloud Run. Wbudowany mechanizm "traffic splitting" (Opcja E) jest bezpieczniejszy i łatwiejszy w zarządzaniu.
 
 Więcej informacji:
 - <a href="https://cloud.google.com/run/docs/managing/revisions#traffic-management" target="_blank">Cloud Run: Traffic Management</a>
@@ -95,11 +96,12 @@ Więcej informacji:
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczem w Cloud Run jest użycie <strong>tags</strong> do testowania rewizji bez przerywania ruchu głównego.</p>
+<p>W Cloud Run kluczem do bezpiecznego wdrażania jest połączenie <strong>tagów</strong> (dla testów wewnętrznych) oraz <strong>podziału ruchu</strong> (dla testów na produkcji / canary).</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li><strong>--no-traffic:</strong> Zawsze używaj tego podczas wdrażania nowej rewizji, jeśli nie chcesz, aby od razu odbierała ruch.</li>
-    <li><strong>Tags:</strong> Pozwalają na testowanie konkretnej rewizji przez dedykowany URL.</li>
+    <li><strong>--tag:</strong> Tworzy dedykowany URL <code>https://TAG---SERVICE-URL</code>. Idealne dla QA.</li>
+    <li><strong>Traffic Splitting:</strong> Używaj, gdy pytanie wspomina o "live production traffic" lub "limiting impact" (Canary release).</li>
+    <li><strong>Rollback:</strong> W Cloud Run rollback to po prostu ustawienie 100% ruchu na poprzednią, stabilną rewizję.</li>
 </ul>
 </div>
 <script>

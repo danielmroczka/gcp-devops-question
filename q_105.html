@@ -22,22 +22,31 @@
     .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
     .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
     .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
-    .q-answer pre {
-      white-space: pre-wrap;
-      background: #0b1020;
-      color: #e6edf3;
-      padding: 14px;
-      border-radius: 10px;
-      line-height: 1.45;
-      font-size: 0.98rem;
-    }
     .question-body { font-size: 1.05rem; }
     .q-page { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
     .q-card { width: 100% !important; max-width: 100% !important; box-sizing: border-box; }
     .q-answer { width: 100% !important; max-width: 100% !important; }
-    .q-answer pre { white-space: pre-wrap; word-wrap: break-word; max-width: 100%; overflow-x: auto; }
     .ai-analysis-container { width: 100% !important; max-width: 100% !important; }
     .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; font-size: 0.85rem; }
+    
+    .explanation-content {
+      white-space: pre-wrap;
+      background: #0b1020;
+      color: #e6edf3;
+      padding: 20px;
+      border-radius: 10px;
+      line-height: 1.6;
+      font-size: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      word-wrap: break-word;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .explanation-content strong { color: #fff; font-weight: 600; }
+    .explanation-content .header { display: block; font-size: 1.2rem; margin-top: 15px; margin-bottom: 10px; color: #f1c40f; font-weight: bold; border-bottom: 1px solid rgba(241, 196, 15, 0.3); padding-bottom: 5px; }
+    .explanation-content .correct-answer-text { color: #2ecc71; font-weight: bold; }
+    .explanation-content .incorrect-option { color: #e74c3c; font-weight: bold; }
+    .explanation-content .link { color: #3498db; text-decoration: underline; }
 </style>
 <title>DevOps Engineer - Question 105</title>
 </head>
@@ -49,44 +58,59 @@
 <a class="btn btn-outline-primary " href="q_106.html">Następne →</a>
 </nav>
 <div class="q-card mb-4">
-<h2>Question 105</h2>
-<div class="product-badges mb-3"></div>
+<h2>Question 105 / 201</h2>
+<div class="product-badges mb-3">
+    <span class="badge badge-devops"><i class="fas fa-heartbeat"></i> SRE</span><span class="badge badge-devops"><i class="fas fa-file-contract"></i> Postmortem</span>
+</div>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
-<strong>[TREŚĆ PYTANIA]</strong>
+Your team is writing a postmortem after an incident on your external facing application. Your team wants to improve the postmortem policy to include triggers that indicate whether an incident requires a postmortem. <br><br><strong>Based on Site Reliability Engineering (SRE) practices, what triggers should be defined in the postmortem policy? (Choose two.)</strong>
 </p>
 <div class="question-choices-container">
 <ul>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> ...</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> An external stakeholder asks for a postmortem</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Data is lost due to an incident.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> An internal stakeholder requests a postmortem.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> The monitoring system detects that one of the instances for your application has failed.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="E" style="font-weight: bold; margin-right: 10px;">E.</span> The CD pipeline detects an issue and rolls back a problematic release.</li>
+
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">X</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B, E</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
-<div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: X
+<div class="q-card q-answer mb-4" style="display:none;"><div class="explanation-content"><span class="header">Odpowiedź:</span> <span class="correct-answer-text">B, E</span>
 
-Wyjaśnienie:
-[Wyjaśnienie...]
+<span class="header">Wyjaśnienie:</span>
+Zgodnie z filozofią SRE (Site Reliability Engineering) promowaną przez Google, proces tworzenia analiz poawaryjnych (postmortems) powinien być zautomatyzowany i oparty na jasnych, obiektywnych kryteriach (triggerach).
 
-Wyjaśnienie niepoprawnych odpowiedzi:
-- ...
+Dlaczego B i E są poprawne:
+- <strong>B (Utrata danych):</strong> Każdy incydent skutkujący utratą danych (nawet częściową) jest uznawany za krytyczny i bezwzględnie wymaga przeprowadzenia postmortem.
+- <strong>E (Wycofanie zmiany / Rollback):</strong> Jeśli system Continuous Delivery (CD) musiał automatycznie lub ręcznie wycofać nową wersję z powodu błędów, oznacza to, że proces testowania przedwdrożeniowego zawiódł. Analiza takiego zdarzenia pozwala poprawić pipeline CI/CD.
 
-Więcej informacji:
-- ...</pre>
-</div>
+<span class="header">Wyjaśnienie niepoprawnych odpowiedzi:</span>
+- <strong>A i C:</strong> Choć prośba interesariusza (stakeholder) jest ważna, SRE dąży do tego, by postmortemy były wyzwalane automatycznie przez zdarzenia techniczne, a nie tylko przez "polityczne" zapotrzebowanie. Prośba o postmortem jest dobrym zwyczajem, ale rzadziej stanowi sztywny element polityki w porównaniu do awarii technicznych.
+- <strong>D (Awaria pojedynczej instancji):</strong> W nowoczesnych systemach rozproszonych (GKE, App Engine), awaria jednej instancji jest zdarzeniem oczekiwanym i obsługiwanym przez mechanizmy self-healing. Nie wymaga to angażowania zespołu do pisania postmortem, chyba że spowodowało to ogólną niedostępność usługi.
+
+<span class="header">Hity i triki (Exam Tips):</span>
+- Zapamiętaj typowe triggery postmortem z książki SRE: user-visible downtime, data loss, engineer intervention (manual fix), release rollback.
+- Postmortem musi być <strong>blameless</strong> (bezkarny) – skupiamy się na procesach, a nie na ludziach.
+
+<span class="header">Więcej informacji:</span>
+- <a href="https://sre.google/sre-book/postmortem-culture/" class="link" target="_blank">Google SRE Book: Postmortem Culture</a></div></div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>[Analiza...]</p>
+<p>Kluczem do sukcesu w SRE jest traktowanie awarii jako okazji do nauki. Automatyczne triggery (jak utrata danych czy rollback) gwarantują, że żadna ważna lekcja nie zostanie pominięta.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>...</li>
+    <li>Szukaj zdarzeń, które mają bezpośredni wpływ na <strong>niezawodność</strong> lub <strong>użytkownika</strong>.</li>
+    <li>Unikaj odpowiedzi sugerujących pisanie postmortemu dla każdego drobnego błędu (jak restart jednego poda).</li>
 </ul>
 </div>
 <script>
