@@ -38,51 +38,118 @@
     .q-answer pre { white-space: pre-wrap; word-wrap: break-word; max-width: 100%; overflow-x: auto; }
     .ai-analysis-container { width: 100% !important; max-width: 100% !important; }
     .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; font-size: 0.85rem; }
+    table.responsibility-matrix { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    table.responsibility-matrix th, table.responsibility-matrix td { border: 1px solid #ddd; padding: 8px; text-align: center; font-size: 0.9rem; }
+    table.responsibility-matrix th { background-color: #f2f2f2; }
+    .check-mark { color: #198754; font-weight: bold; }
 </style>
 <title>DevOps Engineer - Question 163</title>
 </head>
 <body class="home2">
 <div class="q-page">
 <nav class="q-nav d-flex justify-content-between align-items-center my-3">
-<a class="btn btn-outline-primary " href="q_162.html">← Poprzednie</a>
+<a class="btn btn-outline-primary" href="q_162.html">← Poprzednie</a>
 <a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
-<a class="btn btn-outline-primary " href="q_164.html">Następne →</a>
+<a class="btn btn-outline-primary" href="q_164.html">Następne →</a>
 </nav>
 <div class="q-card mb-4">
 <h2>Question 163 / 201</h2>
 <div class="product-badges mb-3">
-    
+    <span class="badge badge-devops"><i class="fas fa-users"></i> SRE Culture</span>
+    <span class="badge badge-devops"><i class="fas fa-handshake"></i> Joint Ownership</span>
 </div>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
-<strong></strong>
+You are leading a DevOps project for your organization. The DevOps team is responsible for managing the service infrastructure and being on-call for incidents. The Software Development team is responsible for writing, submitting, and reviewing code. Neither team has any published SLOs. You want to design a new joint-ownership model for a service between the DevOps team and the Software Development team. <br><br>
+<strong>Which responsibilities should be assigned to each team in the new joint-ownership model?</strong>
 </p>
 <div class="question-choices-container">
 <ul>
-
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #eee; border-radius: 5px;">
+    <span class="multi-choice-letter" style="font-weight: bold; margin-right: 10px;">A.</span>
+    <table class="responsibility-matrix">
+        <tr><th>Responsibility</th><th>DevOps Team</th><th>Shared</th><th>Software Dev Team</th></tr>
+        <tr><td>Manage infrastructure</td><td><span class="check-mark">✔</span></td><td></td><td></td></tr>
+        <tr><td>On-call for incidents</td><td><span class="check-mark">✔</span></td><td></td><td></td></tr>
+        <tr><td>Adopt and publish SLOs</td><td><span class="check-mark">✔</span></td><td></td><td></td></tr>
+        <tr><td>Perform code reviews</td><td></td><td></td><td><span class="check-mark">✔</span></td></tr>
+        <tr><td>Submit code</td><td></td><td></td><td><span class="check-mark">✔</span></td></tr>
+    </table>
+</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #eee; border-radius: 5px;">
+    <span class="multi-choice-letter" style="font-weight: bold; margin-right: 10px;">B.</span>
+    <table class="responsibility-matrix">
+        <tr><th>Responsibility</th><th>DevOps Team</th><th>Shared</th><th>Software Dev Team</th></tr>
+        <tr><td>Manage infrastructure</td><td><span class="check-mark">✔</span></td><td></td><td></td></tr>
+        <tr><td>Adopt and publish SLOs</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>On-call for incidents</td><td></td><td></td><td><span class="check-mark">✔</span></td></tr>
+        <tr><td>Perform code reviews</td><td></td><td></td><td><span class="check-mark">✔</span></td></tr>
+        <tr><td>Submit code</td><td></td><td></td><td><span class="check-mark">✔</span></td></tr>
+    </table>
+</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #eee; border-radius: 5px;">
+    <span class="multi-choice-letter" style="font-weight: bold; margin-right: 10px;">C.</span>
+    <table class="responsibility-matrix">
+        <tr><th>Responsibility</th><th>DevOps Team</th><th>Shared</th><th>Software Dev Team</th></tr>
+        <tr><td>Manage infrastructure</td><td><span class="check-mark">✔</span></td><td></td><td></td></tr>
+        <tr><td>Adopt and publish SLOs</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>On-call for incidents</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>Perform code reviews</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>Submit code</td><td></td><td></td><td><span class="check-mark">✔</span></td></tr>
+    </table>
+</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #eee; border-radius: 5px;">
+    <span class="multi-choice-letter" style="font-weight: bold; margin-right: 10px;">D.</span>
+    <table class="responsibility-matrix">
+        <tr><th>Responsibility</th><th>DevOps Team</th><th>Shared</th><th>Software Dev Team</th></tr>
+        <tr><td>Manage infrastructure</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>Adopt and publish SLOs</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>On-call for incidents</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>Perform code reviews</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+        <tr><td>Submit code</td><td></td><td><span class="check-mark">✔</span></td><td></td></tr>
+    </table>
+</li>
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">TBD</span>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 <br/>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: TBD
+<pre>Odpowiedź: C
 
 Wyjaśnienie:
-Treść pytania jest obecnie pusta. Proszę o dostarczenie pełnego pytania oraz możliwych odpowiedzi.</pre>
+Model "Joint-Ownership" (wspólnej odpowiedzialności) jest jednym z kluczowych wzorców współpracy SRE opisanych przez Google. Jego celem jest przełamanie silosów między programistami a zespołami operacyjnymi/SRE.
+
+Kluczowe elementy modelu Joint-Ownership (Opcja C):
+1. Zarządzanie infrastrukturą: DevOps/SRE zazwyczaj zachowuje główną odpowiedzialność za infrastrukturę i automatyzację (IaC), choć robi to w sposób przejrzysty dla programistów.
+2. Wspólne SLO: To najważniejszy element. Obie grupy muszą zgadzać się co do celów niezawodności i wspólnie zarządzać budżetem błędów (Error Budget).
+3. Wspólny On-call: Programiści biorący udział w dyżurach lepiej rozumieją zachowanie swojego kodu w produkcji, co motywuje ich do dbania o stabilność.
+4. Wspólne przeglądy kodu (Code Reviews): DevOps sprawdza kod pod kątem operacyjności (skalowalność, logowanie), a Devs pod kątem funkcjonalności.
+5. Przesyłanie kodu: Pozostaje główną domeną zespołu programistycznego, ale w ramach wspólnego procesu przeglądu.
+
+Wyjaśnienie niepoprawnych odpowiedzi:
+- Opcja A: To model silosowy (tradycyjny), gdzie Ops robi wszystko co "produkcyjne", a Dev tylko pisze kod. Brak tu "joint ownership".
+- Opcja B: Przerzuca zbyt dużą odpowiedzialność na programistów (np. cały on-call) bez pełnego wsparcia i współdzielenia procesów z DevOps.
+- Opcja D: Sugeruje całkowite rozmycie ról, gdzie wszystko jest wspólne, co w praktyce często prowadzi do braku jasnej odpowiedzialności za kluczowe elementy jak zarządzanie infrastrukturą.
+
+Więcej informacji:
+- <a href="https://sre.google/sre-book/introduction/" target="_blank">Google SRE Book: Introduction (Shared Ownership)</a>
+- <a href="https://cloud.google.com/architecture/devops/devops-culture-site-reliability-engineering" target="_blank">GCP: SRE Culture and Joint Ownership</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Brak danych wejściowych w pliku.</p>
+<p>Kluczem do modelu Joint-Ownership jest <strong>wspólnota celów (SLOs)</strong> i <strong>wspólne doświadczenie produkcji (On-call)</strong>.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Proszę sprawdzić poprawność pliku źródłowego.</li>
+    <li><strong>Słowo klucz - SLO:</strong> W pytaniach o współpracę zespołów, wspólne (Shared) SLO zawsze wskazuje na poprawny kierunek SRE.</li>
+    <li><strong>On-call:</strong> Jeśli programiści nie są on-call w jakimkolwiek stopniu, to nie jest to pełny model joint-ownership w duchu Google SRE.</li>
+    <li><strong>Code Reviews:</strong> Wspólne przeglądy kodu to najskuteczniejszy sposób na transfer wiedzy między Dev i Ops.</li>
 </ul>
 </div>
 <script>
