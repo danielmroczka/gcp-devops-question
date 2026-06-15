@@ -61,10 +61,10 @@
 </ul><br><br><strong>How should you structure your source control repositories for both Infrastructure as Code (IaC) and application code?</strong></p>
 <div class="question-choices-container">
 <ul>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> • Cloud Infrastructure (Terraform) repository is shared: different directories are different environments</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> • Cloud Infrastructure (Terraform) repository is shared: different directories are different environments</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> • Cloud Infrastructure (Terraform) repository is shared: different branches are different environments</li>
-<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> • Cloud Infrastructure (Terraform) repositories are separated: different branches are different environments</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> • Cloud Infrastructure (Terraform) repository is shared: different directories are different environments. <br>• GKE Infrastructure (Anthos Config Management Kustomize manifests) repository is shared: different overlay directories are different environments. <br>• Application (app source code) repositories are separated: different branches are different features.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> • Cloud Infrastructure (Terraform) repository is shared: different directories are different environments. <br>• GKE Infrastructure (Anthos Config Management Kustomize manifests) repositories are separated: different branches are different environments. <br>• Application (app source code) repositories are separated: different branches are different features.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> • Cloud Infrastructure (Terraform) repository is shared: different branches are different environments. <br>• GKE Infrastructure (Anthos Config Management Kustomize manifests) repository is shared: different overlay directories are different environments. <br>• Application (app source code) repository is shared: different directories are different features.</li>
+<li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> • Cloud Infrastructure (Terraform) repositories are separated: different branches are different environments. <br>• GKE Infrastructure (Anthos Config Management Kustomize manifests) repositories are separated: different branches are different environments. <br>• Application (app source code) repositories are separated: different branches are different features.</li>
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
@@ -80,18 +80,20 @@
 <pre>Odpowiedź: A
 
 Wyjaśnienie:
-W GitOps, dla Infrastructure as Code (IaC) przy użyciu Terraform, zaleca się stosowanie pojedynczego repozytorium z odpowiednią strukturą katalogów, aby zarządzać różnymi środowiskami.
+To pytanie sprawdza znajomość najlepszych praktyk Google Cloud w zakresie struktury repozytoriów dla GitOps, Terraform oraz Anthos Config Management (ACM).
 
-Dlaczego odpowiedź A jest poprawna:
-- <strong>Struktura katalogów:</strong> Pozwala na łatwe współdzielenie modułów Terraform między środowiskami (DRY - Don't Repeat Yourself), przy zachowaniu izolacji zmiennych dla każdego z nich (dev/qa/prod). Jest to przejrzyste i łatwe do zarządzania w systemach CI/CD.
+1. Terraform (Infrastruktura Chmurowa): Google zaleca używanie współdzielonego repozytorium z oddzielnymi katalogami dla każdego środowiska (np. environments/dev, environments/prod). Używanie gałęzi (branches) do zarządzania środowiskami w Terraform jest uważane za anty-wzorzec, ponieważ prowadzi do "dryfu konfiguracji" (config drift) i utrudnia porównywanie stanu między środowiskami.
+2. Anthos Config Management (ACM): Standardowym podejściem w ACM do zarządzania wieloma środowiskami z zachowaniem wspólnej bazy jest użycie nakładek Kustomize (overlays). Współdzielone repozytorium z katalogiem 'base' oraz katalogami 'overlays' dla każdego środowiska pozwala na efektywne zarządzanie różnicami (np. limity zasobów, liczba replik) przy zachowaniu spójności.
+3. Kod Aplikacji: Repozytoria aplikacji powinny być oddzielone (jedno na usługę/mikroserwis), a gałęzie powinny służyć do rozwoju funkcji (feature branches), co jest standardem w przepływach CI/CD.
 
 Wyjaśnienie niepoprawnych odpowiedzi:
-- <strong>Opcja C i D:</strong> Używanie różnych gałęzi (branches) dla różnych środowisk jest często odradzane w GitOps. Powoduje to trudności w śledzeniu zmian (git merge/rebase między gałęziami), sprawia, że porównywanie konfiguracji między środowiskami jest skomplikowane i sprzyja powstawaniu "config driftu".
-- <strong>Opcja B:</strong> Jest identyczna z A (błąd w pytaniu), jednak A jest zazwyczaj poprawną odpowiedzią wskazującą na strukturę katalogową.
+- Opcje B i D: Sugerują używanie gałęzi jako środowisk dla ACM lub Terraform, co komplikuje śledzenie zmian i zarządzanie stanem infrastruktury.
+- Opcja C: Sugeruje jedno wspólne repozytorium dla wszystkich aplikacji oraz używanie gałęzi dla środowisk Terraform, co narusza zasady izolacji i nowoczesnego cyklu życia aplikacji.
 
 Więcej informacji:
-- <a href="https://www.terraform.io/docs/language/modules/develop/composition.html" target="_blank">Terraform: Module Composition</a>
-- <a href="https://cloud.google.com/architecture/terraform-gitops" target="_blank">Google Cloud: Terraform GitOps Patterns</a></pre>
+- <a href="https://cloud.google.com/architecture/terraform-gitops" target="_blank">Google Cloud: Terraform GitOps Patterns</a>
+- <a href="https://cloud.google.com/anthos/config-management/docs/concepts/kustomize" target="_blank">ACM: Using Kustomize</a>
+- <a href="https://cloud.google.com/architecture/devops/cicd-pipeline-design" target="_blank">DevOps: CI/CD Pipeline Design</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
