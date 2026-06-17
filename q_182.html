@@ -79,14 +79,15 @@ You are running a web application that connects to an AlloyDB cluster by using a
 <pre>Odpowiedź: B
 
 Wyjaśnienie:
-Pytanie dotyczy bezpiecznego łączenia się Cloud Build z bazą danych (AlloyDB) w prywatnej sieci (private IP).
-1. <strong>Cloud Build private pool</strong> pozwala na uruchamianie buildów wewnątrz własnej sieci VPC, dzięki czemu mają one dostęp do zasobów z prywatnym IP.
-2. <strong>Service account</strong> z odpowiednimi uprawnieniami IAM to standardowa i bezpieczna metoda uwierzytelniania w GCP, zgodna z zasadą najmniejszych przywilejów (Least Privilege).
+To pytanie dotyczy bezpiecznej łączności Cloud Build z prywatnymi zasobami w VPC (AlloyDB). Obie opcje A i B wspomninają o Cloud Build Private Pool, ponieważ jest on niezbędny do uzyskania dostępu do sieci prywatnej. Kluczowa różnica leży w bezpieczeństwie:
+
+1. Łączność (Private Pool): Standardowy Cloud Build nie ma dostępu do prywatnych adresów IP w Twoim VPC. Private Pool umożliwia taką łączność dzięki peeringowi sieciowemu.
+2. Bezpieczeństwo (Opcja B): Użycie dedykowanego konta serwisowego (Service Account) z uprawnieniami IAM to najlepsza praktyka. Pozwala to na wykorzystanie uwierzytelniania IAM do bazy danych, eliminując potrzebę zarządzania statycznymi hasłami.
 
 Wyjaśnienie niepoprawnych odpowiedzi:
-- <strong>Opcja A:</strong> Używanie publicznego IP (nawet statycznego) dla bazy danych wewnątrz VPC jest niebezpieczne i narusza dobre praktyki (baza powinna być odizolowana od internetu).
-- <strong>Opcja C:</strong> Choć Secret Manager jest świetny do przechowywania haseł, sama ta akcja nie rozwiązuje problemu *sieciowego* (dostępu z Cloud Build do prywatnego IP bazy).
-- <strong>Opcja D:</strong> Przechowywanie haseł (nawet zaszyfrowanych) w plikach konfiguracyjnych aplikacji jest uznawane za bardzo złą praktykę bezpieczeństwa (ryzyko wycieku kodu źródłowego).
+- Opcja A: Mimo że wspomina o Private Pool, sugeruje dostęp przez "static external IP address". Wystawianie prywatnej bazy danych na publiczny internet (nawet z ograniczonym adresem IP) jest poważnym błędem w sztuce i narusza zasady bezpieczeństwa.
+- Opcja C: Skupia się na Secret Managerze, co jest dobrą praktyką dla haseł, ale nie rozwiązuje problemu braku łączności sieciowej między standardowym Cloud Build a prywatnym IP bazy.
+- Opcja D: Przechowywanie danych uwierzytelniających w plikach konfiguracyjnych to krytyczne zagrożenie bezpieczeństwa.
 
 Więcej informacji:
 - <a href="https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool" target="_blank">Google Cloud: Cloud Build Private Pools</a>

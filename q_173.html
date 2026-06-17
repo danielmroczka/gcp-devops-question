@@ -79,23 +79,27 @@ Your company stores a large volume of infrequently used data in Cloud Storage. T
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-1. <strong>Wymagania:</strong> Chcesz włączyć Data Access audit logs dla całej firmy, ale wyłączyć je dla specyficznego folderu (CustomerService).
-2. <strong>Rozwiązanie:</strong> Audit logi w GCP są konfigurowane hierarchicznie (Organization -> Folder -> Project). Aby wykluczyć folder, najprostszym i najbardziej przejrzystym podejściem jest włączenie logów na poziomie organizacji, a następnie wyłączenie (lub pozostawienie wyłączonych) w tym konkretnym folderze.
+To pytanie wymaga zrozumienia hierarchii i sposobu dziedziczenia konfiguracji audytu w Google Cloud.
+
+1. Dziedziczenie jest addytywne: W Google Cloud konfiguracja logów audytowych (Audit Logs) jest dziedziczona z góry na dół (Organizacja -> Folder -> Projekt). Jeśli włączysz logi Data Access na poziomie Organizacji, zostaną one włączone dla wszystkich podrzędnych zasobów i **nie można ich wyłączyć** na poziomie konkretnego folderu lub projektu.
+2. Rozwiązanie (Opcja C): Aby wykluczyć konkretny folder (CustomerService), nie możesz włączyć logowania na poziomie Organizacji. Musisz włączyć je selektywnie na wszystkich pozostałych folderach lub projektach, omijając folder CustomerService.
 
 Wyjaśnienie niepoprawnych odpowiedzi:
-- <strong>Opcja A & D:</strong> "Exempted principals" służą do wykluczania konkretnych użytkowników (np. konta serwisowego, które wykonuje bardzo dużo operacji), a nie całych projektów czy folderów z logowania.
-- <strong>Opcja B:</strong> Włączenie na poziomie organizacji bez żadnej innej konfiguracji włączy logowanie dla absolutnie wszystkich projektów, również tych w folderze CustomerService, czego chcesz uniknąć.
+- Opcja A i D (Pułapka): "Exempted principals" (wyłączone podmioty) wykluczają TOŻSAMOŚĆ (ktoś), a nie ZASÓB (gdzie). Jeśli wykluczysz użytkowników folderu CustomerService na poziomie organizacji, ich działania nie będą logowane NIGDZIE w firmie. Jeśli taki użytkownik uzyska dostęp do danych w innym, wrażliwym projekcie, nie będzie po tym śladu. Jest to krytyczna luka w bezpieczeństwie.
+- Opcja B: Włączenie na poziomie organizacji automatycznie obejmie folder CustomerService, a ponieważ dziedziczenie jest addytywne, nie będziesz mógł ich wyłączyć dla tego konkretnego folderu.
 
 Więcej informacji:
-- <a href="https://cloud.google.com/logging/docs/audit/configure-data-access#setting-audit-policy" target="_blank">Google Cloud: Configuring Data Access Audit Logs</a></pre>
+- <a href="https://cloud.google.com/logging/docs/audit/configure-data-access#inheritance" target="_blank">GCP Docs: Audit Log Inheritance</a>
+- <a href="https://cloud.google.com/logging/docs/audit/configure-data-access#additive" target="_blank">GCP Docs: Additive Audit Log Configurations</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Hierarchia GCP jest bardzo potężna. Zrozumienie, że ustawienia na poziomie Folderu nadpisują lub działają obok ustawień na poziomie Organizacji, jest kluczowe dla zarządzania audytem.</p>
+<p>Kluczem do tego zadania jest zrozumienie, że w GCP logi audytowe są <strong>addytywne</strong>. Nie można "odjąć" logowania na niższym poziomie, jeśli zostało włączone na wyższym.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li><strong>Principals vs Resources:</strong> Exempted <em>principals</em> to konkretne konta (użytkownicy/konta serwisowe). Aby wykluczyć cały zasób (folder/projekt), musisz wyłączyć logowanie na tym poziomie.</li>
-    <li><strong>Audit Logs Hierarchy:</strong> Zawsze pamiętaj o kolejności: Organization > Folder > Project.</li>
+    <li><strong>Addytywność:</strong> Jeśli włączysz coś na poziomie Org, będzie to aktywne wszędzie poniżej. Jedynym sposobem na wykluczenie zasobu jest włączenie logowania selektywnie (omijając dany zasób).</li>
+    <li><strong>Principals vs Resources:</strong> Pamiętaj, że "Exempted Principals" wyklucza <em>kogoś</em> (identyfikację), a nie <em>coś</em> (projekt/folder).</li>
+    <li><strong>Koszty:</strong> Data Access logs mogą generować ogromne koszty i wolumen danych, dlatego precyzyjne sterowanie ich włączaniem jest kluczowe.</li>
 </ul>
 </div>
 <script>
