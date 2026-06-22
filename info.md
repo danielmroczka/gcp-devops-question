@@ -1,7 +1,3 @@
-Poniżej masz długą listę w formacie Markdown, zachowującą **strukturę sekcji i podpunktów z exam guide** (wersja 2022/2023 zaktualizowana na stronie community, ale nadal zgodna z oficjalnym PDF), z **linkami do dokumentacji Google Cloud (minimum jeden na podpunkt) oraz wybranymi zewnętrznymi listami** tam, gdzie pasują.[1][2][3]
-
-***
-
 ## Sekcja 1. Applying site reliability engineering principles to a service
 
 ### 1.1 Balance change, velocity, and reliability of the service
