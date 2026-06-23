@@ -69,27 +69,43 @@ You are deploying a new web application on Cloud Run in your Google Cloud projec
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B</span>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: B
+<pre>
+Odpowiedź: B
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 263. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawną odpowiedzią jest B. Cloud Run automatycznie skaluje instancje w zależności od liczby zapytań. Jednakże, aby zapewnić, że autoskalowanie nie przekroczy dostępnych zasobów w projekcie, konieczne jest poprawne skonfigurowanie limitów zasobów (CPU/Memory) dla samego serwisu Cloud Run oraz upewnienie się, że w projekcie GCP istnieją wystarczające limity (quotas) na liczbę instancji, CPU lub pamięci, aby obsłużyć maksymalny przewidywany ruch (1000 rps).
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Ręczne dostosowywanie instancji w chmurze to zaprzeczenie idei serverless i autoskalowania.
+- C: Skalowanie Cloud Run opiera się głównie na liczbie zapytań (concurrency), a nie bezpośrednio na CPU, chociaż CPU może być użyte jako wskaźnik. Target 80% CPU dla Cloud Run nie jest standardową konfiguracją dla obsługi zmiennego ruchu w ten sposób.
+- D: Chociaż Cloud Run skaluje się na podstawie zapytań, konfiguracja ta (requests per instance) nazywa się "concurrency" i jest ustawiana w konfiguracji serwisu, a nie przez zewnętrzny autoscaler. Opcja B jest najbardziej kompletną odpowiedzią obejmującą zarządzanie zasobami i limitami.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/run/docs/configuring/memory-limits' target='_blank'>Cloud Run: Memory Limits</a>
+- <a href='https://cloud.google.com/run/docs/configuring/request-concurrency' target='_blank'>Cloud Run: Request Concurrency</a>
+- <a href='https://cloud.google.com/run/docs/quotas' target='_blank'>Cloud Run: Quotas</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>Cloud Run to usługa w pełni zarządzana, ale nadal wymaga zarządzania limitami i limitami zasobów.</p>
+<p><strong>Dlaczego B?</strong></p>
+<p>Zarządzanie zasobami (quotas) i konfiguracja limitów (CPU/RAM) serwisu są niezbędne do kontrolowania kosztów i zapewnienia przewidywalnego działania autoskalera.</p>
+<p><strong>Dlaczego inne?</strong></p>
+<ul>
+<li>A: Praca ręczna, brak korzyści z serverless.</li>
+<li>C/D: Ustawienia autoskalowania są istotne, ale B obejmuje cały proces planowania pojemności (capacity planning), co jest nadrzędnym problemem w pytaniu (przekroczenie limitów projektu).</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li>W pytaniach o Cloud Run i skalowanie zawsze szukaj odpowiedzi odnoszących się do <strong>Limitów (Resources)</strong> i <strong>Quotas (GCP Quotas)</strong>.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

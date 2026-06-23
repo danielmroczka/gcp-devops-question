@@ -69,27 +69,43 @@ You manage a microservice that provides a public-facing API (Service A). Service
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C
+<pre>
+Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 261. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawną odpowiedzią jest C (Implementacja circuit breakera). W architekturze mikrousług, gdy jedna usługa (A) zależy synchronicznie od drugiej (B), która jest niestabilna, kluczowe jest zapobieganie tzw. kaskadowym awariom. Circuit breaker pozwala przestać wywoływać Service B, gdy wykryje on zbyt wiele błędów, zapobiegając blokowaniu wątków w Service A (co mogłoby wyczerpać pulę wątków i doprowadzić do awarii Service A). Przechowywanie danych w bazie pozwala na asynchroniczne przetworzenie informacji, gdy Service B wróci do sprawności, lub na odłożenie ich do późniejszego przetworzenia, co pozwala Service A utrzymać wydajność i spełnić SLO.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Zwiększenie kolejki tylko odsuwa problem w czasie i zwiększa opóźnienia, co ostatecznie doprowadzi do większej liczby timeoutów dla użytkowników końcowych.
+- B: Ponawianie (retry) z exponential back-off w systemie o niskim SLO przy niestabilnym serwisie B, tylko zwiększy obciążenie dla Service B i wydłuży czas odpowiedzi Service A, co doprowadzi do przekroczenia SLO.
+- D: Rate limiting w Service A ograniczy liczbę zapytań do Service B, ale jeśli Service B jest już przeciążony, to nie rozwiązuje problemu asynchroniczności i nie chroni Service A przed awarią Service B.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://martinfowler.com/bliki/CircuitBreaker.html' target='_blank'>Circuit Breaker Pattern</a>
+- <a href='https://cloud.google.com/architecture/patterns-for-scalable-and-resilient-apps' target='_blank'>Resilient Microservices Architecture</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie sprawdza znajomość wzorców projektowych dla systemów rozproszonych (resilience patterns).</p>
+<p><strong>Dlaczego C?</strong></p>
+<p>Circuit breaker to fundamentalny wzorzec, który "odcina" komunikację z niedziałającym serwisem, pozwalając na szybką reakcję ("fail fast") lub asynchroniczne kolejkowanie (jak w opcji C), co chroni główny serwis przed kaskadową awarią.</p>
+<p><strong>Dlaczego inne?</strong></p>
+<ul>
+<li>A: Zwiększanie kolejek to antywzorzec prowadzący do "latency tail inflation".</li>
+<li>B: Retry w systemach o krytycznym SLO zazwyczaj pogarszają sprawę (tzw. "retry storm").</li>
+<li>D: Rate limiting jest dobry, ale nie wystarczający do zapewnienia dostępności, gdy serwis B po prostu nie odpowiada.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Latency-sensitive + Unstable Dependency:</strong> Szukaj rozwiązań asynchronicznych (kolejki/bazy) i ochronnych (circuit breaker). Unikaj rozwiązań zwiększających czas oczekiwania (retry/queueing).</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

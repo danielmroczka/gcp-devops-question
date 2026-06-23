@@ -70,27 +70,45 @@ Your company is migrating its production systems to Google Cloud. You need to im
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A, D</span>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: A, D
+<pre>
+Odpowiedź: A, D
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 262. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawne odpowiedzi to A (Tworzenie playbooks) oraz D (Automatyzacja zadań i sugerowanie akcji).
+SRE (Site Reliability Engineering) opiera się na eliminowaniu pracy ręcznej (toil) i zapewnieniu przewidywalności w sytuacjach awaryjnych.
+- A: Playbooki są niezbędne dla on-call team do szybkiego debugowania i mitygacji awarii w sposób powtarzalny.
+- D: Automatyzacja zadań naprawczych (autoremediacja) i inteligentne sugerowanie akcji zmniejsza czas MTTR (Mean Time To Repair) i redukuje błędy ludzkie pod presją czasu.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- B: Zapewnienie każdemu możliwości modyfikacji produkcji prowadzi do niestabilności i jest sprzeczne z zasadą zarządzania konfiguracją.
+- C: Alertowanie na podstawie wewnętrznego zachowania systemu (symptom-based) prowadzi do alert fatigue. SRE preferuje alerty na podstawie SLO (service-level objectives).
+- E: Ograniczanie uprawnień tylko dla on-call team jest błędne – dostęp do produkcji powinien być kontrolowany i ograniczony (principle of least privilege), ale nie powinien być "pełną autonomią" tylko dla on-call.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://sre.google/sre-book/table-of-contents/' target='_blank'>Google SRE Book</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie dotyczy fundamentów SRE wg Google.</p>
+<p><strong>Dlaczego A i D?</strong></p>
+<p>Playbooki i automatyzacja (redukcja toil) to dwa filary pracy SRE, zapewniające skalowalność operacji.</p>
+<p><strong>Dlaczego inne?</strong></p>
+<ul>
+<li>B: "Chaos" zamiast "kontrolowanych zmian".</li>
+<li>C: Symptom-based alerting to prosty sposób na zmęczenie alertami (alert fatigue).</li>
+<li>E: SRE promuje kulturę "blameless", nie "izolacji odpowiedzialności".</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li>W pytaniach o SRE szukaj: <strong>Automatyzacja (Toil reduction)</strong>, <strong>SLOs/SLIs</strong>, <strong>Playbooks</strong>, <strong>Postmortems</strong>.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

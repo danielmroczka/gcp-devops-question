@@ -70,27 +70,42 @@ Your company is actively developing a new web service following site reliability
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C, E</span>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: C, E
+<pre>
+Odpowiedź: C, E
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 264. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawne odpowiedzi to C (Współpraca z zespołem produktowym) oraz E (Wczesne zaangażowanie/konsulting).
+Zgodnie z praktykami SRE, inżynierowie powinni angażować się w projektowanie usługi od samego początku (early engagement), co pozwala na uwzględnienie kwestii operacyjnych (operability) na etapie architektury, a nie po fakcie. Współpraca z zespołem produktowym pozwala zdefiniować realne SLO i oczekiwania dotyczące wydajności.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Monitorowanie jest ważne, ale SRE zaangażowanie zaczyna się znacznie wcześniej – na etapie projektowania. Samo postawienie monitoringu to za mało.
+- B: Dokumentowanie wytycznych jest dobre, ale jest to raczej działanie wtórne, a nie priorytetowe w fazie projektowania usługi.
+- D: Redundancja jest ważna, ale jest tylko jednym z aspektów architektury, o których SRE powinno dyskutować w fazie wczesnego zaangażowania (E), a nie działaniem, które podejmuje się w izolacji.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://sre.google/sre-book/introduction/' target='_blank'>SRE Introduction</a>
+- <a href='https://sre.google/sre-book/service-subsidies/' target='_blank'>Early Engagement Model</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>Kluczowa zasada SRE: SRE to nie dział utrzymania, do którego rzuca się gotowy kod, lecz partnerzy techniczni.</p>
+<p><strong>Dlaczego C i E?</strong></p>
+<p>Early Engagement (wczesne zaangażowanie) jest kluczowe dla "production readiness". Projektowanie usługi bez udziału SRE to przepis na problemy operacyjne.</p>
+<p><strong>Dlaczego inne?</strong></p>
+<ul>
+<li>A/B/D: To ważne zadania, ale są one rezultatem lub częścią procesu "Early Engagement". Pytanie pyta o *dwa* główne kroki, które SRE podejmuje jako liderzy.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li>SRE w GCP DevOps = partnerstwo z deweloperami, wczesny udział w projektowaniu, definiowanie SLO przed wdrożeniem.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
