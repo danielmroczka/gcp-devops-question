@@ -79,20 +79,32 @@ Which sequence best introduces a new API version and retires the old version wit
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź: C. Standardowa procedura: nowa wersja -> deprecjacja starej -> komunikacja/wsparcie -> wyłączenie starej.
+Poprawna odpowiedź: C. Proces wycofywania (deprecation/retiring) API wymaga czasu i komunikacji.
+Standardowa dobra praktyka (zgodna z zasadami API lifecycle management):
+1. Wprowadź nową wersję (v2), podczas gdy v1 wciąż działa.
+2. Ogłoś deprecjację v1, informując o terminie jej wyłączenia.
+3. Aktywnie komunikuj się z klientami, którzy nadal korzystają z v1, oferując wsparcie.
+4. Dopiero gdy ruch na v1 jest znikomy lub termin minął -> wyłącz v1.
 
 Wyjaśnienie błędnych odpowiedzi:
-- A: Brak wsparcia migracji przed wyłączeniem.
-- B: Zmiana kontraktu API bez ostrzeżenia łamie działanie klientów.
-- D: Nie można ogłosić deprecjacji bez nowej wersji.
+- A: Nie zawiera kluczowego kroku wsparcia migracji i aktywnej komunikacji przed wyłączeniem.
+- B: Drastyczne wymuszenie zmiany kontraktu (breaking change) natychmiastowo łamie integracje i zaufanie klientów.
+- D: Nie można ogłosić deprecjacji wersji przed udostępnieniem jej następcy, bo użytkownicy nie mają dokąd przejść.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/api-gateway/docs/lifecycle' target='_blank'>API Versioning and Lifecycle</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li>Brak wskazówek.</li></ul>
+<p>To pytanie dotyczy zarządzania cyklem życia API (API Lifecycle Management) i dobrych praktyk w komunikacji z klientami przy wprowadzaniu zmian.</p>
+<p><strong>Dlaczego C jest poprawne?</strong></p>
+<p>Podejście C minimalizuje ryzyko awarii u klientów i daje im czas na dostosowanie się do nowych wymagań. Jest to podejście zorientowane na klienta, typowe dla dojrzałych organizacji DevOps.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li>Zawsze szukaj odpowiedzi zawierającej: <strong>komunikację</strong>, <strong>okres przejściowy (deprecjacja)</strong> i <strong>wsparcie</strong>.</li>
+<li>Jeśli opcja brzmi "natychmiast" lub "wymuszona zmiana" -> niemal na pewno jest błędna.</li>
+<li>Dobra strategia deprecjacji = "Stop new adoption of old API" -> "Migrate existing" -> "Retire old".</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

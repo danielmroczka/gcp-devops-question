@@ -78,19 +78,36 @@ Which repository layout supports GitOps for Terraform infrastructure, Anthos Con
 <pre>Odpowiedź: B
 
 Wyjaśnienie:
-Poprawna odpowiedź: B. Zgodnie z najlepszymi praktykami GCP, IaC (Terraform) powinno używać katalogów dla środowisk, a ACM (Anthos Config Management) wykorzystuje Kustomize z overlayami. Separate app repos ułatwiają zarządzanie.
+Poprawna odpowiedź: B. W architekturze GitOps dla GCP, najlepsze praktyki zalecają:
+1. Terraform: Użycie struktury katalogowej (np. `/modules`, `/environments/dev`, `/environments/prod`) zamiast branchy. Pozwala to na łatwiejsze porównywanie (diff) zmian między środowiskami.
+2. Anthos Config Management (ACM): Wykorzystanie Kustomize do zarządzania konfiguracją z `overlays` (bazowa konfiguracja + nakładki środowiskowe).
+3. Aplikacje: Oddzielne repozytoria dla różnych mikroserwisów pozwalają na niezależne cykle wydawnicze (CI/CD), co jest kluczowe w DevOps.
 
 Wyjaśnienie błędnych odpowiedzi:
-- A: Branche dla środowisk (git flow-like) utrudniają diffowanie i utrzymanie zgodności.
-- C: Wiele repozytoriów dla środowisk IaC zwiększa złożoność i ryzyko drifta.
+- A: Branche gitowe dla środowisk (`dev-branch`, `prod-branch`) to anty-wzorzec ("git flow-like"). Prowadzi do "config driftu", utrudnia śledzenie zmian (diffs) i komplikuje merge'owanie poprawek bezpieczeństwa między środowiskami.
+- C: Oddzielne repozytoria dla środowisk (IaC/ACM) znacznie zwiększają narzut administracyjny ("repo sprawl") i drastycznie utrudniają utrzymanie spójności konfiguracji całego klastra czy infrastruktury.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/architecture/prep-gke-multi-environment-deployments-gitops' target='_blank'>GitOps for multi-environment deployments</a>
+- <a href='https://cloud.google.com/anthos-config-management/docs/concepts/config-management' target='_blank'>Anthos Config Management Concepts</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li>Brak wskazówek.</li></ul>
+<p>To pytanie sprawdza znajomość wzorców projektowych GitOps w ekosystemie Google Cloud.</p>
+<p><strong>Dlaczego B jest poprawne?</strong></p>
+<p>Model B łączy elastyczność (oddzielne repozytoria dla aplikacji) z łatwością zarządzania konfiguracją (katalogi środowisk w IaC, overlays w ACM). Takie podejście promuje "Immutable Infrastructure" i "Declarative Configuration", które są fundamentami GitOps.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A (Branche dla środowisk):</strong> Antywzorzec. Jeśli użyjesz branchy, merge'owanie zmian (np. poprawki bezpieczeństwa) z `dev` do `prod` staje się "piekłem merge'owania" i prowadzi do desynchronizacji konfiguracji.</li>
+<li><strong>C (Oddzielne repozytoria dla środowisk):</strong> Antywzorzec. Zarządzanie setkami repozytoriów dla każdego środowiska osobno (np. `terraform-prod`, `terraform-dev`) powoduje ogromny chaos operacyjny i brak przejrzystości w infrastrukturze.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>GitOps + Środowiska:</strong> Zawsze wybieraj strukturę opartą na <strong>katalogach</strong> (directories), nigdy na branchach dla `dev`/`prod`.</li>
+<li><strong>Terraform:</strong> Szukaj wzorca `/modules` + `/environments`.</li>
+<li><strong>ACM:</strong> Szukaj wzorca <strong>Kustomize overlays</strong> (to standard w ACM dla środowisk).</li>
+<li>Jeśli opcja zawiera "separate repos per environment", zazwyczaj jest błędna.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -79,20 +79,36 @@ A regional fintech firm named SilverPine Payments has just finished moving its w
 <pre>Odpowiedź: D
 
 Wyjaśnienie:
-Poprawna odpowiedź: D. CUDy (Committed Use Discounts) są opłacalne tylko dla przewidywalnego baseline. Szczyty muszą być obsługiwane przez autoskalowanie i instancje on-demand.
+Poprawna odpowiedź to D (Analiza wykorzystania i zakup CUD dla stałego obciążenia). 
+Committed Use Discounts (CUDs) oferują znaczące oszczędności w zamian za zobowiązanie do korzystania z określonej ilości zasobów (vCPU, RAM, GPU) przez 1 lub 3 lata. 
+Są one najbardziej opłacalne dla przewidywalnego, stałego obciążenia (baseline). 
+Szczyty (bursty) są zazwyczaj krótkotrwałe, więc opłacanie ich przez CUD (gdzie płacisz niezależnie od wykorzystania) byłoby marnotrawstwem. Najlepszą strategią jest: 
+1. Analiza (np. za pomocą Recommender API lub Cloud Billing reports).
+2. Kupno CUD dla "baseline".
+3. Użycie Managed Instance Groups (MIGs) z autoskalowaniem do obsługi "spikes".
 
 Wyjaśnienie błędnych odpowiedzi:
-- A: Spot VMs są niestabilne (mogą być usunięte w każdej chwili).
-- B: Kupno bez analizy to marnowanie pieniędzy na nieużywane zasoby.
-- C: Średnie obciążenie jest złym wyznacznikiem dla sztywnych zobowiązań CUD.
+- A: Spot VMs są świetne do zadań wsadowych (batch processing), ale nie nadają się do usług wymagających wysokiej dostępności, ponieważ mogą zostać usunięte w każdej chwili.
+- B: Kupno CUD bez analizy to przepis na przepłacanie za niewykorzystane zasoby ("over-provisioning").
+- C: Uśrednianie obciążenia jest niebezpieczne, ponieważ w okresach niskiego ruchu płaciłbyś za zasoby, których nie używasz, a w szczytach mógłbyś potrzebować więcej niż wynosi "średnia".
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/compute/docs/instances/committed-use-discounts-overview' target='_blank'>CUDs Overview</a>
+- <a href='https://cloud.google.com/compute/docs/autoscaler' target='_blank'>Compute Engine Autoscaling</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li>Brak wskazówek.</li></ul>
+<p>To pytanie skupia się na zarządzaniu kosztami i optymalizacji zasobów Compute Engine w scenariuszach o zmiennym obciążeniu.</p>
+<p><strong>Dlaczego D jest poprawne?</strong></p>
+<p>Strategia ta łączy dwa fundamenty optymalizacji kosztów w chmurze:
+1. <strong>Commitments</strong> dla przewidywalnego obciążenia (najtańszy sposób na stałe zasoby).
+2. <strong>Autoscaling</strong> dla nieprzewidywalnego obciążenia (płacisz tylko wtedy, gdy faktycznie potrzebujesz dodatkowej mocy).</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "Stable baseline" -> CUD; "Sharp traffic bursts" -> Autoscaling/On-demand.</li>
+<li>Pamiętaj: CUDs są oparte na zasobach (vCPU, RAM), a nie na konkretnych maszynach. Pozwala to na elastyczność w ramach typu maszyny.</li>
+<li>Gdy widzisz "Spot VMs" w pytaniach o HA (High Availability) lub produkcyjne API -> zazwyczaj jest to dystraktor.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
