@@ -63,14 +63,12 @@ How should you upgrade a GKE node pool for a stateless service while keeping the
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Deployment RollingUpdate with maxUnavailable 0 and maxSurge 2</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Enable node pool surge upgrades with maxSurge 3 and maxUnavailable 0</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Enable cluster autoscaler</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 </span>
 </div>
 </div>
@@ -79,17 +77,33 @@ How should you upgrade a GKE node pool for a stateless service while keeping the
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 257. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to C. "Surge upgrades" w GKE pozwalają na stworzenie nowych węzłów przed usunięciem starych.
+- `maxSurge`: liczba nowych węzłów, które zostaną utworzone.
+- `maxUnavailable`: liczba węzłów, które mogą być niedostępne w trakcie procesu (ustawienie na 0 gwarantuje, że żadne węzły nie będą niedostępne jednocześnie, zapewniając dostępność).
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Release channels zarządzają wersjami GKE, nie procesem upgrade'u.
+- B: Deployment RollingUpdate dotyczy podów, a nie węzłów klastra.
+- D: Cluster autoscaler zarządza liczbą węzłów w zależności od zapotrzebowania, a nie procesem upgrade'u wersji węzłów.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-upgrades' target='_blank'>GKE Node Auto-upgrades</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>Pytanie testuje wiedzę o aktualizacjach węzłów GKE bez przestojów.</p>
+<p><strong>Dlaczego C jest poprawne?</strong></p>
+<p>Surge upgrade pozwala na stworzenie nowych zasobów przed zwolnieniem starych, co przy `maxUnavailable 0` zapewnia ciągłą dostępność klastra.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, D:</strong> Nie dotyczą procesu upgrade'u węzłów.</li>
+<li><strong>B:</strong> Dotyczy pody (kontenery), nie węzłów (maszyny).</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "GKE node pool", "upgrade", "no downtime" -> Szukaj <strong>Surge upgrades</strong>.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

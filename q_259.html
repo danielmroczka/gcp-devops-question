@@ -62,14 +62,12 @@ Should you upgrade API availability from 99.9% to 99.99% with an annual cost of 
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="A" style="font-weight: bold; margin-right: 10px;">A.</span> Estimate the value of the added availability at about $1,500 and decide that the spend is justified</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Estimate the value of the added availability at about $1,350 and decide that the spend is not justified</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Estimate the value of the added availability at about $1,350 and decide that the spend is justified</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B</span>
 </span>
 </div>
 </div>
@@ -78,17 +76,36 @@ Should you upgrade API availability from 99.9% to 99.99% with an annual cost of 
 <pre>Odpowiedź: B
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 259. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to B.
+Obliczenia:
+1. Roczna dostępność 99.9% = 0.1% przestoju = 8.76 godzin/rok.
+2. Roczna dostępność 99.99% = 0.01% przestoju = 0.876 godzin/rok.
+3. Różnica = 7.884 godzin przestoju w skali roku.
+4. Wartość godziny przestoju = $1,500,000 / (24h * 365dni) = $171.23/godzinę.
+5. Wartość unikniętego przestoju = 7.884 * $171.23 = ~$1,350.
+6. Koszt upgrade'u wynosi $1,700.
+Ponieważ koszt ($1,700) jest wyższy niż wartość zredukowanego przestoju (~$1,350), inwestycja nie jest uzasadniona ekonomicznie.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A, C: Są oparte na błędnych wyliczeniach lub błędnym wniosku ekonomicznym.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://sre.google/sre-book/availability-table/' target='_blank'>SRE Book: Availability Table</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie sprawdza rozumienie ekonomii dostępności w SRE (Cost of Availability).</p>
+<p><strong>Dlaczego B jest poprawne?</strong></p>
+<p>Ponieważ wartość unikniętej awarii ($1,350) jest niższa niż koszt zwiększenia dostępności ($1,700).</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, C:</strong> Wnioski ekonomiczne są błędne.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe:</strong> Zawsze porównuj <strong>koszt inwestycji w HA</strong> z <strong>wartością unikniętego przestoju (downtime cost)</strong>.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -63,33 +63,48 @@ Your security operations team at Cobalt Insurance must have read-only access to 
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Grant the roles/logging.privateLogViewer role to each individual member of the security team</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Grant the roles/logging.privateLogViewer role to a Google Group that includes all members of the security team</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Create a log view on the “_Required” bucket that filters Data Access entries and grant roles/logging.viewAccessor to the security team group</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 </span>
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
-<pre>Odpowiedź: D
+<pre>Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 256. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to C. 
+- Logi "Data Access" są uznawane za logi prywatne/wrażliwe. Rola `roles/logging.privateLogViewer` jest wymagana do przeglądania logów zawierających dane chronione (takie jak logi dostępu do danych).
+- Użycie Google Group (grupy zabezpieczeń) zamiast przypisywania roli do indywidualnych użytkowników (B) jest zgodne z najlepszymi praktykami zarządzania tożsamością i dostępem (ułatwia administrację przy zmianach kadrowych).
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: `roles/logging.viewer` nie daje dostępu do logów prywatnych/wrażliwych (w tym Data Access logs).
+- B: Przypisywanie ról do poszczególnych użytkowników ("each individual member") jest trudne w administracji.
+- D: Log views są użytecznym narzędziem, ale w tym pytaniu wystarczy nadanie uprawnień do prywatnych logów na poziomie bucketu, co jest prostsze ("simple to administer").
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/logging/docs/access-control' target='_blank'>Logging Access Control</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie sprawdza zarządzanie uprawnieniami w Cloud Logging.</p>
+<p><strong>Dlaczego C jest poprawne?</strong></p>
+<p>Poprawna rola (`privateLogViewer`) + najlepsza praktyka (użycie grupy zamiast indywidualnych użytkowników).</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A:</strong> Niewystarczające uprawnienia.</li>
+<li><strong>B:</strong> Zła praktyka administracyjna (indywidualne role).</li>
+<li><strong>D:</strong> Nadmierna komplikacja w porównaniu do wymagań ("simple to administer").</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "Data Access audit logs", "least privilege", "administer as team membership changes" -> Zawsze szukaj <strong>Google Groups</strong> + poprawnej roli logowania (np. <strong>privateLogViewer</strong> dla logów Data Access).</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

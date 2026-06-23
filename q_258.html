@@ -63,14 +63,12 @@ At Nimbus Outfitters you use Cloud Build to run continuous integration and deliv
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Binary Authorization</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Add an automated vulnerability scan of Python dependencies in Cloud Build using a tool such as OSV Scanner or Safety and fail the build if issues are found</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Manually check each dependency against security advisories before approving a release</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 </span>
 </div>
 </div>
@@ -79,17 +77,31 @@ At Nimbus Outfitters you use Cloud Build to run continuous integration and deliv
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 258. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to C. Automatyzacja skanowania podatności (vulnerability scanning) wewnątrz potoku CI/CD (Cloud Build) jest najlepszą praktyką (shift-left security). 
+Narzędzia takie jak OSV Scanner czy Safety sprawdzają pliki zależności (np. `requirements.txt`) pod kątem znanych luk (CVE). Jeśli skaner znajdzie podatną bibliotekę, potok CI (Cloud Build) powinien przerwać budowanie (fail the build), zapobiegając wdrożeniu podatnego kodu.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Instalowanie zawsze "najnowszej wersji" jest niebezpieczne (może wprowadzić regresje lub nowe luki) i nie sprawdza podatności.
+- B: Binary Authorization służy do zapewnienia, że tylko podpisane obrazy kontenerów są wdrażane, ale nie skanuje ono zależności wewnątrz kodu/kontenera w ten sposób (choć jest używane do polityk bezpieczeństwa).
+- D: Manualne sprawdzanie nie jest "zautomatyzowanym procesem" (wymóg menedżera).
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://osv.dev/' target='_blank'>OSV Scanner</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>Pytanie sprawdza wiedzę o automatyzacji bezpieczeństwa w potokach CI/CD.</p>
+<p><strong>Dlaczego C jest poprawne?</strong></p>
+<p>Automatyzacja bezpieczeństwa (skanowanie w czasie budowania) z natychmiastowym przerwaniem procesu w razie błędu to fundament bezpiecznego DevOps.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, B, D:</strong> Albo zwiększają ryzyko, albo są niemożliwe do automatyzacji w wymagany sposób, albo nie rozwiązują problemu.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "prevent deployments with known vulnerabilities", "automated in the pipeline" -> Zawsze szukaj <strong>automated vulnerability scan</strong> w CI/CD.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -63,14 +63,12 @@ You recently created a Cloud Build pipeline for deploying Terraform code stored 
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Create a build trigger with the \d+.\d+.\d+ branch pattern.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Create a build trigger with the .* tag pattern.</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Create a build trigger with the .* branch pattern.</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
 <strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
 </span>
 </div>
 </div>
@@ -79,17 +77,30 @@ You recently created a Cloud Build pipeline for deploying Terraform code stored 
 <pre>Odpowiedź: A
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 260. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to A. Użycie wzorca tagów (tag pattern) zgodnego z semantycznym wersjonowaniem (`\d+.\d+.\d+`) jest najlepszym sposobem na wyzwalanie potoku CI/CD tylko dla oficjalnych wydań (releases), a nie dla każdego commita czy brancha deweloperskiego. Minimalizuje to niepotrzebne przebiegi potoku (operational overhead).
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- B: Tagi nie są branchami w Git.
+- C: Wzorzec `.*` jest zbyt szeroki – uruchomiłby potok przy każdym tagu (w tym deweloperskich/testowych), nie spełniając wymogu "new release" (semantic version).
+- D: Wzorce branchowe uruchomiłyby potok przy każdym commicie w każdym branchu, co nie jest celem (automatyzacja wdrożenia release'u).
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/build/docs/automating-builds/build-repos-from-github' target='_blank'>Cloud Build Triggers</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie sprawdza konfigurację wyzwalaczy (triggers) w Cloud Build.</p>
+<p><strong>Dlaczego A jest poprawne?</strong></p>
+<p>Precyzyjne dopasowanie tagów (`\d+.\d+.\d+`) gwarantuje, że potok uruchamia się tylko wtedy, gdy stworzymy tag zgodny z semantycznym wersjonowaniem.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>B, C, D:</strong> Są albo technicznie błędne (B), albo zbyt szerokie (C, D) co prowadzi do niepotrzebnych uruchomień potoku.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "new release", "semantic version", "minimize operational overhead" -> Zawsze szukaj precyzyjnego wzorca tagów w build triggerze.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
