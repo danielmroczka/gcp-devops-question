@@ -63,14 +63,12 @@ Aurora Media has a three year committed use contract for Compute Engine vCPU and
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> The discount continues only if the instances remain on the exact same machine type as before the resize</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> The committed discount still applies to the resized instances as long as the aggregate vCPU and memory consumption stays within the committed amounts</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Sustained use discounts replace the committed discount after resizing and the committed discount resumes only when the original shapes are restored</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 </span>
 </div>
 </div>
@@ -79,17 +77,32 @@ Aurora Media has a three year committed use contract for Compute Engine vCPU and
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 246. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to C. Committed Use Discounts (CUDs) dla vCPU i pamięci RAM są oparte na zagregowanym zużyciu w danym regionie.
+Kluczową cechą tych kontraktów jest ich elastyczność: dopóki łączna ilość zamówionych zasobów (vCPU i RAM) jest wykorzystywana, rodzaj maszyn wirtualnych (rodzina maszyn, typ) nie ma znaczenia dla utrzymania rabatu. 
+Dlatego po zmianie rodziny maszyn rabat nadal będzie naliczany do momentu, gdy łączne użycie nie przekroczy (lub nie spadnie znacząco poniżej) zakontraktowanych wartości.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Zmiana rodziny maszyn nie powoduje automatycznego zerwania umowy CUD.
+- B: CUD-y są elastyczne; nie wymagają utrzymywania tego samego typu instancji.
+- D: Sustained Use Discounts (SUDs) są automatycznymi rabatami za stałe użycie, ale CUD-y (zakupione) mają wyższy priorytet i nie są "zastępowane" przez SUD-y w ten sposób.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/compute/docs/instances/committed-use-discounts-vcpus-ram' target='_blank'>CUDs for vCPU and Memory</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>Pytanie testuje wiedzę o elastyczności kontraktów Committed Use Discounts (CUDs) w GCP.</p>
+<p><strong>Dlaczego C jest poprawne?</strong></p>
+<p>Model CUDs w Google Cloud dla vCPU i RAM jest zaprojektowany jako zagregowany kontrakt regionalny, który jest niezależny od konkretnych kształtów (shapes) instancji.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, B, D:</strong> Opierają się na błędnych założeniach o sztywności kontraktów CUDs.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe pojęcie:</strong> Kontrakt CUDs na vCPU/RAM jest elastyczny i zagregowany. Zmiana kształtów maszyn <strong>nie</strong> przerywa rabatu.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

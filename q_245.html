@@ -64,14 +64,12 @@ How should you use Google Cloud Deploy to cut average lead time from 30 minutes 
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Hire more engineers for manual checks</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Enable automated approvals in Cloud Deploy for stage promotions</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="E" style="font-weight: bold; margin-right: 10px;">E.</span> Create Cloud Monitoring alert to page on-call for manual promotions</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B, D</span>
 </span>
 </div>
 </div>
@@ -80,17 +78,33 @@ How should you use Google Cloud Deploy to cut average lead time from 30 minutes 
 <pre>Odpowiedź: B, D
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 245. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to B i D. Cloud Deploy wspiera automatyzację i powtarzalność procesów wdrażania (CD). 
+- Modularne potoki z użyciem szablonów (B) pozwalają na wielokrotne wykorzystanie definicji środowisk i procesów, co znacząco zmniejsza czas konfiguracji (lead time).
+- Zautomatyzowane zatwierdzenia (automated approvals - D) w ramach potoku Cloud Deploy eliminują konieczność ręcznego angażowania inżynierów w procesie promocji między środowiskami, co bezpośrednio redukuje manualną pracę i czas oczekiwania.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Manualne triggery w Cloud Build wprowadzają opóźnienia i pracę manualną, co jest przeciwieństwem celu pytania (zmniejszenie lead time).
+- C: Zatrudnianie ludzi nie jest rozwiązaniem technologicznym automatyzującym potok CD.
+- E: Tworzenie alertów dla manualnych promocji nadal wymaga manualnego działania, nie rozwiązuje problemu powtarzalnej pracy.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/deploy/docs/pipelines' target='_blank'>Cloud Deploy Pipelines</a>
+- <a href='https://cloud.google.com/deploy/docs/automated-approvals' target='_blank'>Automated Approvals in Cloud Deploy</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie sprawdza znajomość automatyzacji w ramach Google Cloud Deploy.</p>
+<p><strong>Dlaczego B i D są poprawne?</strong></p>
+<p>Cloud Deploy jest zoptymalizowany pod kątem CD. Automatyzacja (`automated approvals`) oraz standaryzacja (szablony) są kluczowe dla redukcji `lead time` w procesach wdrożeniowych.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, C, E:</strong> Wszystkie te opcje promują lub wymagają działań manualnych, co jest sprzeczne z celem skrócenia czasu wdrożenia i eliminacji powtarzalnych czynności.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "Cut average lead time", "reduce repetitive manual work" -> szukaj automatyzacji, szablonów, standaryzacji (Cloud Deploy).</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

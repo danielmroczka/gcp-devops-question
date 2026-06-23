@@ -63,14 +63,12 @@ Which Cloud Build approach reliably produces the deployable artifact and deliver
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Trigger Cloud Build with cloudbuild.yaml to build an image and push to Artifact Registry, then GKE pulls it</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Use Cloud Build to compile to a native binary, upload to Cloud Storage, and deploy that file to GKE</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Run the Python interpreter to package the app and push files directly to GKE</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">B</span>
 </span>
 </div>
 </div>
@@ -79,17 +77,33 @@ Which Cloud Build approach reliably produces the deployable artifact and deliver
 <pre>Odpowiedź: B
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 249. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to B. Jest to standardowy i niezawodny proces CI/CD w Kubernetes:
+1. Cloud Build buduje kontener (image).
+2. Obraz jest wypychany do Artifact Registry (bezpieczny, zarządzany rejestr).
+3. GKE pobiera obraz z Artifact Registry podczas wdrażania (deployment).
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Cloud Deploy wymaga zarejestrowanego obrazu w rejestrze, nie działa "bez rejestru" w ten sposób.
+- C: GKE (Kubernetes) opiera się na kontenerach, a nie na bezpośrednim wdrażaniu plików binarnych ze Storage.
+- D: Nie jest to standardowy proces wdrażania na GKE.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/build/docs/deploying-builds/deploy-gke' target='_blank'>Deploying to GKE with Cloud Build</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie sprawdza podstawową wiedzę o potokach CI/CD w środowisku GKE.</p>
+<p><strong>Dlaczego B jest poprawne?</strong></p>
+<p>Wzorzec "Obraz -> Rejestr -> GKE pull" jest fundamentem bezpieczeństwa i stabilności wdrażania w Kubernetes.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, C, D:</strong> Opisują niestandardowe, błędne lub nieefektywne procesy wdrażania na GKE.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "reliable artifact", "delivers it to GKE" -> Zawsze szukaj <strong>Artifact Registry</strong> i procesu budowy <strong>obrazu kontenera</strong>.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

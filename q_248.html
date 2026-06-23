@@ -63,14 +63,12 @@ A national credit union operates in a tightly regulated industry and must keep e
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Configure a log export sink in every project that sends all logs to a BigQuery dataset</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Set up an aggregated sink at the organization scope in Cloud Logging that exports every log to Cloud Storage with an eight year retention policy and Bucket Lock enabled</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Configure a log export sink in every project that sends all logs to Cloud Storage with an eight year retention policy and Bucket Lock</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 </span>
 </div>
 </div>
@@ -79,17 +77,34 @@ A national credit union operates in a tightly regulated industry and must keep e
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 248. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to C. Wymagania to: archiwizacja na 8 lat, eliminacja ryzyka błędu ludzkiego oraz zagwarantowanie kompletności logów.
+- Aggregated sink na poziomie organizacji gwarantuje, że żadne logi z żadnego projektu (nawet nowo utworzonego) nie zostaną pominięte.
+- Cloud Storage jest najlepszym miejscem na długoterminowe archiwum logów (taniej niż BigQuery).
+- Bucket Lock zapewnia immutability (niezmienność danych), co jest kluczowe w regulowanych branżach (zapobiega usunięciu danych przez błąd ludzki lub celowe działanie).
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A, B: BigQuery jest świetne do analizy, ale nie jest idealne do długoterminowej, immutowalnej archiwizacji logów w porównaniu do Cloud Storage.
+- D: Konfigurowanie sinków w każdym projekcie osobno ("every project") jest podatne na błędy (można zapomnieć o nowym projekcie) i trudniejsze w zarządzaniu niż sink agregowany.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/logging/docs/export/configure_export_v2#org-level' target='_blank'>Aggregated Export (Organization)</a>
+- <a href='https://cloud.google.com/storage/docs/bucket-lock' target='_blank'>Cloud Storage Bucket Lock</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie sprawdza znajomość zarządzania logami w skali organizacji (governance).</p>
+<p><strong>Dlaczego C jest poprawne?</strong></p>
+<p>Łączy w sobie pełną widoczność (aggregated sink) z bezpieczeństwem (immutability poprzez Bucket Lock) i efektywnością kosztową (Cloud Storage) dla długoterminowego archiwum.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, B:</strong> BigQuery nie służy do długoterminowego, zabezpieczonego archiwum w ten sposób.</li>
+<li><strong>D:</strong> Zarządzanie na poziomie projektu zamiast organizacji jest ryzykownym podejściem ("configuration mistakes").</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "Organization", "eight years", "eliminate risk/human error" -> Zawsze szukaj <strong>aggregated sinks</strong> i <strong>Bucket Lock</strong>.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
