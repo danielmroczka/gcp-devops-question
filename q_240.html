@@ -79,20 +79,32 @@ Your team at LumenStream operates a latency sensitive API on Google Kubernetes E
 <pre>Odpowiedź: D
 
 Wyjaśnienie:
-Poprawna odpowiedź: D. PodDisruptionBudget (PDB) jest niezbędne do zapewnienia minimalnej dostępności podów podczas planowanych prac (jak upgrade węzłów w GKE). Bez PDB Kubernetes może eksmitować zbyt wiele podów jednocześnie.
+Poprawna odpowiedź to D (PodDisruptionBudget). PodDisruptionBudget (PDB) pozwala na określenie minimalnej liczby lub procentu podów, które muszą być dostępne w trakcie planowanych zakłóceń (np. aktualizacja węzłów GKE), zapobiegając nadmiernemu usuwaniu instancji.
 
 Wyjaśnienie błędnych odpowiedzi:
-- A: VPA może powodować niepotrzebne restarty.
-- B: Surge upgrades pomagają, ale nie kontrolują budżetu eksmisji podów.
-- C: Affinity nie zapewnia dostępności podczas prac serwisowych.
+- A: VPA automatycznie dostosowuje zasoby, ale w trakcie aktualizacji może powodować niepożądane restarty, co nie rozwiązuje problemu dostępności.
+- B: Surge upgrades (dodatkowe węzły) zwiększają ogólną przepustowość aktualizacji, ale bez PDB Kubernetes nadal może eksmitować zbyt wiele podów na istniejących węzłach.
+- C: Node Affinity określa, gdzie pod może zostać uruchomiony, co nie chroni przed eksmisją podczas konserwacji.
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://kubernetes.io/docs/tasks/run-application/configure-pdb/' target='_blank'>Kubernetes Pod Disruption Budgets</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li>Brak wskazówek.</li></ul>
+<p>Pytanie sprawdza zrozumienie mechanizmów ochrony dostępności usług (High Availability) w środowisku Kubernetes podczas operacji serwisowych.</p>
+<p><strong>Dlaczego D jest poprawne?</strong></p>
+<p>PodDisruptionBudget (PDB) jest kluczowym zasobem Kubernetes służącym do definiowania reguł ograniczających liczbę jednoczesnych awarii podów podczas działań konserwacyjnych (jak `kubectl drain` podczas aktualizacji węzłów GKE). Dzięki PDB gwarantujemy, że nasza aplikacja zachowa zdefiniowaną minimalną liczbę replik dostępnych dla ruchu użytkowników.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A (VPA):</strong> VPA służy do optymalizacji zasobów, a nie do ochrony dostępności. Restartowanie podów w trakcie aktualizacji węzłów tylko zwiększa ryzyko przestojów.</li>
+<li><strong>B (Surge Upgrades):</strong> To technika przyspieszająca aktualizację węzłów poprzez tworzenie nowych przed usunięciem starych. Nie gwarantuje jednak, że z istniejących węzłów nie zostanie usuniętych zbyt wiele podów aplikacji naraz.</li>
+<li><strong>C (Node Affinity):</strong> Określa umiejscowienie pody. Podczas opróżniania węzła (draining) pody i tak muszą zostać przeniesione, niezależnie od reguł powinowactwa.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li>Jeśli w pytaniu pojawia się problem "utraty wydajności/dostępności podczas konserwacji węzłów", pierwszym słowem, którego powinieneś szukać w odpowiedziach, jest <strong>PodDisruptionBudget</strong>.</li>
+<li>Pamiętaj: PDB chroni przed *dobrowolnymi* zakłóceniami (voluntary disruptions), czyli takimi, które inicjuje administrator lub system (np. aktualizacja GKE), a nie przed awariami sprzętowymi.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
