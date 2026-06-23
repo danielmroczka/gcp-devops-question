@@ -2091,7 +2091,7 @@ C. Configure a new webhook notification channel. Edit your alerting policies to 
 D. Configure a new Pub/Sub notification channel with a new topic. Create a new Cloud Run function with direct VPC egress to write the events to the internal endpoint. Create a push subscription with the Cloud Run function as a subscriber to get the events.
 
 ---------------------------------------------------------
-## Question 1
+Question 240
 Your team at LumenStream operates a latency sensitive API on Google Kubernetes Engine and you must keep performance steady. The workload reacts poorly to changes in available CPU and memory when the cluster runs automatic node pool upgrades. What should you implement to preserve the expected performance during these upgrade cycles?
 A. Enable “Vertical Pod Autoscaling” to automatically adjust CPU and memory requests for the pods based on observed usage
 B. Turn on “surge upgrades” for the GKE node pool so new nodes come online before existing nodes are drained
@@ -2099,14 +2099,14 @@ C. Use “node affinity” rules so the pods schedule onto nodes with specific l
 D. Define a “PodDisruptionBudget” that limits the number of pods that can be evicted during maintenance
 Answer: D
 ---------------------------------------------------------
-## Question 2
+Question 241
 Which repository layout supports GitOps for Terraform infrastructure, Anthos Config Management, and application code across dev, test, and prod on GKE?
 A. One Terraform repo with environment branches, one ACM repo with per environment overlays, and one app monorepo with feature directories
 B. One Terraform repo with environment directories, one ACM repo with per environment overlays, and separate app repos with feature branches
 C. Separate Terraform and ACM repos per environment, and separate app repos that use only a single main branch
 Answer: B
 ---------------------------------------------------------
-## Question 3
+Question 242
 A regional fintech firm named SilverPine Payments has just finished moving its workloads to Google Cloud. They run roughly 180 Compute Engine virtual machines across development, testing, and production, using both managed instance groups and a few standalone servers. Over the last 90 days they observed that some services show a stable baseline while others experience sharp traffic bursts during business hours. They want to reduce spend by applying committed use discounts where it makes sense and by improving utilization. What strategy should you recommend?
 A. Move all workloads to Spot VMs and do not purchase any commitments
 B. Purchase three year committed use discounts for every machine type they have in inventory without reviewing utilization
@@ -2114,7 +2114,7 @@ C. Enable autoscaling on all instance groups and buy commitments that cover the 
 D. Analyze per service utilization and purchase commitments only for workloads with a high and predictable baseline while handling spikes with on demand instances and autoscaling
 Answer: D
 ---------------------------------------------------------
-## Question 4
+Question 243
 Which sequence best introduces a new API version and retires the old version with minimal disruption for external consumers?
 A. Introduce the new version, notify old-version users, announce deprecation later, then disable the old one
 B. Use Apigee to rewrite all requests to the new version immediately and delete the legacy proxies
@@ -2122,7 +2122,7 @@ C. Launch the new API, announce deprecation of the legacy version, contact remai
 D. Announce deprecation first, ship the new version, disable the old one, then contact remaining users
 Answer: C
 ---------------------------------------------------------
-## Question 5
+Question 244
 A digital media company named Blue Harbor Studios is migrating its workloads to Google Cloud. The team will run services on Compute Engine and Cloud Run. As the DevOps engineer you need to ensure that every category of audit logging produced by these services is captured in Cloud Logging. What should you do?
 A. Enable the Admin Activity audit logs for all services
 B. Enable the Data Access audit logs for the services that you will use
@@ -2130,7 +2130,7 @@ C. Enable Access Transparency for the project
 D. Create a Log Router sink that exports all logs to BigQuery
 Answer: B
 ---------------------------------------------------------
-## Question 6
+Question 245
 How should you use Google Cloud Deploy to cut average lead time from 30 minutes to 10 and reduce repetitive manual work in the release process? (Choose 2)
 A. Use Cloud Build manual triggers for promotions
 B. Modularize Cloud Deploy pipelines with reusable templates
@@ -2139,7 +2139,7 @@ D. Enable automated approvals in Cloud Deploy for stage promotions
 E. Create Cloud Monitoring alert to page on-call for manual promotions
 Answer: B, D
 ---------------------------------------------------------
-## Question 7
+Question 246
 Aurora Media has a three year committed use contract for Compute Engine vCPU and memory in Google Cloud, and halfway through the term the team plans to resize many virtual machines to different machine families to better match new workload patterns. How will the committed use discount apply for the rest of the term?
 A. The contract is terminated automatically and all usage is billed at the standard on demand price
 B. The discount continues only if the instances remain on the exact same machine type as before the resize
@@ -2147,14 +2147,14 @@ C. The committed discount still applies to the resized instances as long as the 
 D. Sustained use discounts replace the committed discount after resizing and the committed discount resumes only when the original shapes are restored
 Answer: C
 ---------------------------------------------------------
-## Question 8
+Question 247
 A GKE service is unreachable in one region of a multi region deployment. Following SRE practices, what is the first action to restore user access?
 A. Cloud Logging
 B. Shift traffic to healthy regions with Cloud Load Balancing
 C. Update Cloud DNS to route to healthy regions
 Answer: B
 ---------------------------------------------------------
-## Question 9
+Question 248
 A national credit union operates in a tightly regulated industry and must keep every organizational log for eight years. You want to use managed services to simplify operations and you need to eliminate the risk of losing log ingestion or stored data because of configuration mistakes or human error. What should you implement?
 A. Create an aggregated sink at the organization scope in Cloud Logging that exports every log to a BigQuery dataset
 B. Configure a log export sink in every project that sends all logs to a BigQuery dataset
@@ -2162,7 +2162,7 @@ C. Set up an aggregated sink at the organization scope in Cloud Logging that exp
 D. Configure a log export sink in every project that sends all logs to Cloud Storage with an eight year retention policy and Bucket Lock
 Answer: C
 ---------------------------------------------------------
-## Question 10
+Question 249
 Which Cloud Build approach reliably produces the deployable artifact and delivers it to a GKE cluster?
 A. Use Cloud Deploy to upload source files and release to GKE without a registry
 B. Trigger Cloud Build with cloudbuild.yaml to build an image and push to Artifact Registry, then GKE pulls it
@@ -2170,7 +2170,7 @@ C. Use Cloud Build to compile to a native binary, upload to Cloud Storage, and d
 D. Run the Python interpreter to package the app and push files directly to GKE
 Answer: B
 ---------------------------------------------------------
-## Question 11
+Question 250
 You work for BrightWave Labs which is preparing a production launch of a new API service on Google Cloud. The service must autoscale by using a Managed Instance Group and it must run in at least three different regions for high availability. Each VM instance requires substantial CPU and memory so you need to plan capacity carefully before rollout. What should you do?
 A. Enable predictive autoscaling on the Managed Instance Groups and configure a very high maximum number of instances
 B. Use Cloud Trace to evaluate performance data after initial deployment and adjust resource sizes from those findings
@@ -2178,14 +2178,14 @@ C. Verify that your required vCPU memory and static IP quotas are available in e
 D. Deploy the service in a single region and place a global external HTTP load balancer in front of it
 Answer: C
 ---------------------------------------------------------
-## Question 12
+Question 251
 Which design routes users to the nearest Cloud Run region while presenting a single global address?
 A. Use Cloud DNS geo routing to return region specific VIPs that point at regional external HTTP(S) load balancers in front of Cloud Run
 B. Use Cloud CDN in front of a single regional Cloud Run service
 C. Run Cloud Run in multiple regions behind a global external HTTP(S) load balancer using serverless network endpoint groups and a single anycast IP
 Answer: C
 ---------------------------------------------------------
-## Question 13
+Question 252
 You are the DevOps lead at BrightTrail Apps, and the team follows a feature branch workflow for a microservices application running on Google Kubernetes Engine. You need to provision ephemeral environments for each branch that can be created and removed automatically while maintaining sensible resource limits and isolation and keeping costs low. Which approach should you implement in GKE?
 A. Create an individual GKE cluster for every feature branch and use VPC Service Controls for isolation
 B. Provision a separate GKE cluster for every feature branch and then create namespaces within each cluster to segregate resources
@@ -2193,7 +2193,7 @@ C. Run one shared GKE cluster for all environments and create a dedicated Kubern
 D. Use a single GKE cluster and rely on VPC Service Controls to isolate each feature branch environment at the network boundary
 Answer: C
 ---------------------------------------------------------
-## Question 14
+Question 253
 Which GCP configuration enables Data Access audit logs for Cloud Storage and BigQuery and exports them to a Cloud Storage bucket with 30 day retention?
 A. Create a sink to Pub/Sub and set 30 day retention in Pub/Sub
 B. Enable only Admin Activity logs and export to Cloud Storage
@@ -2201,7 +2201,7 @@ C. Enable Data Access logs and a Log Router sink to Cloud Storage with a 30 day 
 D. Use Cloud Logging log buckets with 30 day retention and no export
 Answer: C
 ---------------------------------------------------------
-## Question 15
+Question 254
 At Apex Media Labs you serve as the Site Reliability Engineer responsible for data ingestion and analytics platforms on Google Cloud. Workloads can spike up to six times during live events and you must keep ingestion spend predictable. An internal platform team is creating a new managed ingestion service that will run on GCP. You want to shape its architecture with operational guidance that covers reliability targets, scalability and cost controls as early as possible. What should you do?
 A. After the first build passes QA and compliance checks, roll it out to a preproduction project and share logs and performance metrics with the engineers
 B. Spin up the early prototype in an isolated test project, run stress and spike tests, and send the results to the product team
@@ -2209,7 +2209,7 @@ C. Meet with the product team during the design phase to review architecture and
 D. Wait for the first production rollout and then use Cloud Operations suite dashboards to collect and share telemetry
 Answer: C
 ---------------------------------------------------------
-## Question 16
+Question 255
 Which approach enables automatic deployment when a new image is pushed to Artifact Registry while minimizing setup effort?
 A. Eventarc to Cloud Run job
 B. Cloud Pub/Sub to custom GKE controller
@@ -2217,7 +2217,7 @@ C. Spinnaker pipeline via Cloud Pub/Sub on Artifact Registry push
 D. Cloud Deploy with Cloud Build trigger
 Answer: D
 ---------------------------------------------------------
-## Question 17
+Question 256
 Your security operations team at Cobalt Insurance must have read-only access to Data Access audit logs that are stored in the Cloud Logging bucket named “_Required”. You want to follow the principle of least privilege and Google’s recommended approach and you also want access to remain simple to administer as team membership changes. What should you do?
 A. Grant the roles/logging.viewer role to a Google Group that contains all members of the security team
 B. Grant the roles/logging.privateLogViewer role to each individual member of the security team
@@ -2225,7 +2225,7 @@ C. Grant the roles/logging.privateLogViewer role to a Google Group that includes
 D. Create a log view on the “_Required” bucket that filters Data Access entries and grant roles/logging.viewAccessor to the security team group
 Answer: D
 ---------------------------------------------------------
-## Question 18
+Question 257
 How should you upgrade a GKE node pool for a stateless service while keeping the service available with no downtime?
 A. GKE release channel set to “Stable”
 B. Deployment RollingUpdate with maxUnavailable 0 and maxSurge 2
@@ -2233,7 +2233,7 @@ C. Enable node pool surge upgrades with maxSurge 3 and maxUnavailable 0
 D. Enable cluster autoscaler
 Answer: C
 ---------------------------------------------------------
-## Question 19
+Question 258
 At Nimbus Outfitters you use Cloud Build to run continuous integration and delivery for a Flask service written in Python. The engineering manager asks you to prevent deployments that include third party libraries with known vulnerabilities and to keep the process automated in the pipeline. What is the most effective way to protect your Python dependencies?
 A. Configure pip to always install the latest available releases during the build
 B. Binary Authorization
@@ -2241,14 +2241,14 @@ C. Add an automated vulnerability scan of Python dependencies in Cloud Build usi
 D. Manually check each dependency against security advisories before approving a release
 Answer: C
 ---------------------------------------------------------
-## Question 20
+Question 259
 Should you upgrade API availability from 99.9% to 99.99% with an annual cost of $1,700 and annual revenue of $1,500,000 by comparing the value of reduced downtime to the cost?
 A. Estimate the value of the added availability at about $1,500 and decide that the spend is justified
 B. Estimate the value of the added availability at about $1,350 and decide that the spend is not justified
 C. Estimate the value of the added availability at about $1,350 and decide that the spend is justified
 Answer: B
 ---------------------------------------------------------
-## Question 21
+Question 260
 You recently created a Cloud Build pipeline for deploying Terraform code stored in a GitHub repository. You make Terraform code changes in short-lived branches and sometimes use tags during development. You tag releases with a semantic version when they are ready for deployment. You require your pipeline to apply the Terraform code whenever there is a new release, and you need to minimize operational overhead. What should you do?
 A. Create a build trigger with the \d+.\d+.\d+ tag pattern.
 B. Create a build trigger with the \d+.\d+.\d+ branch pattern.
@@ -2256,7 +2256,7 @@ C. Create a build trigger with the .* tag pattern.
 D. Create a build trigger with the .* branch pattern.
 Answer: A
 ---------------------------------------------------------
-## Question 22
+Question 261
 You manage a microservice that provides a public-facing API (Service A). Service A is time-critical and has a response SLO of 500 ms. Service A makes synchronous calls to internal API (Service B) that is known to become unreliable under heavy load, resulting in connection timeout errors or 500 errors. Service B is used to collect request information for the transactions processed by Service A. You need to mitigate the impact of Service B issues on your Service A users. What should you do?
 A. Increase the size of the queue in front of the thread pool used by Service A instances.
 B. Implement retry logic with exponential back-offs when calling Service B.
@@ -2264,7 +2264,7 @@ C. Implement a circuit breaker to store the request data in a database.
 D. Implement rate limiting in Service A to limit the number of requests to Service B.
 Answer: C
 ---------------------------------------------------------
-## Question 23
+Question 262
 Your company is migrating its production systems to Google Cloud. You need to implement site reliability engineering (SRE) practices during the migration to minimize customer impact from potential future incidents. Which two SRE practices should you implement? (Choose two.)
 A. Create up-to-date playbooks with instructions for debugging and mitigating issues.
 B. Ensure that all teams can modify the production environment to resolve issues.
@@ -2273,7 +2273,7 @@ D. Automate common tasks to analyze key impact information and intelligently sug
 E. Ensure that full autonomy and permissions are only granted to the on-call team.
 Answer: A, D
 ---------------------------------------------------------
-## Question 24
+Question 263
 You are deploying a new web application on Cloud Run in your Google Cloud project. You expect traffic to range from 10 requests per second during off-peak hours to 1000 requests per second during peak hours. You want to use autoscaling to efficiently handle the changes in traffic while ensuring that the autoscaler does not exceed your project's resource quotas. What should you do?
 A. Manually adjust the number of instances based on observed traffic patterns throughout the day.
 B. Define appropriate resource limits for the Cloud Run service, and ensure your project has sufficient resource quotas to accommodate the desired scaling range.
@@ -2281,7 +2281,7 @@ C. Configure the autoscaler to scale based on CPU utilization with a target of 8
 D. Configure the autoscaler to scale based on request count, with a target of 500 requests per instance.
 Answer: B
 ---------------------------------------------------------
-## Question 25
+Question 264
 Your company is actively developing a new web service following site reliability engineering (SRE) practices. You are leading the company's SRE team and preparing the service for production. You must ensure that the team follows Google-recommended SRE practices during this productionalization process. Which two actions should you take next? (Choose two.)
 A. Establish monitoring and alerting systems.
 B. Start to document infrastructure system guidelines.
@@ -2290,7 +2290,7 @@ D. Implement redundancy measures.
 E. Provide early engagement consulting to discuss architecture and design choices in detail.
 Answer: C, E
 ---------------------------------------------------------
-Question 26
+Question 265
 Your company uses a CI/CD pipeline with Cloud Build and Artifact Registry to deploy container images to Google Kubernetes Engine (GKE). Images are tagged with the latest commit hash and promoted to production after successful testing in the development and pre-production environments. A recent production deployment caused the application to fail due to untested integration functionality, requiring a disruptive manual rollback. During the rollback, you noticed many old and unused container images accumulating in Artifact Registry. You need to improve rollout and rollback management and clean up the old container images. What should you do?
 A. Set up a rollback pipeline in Cloud Build, and implement an Artifact Registry cleanup policy.
 B. Adopt Cloud Deploy for managing deployments, and implement an Artifact Registry cleanup policy.
