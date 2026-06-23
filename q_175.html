@@ -45,7 +45,7 @@
 <div class="q-page">
 <nav class="q-nav d-flex justify-content-between align-items-center my-3">
 <a class="btn btn-outline-primary " href="q_174.html">← Poprzednie</a>
-<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-secondary" href="index.html?ignore_last=1">Spis treści</a>
 <a class="btn btn-outline-primary " href="q_176.html">Następne →</a>
 </nav>
 <div class="q-card mb-4">
@@ -126,6 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
         isVisible = !isVisible;
     });
 });
+</script>
+<script>
+    localStorage.setItem('gcp_devops_exam_last_visited', window.location.pathname.split('/').pop());
 </script>
 </body>
 </html>
