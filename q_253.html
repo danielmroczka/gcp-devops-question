@@ -63,14 +63,12 @@ Which GCP configuration enables Data Access audit logs for Cloud Storage and Big
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="B" style="font-weight: bold; margin-right: 10px;">B.</span> Enable only Admin Activity logs and export to Cloud Storage</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="C" style="font-weight: bold; margin-right: 10px;">C.</span> Enable Data Access logs and a Log Router sink to Cloud Storage with a 30 day lifecycle delete rule</li>
 <li class="multi-choice-item" style="list-style: none; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 5px;"><span class="multi-choice-letter" data-choice-letter="D" style="font-weight: bold; margin-right: 10px;">D.</span> Use Cloud Logging log buckets with 30 day retention and no export</li>
-
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
 <span class="correct-answer-box">
-<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">A</span>
-<br/>
+<strong>Suggested Answer:</strong> <span class="correct-answer" style="color: #198754; font-weight: bold;">C</span>
 </span>
 </div>
 </div>
@@ -79,17 +77,34 @@ Which GCP configuration enables Data Access audit logs for Cloud Storage and Big
 <pre>Odpowiedź: C
 
 Wyjaśnienie:
-Poprawna odpowiedź dla pytania 253. Wyjaśnienie szczegółowe: [Analiza poprawności]. 
+Poprawna odpowiedź to C. 
+- Logi Data Access nie są włączone domyślnie (z wyjątkiem Admin Activity), więc trzeba je jawnie skonfigurować w polityce IAM lub Logging.
+- Log Router (sink) służy do eksportowania logów do Cloud Storage.
+- Aby zrealizować wymóg 30-dniowej retencji w Cloud Storage, należy skonfigurować regułę "lifecycle delete" (Object Lifecycle Management) na samym buckecie GCS.
 
-Wyjaśnienie błędnych odpowiedzi: [Dlaczego A/B/C/D są złe].
+Wyjaśnienie błędnych odpowiedzi:
+- A: Pub/Sub nie służy do trwałego przechowywania logów z retencją 30 dni w ten sposób.
+- B: Admin Activity są włączone domyślnie; pytanie wymaga Data Access logs.
+- D: Log buckets w Cloud Logging mogą mieć retencję, ale wymaganie mówi o eksporcie do "Cloud Storage bucket".
 
 Więcej informacji:
-- <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
+- <a href='https://cloud.google.com/logging/docs/audit' target='_blank'>Audit Logs</a>
+- <a href='https://cloud.google.com/storage/docs/lifecycle-management' target='_blank'>Object Lifecycle Management</a>
+</pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Pamiętaj o natywnych usługach GCP.</li></li></ul>
+<p>To pytanie testuje znajomość konfiguracji audytu i eksportu logów.</p>
+<p><strong>Dlaczego C jest poprawne?</strong></p>
+<p>Kluczowe kroki: włączenie odpowiednich logów + eksport przez Log Router + retencja w GCS.</p>
+<p><strong>Dlaczego pozostałe są błędne?</strong></p>
+<ul>
+<li><strong>A, B, D:</strong> Nie spełniają wymagań funkcjonalnych lub konfiguracyjnych.</li>
+</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+<li><strong>Kluczowe słowa:</strong> "Data Access audit logs", "export to Cloud Storage", "retention" -> Pamiętaj o <strong>Log Router (sink)</strong> i <strong>Lifecycle Management</strong> w GCS.</li>
+</ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
