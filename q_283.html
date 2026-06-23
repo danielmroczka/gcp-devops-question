@@ -22,44 +22,43 @@
 <a class="btn btn-outline-primary" href="q_284.html">Następne →</a>
 </nav>
 <div class="q-card mb-4">
-<h2>Question 283 / 284</h2>
+<h2>Question 283 / 285</h2>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
-Your code is stored on GitHub and built with Cloud Build, both manually and with webhooks. Building the code requires accessing confidential information. You want to follow Google-recommended practices to ensure the security of the confidential information. What should you do?
+Your application has a module that performs a computationally intensive task. Your development team wants to optimize this module by experimenting with different algorithms. You need to help the team test the algorithms in both the staging and production environments to gather detailed data on the performance of each algorithm. What should you do?
 </p>
 <div class="question-choices-container">
 <ul>
-<li>A. Trigger the builds from the command line each time, and supply the required confidential information as parameters.</li>
-<li>B. Create an encrypted file in your GitHub repository to only contain the confidential information, and reference the encrypted file in your Cloud Build file.</li>
-<li>C. Create an entry in Secret Manager, specify the URI for the confidential secrets in the Cloud Build file, and reference the secret as parameters in the build steps.</li>
-<li>D. Retain the code in Github. Create a new repository only for confidential information in Cloud Source Repositories, and reference the new repository in your Cloud Build file.</li>
+<li>A. Instrument the code with profiling libraries. Visualize the data in Cloud Profiler as flame graphs.</li>
+<li>B. Instrument the code to capture the flow of requests and responses. Review the request latencies in Cloud Trace.</li>
+<li>C. Instrument the code with log statements at various parts of the algorithm. Send log-based notifications to collect data on the algorithm's execution.</li>
+<li>D. Instrument the code with log statements at various parts of the algorithm. Send notifications based on log-metrics when the same control structures are called multiple times.</li>
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
-<strong>Suggested Answer:</strong> C
+<strong>Suggested Answer:</strong> A
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
 <pre>
-Odpowiedź: C
+Odpowiedź: A
 
 Wyjaśnienie:
-Secret Manager to dedykowana usługa GCP do przechowywania i bezpiecznego dostępu do sekretów (haseł, kluczy API). Cloud Build natywnie wspiera pobieranie sekretów z Secret Manager, co jest najbezpieczniejszym sposobem zarządzania sekretami w CI/CD (zamiast przechowywania ich w kodzie czy parametrach).
+Cloud Profiler jest dedykowanym narzędziem do analizy wydajności (CPU/memory usage) w czasie rzeczywistym. Dostarcza on wizualizacje typu "flame graphs", które pozwalają deweloperom precyzyjnie zidentyfikować fragmenty kodu (metody, funkcje) pochłaniające najwięcej zasobów podczas wykonywania intensywnych obliczeń.
 
 Wyjaśnienie błędnych odpowiedzi:
-- A: Przekazywanie sekretów w parametrach jest niebezpieczne (logi budowania!).
-- B: Przechowywanie sekretów w repozytorium (nawet zaszyfrowanych) jest ryzykowne (klucz deszyfrujący musi być gdzieś przechowywany).
-- D: Przechowywanie sekretów w osobnym repozytorium nie zapewnia odpowiedniej ochrony dostępu i rotacji.
+- B: Cloud Trace służy do śledzenia opóźnień w rozproszonych systemach (latency), nie do szczegółowej analizy wykorzystania CPU/RAM przez konkretny algorytm.
+- C, D: Logi są zbyt mało precyzyjne do analizy wydajności algorytmicznej i generują ogromny narzut (toil/data volume).
 </pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Secrets in CI/CD = Secret Manager.</p>
+<p>Algorithm performance tuning = Cloud Profiler.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Secrets in CI/CD = Secret Manager.</li>
+    <li>Detailed CPU/RAM performance analysis = Cloud Profiler (flame graphs).</li>
 </ul>
 </div>
 <script>

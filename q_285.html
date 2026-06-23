@@ -12,54 +12,53 @@
     .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
     .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
 </style>
-<title>DevOps Engineer - Question 284</title>
+<title>DevOps Engineer - Question 285</title>
 </head>
 <body class="home2">
 <div class="q-page">
 <nav class="q-nav d-flex justify-content-between align-items-center my-3">
-<a class="btn btn-outline-primary" href="q_283.html">← Poprzednie</a>
+<a class="btn btn-outline-primary" href="q_284.html">← Poprzednie</a>
 <a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
-<a class="btn btn-outline-primary" href="q_285.html">Następne →</a>
+<a class="btn btn-outline-primary disabled" href="#">Następne →</a>
 </nav>
 <div class="q-card mb-4">
-<h2>Question 284 / 285</h2>
+<h2>Question 285 / 285</h2>
 <div class="question-body mt-3 pt-3 border-top">
 <p class="card-text">
-Your code is stored on GitHub and built with Cloud Build, both manually and with webhooks. Building the code requires accessing confidential information. You want to follow Google-recommended practices to ensure the security of the confidential information. What should you do?
+Your company uses an application that is deployed on Compute Engine virtual machines (VMs) to deliver a service to your customer. You have a Service Level Agreement (SLA) to provide 99% availability per month. Telemetry data over the first 22 days of the month shows that you served 10,000,000 requests with 99.00% availability. The development team has added new features to the application and wants to deploy them. You need to decide on a deployment approach while following Site Reliability Engineering (SRE) practices. What should you do?
 </p>
 <div class="question-choices-container">
 <ul>
-<li>A. Trigger the builds from the command line each time, and supply the required confidential information as parameters.</li>
-<li>B. Create an encrypted file in your GitHub repository to only contain the confidential information, and reference the encrypted file in your Cloud Build file.</li>
-<li>C. Create an entry in Secret Manager, specify the URI for the confidential secrets in the Cloud Build file, and reference the secret as parameters in the build steps.</li>
-<li>D. Retain the code in Github. Create a new repository only for confidential information in Cloud Source Repositories, and reference the new repository in your Cloud Build file.</li>
+<li>A. Deploy the new features right away to Confidential VMs.</li>
+<li>B. Defer the deployment of the new features until the next month.</li>
+<li>C. Ask the customer to modify the SLOs and deploy new features right away.</li>
+<li>D. Ask the customer to modify the SLA to 98.5% and deploy new features right away.</li>
 </ul>
 </div>
 <a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
 <div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
-<strong>Suggested Answer:</strong> C
+<strong>Suggested Answer:</strong> B
 </div>
 </div>
 </div>
 <div class="q-card q-answer mb-4" style="display:none;">
 <pre>
-Odpowiedź: C
+Odpowiedź: B
 
 Wyjaśnienie:
-Secret Manager to dedykowana usługa GCP do przechowywania i bezpiecznego dostępu do sekretów (haseł, kluczy API). Cloud Build natywnie wspiera pobieranie sekretów z Secret Manager, co jest najbezpieczniejszym sposobem zarządzania sekretami w CI/CD (zamiast przechowywania ich w kodzie czy parametrach).
+Zgodnie z praktykami SRE, jeśli usługa jest blisko wyczerpania błędu (error budget), priorytetem jest poprawa niezawodności, a nie wdrażanie nowych funkcji. Skoro availability wynosi dokładnie 99% (cel), każda awaria podczas wdrożenia nowych funkcji prawdopodobnie doprowadzi do przekroczenia celu SLA. Najbezpieczniejszym podejściem jest odłożenie wdrożenia (B).
 
 Wyjaśnienie błędnych odpowiedzi:
-- A: Przekazywanie sekretów w parametrach jest niebezpieczne (logi budowania!).
-- B: Przechowywanie sekretów w repozytorium (nawet zaszyfrowanych) jest ryzykowne (klucz deszyfrujący musi być gdzieś przechowywany).
-- D: Przechowywanie sekretów w osobnym repozytorium nie zapewnia odpowiedniej ochrony dostępu i rotacji.
+- A: To, że VM jest "Confidential", nie pomaga w uniknięciu awarii przy wdrożeniu.
+- C, D: Zmiana SLA/SLO pod naciskiem wdrożenia nowych funkcji jest złą praktyką, nie można zmieniać celów tylko dlatego, że "chcemy coś wdrożyć".
 </pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
-<p>Secrets in CI/CD = Secret Manager.</p>
+<p>SRE: Error budget exhausted/at risk = Defer deployments.</p>
 <h3>💡 Wskazówki i Triki (Exam Tips)</h3>
 <ul>
-    <li>Secrets in CI/CD = Secret Manager.</li>
+    <li>SLO at risk = No new deployments.</li>
 </ul>
 </div>
 <script>
