@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 274</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_273.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_275.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 274 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+Your organization runs a fault-tolerant, batch processing application that processes very large amounts of data. The computations are spread over hundreds of VMs for parallel processing. You need to implement a cost-effective solution to perform the data processing at scale. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Allocate Spot VMs to process data.</li>
+<li>B. Allocate sole tenant machines to process data.</li>
+<li>C. Create a managed instance group with autohealing enabled.</li>
+<li>D. Create a managed instance group with accelerator-optimized VMs and autoscaling enabled.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> A
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: A
+
+Wyjaśnienie:
+Spot VMs oferują znaczące oszczędności kosztów (nawet do 91%) w porównaniu z instancjami on-demand. Są idealne dla zadań przetwarzania wsadowego (batch processing), które są odporne na błędy (fault-tolerant), ponieważ jeśli instancja zostanie odebrana (preempted), zadanie może zostać zrestartowane przez menedżer zadań.
+
+Wyjaśnienie błędnych odpowiedzi:
+- B: Sole tenant machines są najdroższą opcją, używaną do wymagań licencyjnych/zgodności.
+- C: Autohealing nie rozwiązuje problemu wysokich kosztów samej infrastruktury.
+- D: Accelerator-optimized VMs są kosztowne i potrzebne tylko dla specyficznych zadań (np. ML, obliczenia graficzne), a pytanie dotyczy "przetwarzania danych", a nie obliczeń GPU.
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Fault-tolerant batch processing + Cost effective = Spot VMs.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Fault-tolerant batch processing = Spot VMs.</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

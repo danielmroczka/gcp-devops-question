@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 278</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_277.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_279.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 278 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+You are creating a software delivery pipeline for your company. New application features delivered by the development team must be deployed by using Cloud Deploy in testing, staging, and then production. The corresponding deployment targets are already defined. You instantiated the delivery pipeline by creating a release. You need to perform the deployments while following Google-recommended practices. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Create an image for each stage in Artifact Registry and apply each image in the corresponding stage.</li>
+<li>B. Configure Binary Authorization to approve the deployment before each stage.</li>
+<li>C. Create an independent delivery pipeline for each of the delivery stages.</li>
+<li>D. Promote the initial release through the staging and production stages.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> D
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: D
+
+Wyjaśnienie:
+Cloud Deploy jest zaprojektowany do zarządzania promocją wydań (releases) między celami (targets) zdefiniowanymi w potoku dostarczania (delivery pipeline). Promocja release'u (D) jest standardowym i rekomendowanym sposobem przejścia przez etapy testing -> staging -> production.
+
+Wyjaśnienie błędnych odpowiedzi:
+- A: Niepotrzebnie zwiększa złożoność i nie wykorzystuje funkcjonalności Cloud Deploy.
+- B: Binary Authorization to mechanizm bezpieczeństwa, nie służy do zarządzania potokiem wdrażania.
+- C: Niezależne potoki utrudniają zarządzanie i śledzenie tego samego wydania przez środowiska.
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Cloud Deploy = Promote releases, don't recreate them.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Cloud Deploy = Promote release.</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

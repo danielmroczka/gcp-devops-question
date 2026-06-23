@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 269</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_268.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_270.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 269 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+Your company is running a legacy database in Google Kubernetes Engine (GKE) that does not respond well to Pod evictions and rescheduling. Your company cannot afford any disruptions to the running database. You need to choose a GKE maintenance strategy to use. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Configure the GKE maintenance channel to "Stable".</li>
+<li>B. Configure a node pool upgrade strategy with max-surge-upgrade set to 0.</li>
+<li>C. Create a "PodDisruptionBudget" object and specify maxUnavailable as 100%.</li>
+<li>D. Configure a maintenance exclusion window with a scope of "No minor or node upgrades".</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> D
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: D
+
+Wyjaśnienie:
+GKE Maintenance Exclusion Windows pozwalają na wykluczenie określonych ram czasowych z automatycznych aktualizacji (node upgrades). Jeśli baza danych jest wyjątkowo wrażliwa i nie może być przenoszona, najbezpieczniejszym podejściem jest całkowite zablokowanie automatycznych aktualizacji węzłów w GKE za pomocą okna wykluczenia (maintenance exclusion window).
+
+Wyjaśnienie błędnych odpowiedzi:
+- A: Maintenance channel określa *wersję* klastra, a nie harmonogram aktualizacji.
+- B: `max-surge-upgrade` steruje tempem aktualizacji, nie wyłącza jej.
+- C: PodDisruptionBudget (PDB) jest przydatny, ale jeśli baza danych "nie reaguje dobrze na ewikcję", PDB może nie wystarczyć, a okno wykluczenia jest bardziej radykalnym i pewniejszym rozwiązaniem dla infrastruktury.
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Dla krytycznych usług, które nie tolerują żadnej ewikcji: Maintenance Exclusion Window.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Legacy/No disruption database = Maintenance Exclusion Window.</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

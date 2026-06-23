@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 280</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_279.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_281.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 280 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+Your company has a major sales event planned in September. You have identified a group of employees to support operations during the sales event. You want to follow Google-recommended practices to provide the employees with access to Google Cloud resources for September only. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Add a firewall rule to allow traffic from the identified employees' machines to the resources. Change the firewall rule to deny traffic at the end of September.</li>
+<li>B. Create a group that contains the identified employees. Assign the group permissions to access the resources and configure an Identity and Access Management (IAM) condition with a date/time expression for September.</li>
+<li>C. Create a group that contains the identified employees and assign the group a custom Identity and Access Management (IAM) role that has permissions to access the resources. Delete the custom role at the end of September.</li>
+<li>D. Assign a custom Identity and Access Management (IAM) role that has permissions to access the resources to each of the identified employees. Create a Cloud Scheduler task to delete the custom role at the end of September.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> B
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: B
+
+Wyjaśnienie:
+IAM Conditions pozwalają na definiowanie czasowego dostępu do zasobów (na przykład: dostęp aktywny tylko we wrześniu). Jest to podejście zgodne z najlepszymi praktykami, ponieważ automatyzuje wygasanie dostępu bez konieczności ręcznego usuwania ról czy reguł firewall.
+
+Wyjaśnienie błędnych odpowiedzi:
+- A: Firewall rules służą do filtrowania sieci, nie do zarządzania dostępem do API (IAM).
+- C, D: Ręczne usuwanie ról lub zadań jest podatne na błędy (co jeśli administrator zapomni usunąć rolę?).
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Time-bound access = IAM Condition.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Temporary access = IAM Condition.</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

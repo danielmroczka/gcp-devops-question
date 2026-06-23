@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 267</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_266.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_268.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 267 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+Your team has received information about a security patch that addresses a critical vulnerability. The patch needs to be applied to Compute Engine instances managed by VM Manager that serve millions of customers across the world. You need to roll out the security patch quickly, while minimizing cost and impact on end customers. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Perform a rollout of the security patch to a small group of instances with a short duration.</li>
+<li>B. Use simultaneous patching to update the Compute Engine instances across the world.</li>
+<li>C. Perform scheduled patching across a 24-hour rolling window to occur during each region's overnight hours.</li>
+<li>D. Perform an A/B rollout, and create a copy of all the instances in Compute Engine. Apply the security patch to the newly created instances, and then switch users.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> C
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: C
+
+Wyjaśnienie:
+Wykorzystanie 24-godzinnego okna serwisowego dopasowanego do lokalnej strefy czasowej (overnight hours) dla każdego regionu jest najlepszą praktyką, która minimalizuje wpływ na użytkowników końcowych (najmniejszy ruch) i pozwala na kontrolowane, stopniowe wdrażanie poprawek bez ryzyka globalnej awarii.
+
+Wyjaśnienie błędnych odpowiedzi:
+- A: Zbyt wolne dla milionów klientów.
+- B: Simultaneous patching (równoczesne) dla całego świata spowodowałoby ogromne ryzyko awarii i drastyczne obciążenie infrastruktury.
+- D: A/B rollout z kopiowaniem wszystkich instancji byłoby zbyt kosztowne i trudne w utrzymaniu przy dużej skali.
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Kluczem jest minimalizacja wpływu na użytkowników przy zachowaniu szybkości.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Globalne aplikacje + patchowanie = patchowanie zgodnie ze strefą czasową (overnight).</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

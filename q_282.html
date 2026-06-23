@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 282</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_281.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_283.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 282 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+Your application has a module that performs a computationally intensive task. Your development team wants to optimize this module by experimenting with different algorithms. You need to help the team test the algorithms in both the staging and production environments to gather detailed data on the performance of each algorithm. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Instrument the code with profiling libraries. Visualize the data in Cloud Profiler as flame graphs.</li>
+<li>B. Instrument the code to capture the flow of requests and responses. Review the request latencies in Cloud Trace.</li>
+<li>C. Instrument the code with log statements at various parts of the algorithm. Send log-based notifications to collect data on the algorithm's execution.</li>
+<li>D. Instrument the code with log statements at various parts of the algorithm. Send notifications based on log-metrics when the same control structures are called multiple times.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> A
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: A
+
+Wyjaśnienie:
+Cloud Profiler jest dedykowanym narzędziem do analizy wydajności (CPU/memory usage) w czasie rzeczywistym. Dostarcza on wizualizacje typu "flame graphs", które pozwalają deweloperom precyzyjnie zidentyfikować fragmenty kodu (metody, funkcje) pochłaniające najwięcej zasobów podczas wykonywania intensywnych obliczeń.
+
+Wyjaśnienie błędnych odpowiedzi:
+- B: Cloud Trace służy do śledzenia opóźnień w rozproszonych systemach (latency), nie do szczegółowej analizy wykorzystania CPU/RAM przez konkretny algorytm.
+- C, D: Logi są zbyt mało precyzyjne do analizy wydajności algorytmicznej i generują ogromny narzut (toil/data volume).
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Algorithm performance tuning = Cloud Profiler.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Detailed CPU/RAM performance analysis = Cloud Profiler (flame graphs).</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

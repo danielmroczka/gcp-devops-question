@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 271</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_270.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_272.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 271 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+You work for a small company that uses open source Java packages as part of the CI/CD pipeline in Cloud Build. Your security team is concerned that vulnerabilities in the open source packages could be exploited. You need to implement a cost-effective solution to ensure that your production system dependencies are secure. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Pull only the latest versions of GitHub packages into your Cloud Build pipeline.</li>
+<li>B. Pull the packages into Cloud Build from Assured Open Source Software (Assured OSS) packages.</li>
+<li>C. Pull the packages into Cloud Source Repositories, and have the security team validate open source packages.</li>
+<li>D. Pull the open source packages locally, use Cloud Build to scan all packages, and delete any flagged packages.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> B
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: B
+
+Wyjaśnienie:
+Google Cloud Assured Open Source Software (Assured OSS) to usługa, która dostarcza pakiety open source, które zostały zweryfikowane, przeskanowane pod kątem podatności i są utrzymywane przez Google. Jest to najbardziej efektywny kosztowo i "Google-recommended" sposób na zapewnienie bezpieczeństwa zależności w środowisku produkcyjnym, ponieważ przerzuca ciężar weryfikacji na Google.
+
+Wyjaśnienie błędnych odpowiedzi:
+- A: Najnowsza wersja nie zawsze oznacza najbezpieczniejszą.
+- C: Ręczna walidacja przez zespół bezpieczeństwa jest kosztowna i mało skalowalna.
+- D: Ręczne skanowanie i usuwanie pakietów jest podatne na błędy i bardzo pracochłonne.
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Bezpieczeństwo zależności open source w GCP = Assured OSS.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Secure open source dependencies = Assured OSS.</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

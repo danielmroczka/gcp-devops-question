@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 268</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_267.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary" href="q_269.html">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 268 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+You have an application deployed on Cloud Run with users around the world. You need to configure Cloud Run to route all users to their nearest region so that request responses have low latency. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Deploy the application to any one region, and serve the application at a global anycast IP address behind a global external Application Load Balancer.</li>
+<li>B. Deploy the application to each region, and serve the application at a global anycast IP address behind a global external Application Load Balancer.</li>
+<li>C. Deploy the application to one region per continent and serve the application by using a regional external Application Load Balancer in each region. Attach the same global IP address to all the regional load balancers.</li>
+<li>D. Deploy the application to any one region, and configure Google Cloud Armor in the frontend to allow traffic from all IP addresses.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> B
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: B
+
+Wyjaśnienie:
+Aby uzyskać niskie opóźnienia dla użytkowników globalnych, aplikacja musi być wdrożona blisko użytkowników (czyli w wielu regionach). Globalny zewnętrzny Application Load Balancer (GCLB) z jednym globalnym adresem IP (anycast) automatycznie kieruje ruch użytkowników do najbliższego zdrowego backendu (w tym przypadku Cloud Run w odpowiednim regionie).
+
+Wyjaśnienie błędnych odpowiedzi:
+- A: Wdrożenie w jednym regionie nie zapewnia niskiego opóźnienia dla użytkowników z całego świata.
+- C: Regionalne Load Balancery nie obsługują globalnego routingu w ten sposób; nie można przypisać tego samego globalnego IP do wielu regionalnych LB.
+- D: Google Cloud Armor służy do ochrony (WAF), a nie do routingu globalnego.
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>Low latency globally = Multi-region deployment + Global Load Balancer.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>Cloud Run global routing = Global External HTTP(S) Load Balancer.</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>

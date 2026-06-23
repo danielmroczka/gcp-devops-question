@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://www.examtopics.com/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<style>
+    body { background: #f6f8fa; }
+    .q-page { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .q-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 10px; padding: 18px; }
+    .q-card h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .q-answer pre { white-space: pre-wrap; background: #0b1020; color: #e6edf3; padding: 14px; border-radius: 10px; }
+    .badge-devops { background: #0d6efd; color: white; margin-right: 5px; padding: 5px 10px; border-radius: 5px; }
+</style>
+<title>DevOps Engineer - Question 284</title>
+</head>
+<body class="home2">
+<div class="q-page">
+<nav class="q-nav d-flex justify-content-between align-items-center my-3">
+<a class="btn btn-outline-primary" href="q_283.html">← Poprzednie</a>
+<a class="btn btn-outline-secondary" href="index.html">Spis treści</a>
+<a class="btn btn-outline-primary disabled" href="#">Następne →</a>
+</nav>
+<div class="q-card mb-4">
+<h2>Question 284 / 284</h2>
+<div class="question-body mt-3 pt-3 border-top">
+<p class="card-text">
+Your company uses an application that is deployed on Compute Engine virtual machines (VMs) to deliver a service to your customer. You have a Service Level Agreement (SLA) to provide 99% availability per month. Telemetry data over the first 22 days of the month shows that you served 10,000,000 requests with 99.00% availability. The development team has added new features to the application and wants to deploy them. You need to decide on a deployment approach while following Site Reliability Engineering (SRE) practices. What should you do?
+</p>
+<div class="question-choices-container">
+<ul>
+<li>A. Deploy the new features right away to Confidential VMs.</li>
+<li>B. Defer the deployment of the new features until the next month.</li>
+<li>C. Ask the customer to modify the SLOs and deploy new features right away.</li>
+<li>D. Ask the customer to modify the SLA to 98.5% and deploy new features right away.</li>
+</ul>
+</div>
+<a class="btn btn-primary reveal-solution" href="#">Show Suggested Answer</a>
+<div class="card-text question-answer bg-light mt-3" style="display:none; padding: 15px; border-radius: 8px;">
+<strong>Suggested Answer:</strong> B
+</div>
+</div>
+</div>
+<div class="q-card q-answer mb-4" style="display:none;">
+<pre>
+Odpowiedź: B
+
+Wyjaśnienie:
+Zgodnie z praktykami SRE, jeśli usługa jest blisko wyczerpania błędu (error budget), priorytetem jest poprawa niezawodności, a nie wdrażanie nowych funkcji. Skoro availability wynosi dokładnie 99% (cel), każda awaria podczas wdrożenia nowych funkcji prawdopodobnie doprowadzi do przekroczenia celu SLA. Najbezpieczniejszym podejściem jest odłożenie wdrożenia (B).
+
+Wyjaśnienie błędnych odpowiedzi:
+- A: To, że VM jest "Confidential", nie pomaga w uniknięciu awarii przy wdrożeniu.
+- C, D: Zmiana SLA/SLO pod naciskiem wdrożenia nowych funkcji jest złą praktyką, nie można zmieniać celów tylko dlatego, że "chcemy coś wdrożyć".
+</pre>
+</div>
+<div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
+<h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
+<p>SRE: Error budget exhausted/at risk = Defer deployments.</p>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
+<ul>
+    <li>SLO at risk = No new deployments.</li>
+</ul>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const revealButton = document.querySelector('.reveal-solution');
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.question-answer').style.display = 'block';
+        document.querySelector('.q-answer').style.display = 'block';
+        document.querySelector('.ai-analysis-container').style.display = 'block';
+    });
+});
+</script>
+</body>
+</html>
