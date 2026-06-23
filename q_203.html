@@ -79,18 +79,19 @@ Your team has an application built by using a Dockerfile. The build is executed 
 <pre>Odpowiedź: Unknown
 
 Wyjaśnienie:
-Poprawna odpowiedź to A. `--cache-from` przyspiesza budowanie obrazów poprzez ponowne użycie warstw z Artifact Registry. Często zmieniane pliki (kod źródłowy) na końcu Dockerfile minimalizują ilość warstw do przebudowania.
+Poprawna odpowiedź: A. Użycie `--cache-from` pozwala Cloud Build pobrać istniejące warstwy obrazu z Artifact Registry, co drastycznie skraca czas budowania przy częstych zmianach. Ważne jest, aby instrukcje Dockerfile, które zmieniają się najrzadziej (np. kopiowanie plików konfiguracyjnych, instalacja zależności), znajdowały się na początku, a te zmieniające się najczęściej (np. kod źródłowy aplikacji) - na końcu. Dzięki temu warstwy z zależnościami nie są przebudowywane przy każdej zmianie kodu.
+Wyjaśnienie błędnych odpowiedzi:
+- B: Umieszczenie często zmienianych plików na początku Dockerfile wymusza przebudowanie wszystkich kolejnych warstw, unieważniając cache.
+- C/D: Cloud Storage nie posiada natywnego wsparcia dla layer cache dockera w sposób, w jaki robi to registry (Artifact Registry).
 
 Więcej informacji:
+- https://cloud.google.com/docs
 - <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
 <p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
-<ul>
-    <li>Zawsze szukaj natywnych rozwiązań GCP.</li><li>Pamiętaj o zasadzie najmniejszych uprawnień.</li>
-</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Dockerfile: Najpierw zależności, potem kod!</li><li>Używaj <code>--cache-from</code> w Cloud Build.</li></li></ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

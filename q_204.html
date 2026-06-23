@@ -79,18 +79,20 @@ You use Google Cloud Managed Service for Prometheus with managed collection to g
 <pre>Odpowiedź: B
 
 Wyjaśnienie:
-Poprawna odpowiedź to B. PodMonitoring definiuje, które pody i porty mają być monitorowane. Błędny port powoduje brak metryk bez generowania błędów API.
+Poprawna odpowiedź: B. W Managed Service for Prometheus (GMP) zasób `PodMonitoring` definiuje, jak agent ma odkrywać (discover) i zbierać metryki z podów. Najczęstszym błędem jest niedopasowanie portu, na którym aplikacja wystawia metryki, z portem zdefiniowanym w `PodMonitoring`.
+Wyjaśnienie błędnych odpowiedzi:
+- A: Quota rzadko jest przyczyną braku metryk przy wdrożeniu, zazwyczaj generuje błędy w logach.
+- C: Grafana jest tylko narzędziem do wizualizacji, nie zbiera metryk bezpośrednio z GKE.
+- D: Uprawnienia w managed collection są obsługiwane przez GKE i nie wymagają ręcznego przypisywania `monitoring.servicesViewer` do serwisu.
 
 Więcej informacji:
+- https://cloud.google.com/docs
 - <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
 <p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
-<ul>
-    <li>Zawsze szukaj natywnych rozwiązań GCP.</li><li>Pamiętaj o zasadzie najmniejszych uprawnień.</li>
-</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>Używaj `kubectl get podmonitoring -n <namespace>` do debugowania.</li><li>Zawsze sprawdzaj 'endpoints' w konfiguracji.</li></li></ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

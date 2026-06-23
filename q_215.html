@@ -79,18 +79,19 @@ Your company is trying to centralize all monitoring and alerting capabilities. Y
 <pre>Odpowiedź: Unknown
 
 Wyjaśnienie:
-Poprawna odpowiedź to D. Dostęp do wewnętrznych webhooków (VPC) wymaga mostu w postaci Cloud Run z VPC Egress lub funkcji działającej wewnątrz VPC.
+Poprawna odpowiedź: D. Ponieważ webhook jest wewnątrz VPC, komunikacja musi przejść przez 'most'. Cloud Run z Serverless VPC Access pozwala wyjść z sieci GCP do wewnętrznego IP.
+Wyjaśnienie błędnych odpowiedzi:
+- A/B: Pub/Sub potrzebuje konsumenta, który ma dostęp do sieci wewnętrznej – subskrypcja sama w sobie nie sprawi, że webhook zadziała.
+- C: Webhooki Cloud Monitoring wychodzą z publicznej sieci Google, nie zadziałają dla wewnętrznego IP w VPC.
 
 Więcej informacji:
+- https://cloud.google.com/docs
 - <a href='https://cloud.google.com/docs' target='_blank'>Google Cloud Documentation</a></pre>
 </div>
 <div class="ai-analysis-container" style="display:none; margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 5px solid #2196F3; border-radius: 0 10px 10px 0;">
 <h2>Analiza i Podsumowanie Dyskusji (AI)</h2>
 <p>Kluczowe aspekty pytania dotyczą optymalizacji i dobrych praktyk GCP DevOps.</p>
-<h3>💡 Wskazówki i Triki (Exam Tips)</h3>
-<ul>
-    <li>Zawsze szukaj natywnych rozwiązań GCP.</li><li>Pamiętaj o zasadzie najmniejszych uprawnień.</li>
-</ul>
+<h3>💡 Wskazówki i Triki (Exam Tips)</h3><ul><li><li>VPC Connector = dostęp do zasobów wewnętrznych (Prywatne IP).</li></li></ul>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
