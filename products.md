@@ -1,11 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-# na podstawie tej listy z tech-2.txt przygotuj mi kompleksowe opracowanie pod kątem pytań egzaminacyjnych (examtopics_gcp_devops.txt) na co uważać, na co zwracać uwagę co jest ważne wiedzieć. Opisz do czego służy ta usługa, kiedy ma zastosowanie a kiedy nie używać.
-
-Na podstawie listy z `tech-2.txt` i pytań z `examtopics_gcp_devops.txt` przygotowałem „ściągę” po usługach: do czego służą, kiedy je wybierać na egzaminie, czego *nie* wybierać i typowe pułapki w odpowiedziach wielokrotnego wyboru.[^1][^2]
-
-***
-
 ## Organization and IAM
 
 Te tematy prawie zawsze pojawiają się w kontekście **least privilege**, scoping projectów, folderów i automatycznych rekomendacji kosztowych / wydajnościowych.[^3][^1]
