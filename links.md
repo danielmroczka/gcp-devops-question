@@ -1,13 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-# Stwórz kompleksową liste linków w kolejności występowania dotyczących tego egzaminu i wymagań. Chce żeby każdy punkt zawierał link do conajmniej jednego odnośnika google cloud doc oraz ewentualnie zewnętrznych list. Chce aby to było w postaci długiej slisty w tej samej hierarchu co wymagania + linki pod każdhym pod punktem.
-
-[https://services.google.com/fh/files/misc/professional_cloud_devops_engineer_exam_guide_english.pdf](https://services.google.com/fh/files/misc/professional_cloud_devops_engineer_exam_guide_english.pdf)
-
-Poniżej masz długą listę w formacie Markdown, zachowującą **strukturę sekcji i podpunktów z exam guide** (wersja 2022/2023 zaktualizowana na stronie community, ale nadal zgodna z oficjalnym PDF), z **linkami do dokumentacji Google Cloud (minimum jeden na podpunkt) oraz wybranymi zewnętrznymi listami** tam, gdzie pasują.[^1_1][^1_2][^1_3]
-
-***
-
 ## Sekcja 1. Applying site reliability engineering principles to a service
 
 ### 1.1 Balance change, velocity, and reliability of the service
